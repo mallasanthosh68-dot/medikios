@@ -1,0 +1,3906 @@
+{
+  "User": [
+    {
+      "_id": "6a9d02081427193573bfa7a7",
+      "phoneNumber": "9812300001",
+      "password": "$2a$10$0/Fs1A0r5YNiYm8RlQSTsuB8Dq2eiqr4XB3Fsd8O/yoQ6jnGYKu0y",
+      "role": "patient",
+      "name": "Pooja Verma",
+      "createdAt": "2026-09-06T06:02:48.892Z",
+      "updatedAt": "2026-09-06T06:02:48.892Z"
+    },
+    {
+      "_id": "6a9d02081427193573bfa7a9",
+      "phoneNumber": "9812300002",
+      "password": "$2a$10$d/h77JFQl.EX4Fp3g23PauhTMYyclSpsl31tm6oI33vCwp471b1g6",
+      "role": "doctor",
+      "name": "Dr. Vivek Saxena",
+      "createdAt": "2026-09-06T06:02:48.987Z",
+      "updatedAt": "2026-09-06T06:02:48.987Z"
+    },
+    {
+      "_id": "6a9d03601427193573bfa7ab",
+      "phoneNumber": "8985817969",
+      "password": "$2a$10$aqk1l8d57WyjHcbbr796Xu9Ndfye.6eHSIkwVhp15xqNHE5N7LuIW",
+      "role": "patient",
+      "name": "test1",
+      "createdAt": "2026-09-06T06:08:32.079Z",
+      "updatedAt": "2026-09-06T07:36:33.117Z",
+      "opNumber": "OP-698917"
+    },
+    {
+      "_id": "6a9d08d56a1aee8cdb139c00",
+      "phoneNumber": "9857908982",
+      "password": "$2a$10$yOsDuf/bHPwCmZzi0viP5.JwTNnSMSPvYYrPXTPmf8xZ4N8Ldiicy",
+      "role": "patient",
+      "name": "Priya Sharma",
+      "createdAt": "2026-09-06T06:31:49.423Z",
+      "updatedAt": "2026-09-06T06:31:49.423Z"
+    },
+    {
+      "_id": "6a9d08ee6a1aee8cdb139c02",
+      "phoneNumber": "9870813793",
+      "password": "$2a$10$SjLPr8V//jrwDQRH1AeGf.WmsuKSPyGtb1KqZWG.a8TVzfhrqq6gy",
+      "role": "patient",
+      "name": "Priya Sharma",
+      "createdAt": "2026-09-06T06:32:14.422Z",
+      "updatedAt": "2026-09-06T06:32:14.422Z"
+    },
+    {
+      "_id": "6a9d097d87c93f321e453a5b",
+      "phoneNumber": "9850953033",
+      "password": "$2a$10$GwSFm5tM1vv06K9eW9RL2egIxcnuL/0CjvlEOxaysn/ReDthmobGC",
+      "role": "patient",
+      "name": "Priya Sharma",
+      "createdAt": "2026-09-06T06:34:37.800Z",
+      "updatedAt": "2026-09-06T06:34:37.800Z"
+    },
+    {
+      "_id": "6a9d09c21a0e83e8e7c60324",
+      "phoneNumber": "9822120804",
+      "password": "$2a$10$EmP.nID5Lf40sL/oQrD4KudPF6eqPrjqH11NiN8v6u3p.MDFm.JWu",
+      "role": "patient",
+      "name": "Priya Sharma",
+      "createdAt": "2026-09-06T06:35:46.129Z",
+      "updatedAt": "2026-09-06T06:35:46.129Z"
+    },
+    {
+      "_id": "6a9d0a1ebeaf1411eeb81d67",
+      "phoneNumber": "9897049290",
+      "password": "$2a$10$48ErkA70tiWJvojwLnCcOetuJasg/6hjiVbA8/bSzhAKbzbHD01kO",
+      "role": "patient",
+      "name": "Priya Sharma",
+      "createdAt": "2026-09-06T06:37:18.660Z",
+      "updatedAt": "2026-09-06T06:37:18.660Z"
+    },
+    {
+      "_id": "6a9d0da5420c9a0d61d363c5",
+      "phoneNumber": "9850205359",
+      "password": "$2a$10$gQj8P8Th6IEG2GexNu/e..MP2VVPDq.z7p42E1SdMBrcRGCPU9NWG",
+      "role": "patient",
+      "name": "Rohan Verma",
+      "createdAt": "2026-09-06T06:52:21.578Z",
+      "updatedAt": "2026-09-06T06:52:21.578Z"
+    },
+    {
+      "_id": "6a9d0dbc420c9a0d61d363ca",
+      "phoneNumber": "9899309474",
+      "password": "$2a$10$K22WVvKSbF1GLrbKAc2PD.6PCJ6UXJ7X.4upaz8z2afUA0BlFCiV.",
+      "role": "patient",
+      "name": "Rohan Verma",
+      "createdAt": "2026-09-06T06:52:44.677Z",
+      "updatedAt": "2026-09-06T06:52:44.677Z"
+    },
+    {
+      "_id": "6a9d0dd0420c9a0d61d363cf",
+      "phoneNumber": "9893079314",
+      "password": "$2a$10$pX7myNsutberbr.C6rhjC.1K9Jt0NhkDixnKuiAxzKfUPiY89afE2",
+      "role": "patient",
+      "name": "Priya Sharma",
+      "createdAt": "2026-09-06T06:53:04.464Z",
+      "updatedAt": "2026-09-06T06:53:04.464Z"
+    },
+    {
+      "_id": "6a9d122aac9e10a35f9465d3",
+      "phoneNumber": "9832482374",
+      "password": "$2a$10$JszKll.fQo9ycI3eRGYeA./575pTvuROjpuEk0nhsjV/D/0HzUE4S",
+      "role": "patient",
+      "name": "Ananya Deshmukh",
+      "createdAt": "2026-09-06T07:11:38.535Z",
+      "updatedAt": "2026-09-06T07:11:38.535Z"
+    },
+    {
+      "_id": "6a9d1242ac9e10a35f9465d5",
+      "phoneNumber": "9850961815",
+      "password": "$2a$10$EFNF8pUmfriKRhc7.9a9Beabx03tTyidmfc9oEo2RQeacsJM2sC.i",
+      "role": "patient",
+      "name": "Ananya Deshmukh",
+      "createdAt": "2026-09-06T07:12:02.605Z",
+      "updatedAt": "2026-09-06T07:12:02.605Z"
+    },
+    {
+      "_id": "6a9d1273ac9e10a35f9465d7",
+      "phoneNumber": "9893377922",
+      "password": "$2a$10$7i54BxeAkn0w0QVaYtNa3.MHlzi.FXorVCx3biUkwhafqIG3QFKay",
+      "role": "patient",
+      "name": "Ananya Deshmukh",
+      "createdAt": "2026-09-06T07:12:51.400Z",
+      "updatedAt": "2026-09-06T07:12:51.400Z"
+    },
+    {
+      "_id": "6a9d1286ac9e10a35f9465da",
+      "phoneNumber": "9882916742",
+      "password": "$2a$10$xbrsp6pyXGD4yHhNddKcvOLCxuWT.4GYRf3/BjFYNdKvWEw/gzu6q",
+      "role": "patient",
+      "name": "Ananya Deshmukh",
+      "createdAt": "2026-09-06T07:13:10.302Z",
+      "updatedAt": "2026-09-06T07:13:10.302Z"
+    },
+    {
+      "_id": "6a9d12a5ac9e10a35f9465df",
+      "phoneNumber": "9810878136",
+      "password": "$2a$10$J1AkiwkTdihydBXrK3k/Te8Iwyrx5W9niBoUbocf/0siTYRzInnjO",
+      "role": "patient",
+      "name": "Rohan Verma",
+      "createdAt": "2026-09-06T07:13:41.816Z",
+      "updatedAt": "2026-09-06T07:13:41.816Z"
+    },
+    {
+      "_id": "6a9d13f7ac9e10a35f9465e4",
+      "phoneNumber": "9866355798",
+      "password": "$2a$10$X72j2x9d1FKoEizAMlZ40enM/TO6IXBHmEfUwV5oWgGmcS1YY8gc2",
+      "role": "doctor",
+      "name": "Dr. test2",
+      "createdAt": "2026-09-06T07:19:19.157Z",
+      "updatedAt": "2026-09-06T07:19:19.157Z"
+    },
+    {
+      "_id": "6a9d16bb1758b30a07ced7ab",
+      "phoneNumber": "9179867734",
+      "password": "$2a$10$V7Y0FZ5aJ53KDj7QNj9u5Odvdovlgw2/XUEMNgqIq80r0JNZOWiG.",
+      "role": "patient",
+      "name": "Rohan Sharma",
+      "opNumber": "OP-405818",
+      "createdAt": "2026-09-06T07:31:07.891Z",
+      "updatedAt": "2026-09-06T07:31:07.891Z"
+    },
+    {
+      "_id": "6a9d16bb1758b30a07ced7ad",
+      "phoneNumber": "9279867734",
+      "password": "$2a$10$V5EuF0cMW.aiDMvAifwy.u2aPDn0EAFebY6JZfv0JojnHpnzvw4fy",
+      "role": "doctor",
+      "name": "Dr. Priya Varma",
+      "createdAt": "2026-09-06T07:31:07.991Z",
+      "updatedAt": "2026-09-06T07:31:07.991Z"
+    },
+    {
+      "_id": "6aa0067860f40b366340b665",
+      "phoneNumber": "8985817966",
+      "password": "$2a$10$.9h96vCBmVZAxwxLDtkNMOv53nr9k/.C0QKiKEIg6LmRtDumR1Rs.",
+      "role": "patient",
+      "name": "test3",
+      "opNumber": "OP-788373",
+      "createdAt": "2026-09-08T12:58:32.477Z",
+      "updatedAt": "2026-09-08T12:58:32.477Z"
+    },
+    {
+      "_id": "6aa0076360f40b366340b674",
+      "phoneNumber": "9866355799",
+      "password": "$2a$10$Bk1K8uMtDn.eokF0wuRrOetSE/L7t8UiUbgvfrOx7T8yKcTBWfiQO",
+      "role": "patient",
+      "name": "test4",
+      "opNumber": "OP-611066",
+      "createdAt": "2026-09-08T13:02:27.493Z",
+      "updatedAt": "2026-09-08T13:02:27.493Z"
+    },
+    {
+      "_id": "6aa0078560f40b366340b676",
+      "phoneNumber": "9866355779",
+      "password": "$2a$10$9lCtL.xf9A2Mmfr7axUz7uEw4ueHY5j/ADhSTkj2Ul/EjkNuw/EqS",
+      "role": "doctor",
+      "name": "Dr. test4",
+      "createdAt": "2026-09-08T13:03:01.077Z",
+      "updatedAt": "2026-09-08T13:03:01.077Z"
+    }
+  ],
+  "PatientProfile": [
+    {
+      "_id": "6a9d02081427193573bfa7a8",
+      "userId": "6a9d02081427193573bfa7a7",
+      "name": "Pooja Verma",
+      "phoneNumber": "9812300001",
+      "age": 26,
+      "gender": "Female",
+      "bloodGroup": "Not specified",
+      "weight": null,
+      "height": null,
+      "preferredLanguage": "en",
+      "createdAt": "2026-09-06T06:02:48.894Z",
+      "updatedAt": "2026-09-06T06:02:48.894Z"
+    },
+    {
+      "_id": "6a9d03601427193573bfa7ac",
+      "userId": "6a9d03601427193573bfa7ab",
+      "name": "test1",
+      "phoneNumber": "8985817969",
+      "age": 21,
+      "gender": "Male",
+      "bloodGroup": "B+",
+      "weight": null,
+      "height": null,
+      "preferredLanguage": "en",
+      "createdAt": "2026-09-06T06:08:32.083Z",
+      "updatedAt": "2026-09-06T07:36:33.127Z",
+      "opNumber": "OP-698917"
+    },
+    {
+      "_id": "6a9d08d56a1aee8cdb139c01",
+      "userId": "6a9d08d56a1aee8cdb139c00",
+      "name": "Priya Sharma",
+      "phoneNumber": "9857908982",
+      "age": 29,
+      "gender": "female",
+      "bloodGroup": "Not specified",
+      "weight": null,
+      "height": null,
+      "preferredLanguage": "en",
+      "createdAt": "2026-09-06T06:31:49.425Z",
+      "updatedAt": "2026-09-06T06:31:49.425Z"
+    },
+    {
+      "_id": "6a9d08ee6a1aee8cdb139c03",
+      "userId": "6a9d08ee6a1aee8cdb139c02",
+      "name": "Priya Sharma",
+      "phoneNumber": "9870813793",
+      "age": 29,
+      "gender": "female",
+      "bloodGroup": "Not specified",
+      "weight": null,
+      "height": null,
+      "preferredLanguage": "en",
+      "createdAt": "2026-09-06T06:32:14.423Z",
+      "updatedAt": "2026-09-06T06:32:14.423Z"
+    },
+    {
+      "_id": "6a9d097d87c93f321e453a5c",
+      "userId": "6a9d097d87c93f321e453a5b",
+      "name": "Priya Sharma",
+      "phoneNumber": "9850953033",
+      "age": 29,
+      "gender": "female",
+      "bloodGroup": "Not specified",
+      "weight": null,
+      "height": null,
+      "preferredLanguage": "en",
+      "createdAt": "2026-09-06T06:34:37.803Z",
+      "updatedAt": "2026-09-06T06:34:37.803Z"
+    },
+    {
+      "_id": "6a9d09c21a0e83e8e7c60325",
+      "userId": "6a9d09c21a0e83e8e7c60324",
+      "name": "Priya Sharma",
+      "phoneNumber": "9822120804",
+      "age": 29,
+      "gender": "female",
+      "bloodGroup": "Not specified",
+      "weight": null,
+      "height": null,
+      "preferredLanguage": "en",
+      "createdAt": "2026-09-06T06:35:46.132Z",
+      "updatedAt": "2026-09-06T06:35:46.132Z"
+    },
+    {
+      "_id": "6a9d0a1ebeaf1411eeb81d68",
+      "userId": "6a9d0a1ebeaf1411eeb81d67",
+      "name": "Priya Sharma",
+      "phoneNumber": "9897049290",
+      "age": 29,
+      "gender": "female",
+      "bloodGroup": "Not specified",
+      "weight": null,
+      "height": null,
+      "preferredLanguage": "en",
+      "createdAt": "2026-09-06T06:37:18.662Z",
+      "updatedAt": "2026-09-06T06:37:18.662Z"
+    },
+    {
+      "_id": "6a9d0da5420c9a0d61d363c6",
+      "userId": "6a9d0da5420c9a0d61d363c5",
+      "name": "Rohan Verma",
+      "phoneNumber": "9850205359",
+      "age": 34,
+      "gender": "male",
+      "bloodGroup": "Not specified",
+      "weight": null,
+      "height": null,
+      "preferredLanguage": "en",
+      "createdAt": "2026-09-06T06:52:21.582Z",
+      "updatedAt": "2026-09-06T06:52:21.582Z"
+    },
+    {
+      "_id": "6a9d0dbc420c9a0d61d363cb",
+      "userId": "6a9d0dbc420c9a0d61d363ca",
+      "name": "Rohan Verma",
+      "phoneNumber": "9899309474",
+      "age": 34,
+      "gender": "male",
+      "bloodGroup": "Not specified",
+      "weight": null,
+      "height": null,
+      "preferredLanguage": "en",
+      "createdAt": "2026-09-06T06:52:44.678Z",
+      "updatedAt": "2026-09-06T06:52:44.678Z"
+    },
+    {
+      "_id": "6a9d0dd0420c9a0d61d363d0",
+      "userId": "6a9d0dd0420c9a0d61d363cf",
+      "name": "Priya Sharma",
+      "phoneNumber": "9893079314",
+      "age": 29,
+      "gender": "female",
+      "bloodGroup": "Not specified",
+      "weight": null,
+      "height": null,
+      "preferredLanguage": "en",
+      "createdAt": "2026-09-06T06:53:04.470Z",
+      "updatedAt": "2026-09-06T06:53:04.470Z"
+    },
+    {
+      "_id": "6a9d122aac9e10a35f9465d4",
+      "userId": "6a9d122aac9e10a35f9465d3",
+      "name": "Ananya Deshmukh",
+      "phoneNumber": "9832482374",
+      "age": 28,
+      "gender": "female",
+      "bloodGroup": "O+",
+      "weight": null,
+      "height": null,
+      "preferredLanguage": "en",
+      "createdAt": "2026-09-06T07:11:38.537Z",
+      "updatedAt": "2026-09-06T07:11:38.537Z"
+    },
+    {
+      "_id": "6a9d1242ac9e10a35f9465d6",
+      "userId": "6a9d1242ac9e10a35f9465d5",
+      "name": "Ananya Deshmukh",
+      "phoneNumber": "9850961815",
+      "age": 28,
+      "gender": "female",
+      "bloodGroup": "O+",
+      "weight": null,
+      "height": null,
+      "preferredLanguage": "en",
+      "createdAt": "2026-09-06T07:12:02.607Z",
+      "updatedAt": "2026-09-06T07:12:02.607Z"
+    },
+    {
+      "_id": "6a9d1273ac9e10a35f9465d8",
+      "userId": "6a9d1273ac9e10a35f9465d7",
+      "name": "Ananya Deshmukh",
+      "phoneNumber": "9893377922",
+      "age": 28,
+      "gender": "female",
+      "bloodGroup": "O+",
+      "weight": null,
+      "height": null,
+      "preferredLanguage": "en",
+      "createdAt": "2026-09-06T07:12:51.401Z",
+      "updatedAt": "2026-09-06T07:12:51.401Z"
+    },
+    {
+      "_id": "6a9d1286ac9e10a35f9465db",
+      "userId": "6a9d1286ac9e10a35f9465da",
+      "name": "Ananya Deshmukh",
+      "phoneNumber": "9882916742",
+      "age": 28,
+      "gender": "female",
+      "bloodGroup": "O+",
+      "weight": null,
+      "height": null,
+      "preferredLanguage": "en",
+      "createdAt": "2026-09-06T07:13:10.303Z",
+      "updatedAt": "2026-09-06T07:13:10.303Z"
+    },
+    {
+      "_id": "6a9d12a5ac9e10a35f9465e0",
+      "userId": "6a9d12a5ac9e10a35f9465df",
+      "name": "Rohan Verma",
+      "phoneNumber": "9810878136",
+      "age": 34,
+      "gender": "male",
+      "bloodGroup": "Not specified",
+      "weight": null,
+      "height": null,
+      "preferredLanguage": "en",
+      "createdAt": "2026-09-06T07:13:41.821Z",
+      "updatedAt": "2026-09-06T07:13:41.821Z"
+    },
+    {
+      "_id": "6a9d16bb1758b30a07ced7ac",
+      "userId": "6a9d16bb1758b30a07ced7ab",
+      "name": "Rohan Sharma",
+      "phoneNumber": "9179867734",
+      "age": 32,
+      "gender": "Male",
+      "bloodGroup": "B+",
+      "weight": null,
+      "height": null,
+      "preferredLanguage": "en",
+      "opNumber": "OP-405818",
+      "createdAt": "2026-09-06T07:31:07.894Z",
+      "updatedAt": "2026-09-06T07:31:07.894Z"
+    },
+    {
+      "_id": "6aa0067860f40b366340b666",
+      "userId": "6aa0067860f40b366340b665",
+      "name": "test3",
+      "phoneNumber": "8985817966",
+      "age": 22,
+      "gender": "Male",
+      "bloodGroup": "B+",
+      "weight": null,
+      "height": null,
+      "preferredLanguage": "en",
+      "opNumber": "OP-788373",
+      "createdAt": "2026-09-08T12:58:32.488Z",
+      "updatedAt": "2026-09-08T12:58:32.489Z"
+    },
+    {
+      "_id": "6aa0076360f40b366340b675",
+      "userId": "6aa0076360f40b366340b674",
+      "name": "test4",
+      "phoneNumber": "9866355799",
+      "age": 34,
+      "gender": "Male",
+      "bloodGroup": "B+",
+      "weight": null,
+      "height": null,
+      "preferredLanguage": "en",
+      "opNumber": "OP-611066",
+      "createdAt": "2026-09-08T13:02:27.540Z",
+      "updatedAt": "2026-09-08T13:02:27.540Z"
+    }
+  ],
+  "DoctorProfile": [
+    {
+      "_id": "6a9d02081427193573bfa7aa",
+      "userId": "6a9d02081427193573bfa7a9",
+      "doctorName": "Dr. Vivek Saxena",
+      "licenseNumber": "MCI-88772",
+      "specialization": "Cardiology",
+      "phoneNumber": "9812300002",
+      "experienceYears": 5,
+      "hospitalAffiliation": "MediKiosk Apex Hospital",
+      "demoVerified": true,
+      "createdAt": "2026-09-06T06:02:48.989Z",
+      "updatedAt": "2026-09-06T06:02:48.989Z"
+    },
+    {
+      "_id": "6a9d13f7ac9e10a35f9465e5",
+      "userId": "6a9d13f7ac9e10a35f9465e4",
+      "doctorName": "Dr. test2",
+      "licenseNumber": "mcl-987",
+      "specialization": "General Medicine",
+      "phoneNumber": "9866355798",
+      "experienceYears": 5,
+      "hospitalAffiliation": "MediKiosk Apex Hospital",
+      "demoVerified": true,
+      "createdAt": "2026-09-06T07:19:19.167Z",
+      "updatedAt": "2026-09-06T07:19:19.167Z"
+    },
+    {
+      "_id": "6a9d16bb1758b30a07ced7ae",
+      "userId": "6a9d16bb1758b30a07ced7ad",
+      "doctorName": "Dr. Priya Varma",
+      "licenseNumber": "MCI-67734",
+      "specialization": "Internal Medicine",
+      "phoneNumber": "9279867734",
+      "experienceYears": 5,
+      "hospitalAffiliation": "MediKiosk Apex Hospital",
+      "demoVerified": true,
+      "createdAt": "2026-09-06T07:31:07.993Z",
+      "updatedAt": "2026-09-06T07:31:07.993Z"
+    },
+    {
+      "_id": "6aa0078560f40b366340b677",
+      "userId": "6aa0078560f40b366340b676",
+      "doctorName": "Dr. test4",
+      "licenseNumber": "mcl-0987",
+      "specialization": "General Medicine",
+      "phoneNumber": "9866355779",
+      "experienceYears": 5,
+      "hospitalAffiliation": "MediKiosk Apex Hospital",
+      "demoVerified": true,
+      "createdAt": "2026-09-08T13:03:01.088Z",
+      "updatedAt": "2026-09-08T13:03:01.088Z"
+    }
+  ],
+  "HealthInterview": [
+    {
+      "_id": "6a9d03661427193573bfa7ad",
+      "patientId": "6a9d03601427193573bfa7ab",
+      "language": "en",
+      "status": "completed",
+      "responses": [
+        {
+          "question": "Hello! I am MediKiosk, your Smart Hospital Assistant. Please describe what health problem or disease you are experiencing today.",
+          "answer": "my  legs are paining",
+          "inputMode": "text",
+          "timestamp": "2026-09-06T06:09:02.806Z"
+        },
+        {
+          "question": "I have noted what you shared regarding \"my  legs are paining\". Approximately how long have you been experiencing this, and is the sensation constant or does it come and go?",
+          "answer": "2 days",
+          "inputMode": "text",
+          "timestamp": "2026-09-06T06:09:13.774Z"
+        },
+        {
+          "question": "I have noted what you shared regarding \"2 days\". Have you noticed any other associated symptoms like fever, dizziness, or fatigue?",
+          "answer": "no i got acciendent fro bike and my left leg was paining",
+          "inputMode": "text",
+          "timestamp": "2026-09-06T06:09:48.024Z"
+        },
+        {
+          "question": "I have noted what you shared regarding \"no i got acciendent fro bike and my left leg was paining\". On a scale of 1 to 10 (1 mild, 10 severe), how intense is your weakness or headache right now?",
+          "answer": "10",
+          "inputMode": "text",
+          "timestamp": "2026-09-06T06:10:01.898Z"
+        },
+        {
+          "question": "I have noted what you shared regarding \"10\". Do you have any past history of malaria, dengue, typhoid, or recent travel to endemic areas?",
+          "answer": "no",
+          "inputMode": "text",
+          "timestamp": "2026-09-06T06:10:06.983Z"
+        },
+        {
+          "question": "I have noted what you shared regarding \"no\". Have you taken any fever medicines like Paracetamol, and do you have any known allergies to antibiotics or painkillers?",
+          "answer": "no",
+          "inputMode": "text",
+          "timestamp": "2026-09-06T06:10:11.874Z"
+        }
+      ],
+      "redFlagsDetected": [],
+      "priority": "NORMAL",
+      "createdAt": "2026-09-06T06:08:38.068Z",
+      "updatedAt": "2026-09-06T06:10:12.224Z",
+      "chiefComplaint": "my  legs are paining",
+      "completedAt": "2026-09-06T06:10:12.224Z"
+    },
+    {
+      "_id": "6a9d0a7ebeaf1411eeb81d6f",
+      "patientId": "6a9d03601427193573bfa7ab",
+      "language": "en",
+      "status": "completed",
+      "responses": [
+        {
+          "question": "Hello! I am MediKiosk, your Smart Hospital Assistant. Please describe what health problem or disease you are experiencing today.",
+          "answer": "hi",
+          "inputMode": "text",
+          "timestamp": "2026-09-06T06:39:00.181Z"
+        },
+        {
+          "question": "I have noted what you shared regarding \"hi\". Approximately how long have you been experiencing this, and is the sensation constant or does it come and go?",
+          "answer": "fever",
+          "inputMode": "text",
+          "timestamp": "2026-09-06T06:39:12.986Z"
+        },
+        {
+          "question": "I have noted what you shared regarding \"fever\". Have you noticed any associated signs like severe body ache, pain behind the eyes, skin rash, nausea, or vomiting?",
+          "answer": "noting else",
+          "inputMode": "text",
+          "timestamp": "2026-09-06T06:39:25.953Z"
+        },
+        {
+          "question": "I have noted what you shared regarding \"noting else\". On a scale of 1 to 10 (1 mild, 10 severe), how intense is your weakness or headache right now?",
+          "answer": "5",
+          "inputMode": "text",
+          "timestamp": "2026-09-06T06:39:33.177Z"
+        },
+        {
+          "question": "I have noted what you shared regarding \"5\". Do you have any past history of malaria, dengue, typhoid, or recent travel to endemic areas?",
+          "answer": "no",
+          "inputMode": "text",
+          "timestamp": "2026-09-06T06:39:36.594Z"
+        },
+        {
+          "question": "I have noted what you shared regarding \"no\". Have you taken any fever medicines like Paracetamol, and do you have any known allergies to antibiotics or painkillers?",
+          "answer": "no",
+          "inputMode": "text",
+          "timestamp": "2026-09-06T06:39:40.164Z"
+        }
+      ],
+      "redFlagsDetected": [],
+      "priority": "NORMAL",
+      "createdAt": "2026-09-06T06:38:54.672Z",
+      "updatedAt": "2026-09-06T06:39:40.231Z",
+      "chiefComplaint": "hi",
+      "completedAt": "2026-09-06T06:39:40.231Z"
+    },
+    {
+      "_id": "6a9d1273ac9e10a35f9465d9",
+      "patientId": "6a9d1273ac9e10a35f9465d7",
+      "language": "en",
+      "status": "in_progress",
+      "responses": [],
+      "redFlagsDetected": [],
+      "priority": "NORMAL",
+      "createdAt": "2026-09-06T07:12:51.515Z",
+      "updatedAt": "2026-09-06T07:12:51.515Z"
+    },
+    {
+      "_id": "6a9d1286ac9e10a35f9465dc",
+      "patientId": "6a9d1286ac9e10a35f9465da",
+      "language": "en",
+      "status": "in_progress",
+      "responses": [],
+      "redFlagsDetected": [],
+      "priority": "NORMAL",
+      "createdAt": "2026-09-06T07:13:10.416Z",
+      "updatedAt": "2026-09-06T07:13:10.416Z"
+    },
+    {
+      "_id": "6a9d1406ac9e10a35f9465e6",
+      "patientId": "6a9d03601427193573bfa7ab",
+      "language": "en",
+      "status": "completed",
+      "responses": [
+        {
+          "question": "Hello! I am MediKiosk, your Smart Hospital Assistant. Please describe what health problem or disease you are experiencing today.",
+          "answer": "fever",
+          "inputMode": "text",
+          "timestamp": "2026-09-06T07:20:05.660Z"
+        },
+        {
+          "question": "I have noted what you shared regarding \"fever\". How many days have you had this fever, does it spike at a particular time (morning/evening), and is it accompanied by chills or shivering?",
+          "answer": "morning",
+          "inputMode": "text",
+          "timestamp": "2026-09-06T07:20:14.519Z"
+        },
+        {
+          "question": "I have noted what you shared regarding \"morning\". Have you noticed any associated signs like severe body ache, pain behind the eyes, skin rash, nausea, or vomiting?",
+          "answer": "no",
+          "inputMode": "text",
+          "timestamp": "2026-09-06T07:20:18.871Z"
+        },
+        {
+          "question": "I have noted what you shared regarding \"no\". On a scale of 1 to 10 (1 mild, 10 severe), how intense is your weakness or headache right now?",
+          "answer": "8",
+          "inputMode": "text",
+          "timestamp": "2026-09-06T07:20:21.704Z"
+        },
+        {
+          "question": "I have noted what you shared regarding \"8\". Do you have any past history of malaria, dengue, typhoid, or recent travel to endemic areas?",
+          "answer": "no",
+          "inputMode": "text",
+          "timestamp": "2026-09-06T07:20:26.086Z"
+        },
+        {
+          "question": "I have noted what you shared regarding \"no\". Have you taken any fever medicines like Paracetamol, and do you have any known allergies to antibiotics or painkillers?",
+          "answer": "noting",
+          "inputMode": "text",
+          "timestamp": "2026-09-06T07:20:31.588Z"
+        }
+      ],
+      "redFlagsDetected": [],
+      "priority": "NORMAL",
+      "createdAt": "2026-09-06T07:19:34.262Z",
+      "updatedAt": "2026-09-06T07:20:31.802Z",
+      "chiefComplaint": "fever",
+      "completedAt": "2026-09-06T07:20:31.802Z"
+    },
+    {
+      "_id": "6a9d181b1758b30a07ced7b2",
+      "patientId": "6a9d03601427193573bfa7ab",
+      "language": "en",
+      "status": "completed",
+      "responses": [
+        {
+          "question": "Hello! I am MediKiosk, your Smart Hospital Assistant. Please describe what health problem or disease you are experiencing today.",
+          "answer": "eyes are burning",
+          "inputMode": "text",
+          "timestamp": "2026-09-06T07:37:17.913Z"
+        },
+        {
+          "question": "I have noted what you shared regarding \"eyes are burning\". Approximately how long have you been experiencing this, and is the sensation constant or does it come and go?",
+          "answer": "2 days",
+          "inputMode": "text",
+          "timestamp": "2026-09-06T07:37:28.735Z"
+        },
+        {
+          "question": "I have noted what you shared regarding \"2 days\". Have you noticed any other associated symptoms like fever, dizziness, or fatigue?",
+          "answer": "noting",
+          "inputMode": "text",
+          "timestamp": "2026-09-06T07:37:40.835Z"
+        },
+        {
+          "question": "I have noted what you shared regarding \"noting\". On a scale of 1 to 10 (1 mild, 10 severe), how intense is your weakness or headache right now?",
+          "answer": "9",
+          "inputMode": "text",
+          "timestamp": "2026-09-06T07:37:44.319Z"
+        },
+        {
+          "question": "I have noted what you shared regarding \"9\". Do you have any past history of malaria, dengue, typhoid, or recent travel to endemic areas?",
+          "answer": "no",
+          "inputMode": "text",
+          "timestamp": "2026-09-06T07:37:46.865Z"
+        },
+        {
+          "question": "I have noted what you shared regarding \"no\". Have you taken any fever medicines like Paracetamol, and do you have any known allergies to antibiotics or painkillers?",
+          "answer": "no",
+          "inputMode": "text",
+          "timestamp": "2026-09-06T07:37:51.303Z"
+        }
+      ],
+      "redFlagsDetected": [],
+      "priority": "NORMAL",
+      "createdAt": "2026-09-06T07:36:59.661Z",
+      "updatedAt": "2026-09-06T07:37:51.413Z",
+      "chiefComplaint": "eyes are burning",
+      "completedAt": "2026-09-06T07:37:51.413Z"
+    },
+    {
+      "_id": "6a9d2a421758b30a07ced7c6",
+      "patientId": "6a9d03601427193573bfa7ab",
+      "language": "en",
+      "status": "in_progress",
+      "responses": [],
+      "redFlagsDetected": [],
+      "priority": "NORMAL",
+      "createdAt": "2026-09-06T08:54:26.958Z",
+      "updatedAt": "2026-09-06T08:54:26.958Z"
+    },
+    {
+      "_id": "6a9d2cf61758b30a07ced7c7",
+      "patientId": "6a9d03601427193573bfa7ab",
+      "language": "en",
+      "status": "completed",
+      "responses": [
+        {
+          "question": "Hello! I am MediKiosk, your Smart Hospital Assistant. Please describe what health problem or disease you are experiencing today.",
+          "answer": "I am feeling symptoms in my Elbows (Tennis elbow, joint swelling, tenderness).. Reported symptoms in right Elbows (spasms).",
+          "inputMode": "text",
+          "timestamp": "2026-09-06T09:06:49.415Z"
+        },
+        {
+          "question": "I have noted what you shared regarding \"I am feeling symptoms in my Elbows (Tennis elbow, joint swelling, tenderness).. Reported symptoms in right Elbows (spasms).\". Which specific joint or area of your back hurts most, and is there visible swelling, redness, or morning stiffness?",
+          "answer": "morning",
+          "inputMode": "text",
+          "timestamp": "2026-09-06T09:07:26.261Z"
+        },
+        {
+          "question": "I have noted what you shared regarding \"morning\". Does the pain shoot down into your legs or arms, and did it start suddenly after an injury/lifting or develop gradually over months?",
+          "answer": "start suddenly",
+          "inputMode": "text",
+          "timestamp": "2026-09-06T09:08:05.063Z"
+        },
+        {
+          "question": "I have noted what you shared regarding \"start suddenly\". On a scale of 1 to 10, how much is this pain limiting your ability to walk, stand, climb stairs, or bend?",
+          "answer": "4",
+          "inputMode": "text",
+          "timestamp": "2026-09-06T09:08:09.858Z"
+        },
+        {
+          "question": "I have noted what you shared regarding \"4\". Do you have a medical history of arthritis, high uric acid (gout), osteoporosis, or past spine/bone injuries?",
+          "answer": "no",
+          "inputMode": "text",
+          "timestamp": "2026-09-06T09:08:16.073Z"
+        },
+        {
+          "question": "I have noted what you shared regarding \"no\". Have you taken any pain relievers (like Ibuprofen/Aceclofenac) or calcium supplements, and do you have any allergies to medications?",
+          "answer": "no",
+          "inputMode": "text",
+          "timestamp": "2026-09-06T09:08:19.770Z"
+        }
+      ],
+      "redFlagsDetected": [],
+      "priority": "NORMAL",
+      "createdAt": "2026-09-06T09:05:58.323Z",
+      "updatedAt": "2026-09-06T09:08:19.835Z",
+      "chiefComplaint": "I am feeling symptoms in my Elbows (Tennis elbow, joint swelling, tenderness).. Reported symptoms in right Elbows (spasms).",
+      "completedAt": "2026-09-06T09:08:19.835Z"
+    },
+    {
+      "_id": "6a9d434d794d49c38fbf90cd",
+      "patientId": "6a9d03601427193573bfa7ab",
+      "language": "en",
+      "status": "completed",
+      "responses": [
+        {
+          "question": "Hello! I am MediKiosk, your Smart Hospital Assistant. Please describe what health problem or disease you are experiencing today.",
+          "answer": "I am feeling symptoms in my Eyes (Vision blur, eye pain, redness, irritation).. Reported symptoms in Eyes (burnig).. I am feeling symptoms in my Eyes (Vision blur, eye pain, redness, irritation).. Reported symptoms in Eyes (burning\nred in colour).",
+          "inputMode": "text",
+          "timestamp": "2026-09-06T10:42:03.724Z"
+        },
+        {
+          "question": "I have noted what you shared regarding \"I am feeling symptoms in my Eyes (Vision blur, eye pain, redness, irritation).. Reported symptoms in Eyes (burnig).. I am feeling symptoms in my Eyes (Vision blur, eye pain, redness, irritation).. Reported symptoms in Eyes (burning\nred in colour).\". Approximately how long have you been experiencing this, and is the sensation constant or does it come and go?",
+          "answer": "suddenly",
+          "inputMode": "text",
+          "timestamp": "2026-09-06T10:42:22.951Z"
+        },
+        {
+          "question": "I have noted what you shared regarding \"suddenly\". Have you noticed any other associated symptoms like fever, dizziness, or fatigue?",
+          "answer": "no",
+          "inputMode": "text",
+          "timestamp": "2026-09-06T10:42:28.235Z"
+        },
+        {
+          "question": "I have noted what you shared regarding \"no\". On a scale of 1 to 10 (1 mild, 10 severe), how intense is your weakness or headache right now?",
+          "answer": "7",
+          "inputMode": "text",
+          "timestamp": "2026-09-06T10:42:31.595Z"
+        },
+        {
+          "question": "I have noted what you shared regarding \"7\". Do you have any past history of malaria, dengue, typhoid, or recent travel to endemic areas?",
+          "answer": "no",
+          "inputMode": "text",
+          "timestamp": "2026-09-06T10:42:36.783Z"
+        },
+        {
+          "question": "I have noted what you shared regarding \"no\". Have you taken any fever medicines like Paracetamol, and do you have any known allergies to antibiotics or painkillers?",
+          "answer": "no",
+          "inputMode": "text",
+          "timestamp": "2026-09-06T10:42:40.952Z"
+        }
+      ],
+      "redFlagsDetected": [],
+      "priority": "NORMAL",
+      "createdAt": "2026-09-06T10:41:17.589Z",
+      "updatedAt": "2026-09-06T10:42:41.095Z",
+      "chiefComplaint": "I am feeling symptoms in my Eyes (Vision blur, eye pain, redness, irritation).. Reported symptoms in Eyes (burnig).. I am feeling symptoms in my Eyes (Vision blur, eye pain, redness, irritation).. Reported symptoms in Eyes (burning\nred in colour).",
+      "completedAt": "2026-09-06T10:42:41.095Z"
+    },
+    {
+      "_id": "6a9d4ffd794d49c38fbf90e0",
+      "patientId": "6a9d03601427193573bfa7ab",
+      "language": "en",
+      "status": "in_progress",
+      "responses": [],
+      "redFlagsDetected": [],
+      "priority": "NORMAL",
+      "createdAt": "2026-09-06T11:35:25.594Z",
+      "updatedAt": "2026-09-06T11:35:25.594Z"
+    },
+    {
+      "_id": "6a9d5025794d49c38fbf90e1",
+      "patientId": "6a9d03601427193573bfa7ab",
+      "language": "en",
+      "status": "completed",
+      "responses": [
+        {
+          "question": "Hello! I am MediKiosk, your Smart Hospital Assistant. Please describe what health problem or disease you are experiencing today.",
+          "answer": "fever",
+          "inputMode": "text",
+          "timestamp": "2026-09-06T11:36:15.742Z"
+        },
+        {
+          "question": "I have noted what you shared regarding \"fever\". How many days have you had this fever, does it spike at a particular time (morning/evening), and is it accompanied by chills or shivering?",
+          "answer": "evening",
+          "inputMode": "text",
+          "timestamp": "2026-09-06T11:36:22.863Z"
+        },
+        {
+          "question": "I have noted what you shared regarding \"evening\". Have you noticed any associated signs like severe body ache, pain behind the eyes, skin rash, nausea, or vomiting?",
+          "answer": "noting else there to saw",
+          "inputMode": "text",
+          "timestamp": "2026-09-06T11:36:32.861Z"
+        },
+        {
+          "question": "I have noted what you shared regarding \"noting else there to saw\". On a scale of 1 to 10 (1 mild, 10 severe), how intense is your weakness or headache right now?",
+          "answer": "9",
+          "inputMode": "text",
+          "timestamp": "2026-09-06T11:36:36.279Z"
+        },
+        {
+          "question": "I have noted what you shared regarding \"9\". Do you have any past history of malaria, dengue, typhoid, or recent travel to endemic areas?",
+          "answer": "noting",
+          "inputMode": "text",
+          "timestamp": "2026-09-06T11:36:40.198Z"
+        },
+        {
+          "question": "I have noted what you shared regarding \"noting\". Have you taken any fever medicines like Paracetamol, and do you have any known allergies to antibiotics or painkillers?",
+          "answer": "no",
+          "inputMode": "text",
+          "timestamp": "2026-09-06T11:36:42.501Z"
+        }
+      ],
+      "redFlagsDetected": [],
+      "priority": "NORMAL",
+      "createdAt": "2026-09-06T11:36:05.827Z",
+      "updatedAt": "2026-09-06T11:36:42.647Z",
+      "chiefComplaint": "fever",
+      "completedAt": "2026-09-06T11:36:42.647Z"
+    },
+    {
+      "_id": "6a9ed33960f40b366340b658",
+      "patientId": "6a9d03601427193573bfa7ab",
+      "language": "en",
+      "status": "completed",
+      "responses": [
+        {
+          "question": "Hello! I am MediKiosk, your Smart Hospital Assistant. Please describe what health problem or disease you are experiencing today.",
+          "answer": "my ears are in pain",
+          "inputMode": "text",
+          "timestamp": "2026-09-07T15:07:49.159Z"
+        },
+        {
+          "question": "I have noted what you shared regarding \"my ears are in pain\". Is the primary issue a sore throat, earache, blocked nose, or sinus pressure/facial pain, and how long has it been bothering you?",
+          "answer": "2 days",
+          "inputMode": "text",
+          "timestamp": "2026-09-07T15:07:57.560Z"
+        },
+        {
+          "question": "I have noted what you shared regarding \"2 days\". Do you have severe pain while swallowing, discharge/ringing in the ear, or voice changes/hoarseness?",
+          "answer": "no",
+          "inputMode": "text",
+          "timestamp": "2026-09-07T15:08:04.854Z"
+        },
+        {
+          "question": "I have noted what you shared regarding \"no\". On a scale of 1 to 10, how much discomfort is this throat or ear condition causing?",
+          "answer": "10",
+          "inputMode": "text",
+          "timestamp": "2026-09-07T15:08:08.158Z"
+        },
+        {
+          "question": "I have noted what you shared regarding \"10\". Do you suffer from recurrent tonsillitis, sinus infections, seasonal dust allergies, or nasal polyps?",
+          "answer": "dont now",
+          "inputMode": "text",
+          "timestamp": "2026-09-07T15:08:21.793Z"
+        },
+        {
+          "question": "I have noted what you shared regarding \"dont now\". Have you tried warm salt gargles, steam inhalation, or taken any antibiotics/antihistamines, and any known drug allergies?",
+          "answer": "no",
+          "inputMode": "text",
+          "timestamp": "2026-09-07T15:08:26.283Z"
+        }
+      ],
+      "redFlagsDetected": [],
+      "priority": "NORMAL",
+      "createdAt": "2026-09-07T15:07:37.489Z",
+      "updatedAt": "2026-09-07T15:08:26.356Z",
+      "chiefComplaint": "my ears are in pain",
+      "completedAt": "2026-09-07T15:08:26.356Z"
+    },
+    {
+      "_id": "6aa006a260f40b366340b667",
+      "patientId": "6aa0067860f40b366340b665",
+      "language": "en",
+      "status": "completed",
+      "responses": [
+        {
+          "question": "Hello! I am MediKiosk, your Smart Hospital Assistant. Please describe what health problem or disease you are experiencing today.",
+          "answer": "fever",
+          "inputMode": "text",
+          "timestamp": "2026-09-08T13:00:05.044Z"
+        },
+        {
+          "question": "I have noted what you shared regarding \"fever\". How many days have you had this fever, does it spike at a particular time (morning/evening), and is it accompanied by chills or shivering?",
+          "answer": "4",
+          "inputMode": "text",
+          "timestamp": "2026-09-08T13:00:15.318Z"
+        },
+        {
+          "question": "I have noted what you shared regarding \"4\". Have you noticed any associated signs like severe body ache, pain behind the eyes, skin rash, nausea, or vomiting?",
+          "answer": "noting",
+          "inputMode": "text",
+          "timestamp": "2026-09-08T13:00:23.441Z"
+        },
+        {
+          "question": "I have noted what you shared regarding \"noting\". On a scale of 1 to 10 (1 mild, 10 severe), how intense is your weakness or headache right now?",
+          "answer": "8",
+          "inputMode": "text",
+          "timestamp": "2026-09-08T13:00:27.998Z"
+        },
+        {
+          "question": "I have noted what you shared regarding \"8\". Do you have any past history of malaria, dengue, typhoid, or recent travel to endemic areas?",
+          "answer": "no",
+          "inputMode": "text",
+          "timestamp": "2026-09-08T13:00:31.731Z"
+        },
+        {
+          "question": "I have noted what you shared regarding \"no\". Have you taken any fever medicines like Paracetamol, and do you have any known allergies to antibiotics or painkillers?",
+          "answer": "no",
+          "inputMode": "text",
+          "timestamp": "2026-09-08T13:00:33.398Z"
+        }
+      ],
+      "redFlagsDetected": [],
+      "priority": "NORMAL",
+      "createdAt": "2026-09-08T12:59:14.069Z",
+      "updatedAt": "2026-09-08T13:00:33.484Z",
+      "chiefComplaint": "fever",
+      "completedAt": "2026-09-08T13:00:33.484Z"
+    }
+  ],
+  "HealthResponse": [
+    {
+      "_id": "6a9d037e1427193573bfa7ae",
+      "interviewId": "6a9d03661427193573bfa7ad",
+      "patientId": "6a9d03601427193573bfa7ab",
+      "question": "Hello! I am MediKiosk, your Smart Hospital Assistant. Please describe what health problem or disease you are experiencing today.",
+      "answer": "my  legs are paining",
+      "inputMode": "text",
+      "createdAt": "2026-09-06T06:09:02.803Z",
+      "updatedAt": "2026-09-06T06:09:02.803Z"
+    },
+    {
+      "_id": "6a9d03891427193573bfa7af",
+      "interviewId": "6a9d03661427193573bfa7ad",
+      "patientId": "6a9d03601427193573bfa7ab",
+      "question": "I have noted what you shared regarding \"my  legs are paining\". Approximately how long have you been experiencing this, and is the sensation constant or does it come and go?",
+      "answer": "2 days",
+      "inputMode": "text",
+      "createdAt": "2026-09-06T06:09:13.771Z",
+      "updatedAt": "2026-09-06T06:09:13.771Z"
+    },
+    {
+      "_id": "6a9d03ac1427193573bfa7b0",
+      "interviewId": "6a9d03661427193573bfa7ad",
+      "patientId": "6a9d03601427193573bfa7ab",
+      "question": "I have noted what you shared regarding \"2 days\". Have you noticed any other associated symptoms like fever, dizziness, or fatigue?",
+      "answer": "no i got acciendent fro bike and my left leg was paining",
+      "inputMode": "text",
+      "createdAt": "2026-09-06T06:09:48.021Z",
+      "updatedAt": "2026-09-06T06:09:48.021Z"
+    },
+    {
+      "_id": "6a9d03b91427193573bfa7b1",
+      "interviewId": "6a9d03661427193573bfa7ad",
+      "patientId": "6a9d03601427193573bfa7ab",
+      "question": "I have noted what you shared regarding \"no i got acciendent fro bike and my left leg was paining\". On a scale of 1 to 10 (1 mild, 10 severe), how intense is your weakness or headache right now?",
+      "answer": "10",
+      "inputMode": "text",
+      "createdAt": "2026-09-06T06:10:01.894Z",
+      "updatedAt": "2026-09-06T06:10:01.894Z"
+    },
+    {
+      "_id": "6a9d03be1427193573bfa7b2",
+      "interviewId": "6a9d03661427193573bfa7ad",
+      "patientId": "6a9d03601427193573bfa7ab",
+      "question": "I have noted what you shared regarding \"10\". Do you have any past history of malaria, dengue, typhoid, or recent travel to endemic areas?",
+      "answer": "no",
+      "inputMode": "text",
+      "createdAt": "2026-09-06T06:10:06.979Z",
+      "updatedAt": "2026-09-06T06:10:06.979Z"
+    },
+    {
+      "_id": "6a9d03c31427193573bfa7b3",
+      "interviewId": "6a9d03661427193573bfa7ad",
+      "patientId": "6a9d03601427193573bfa7ab",
+      "question": "I have noted what you shared regarding \"no\". Have you taken any fever medicines like Paracetamol, and do you have any known allergies to antibiotics or painkillers?",
+      "answer": "no",
+      "inputMode": "text",
+      "createdAt": "2026-09-06T06:10:11.871Z",
+      "updatedAt": "2026-09-06T06:10:11.871Z"
+    },
+    {
+      "_id": "6a9d0a84beaf1411eeb81d70",
+      "interviewId": "6a9d0a7ebeaf1411eeb81d6f",
+      "patientId": "6a9d03601427193573bfa7ab",
+      "question": "Hello! I am MediKiosk, your Smart Hospital Assistant. Please describe what health problem or disease you are experiencing today.",
+      "answer": "hi",
+      "inputMode": "text",
+      "createdAt": "2026-09-06T06:39:00.178Z",
+      "updatedAt": "2026-09-06T06:39:00.178Z"
+    },
+    {
+      "_id": "6a9d0a90beaf1411eeb81d71",
+      "interviewId": "6a9d0a7ebeaf1411eeb81d6f",
+      "patientId": "6a9d03601427193573bfa7ab",
+      "question": "I have noted what you shared regarding \"hi\". Approximately how long have you been experiencing this, and is the sensation constant or does it come and go?",
+      "answer": "fever",
+      "inputMode": "text",
+      "createdAt": "2026-09-06T06:39:12.983Z",
+      "updatedAt": "2026-09-06T06:39:12.983Z"
+    },
+    {
+      "_id": "6a9d0a9dbeaf1411eeb81d72",
+      "interviewId": "6a9d0a7ebeaf1411eeb81d6f",
+      "patientId": "6a9d03601427193573bfa7ab",
+      "question": "I have noted what you shared regarding \"fever\". Have you noticed any associated signs like severe body ache, pain behind the eyes, skin rash, nausea, or vomiting?",
+      "answer": "noting else",
+      "inputMode": "text",
+      "createdAt": "2026-09-06T06:39:25.949Z",
+      "updatedAt": "2026-09-06T06:39:25.949Z"
+    },
+    {
+      "_id": "6a9d0aa5beaf1411eeb81d73",
+      "interviewId": "6a9d0a7ebeaf1411eeb81d6f",
+      "patientId": "6a9d03601427193573bfa7ab",
+      "question": "I have noted what you shared regarding \"noting else\". On a scale of 1 to 10 (1 mild, 10 severe), how intense is your weakness or headache right now?",
+      "answer": "5",
+      "inputMode": "text",
+      "createdAt": "2026-09-06T06:39:33.173Z",
+      "updatedAt": "2026-09-06T06:39:33.173Z"
+    },
+    {
+      "_id": "6a9d0aa8beaf1411eeb81d74",
+      "interviewId": "6a9d0a7ebeaf1411eeb81d6f",
+      "patientId": "6a9d03601427193573bfa7ab",
+      "question": "I have noted what you shared regarding \"5\". Do you have any past history of malaria, dengue, typhoid, or recent travel to endemic areas?",
+      "answer": "no",
+      "inputMode": "text",
+      "createdAt": "2026-09-06T06:39:36.590Z",
+      "updatedAt": "2026-09-06T06:39:36.590Z"
+    },
+    {
+      "_id": "6a9d0aacbeaf1411eeb81d75",
+      "interviewId": "6a9d0a7ebeaf1411eeb81d6f",
+      "patientId": "6a9d03601427193573bfa7ab",
+      "question": "I have noted what you shared regarding \"no\". Have you taken any fever medicines like Paracetamol, and do you have any known allergies to antibiotics or painkillers?",
+      "answer": "no",
+      "inputMode": "text",
+      "createdAt": "2026-09-06T06:39:40.161Z",
+      "updatedAt": "2026-09-06T06:39:40.161Z"
+    },
+    {
+      "_id": "6a9d1425ac9e10a35f9465e7",
+      "interviewId": "6a9d1406ac9e10a35f9465e6",
+      "patientId": "6a9d03601427193573bfa7ab",
+      "question": "Hello! I am MediKiosk, your Smart Hospital Assistant. Please describe what health problem or disease you are experiencing today.",
+      "answer": "fever",
+      "inputMode": "text",
+      "createdAt": "2026-09-06T07:20:05.656Z",
+      "updatedAt": "2026-09-06T07:20:05.656Z"
+    },
+    {
+      "_id": "6a9d142eac9e10a35f9465e8",
+      "interviewId": "6a9d1406ac9e10a35f9465e6",
+      "patientId": "6a9d03601427193573bfa7ab",
+      "question": "I have noted what you shared regarding \"fever\". How many days have you had this fever, does it spike at a particular time (morning/evening), and is it accompanied by chills or shivering?",
+      "answer": "morning",
+      "inputMode": "text",
+      "createdAt": "2026-09-06T07:20:14.515Z",
+      "updatedAt": "2026-09-06T07:20:14.515Z"
+    },
+    {
+      "_id": "6a9d1432ac9e10a35f9465e9",
+      "interviewId": "6a9d1406ac9e10a35f9465e6",
+      "patientId": "6a9d03601427193573bfa7ab",
+      "question": "I have noted what you shared regarding \"morning\". Have you noticed any associated signs like severe body ache, pain behind the eyes, skin rash, nausea, or vomiting?",
+      "answer": "no",
+      "inputMode": "text",
+      "createdAt": "2026-09-06T07:20:18.867Z",
+      "updatedAt": "2026-09-06T07:20:18.867Z"
+    },
+    {
+      "_id": "6a9d1435ac9e10a35f9465ea",
+      "interviewId": "6a9d1406ac9e10a35f9465e6",
+      "patientId": "6a9d03601427193573bfa7ab",
+      "question": "I have noted what you shared regarding \"no\". On a scale of 1 to 10 (1 mild, 10 severe), how intense is your weakness or headache right now?",
+      "answer": "8",
+      "inputMode": "text",
+      "createdAt": "2026-09-06T07:20:21.701Z",
+      "updatedAt": "2026-09-06T07:20:21.701Z"
+    },
+    {
+      "_id": "6a9d143aac9e10a35f9465eb",
+      "interviewId": "6a9d1406ac9e10a35f9465e6",
+      "patientId": "6a9d03601427193573bfa7ab",
+      "question": "I have noted what you shared regarding \"8\". Do you have any past history of malaria, dengue, typhoid, or recent travel to endemic areas?",
+      "answer": "no",
+      "inputMode": "text",
+      "createdAt": "2026-09-06T07:20:26.082Z",
+      "updatedAt": "2026-09-06T07:20:26.082Z"
+    },
+    {
+      "_id": "6a9d143fac9e10a35f9465ec",
+      "interviewId": "6a9d1406ac9e10a35f9465e6",
+      "patientId": "6a9d03601427193573bfa7ab",
+      "question": "I have noted what you shared regarding \"no\". Have you taken any fever medicines like Paracetamol, and do you have any known allergies to antibiotics or painkillers?",
+      "answer": "noting",
+      "inputMode": "text",
+      "createdAt": "2026-09-06T07:20:31.585Z",
+      "updatedAt": "2026-09-06T07:20:31.585Z"
+    },
+    {
+      "_id": "6a9d182d1758b30a07ced7b3",
+      "interviewId": "6a9d181b1758b30a07ced7b2",
+      "patientId": "6a9d03601427193573bfa7ab",
+      "question": "Hello! I am MediKiosk, your Smart Hospital Assistant. Please describe what health problem or disease you are experiencing today.",
+      "answer": "eyes are burning",
+      "inputMode": "text",
+      "createdAt": "2026-09-06T07:37:17.907Z",
+      "updatedAt": "2026-09-06T07:37:17.907Z"
+    },
+    {
+      "_id": "6a9d18381758b30a07ced7b4",
+      "interviewId": "6a9d181b1758b30a07ced7b2",
+      "patientId": "6a9d03601427193573bfa7ab",
+      "question": "I have noted what you shared regarding \"eyes are burning\". Approximately how long have you been experiencing this, and is the sensation constant or does it come and go?",
+      "answer": "2 days",
+      "inputMode": "text",
+      "createdAt": "2026-09-06T07:37:28.731Z",
+      "updatedAt": "2026-09-06T07:37:28.731Z"
+    },
+    {
+      "_id": "6a9d18441758b30a07ced7b5",
+      "interviewId": "6a9d181b1758b30a07ced7b2",
+      "patientId": "6a9d03601427193573bfa7ab",
+      "question": "I have noted what you shared regarding \"2 days\". Have you noticed any other associated symptoms like fever, dizziness, or fatigue?",
+      "answer": "noting",
+      "inputMode": "text",
+      "createdAt": "2026-09-06T07:37:40.831Z",
+      "updatedAt": "2026-09-06T07:37:40.831Z"
+    },
+    {
+      "_id": "6a9d18481758b30a07ced7b6",
+      "interviewId": "6a9d181b1758b30a07ced7b2",
+      "patientId": "6a9d03601427193573bfa7ab",
+      "question": "I have noted what you shared regarding \"noting\". On a scale of 1 to 10 (1 mild, 10 severe), how intense is your weakness or headache right now?",
+      "answer": "9",
+      "inputMode": "text",
+      "createdAt": "2026-09-06T07:37:44.314Z",
+      "updatedAt": "2026-09-06T07:37:44.314Z"
+    },
+    {
+      "_id": "6a9d184a1758b30a07ced7b7",
+      "interviewId": "6a9d181b1758b30a07ced7b2",
+      "patientId": "6a9d03601427193573bfa7ab",
+      "question": "I have noted what you shared regarding \"9\". Do you have any past history of malaria, dengue, typhoid, or recent travel to endemic areas?",
+      "answer": "no",
+      "inputMode": "text",
+      "createdAt": "2026-09-06T07:37:46.860Z",
+      "updatedAt": "2026-09-06T07:37:46.860Z"
+    },
+    {
+      "_id": "6a9d184f1758b30a07ced7b8",
+      "interviewId": "6a9d181b1758b30a07ced7b2",
+      "patientId": "6a9d03601427193573bfa7ab",
+      "question": "I have noted what you shared regarding \"no\". Have you taken any fever medicines like Paracetamol, and do you have any known allergies to antibiotics or painkillers?",
+      "answer": "no",
+      "inputMode": "text",
+      "createdAt": "2026-09-06T07:37:51.298Z",
+      "updatedAt": "2026-09-06T07:37:51.298Z"
+    },
+    {
+      "_id": "6a9d2d291758b30a07ced7c8",
+      "interviewId": "6a9d2cf61758b30a07ced7c7",
+      "patientId": "6a9d03601427193573bfa7ab",
+      "question": "Hello! I am MediKiosk, your Smart Hospital Assistant. Please describe what health problem or disease you are experiencing today.",
+      "answer": "I am feeling symptoms in my Elbows (Tennis elbow, joint swelling, tenderness).. Reported symptoms in right Elbows (spasms).",
+      "inputMode": "text",
+      "createdAt": "2026-09-06T09:06:49.406Z",
+      "updatedAt": "2026-09-06T09:06:49.406Z"
+    },
+    {
+      "_id": "6a9d2d4e1758b30a07ced7c9",
+      "interviewId": "6a9d2cf61758b30a07ced7c7",
+      "patientId": "6a9d03601427193573bfa7ab",
+      "question": "I have noted what you shared regarding \"I am feeling symptoms in my Elbows (Tennis elbow, joint swelling, tenderness).. Reported symptoms in right Elbows (spasms).\". Which specific joint or area of your back hurts most, and is there visible swelling, redness, or morning stiffness?",
+      "answer": "morning",
+      "inputMode": "text",
+      "createdAt": "2026-09-06T09:07:26.256Z",
+      "updatedAt": "2026-09-06T09:07:26.256Z"
+    },
+    {
+      "_id": "6a9d2d751758b30a07ced7ca",
+      "interviewId": "6a9d2cf61758b30a07ced7c7",
+      "patientId": "6a9d03601427193573bfa7ab",
+      "question": "I have noted what you shared regarding \"morning\". Does the pain shoot down into your legs or arms, and did it start suddenly after an injury/lifting or develop gradually over months?",
+      "answer": "start suddenly",
+      "inputMode": "text",
+      "createdAt": "2026-09-06T09:08:05.058Z",
+      "updatedAt": "2026-09-06T09:08:05.058Z"
+    },
+    {
+      "_id": "6a9d2d791758b30a07ced7cb",
+      "interviewId": "6a9d2cf61758b30a07ced7c7",
+      "patientId": "6a9d03601427193573bfa7ab",
+      "question": "I have noted what you shared regarding \"start suddenly\". On a scale of 1 to 10, how much is this pain limiting your ability to walk, stand, climb stairs, or bend?",
+      "answer": "4",
+      "inputMode": "text",
+      "createdAt": "2026-09-06T09:08:09.854Z",
+      "updatedAt": "2026-09-06T09:08:09.854Z"
+    },
+    {
+      "_id": "6a9d2d801758b30a07ced7cc",
+      "interviewId": "6a9d2cf61758b30a07ced7c7",
+      "patientId": "6a9d03601427193573bfa7ab",
+      "question": "I have noted what you shared regarding \"4\". Do you have a medical history of arthritis, high uric acid (gout), osteoporosis, or past spine/bone injuries?",
+      "answer": "no",
+      "inputMode": "text",
+      "createdAt": "2026-09-06T09:08:16.068Z",
+      "updatedAt": "2026-09-06T09:08:16.068Z"
+    },
+    {
+      "_id": "6a9d2d831758b30a07ced7cd",
+      "interviewId": "6a9d2cf61758b30a07ced7c7",
+      "patientId": "6a9d03601427193573bfa7ab",
+      "question": "I have noted what you shared regarding \"no\". Have you taken any pain relievers (like Ibuprofen/Aceclofenac) or calcium supplements, and do you have any allergies to medications?",
+      "answer": "no",
+      "inputMode": "text",
+      "createdAt": "2026-09-06T09:08:19.765Z",
+      "updatedAt": "2026-09-06T09:08:19.765Z"
+    },
+    {
+      "_id": "6a9d437b794d49c38fbf90ce",
+      "interviewId": "6a9d434d794d49c38fbf90cd",
+      "patientId": "6a9d03601427193573bfa7ab",
+      "question": "Hello! I am MediKiosk, your Smart Hospital Assistant. Please describe what health problem or disease you are experiencing today.",
+      "answer": "I am feeling symptoms in my Eyes (Vision blur, eye pain, redness, irritation).. Reported symptoms in Eyes (burnig).. I am feeling symptoms in my Eyes (Vision blur, eye pain, redness, irritation).. Reported symptoms in Eyes (burning\nred in colour).",
+      "inputMode": "text",
+      "createdAt": "2026-09-06T10:42:03.709Z",
+      "updatedAt": "2026-09-06T10:42:03.709Z"
+    },
+    {
+      "_id": "6a9d438e794d49c38fbf90cf",
+      "interviewId": "6a9d434d794d49c38fbf90cd",
+      "patientId": "6a9d03601427193573bfa7ab",
+      "question": "I have noted what you shared regarding \"I am feeling symptoms in my Eyes (Vision blur, eye pain, redness, irritation).. Reported symptoms in Eyes (burnig).. I am feeling symptoms in my Eyes (Vision blur, eye pain, redness, irritation).. Reported symptoms in Eyes (burning\nred in colour).\". Approximately how long have you been experiencing this, and is the sensation constant or does it come and go?",
+      "answer": "suddenly",
+      "inputMode": "text",
+      "createdAt": "2026-09-06T10:42:22.945Z",
+      "updatedAt": "2026-09-06T10:42:22.945Z"
+    },
+    {
+      "_id": "6a9d4394794d49c38fbf90d0",
+      "interviewId": "6a9d434d794d49c38fbf90cd",
+      "patientId": "6a9d03601427193573bfa7ab",
+      "question": "I have noted what you shared regarding \"suddenly\". Have you noticed any other associated symptoms like fever, dizziness, or fatigue?",
+      "answer": "no",
+      "inputMode": "text",
+      "createdAt": "2026-09-06T10:42:28.230Z",
+      "updatedAt": "2026-09-06T10:42:28.230Z"
+    },
+    {
+      "_id": "6a9d4397794d49c38fbf90d1",
+      "interviewId": "6a9d434d794d49c38fbf90cd",
+      "patientId": "6a9d03601427193573bfa7ab",
+      "question": "I have noted what you shared regarding \"no\". On a scale of 1 to 10 (1 mild, 10 severe), how intense is your weakness or headache right now?",
+      "answer": "7",
+      "inputMode": "text",
+      "createdAt": "2026-09-06T10:42:31.589Z",
+      "updatedAt": "2026-09-06T10:42:31.589Z"
+    },
+    {
+      "_id": "6a9d439c794d49c38fbf90d2",
+      "interviewId": "6a9d434d794d49c38fbf90cd",
+      "patientId": "6a9d03601427193573bfa7ab",
+      "question": "I have noted what you shared regarding \"7\". Do you have any past history of malaria, dengue, typhoid, or recent travel to endemic areas?",
+      "answer": "no",
+      "inputMode": "text",
+      "createdAt": "2026-09-06T10:42:36.778Z",
+      "updatedAt": "2026-09-06T10:42:36.778Z"
+    },
+    {
+      "_id": "6a9d43a0794d49c38fbf90d3",
+      "interviewId": "6a9d434d794d49c38fbf90cd",
+      "patientId": "6a9d03601427193573bfa7ab",
+      "question": "I have noted what you shared regarding \"no\". Have you taken any fever medicines like Paracetamol, and do you have any known allergies to antibiotics or painkillers?",
+      "answer": "no",
+      "inputMode": "text",
+      "createdAt": "2026-09-06T10:42:40.946Z",
+      "updatedAt": "2026-09-06T10:42:40.946Z"
+    },
+    {
+      "_id": "6a9d502f794d49c38fbf90e2",
+      "interviewId": "6a9d5025794d49c38fbf90e1",
+      "patientId": "6a9d03601427193573bfa7ab",
+      "question": "Hello! I am MediKiosk, your Smart Hospital Assistant. Please describe what health problem or disease you are experiencing today.",
+      "answer": "fever",
+      "inputMode": "text",
+      "createdAt": "2026-09-06T11:36:15.735Z",
+      "updatedAt": "2026-09-06T11:36:15.735Z"
+    },
+    {
+      "_id": "6a9d5036794d49c38fbf90e3",
+      "interviewId": "6a9d5025794d49c38fbf90e1",
+      "patientId": "6a9d03601427193573bfa7ab",
+      "question": "I have noted what you shared regarding \"fever\". How many days have you had this fever, does it spike at a particular time (morning/evening), and is it accompanied by chills or shivering?",
+      "answer": "evening",
+      "inputMode": "text",
+      "createdAt": "2026-09-06T11:36:22.842Z",
+      "updatedAt": "2026-09-06T11:36:22.842Z"
+    },
+    {
+      "_id": "6a9d5040794d49c38fbf90e4",
+      "interviewId": "6a9d5025794d49c38fbf90e1",
+      "patientId": "6a9d03601427193573bfa7ab",
+      "question": "I have noted what you shared regarding \"evening\". Have you noticed any associated signs like severe body ache, pain behind the eyes, skin rash, nausea, or vomiting?",
+      "answer": "noting else there to saw",
+      "inputMode": "text",
+      "createdAt": "2026-09-06T11:36:32.857Z",
+      "updatedAt": "2026-09-06T11:36:32.857Z"
+    },
+    {
+      "_id": "6a9d5044794d49c38fbf90e5",
+      "interviewId": "6a9d5025794d49c38fbf90e1",
+      "patientId": "6a9d03601427193573bfa7ab",
+      "question": "I have noted what you shared regarding \"noting else there to saw\". On a scale of 1 to 10 (1 mild, 10 severe), how intense is your weakness or headache right now?",
+      "answer": "9",
+      "inputMode": "text",
+      "createdAt": "2026-09-06T11:36:36.272Z",
+      "updatedAt": "2026-09-06T11:36:36.272Z"
+    },
+    {
+      "_id": "6a9d5048794d49c38fbf90e6",
+      "interviewId": "6a9d5025794d49c38fbf90e1",
+      "patientId": "6a9d03601427193573bfa7ab",
+      "question": "I have noted what you shared regarding \"9\". Do you have any past history of malaria, dengue, typhoid, or recent travel to endemic areas?",
+      "answer": "noting",
+      "inputMode": "text",
+      "createdAt": "2026-09-06T11:36:40.139Z",
+      "updatedAt": "2026-09-06T11:36:40.139Z"
+    },
+    {
+      "_id": "6a9d504a794d49c38fbf90e7",
+      "interviewId": "6a9d5025794d49c38fbf90e1",
+      "patientId": "6a9d03601427193573bfa7ab",
+      "question": "I have noted what you shared regarding \"noting\". Have you taken any fever medicines like Paracetamol, and do you have any known allergies to antibiotics or painkillers?",
+      "answer": "no",
+      "inputMode": "text",
+      "createdAt": "2026-09-06T11:36:42.496Z",
+      "updatedAt": "2026-09-06T11:36:42.496Z"
+    },
+    {
+      "_id": "6a9ed34560f40b366340b659",
+      "interviewId": "6a9ed33960f40b366340b658",
+      "patientId": "6a9d03601427193573bfa7ab",
+      "question": "Hello! I am MediKiosk, your Smart Hospital Assistant. Please describe what health problem or disease you are experiencing today.",
+      "answer": "my ears are in pain",
+      "inputMode": "text",
+      "createdAt": "2026-09-07T15:07:49.139Z",
+      "updatedAt": "2026-09-07T15:07:49.139Z"
+    },
+    {
+      "_id": "6a9ed34d60f40b366340b65a",
+      "interviewId": "6a9ed33960f40b366340b658",
+      "patientId": "6a9d03601427193573bfa7ab",
+      "question": "I have noted what you shared regarding \"my ears are in pain\". Is the primary issue a sore throat, earache, blocked nose, or sinus pressure/facial pain, and how long has it been bothering you?",
+      "answer": "2 days",
+      "inputMode": "text",
+      "createdAt": "2026-09-07T15:07:57.552Z",
+      "updatedAt": "2026-09-07T15:07:57.552Z"
+    },
+    {
+      "_id": "6a9ed35460f40b366340b65b",
+      "interviewId": "6a9ed33960f40b366340b658",
+      "patientId": "6a9d03601427193573bfa7ab",
+      "question": "I have noted what you shared regarding \"2 days\". Do you have severe pain while swallowing, discharge/ringing in the ear, or voice changes/hoarseness?",
+      "answer": "no",
+      "inputMode": "text",
+      "createdAt": "2026-09-07T15:08:04.849Z",
+      "updatedAt": "2026-09-07T15:08:04.849Z"
+    },
+    {
+      "_id": "6a9ed35860f40b366340b65c",
+      "interviewId": "6a9ed33960f40b366340b658",
+      "patientId": "6a9d03601427193573bfa7ab",
+      "question": "I have noted what you shared regarding \"no\". On a scale of 1 to 10, how much discomfort is this throat or ear condition causing?",
+      "answer": "10",
+      "inputMode": "text",
+      "createdAt": "2026-09-07T15:08:08.153Z",
+      "updatedAt": "2026-09-07T15:08:08.153Z"
+    },
+    {
+      "_id": "6a9ed36560f40b366340b65d",
+      "interviewId": "6a9ed33960f40b366340b658",
+      "patientId": "6a9d03601427193573bfa7ab",
+      "question": "I have noted what you shared regarding \"10\". Do you suffer from recurrent tonsillitis, sinus infections, seasonal dust allergies, or nasal polyps?",
+      "answer": "dont now",
+      "inputMode": "text",
+      "createdAt": "2026-09-07T15:08:21.776Z",
+      "updatedAt": "2026-09-07T15:08:21.776Z"
+    },
+    {
+      "_id": "6a9ed36a60f40b366340b65e",
+      "interviewId": "6a9ed33960f40b366340b658",
+      "patientId": "6a9d03601427193573bfa7ab",
+      "question": "I have noted what you shared regarding \"dont now\". Have you tried warm salt gargles, steam inhalation, or taken any antibiotics/antihistamines, and any known drug allergies?",
+      "answer": "no",
+      "inputMode": "text",
+      "createdAt": "2026-09-07T15:08:26.273Z",
+      "updatedAt": "2026-09-07T15:08:26.273Z"
+    },
+    {
+      "_id": "6aa006d560f40b366340b668",
+      "interviewId": "6aa006a260f40b366340b667",
+      "patientId": "6aa0067860f40b366340b665",
+      "question": "Hello! I am MediKiosk, your Smart Hospital Assistant. Please describe what health problem or disease you are experiencing today.",
+      "answer": "fever",
+      "inputMode": "text",
+      "createdAt": "2026-09-08T13:00:05.034Z",
+      "updatedAt": "2026-09-08T13:00:05.034Z"
+    },
+    {
+      "_id": "6aa006df60f40b366340b669",
+      "interviewId": "6aa006a260f40b366340b667",
+      "patientId": "6aa0067860f40b366340b665",
+      "question": "I have noted what you shared regarding \"fever\". How many days have you had this fever, does it spike at a particular time (morning/evening), and is it accompanied by chills or shivering?",
+      "answer": "4",
+      "inputMode": "text",
+      "createdAt": "2026-09-08T13:00:15.257Z",
+      "updatedAt": "2026-09-08T13:00:15.257Z"
+    },
+    {
+      "_id": "6aa006e760f40b366340b66a",
+      "interviewId": "6aa006a260f40b366340b667",
+      "patientId": "6aa0067860f40b366340b665",
+      "question": "I have noted what you shared regarding \"4\". Have you noticed any associated signs like severe body ache, pain behind the eyes, skin rash, nausea, or vomiting?",
+      "answer": "noting",
+      "inputMode": "text",
+      "createdAt": "2026-09-08T13:00:23.431Z",
+      "updatedAt": "2026-09-08T13:00:23.431Z"
+    },
+    {
+      "_id": "6aa006eb60f40b366340b66b",
+      "interviewId": "6aa006a260f40b366340b667",
+      "patientId": "6aa0067860f40b366340b665",
+      "question": "I have noted what you shared regarding \"noting\". On a scale of 1 to 10 (1 mild, 10 severe), how intense is your weakness or headache right now?",
+      "answer": "8",
+      "inputMode": "text",
+      "createdAt": "2026-09-08T13:00:27.992Z",
+      "updatedAt": "2026-09-08T13:00:27.992Z"
+    },
+    {
+      "_id": "6aa006ef60f40b366340b66c",
+      "interviewId": "6aa006a260f40b366340b667",
+      "patientId": "6aa0067860f40b366340b665",
+      "question": "I have noted what you shared regarding \"8\". Do you have any past history of malaria, dengue, typhoid, or recent travel to endemic areas?",
+      "answer": "no",
+      "inputMode": "text",
+      "createdAt": "2026-09-08T13:00:31.725Z",
+      "updatedAt": "2026-09-08T13:00:31.725Z"
+    },
+    {
+      "_id": "6aa006f160f40b366340b66d",
+      "interviewId": "6aa006a260f40b366340b667",
+      "patientId": "6aa0067860f40b366340b665",
+      "question": "I have noted what you shared regarding \"no\". Have you taken any fever medicines like Paracetamol, and do you have any known allergies to antibiotics or painkillers?",
+      "answer": "no",
+      "inputMode": "text",
+      "createdAt": "2026-09-08T13:00:33.349Z",
+      "updatedAt": "2026-09-08T13:00:33.349Z"
+    }
+  ],
+  "MedicalDocument": [
+    {
+      "_id": "6a9d09c21a0e83e8e7c60329",
+      "patientId": "6a9d09c21a0e83e8e7c60324",
+      "documentType": "Doctor's Prescription (Rx)",
+      "title": "Cardiology_Doctor_Prescription_Rx.jpg",
+      "originalName": "Cardiology_Doctor_Prescription_Rx.jpg",
+      "fileName": "meddoc-1788676546311-488259695.jpg",
+      "filePath": "D:\\prototype 47\\backend\\uploads\\meddoc-1788676546311-488259695.jpg",
+      "fileType": "image/jpeg",
+      "fileSize": 339,
+      "uploadMethod": "device",
+      "ocrProcessed": true,
+      "createdAt": "2026-09-06T06:35:46.766Z",
+      "updatedAt": "2026-09-06T06:35:46.766Z"
+    },
+    {
+      "_id": "6a9d0a1fbeaf1411eeb81d6c",
+      "patientId": "6a9d0a1ebeaf1411eeb81d67",
+      "documentType": "Doctor's Prescription (Rx)",
+      "title": "Cardiology_Doctor_Prescription_Rx.jpg",
+      "originalName": "Cardiology_Doctor_Prescription_Rx.jpg",
+      "fileName": "meddoc-1788676638842-481384872.jpg",
+      "filePath": "D:\\prototype 47\\backend\\uploads\\meddoc-1788676638842-481384872.jpg",
+      "fileType": "image/jpeg",
+      "fileSize": 339,
+      "uploadMethod": "device",
+      "ocrProcessed": true,
+      "createdAt": "2026-09-06T06:37:19.327Z",
+      "updatedAt": "2026-09-06T06:37:19.327Z"
+    },
+    {
+      "_id": "6a9d0da6420c9a0d61d363c7",
+      "patientId": "6a9d0da5420c9a0d61d363c5",
+      "documentType": "Hematology / Complete Blood Count (CBC)",
+      "title": "Apex_Hospital_CBC_Report.jpg",
+      "originalName": "Apex_Hospital_CBC_Report.jpg",
+      "fileName": "meddoc-1788677542045-770857610.jpg",
+      "filePath": "D:\\prototype 47\\backend\\uploads\\meddoc-1788677542045-770857610.jpg",
+      "fileType": "image/jpeg",
+      "fileSize": 446,
+      "uploadMethod": "device",
+      "ocrProcessed": true,
+      "createdAt": "2026-09-06T06:52:22.291Z",
+      "updatedAt": "2026-09-06T06:52:22.291Z"
+    },
+    {
+      "_id": "6a9d0dbd420c9a0d61d363cc",
+      "patientId": "6a9d0dbc420c9a0d61d363ca",
+      "documentType": "Hematology / Complete Blood Count (CBC)",
+      "title": "Apex_Hospital_CBC_Report.jpg",
+      "originalName": "Apex_Hospital_CBC_Report.jpg",
+      "fileName": "meddoc-1788677565338-354484327.jpg",
+      "filePath": "D:\\prototype 47\\backend\\uploads\\meddoc-1788677565338-354484327.jpg",
+      "fileType": "image/jpeg",
+      "fileSize": 446,
+      "uploadMethod": "device",
+      "ocrProcessed": true,
+      "createdAt": "2026-09-06T06:52:45.560Z",
+      "updatedAt": "2026-09-06T06:52:45.560Z"
+    },
+    {
+      "_id": "6a9d0dd1420c9a0d61d363d4",
+      "patientId": "6a9d0dd0420c9a0d61d363cf",
+      "documentType": "Doctor's Prescription (Rx)",
+      "title": "Cardiology_Doctor_Prescription_Rx.jpg",
+      "originalName": "Cardiology_Doctor_Prescription_Rx.jpg",
+      "fileName": "meddoc-1788677584657-804966927.jpg",
+      "filePath": "D:\\prototype 47\\backend\\uploads\\meddoc-1788677584657-804966927.jpg",
+      "fileType": "image/jpeg",
+      "fileSize": 339,
+      "uploadMethod": "device",
+      "ocrProcessed": true,
+      "createdAt": "2026-09-06T06:53:05.083Z",
+      "updatedAt": "2026-09-06T06:53:05.083Z"
+    },
+    {
+      "_id": "6a9d12a6ac9e10a35f9465e1",
+      "patientId": "6a9d12a5ac9e10a35f9465df",
+      "documentType": "Hematology / Complete Blood Count (CBC)",
+      "title": "Apex_Hospital_CBC_Report.jpg",
+      "originalName": "Apex_Hospital_CBC_Report.jpg",
+      "fileName": "meddoc-1788678822208-384268565.jpg",
+      "filePath": "D:\\prototype 47\\backend\\uploads\\meddoc-1788678822208-384268565.jpg",
+      "fileType": "image/jpeg",
+      "fileSize": 446,
+      "uploadMethod": "device",
+      "ocrProcessed": true,
+      "createdAt": "2026-09-06T07:13:42.465Z",
+      "updatedAt": "2026-09-06T07:13:42.465Z"
+    },
+    {
+      "_id": "6a9d43c1794d49c38fbf90d6",
+      "patientId": "6a9d03601427193573bfa7ab",
+      "documentType": "Hospital Diagnostic & Pathology Lab Report",
+      "title": "Lab Report",
+      "originalName": "public.png",
+      "fileName": "meddoc-1788691389063-401181175.png",
+      "filePath": "D:\\prototype 47\\backend\\uploads\\meddoc-1788691389063-401181175.png",
+      "fileType": "image/png",
+      "fileSize": 89726,
+      "uploadMethod": "device",
+      "ocrProcessed": true,
+      "createdAt": "2026-09-06T10:43:13.930Z",
+      "updatedAt": "2026-09-06T10:43:13.930Z"
+    },
+    {
+      "_id": "6aa0070160f40b366340b670",
+      "patientId": "6aa0067860f40b366340b665",
+      "documentType": "Hospital Diagnostic & Pathology Lab Report",
+      "title": "GNU_Health_lab_report_sample.png",
+      "originalName": "GNU_Health_lab_report_sample.png",
+      "fileName": "meddoc-1788872448926-654276507.png",
+      "filePath": "D:\\prototype 47\\backend\\uploads\\meddoc-1788872448926-654276507.png",
+      "fileType": "image/png",
+      "fileSize": 56587,
+      "uploadMethod": "device",
+      "ocrProcessed": true,
+      "createdAt": "2026-09-08T13:00:49.777Z",
+      "updatedAt": "2026-09-08T13:00:49.777Z"
+    },
+    {
+      "_id": "6aa0072e60f40b366340b672",
+      "patientId": "6aa0067860f40b366340b665",
+      "documentType": "Hospital Diagnostic & Pathology Lab Report",
+      "title": "public.png",
+      "originalName": "public.png",
+      "fileName": "meddoc-1788872488586-15890290.png",
+      "filePath": "D:\\prototype 47\\backend\\uploads\\meddoc-1788872488586-15890290.png",
+      "fileType": "image/png",
+      "fileSize": 89726,
+      "uploadMethod": "device",
+      "ocrProcessed": true,
+      "createdAt": "2026-09-08T13:01:34.785Z",
+      "updatedAt": "2026-09-08T13:01:34.785Z"
+    }
+  ],
+  "MedicalExtraction": [
+    {
+      "_id": "6a9d09c21a0e83e8e7c6032a",
+      "documentId": "6a9d09c21a0e83e8e7c60329",
+      "patientId": "6a9d09c21a0e83e8e7c60324",
+      "rawText": "======================================================================\n             HOSPITAL & CLINICAL DIAGNOSTIC REPORT                    \n======================================================================\nDOCUMENT:          Cardiology_Doctor_Prescription_Rx.jpg\nCATEGORY:          Doctor's Prescription (Rx)\nFACILITY / LAB:    Verified clinic\nCONSULTING DOCTOR: Dr. A. Sharma\nDOCUMENT DATE:     06/09/2026\n----------------------------------------------------------------------\nEXTRACTED REPORT TEXT / TRANSCRIPTION:\nHOSPITAL MEDICAL RECORD\nDocument: Cardiology_Doctor_Prescription_Rx.jpg\nCategory: Doctor's Prescription (Rx)\nDate: 06/09/2026\nVerified clinical document scan processed into structured text archive.\n----------------------------------------------------------------------\nSTATUS: Converted into text document. Attached to Health Summary.\n======================================================================",
+      "structuredData": {
+        "category": "Doctor's Prescription (Rx)",
+        "originalOcrText": "HOSPITAL MEDICAL RECORD\nDocument: Cardiology_Doctor_Prescription_Rx.jpg\nCategory: Doctor's Prescription (Rx)\nDate: 06/09/2026\nVerified clinical document scan processed into structured text archive.",
+        "labTests": [],
+        "medicines": [],
+        "abnormalFindings": [],
+        "medicalConditions": [
+          "Diagnostic findings recorded"
+        ],
+        "doctorName": "Dr. A. Sharma",
+        "documentDate": "06/09/2026",
+        "facilityName": "Verified clinic",
+        "patientInfo": "Patient Report Record"
+      },
+      "confidenceScore": 75,
+      "isHandwritten": true,
+      "status": "verified",
+      "createdAt": "2026-09-06T06:35:46.768Z",
+      "updatedAt": "2026-09-06T06:35:46.768Z"
+    },
+    {
+      "_id": "6a9d0a1fbeaf1411eeb81d6d",
+      "documentId": "6a9d0a1fbeaf1411eeb81d6c",
+      "patientId": "6a9d0a1ebeaf1411eeb81d67",
+      "rawText": "======================================================================\n             HOSPITAL & CLINICAL DIAGNOSTIC REPORT                    \n======================================================================\nDOCUMENT:          Cardiology_Doctor_Prescription_Rx.jpg\nCATEGORY:          Doctor's Prescription (Rx)\nFACILITY / LAB:    Verified clinic\nCONSULTING DOCTOR: Dr. A. Sharma\nDOCUMENT DATE:     06/09/2026\n----------------------------------------------------------------------\nEXTRACTED REPORT TEXT / TRANSCRIPTION:\nHOSPITAL MEDICAL RECORD\nDocument: Cardiology_Doctor_Prescription_Rx.jpg\nCategory: Doctor's Prescription (Rx)\nDate: 06/09/2026\nVerified clinical document scan processed into structured text archive.\n----------------------------------------------------------------------\nSTATUS: Converted into text document. Attached to Health Summary.\n======================================================================",
+      "structuredData": {
+        "category": "Doctor's Prescription (Rx)",
+        "originalOcrText": "HOSPITAL MEDICAL RECORD\nDocument: Cardiology_Doctor_Prescription_Rx.jpg\nCategory: Doctor's Prescription (Rx)\nDate: 06/09/2026\nVerified clinical document scan processed into structured text archive.",
+        "labTests": [],
+        "medicines": [],
+        "abnormalFindings": [],
+        "medicalConditions": [
+          "Diagnostic findings recorded"
+        ],
+        "doctorName": "Dr. A. Sharma",
+        "documentDate": "06/09/2026",
+        "facilityName": "Verified clinic",
+        "patientInfo": "Patient Report Record"
+      },
+      "confidenceScore": 75,
+      "isHandwritten": true,
+      "status": "verified",
+      "createdAt": "2026-09-06T06:37:19.329Z",
+      "updatedAt": "2026-09-06T06:37:19.329Z"
+    },
+    {
+      "_id": "6a9d0da6420c9a0d61d363c8",
+      "documentId": "6a9d0da6420c9a0d61d363c7",
+      "patientId": "6a9d0da5420c9a0d61d363c5",
+      "rawText": "======================================================================\n             HOSPITAL & CLINICAL DIAGNOSTIC REPORT                    \n======================================================================\nDOCUMENT:          Apex_Hospital_CBC_Report.jpg\nCATEGORY:          Hematology / Complete Blood Count (CBC)\nFACILITY / LAB:    Verified clinic\nCONSULTING DOCTOR: Dr. A. Sharma\nDOCUMENT DATE:     06/09/2026\n----------------------------------------------------------------------\nEXTRACTED REPORT TEXT / TRANSCRIPTION:\nHOSPITAL MEDICAL RECORD\nDocument: Apex_Hospital_CBC_Report.jpg\nCategory: Hematology / Complete Blood Count (CBC)\nDate: 06/09/2026\nVerified clinical document scan processed into structured text archive.\n----------------------------------------------------------------------\nSTATUS: Converted into text document. Attached to Health Summary.\n======================================================================",
+      "structuredData": {
+        "category": "Hematology / Complete Blood Count (CBC)",
+        "originalOcrText": "HOSPITAL MEDICAL RECORD\nDocument: Apex_Hospital_CBC_Report.jpg\nCategory: Hematology / Complete Blood Count (CBC)\nDate: 06/09/2026\nVerified clinical document scan processed into structured text archive.",
+        "labTests": [],
+        "medicines": [],
+        "abnormalFindings": [],
+        "medicalConditions": [
+          "Diagnostic findings recorded"
+        ],
+        "doctorName": "Dr. A. Sharma",
+        "documentDate": "06/09/2026",
+        "facilityName": "Verified clinic",
+        "patientInfo": "Patient Report Record"
+      },
+      "confidenceScore": 75,
+      "isHandwritten": false,
+      "status": "verified",
+      "createdAt": "2026-09-06T06:52:22.293Z",
+      "updatedAt": "2026-09-06T06:52:22.293Z"
+    },
+    {
+      "_id": "6a9d0dbd420c9a0d61d363cd",
+      "documentId": "6a9d0dbd420c9a0d61d363cc",
+      "patientId": "6a9d0dbc420c9a0d61d363ca",
+      "rawText": "======================================================================\n             HOSPITAL & CLINICAL DIAGNOSTIC REPORT                    \n======================================================================\nDOCUMENT:          Apex_Hospital_CBC_Report.jpg\nCATEGORY:          Hematology / Complete Blood Count (CBC)\nFACILITY / LAB:    Verified clinic\nCONSULTING DOCTOR: Dr. A. Sharma\nDOCUMENT DATE:     06/09/2026\n----------------------------------------------------------------------\nEXTRACTED REPORT TEXT / TRANSCRIPTION:\nHOSPITAL MEDICAL RECORD\nDocument: Apex_Hospital_CBC_Report.jpg\nCategory: Hematology / Complete Blood Count (CBC)\nDate: 06/09/2026\nVerified clinical document scan processed into structured text archive.\n----------------------------------------------------------------------\nSTATUS: Converted into text document. Attached to Health Summary.\n======================================================================",
+      "structuredData": {
+        "category": "Hematology / Complete Blood Count (CBC)",
+        "originalOcrText": "HOSPITAL MEDICAL RECORD\nDocument: Apex_Hospital_CBC_Report.jpg\nCategory: Hematology / Complete Blood Count (CBC)\nDate: 06/09/2026\nVerified clinical document scan processed into structured text archive.",
+        "labTests": [],
+        "medicines": [],
+        "abnormalFindings": [],
+        "medicalConditions": [
+          "Diagnostic findings recorded"
+        ],
+        "doctorName": "Dr. A. Sharma",
+        "documentDate": "06/09/2026",
+        "facilityName": "Verified clinic",
+        "patientInfo": "Patient Report Record"
+      },
+      "confidenceScore": 75,
+      "isHandwritten": false,
+      "status": "verified",
+      "createdAt": "2026-09-06T06:52:45.562Z",
+      "updatedAt": "2026-09-06T06:52:45.562Z"
+    },
+    {
+      "_id": "6a9d0dd1420c9a0d61d363d5",
+      "documentId": "6a9d0dd1420c9a0d61d363d4",
+      "patientId": "6a9d0dd0420c9a0d61d363cf",
+      "rawText": "======================================================================\n             HOSPITAL & CLINICAL DIAGNOSTIC REPORT                    \n======================================================================\nDOCUMENT:          Cardiology_Doctor_Prescription_Rx.jpg\nCATEGORY:          Doctor's Prescription (Rx)\nFACILITY / LAB:    Verified clinic\nCONSULTING DOCTOR: Dr. A. Sharma\nDOCUMENT DATE:     06/09/2026\n----------------------------------------------------------------------\nEXTRACTED REPORT TEXT / TRANSCRIPTION:\nHOSPITAL MEDICAL RECORD\nDocument: Cardiology_Doctor_Prescription_Rx.jpg\nCategory: Doctor's Prescription (Rx)\nDate: 06/09/2026\nVerified clinical document scan processed into structured text archive.\n----------------------------------------------------------------------\nSTATUS: Converted into text document. Attached to Health Summary.\n======================================================================",
+      "structuredData": {
+        "category": "Doctor's Prescription (Rx)",
+        "originalOcrText": "HOSPITAL MEDICAL RECORD\nDocument: Cardiology_Doctor_Prescription_Rx.jpg\nCategory: Doctor's Prescription (Rx)\nDate: 06/09/2026\nVerified clinical document scan processed into structured text archive.",
+        "labTests": [],
+        "medicines": [],
+        "abnormalFindings": [],
+        "medicalConditions": [
+          "Diagnostic findings recorded"
+        ],
+        "doctorName": "Dr. A. Sharma",
+        "documentDate": "06/09/2026",
+        "facilityName": "Verified clinic",
+        "patientInfo": "Patient Report Record"
+      },
+      "confidenceScore": 75,
+      "isHandwritten": true,
+      "status": "verified",
+      "createdAt": "2026-09-06T06:53:05.086Z",
+      "updatedAt": "2026-09-06T06:53:05.086Z"
+    },
+    {
+      "_id": "6a9d12a6ac9e10a35f9465e2",
+      "documentId": "6a9d12a6ac9e10a35f9465e1",
+      "patientId": "6a9d12a5ac9e10a35f9465df",
+      "rawText": "======================================================================\n             HOSPITAL & CLINICAL DIAGNOSTIC REPORT                    \n======================================================================\nDOCUMENT:          Apex_Hospital_CBC_Report.jpg\nCATEGORY:          Hematology / Complete Blood Count (CBC)\nFACILITY / LAB:    Verified clinic\nCONSULTING DOCTOR: Dr. A. Sharma\nDOCUMENT DATE:     06/09/2026\n----------------------------------------------------------------------\nEXTRACTED REPORT TEXT / TRANSCRIPTION:\nHOSPITAL MEDICAL RECORD\nDocument: Apex_Hospital_CBC_Report.jpg\nCategory: Hematology / Complete Blood Count (CBC)\nDate: 06/09/2026\nVerified clinical document scan processed into structured text archive.\n----------------------------------------------------------------------\nSTATUS: Converted into text document. Attached to Health Summary.\n======================================================================",
+      "structuredData": {
+        "category": "Hematology / Complete Blood Count (CBC)",
+        "originalOcrText": "HOSPITAL MEDICAL RECORD\nDocument: Apex_Hospital_CBC_Report.jpg\nCategory: Hematology / Complete Blood Count (CBC)\nDate: 06/09/2026\nVerified clinical document scan processed into structured text archive.",
+        "labTests": [],
+        "medicines": [],
+        "abnormalFindings": [],
+        "medicalConditions": [
+          "Diagnostic findings recorded"
+        ],
+        "doctorName": "Dr. A. Sharma",
+        "documentDate": "06/09/2026",
+        "facilityName": "Verified clinic",
+        "patientInfo": "Patient Report Record"
+      },
+      "confidenceScore": 75,
+      "isHandwritten": false,
+      "status": "verified",
+      "createdAt": "2026-09-06T07:13:42.467Z",
+      "updatedAt": "2026-09-06T07:13:42.467Z"
+    },
+    {
+      "_id": "6a9d43c1794d49c38fbf90d7",
+      "documentId": "6a9d43c1794d49c38fbf90d6",
+      "patientId": "6a9d03601427193573bfa7ab",
+      "rawText": "======================================================================\n             HOSPITAL & CLINICAL DIAGNOSTIC REPORT                    \n======================================================================\nDOCUMENT:          public.png\nCATEGORY:          Hospital Diagnostic & Pathology Lab Report\nFACILITY / LAB:    PS Lab\nCONSULTING DOCTOR: Dr. A. Sharma\nDOCUMENT DATE:     06/09/2026\n----------------------------------------------------------------------\nEXTRACTED REPORT TEXT / TRANSCRIPTION:\nPS Labsmart Software Savtgzass eon\nSample Letterhead ® hus sora\nMe. Saubhik Bhaumik TI age\npuedo rm mons | GR\nnor so frome Fe]\nsw REE Uae | Gia\nHAEMATOLOGY\n‘COMPLETE aL0oD couNT (c8c)\newoaioam 5 a To\nTOA LEUKOCYTE COUNT si Con 400. 10800\nDIFFERENTIAL LEUCOCYTE COUNT\nNEUTROPHILS » % ww\nLemoore f- “ Pa\ncosmos h % Te\nwonocvTes Cs . 210\nascomits : % =\nPLATELET COUNT as wwe 15-41\noraL me count H moon 45-55\nHEMATOCRIT VALUE eT « % pe)\nMEAN CORPUSCULAR VOLUME UOY 840 Io ao\nVERN CELL HAEMOGLOBIN, HOH “00 \" nw\nMEAN CELL HAEHOGLOBIN CON, MCHC W357 py Een\ncincs ots:\ntsa court (50) sd ako orl lt ard dt wid rang of rr cg arr.\nTE iosanie ae veo sats of WB Sl it cobs: ens an\nCoie Soo samp, aos wih pe er ange.\npossi causes of abl parsmotrs:\nH [High low\nCRBC, Hb, or HT | Deydraiion. polycythemia. shock. chronic hypoxia | Anemia, halassemia. and other hemogiobinopaiiies\nev a am hs roc oma\nWBE { Acite stress, infection, malignancies. \"Sepsis, mamow hypoplasia.\n{Platelets {Risk of thrombosis. Fisk of bleeding.\nSure Keb\nfrtcabes ranrz wei parang\nEEE pe\n----------------------------------------------------------------------\nSTATUS: Converted into text document. Attached to Health Summary.\n======================================================================",
+      "structuredData": {
+        "category": "Hospital Diagnostic & Pathology Lab Report",
+        "originalOcrText": "PS Labsmart Software Savtgzass eon\nSample Letterhead ® hus sora\nMe. Saubhik Bhaumik TI age\npuedo rm mons | GR\nnor so frome Fe]\nsw REE Uae | Gia\nHAEMATOLOGY\n‘COMPLETE aL0oD couNT (c8c)\newoaioam 5 a To\nTOA LEUKOCYTE COUNT si Con 400. 10800\nDIFFERENTIAL LEUCOCYTE COUNT\nNEUTROPHILS » % ww\nLemoore f- “ Pa\ncosmos h % Te\nwonocvTes Cs . 210\nascomits : % =\nPLATELET COUNT as wwe 15-41\noraL me count H moon 45-55\nHEMATOCRIT VALUE eT « % pe)\nMEAN CORPUSCULAR VOLUME UOY 840 Io ao\nVERN CELL HAEMOGLOBIN, HOH “00 \" nw\nMEAN CELL HAEHOGLOBIN CON, MCHC W357 py Een\ncincs ots:\ntsa court (50) sd ako orl lt ard dt wid rang of rr cg arr.\nTE iosanie ae veo sats of WB Sl it cobs: ens an\nCoie Soo samp, aos wih pe er ange.\npossi causes of abl parsmotrs:\nH [High low\nCRBC, Hb, or HT | Deydraiion. polycythemia. shock. chronic hypoxia | Anemia, halassemia. and other hemogiobinopaiiies\nev a am hs roc oma\nWBE { Acite stress, infection, malignancies. \"Sepsis, mamow hypoplasia.\n{Platelets {Risk of thrombosis. Fisk of bleeding.\nSure Keb\nfrtcabes ranrz wei parang\nEEE pe",
+        "labTests": [],
+        "medicines": [],
+        "abnormalFindings": [],
+        "medicalConditions": [
+          "Diagnostic findings recorded"
+        ],
+        "doctorName": "Dr. A. Sharma",
+        "documentDate": "06/09/2026",
+        "facilityName": "PS Lab",
+        "patientInfo": "Patient Report Record"
+      },
+      "confidenceScore": 40,
+      "isHandwritten": false,
+      "status": "verified",
+      "createdAt": "2026-09-06T10:43:13.938Z",
+      "updatedAt": "2026-09-06T10:43:13.938Z"
+    },
+    {
+      "_id": "6aa0070160f40b366340b671",
+      "documentId": "6aa0070160f40b366340b670",
+      "patientId": "6aa0067860f40b366340b665",
+      "rawText": "======================================================================\n             HOSPITAL & CLINICAL DIAGNOSTIC REPORT                    \n======================================================================\nDOCUMENT:          GNU_Health_lab_report_sample.png\nCATEGORY:          Hospital Diagnostic & Pathology Lab Report\nFACILITY / LAB:    MediKiosk Clinical Laboratory\nCONSULTING DOCTOR: Dr. Cameron Cordara\nDOCUMENT DATE:     08/09/2026\n----------------------------------------------------------------------\nEXTRACTED REPORT TEXT / TRANSCRIPTION:\ni &\nDr. Cameron Cordara.\n----------------------------------------------------------------------\nSTATUS: Converted into text document. Attached to Health Summary.\n======================================================================",
+      "structuredData": {
+        "category": "Hospital Diagnostic & Pathology Lab Report",
+        "originalOcrText": "i &\nDr. Cameron Cordara.",
+        "labTests": [],
+        "medicines": [],
+        "abnormalFindings": [],
+        "medicalConditions": [
+          "Diagnostic findings recorded"
+        ],
+        "doctorName": "Dr. Cameron Cordara",
+        "documentDate": "08/09/2026",
+        "facilityName": "MediKiosk Clinical Laboratory",
+        "patientInfo": "Patient Report Record"
+      },
+      "confidenceScore": 64,
+      "isHandwritten": false,
+      "status": "verified",
+      "createdAt": "2026-09-08T13:00:49.788Z",
+      "updatedAt": "2026-09-08T13:00:49.788Z"
+    },
+    {
+      "_id": "6aa0072e60f40b366340b673",
+      "documentId": "6aa0072e60f40b366340b672",
+      "patientId": "6aa0067860f40b366340b665",
+      "rawText": "======================================================================\n             HOSPITAL & CLINICAL DIAGNOSTIC REPORT                    \n======================================================================\nDOCUMENT:          public.png\nCATEGORY:          Hospital Diagnostic & Pathology Lab Report\nFACILITY / LAB:    PS Lab\nCONSULTING DOCTOR: Dr. A. Sharma\nDOCUMENT DATE:     08/09/2026\n----------------------------------------------------------------------\nEXTRACTED REPORT TEXT / TRANSCRIPTION:\nPS Labsmart Software Savtgzass eon\nSample Letterhead ® hus sora\nMe. Saubhik Bhaumik TI age\npuedo rm mons | GR\nnor so frome Fe]\nsw REE Uae | Gia\nHAEMATOLOGY\n‘COMPLETE aL0oD couNT (c8c)\newoaioam 5 a To\nTOA LEUKOCYTE COUNT si Con 400. 10800\nDIFFERENTIAL LEUCOCYTE COUNT\nNEUTROPHILS » % ww\nLemoore f- “ Pa\ncosmos h % Te\nwonocvTes Cs . 210\nascomits : % =\nPLATELET COUNT as wwe 15-41\noraL me count H moon 45-55\nHEMATOCRIT VALUE eT « % pe)\nMEAN CORPUSCULAR VOLUME UOY 840 Io ao\nVERN CELL HAEMOGLOBIN, HOH “00 \" nw\nMEAN CELL HAEHOGLOBIN CON, MCHC W357 py Een\ncincs ots:\ntsa court (50) sd ako orl lt ard dt wid rang of rr cg arr.\nTE iosanie ae veo sats of WB Sl it cobs: ens an\nCoie Soo samp, aos wih pe er ange.\npossi causes of abl parsmotrs:\nH [High low\nCRBC, Hb, or HT | Deydraiion. polycythemia. shock. chronic hypoxia | Anemia, halassemia. and other hemogiobinopaiiies\nev a am hs roc oma\nWBE { Acite stress, infection, malignancies. \"Sepsis, mamow hypoplasia.\n{Platelets {Risk of thrombosis. Fisk of bleeding.\nSure Keb\nfrtcabes ranrz wei parang\nEEE pe\n----------------------------------------------------------------------\nSTATUS: Converted into text document. Attached to Health Summary.\n======================================================================",
+      "structuredData": {
+        "category": "Hospital Diagnostic & Pathology Lab Report",
+        "originalOcrText": "PS Labsmart Software Savtgzass eon\nSample Letterhead ® hus sora\nMe. Saubhik Bhaumik TI age\npuedo rm mons | GR\nnor so frome Fe]\nsw REE Uae | Gia\nHAEMATOLOGY\n‘COMPLETE aL0oD couNT (c8c)\newoaioam 5 a To\nTOA LEUKOCYTE COUNT si Con 400. 10800\nDIFFERENTIAL LEUCOCYTE COUNT\nNEUTROPHILS » % ww\nLemoore f- “ Pa\ncosmos h % Te\nwonocvTes Cs . 210\nascomits : % =\nPLATELET COUNT as wwe 15-41\noraL me count H moon 45-55\nHEMATOCRIT VALUE eT « % pe)\nMEAN CORPUSCULAR VOLUME UOY 840 Io ao\nVERN CELL HAEMOGLOBIN, HOH “00 \" nw\nMEAN CELL HAEHOGLOBIN CON, MCHC W357 py Een\ncincs ots:\ntsa court (50) sd ako orl lt ard dt wid rang of rr cg arr.\nTE iosanie ae veo sats of WB Sl it cobs: ens an\nCoie Soo samp, aos wih pe er ange.\npossi causes of abl parsmotrs:\nH [High low\nCRBC, Hb, or HT | Deydraiion. polycythemia. shock. chronic hypoxia | Anemia, halassemia. and other hemogiobinopaiiies\nev a am hs roc oma\nWBE { Acite stress, infection, malignancies. \"Sepsis, mamow hypoplasia.\n{Platelets {Risk of thrombosis. Fisk of bleeding.\nSure Keb\nfrtcabes ranrz wei parang\nEEE pe",
+        "labTests": [],
+        "medicines": [],
+        "abnormalFindings": [],
+        "medicalConditions": [
+          "Diagnostic findings recorded"
+        ],
+        "doctorName": "Dr. A. Sharma",
+        "documentDate": "08/09/2026",
+        "facilityName": "PS Lab",
+        "patientInfo": "Patient Report Record"
+      },
+      "confidenceScore": 40,
+      "isHandwritten": false,
+      "status": "verified",
+      "createdAt": "2026-09-08T13:01:34.804Z",
+      "updatedAt": "2026-09-08T13:01:34.804Z"
+    }
+  ],
+  "HealthSummary": [
+    {
+      "_id": "6a9d03c71427193573bfa7b4",
+      "patientId": "6a9d03601427193573bfa7ab",
+      "interviewId": "6a9d03661427193573bfa7ad",
+      "patientName": "test1",
+      "patientAge": 21,
+      "patientGender": "Male",
+      "chiefComplaint": "my  legs are paining",
+      "symptoms": [
+        "Fever",
+        "Headache",
+        "Dizziness",
+        "Fatigue"
+      ],
+      "duration": "2 days",
+      "severity": "Severe",
+      "medicalHistory": [
+        "Reviewed during clinical intake - no major chronic conditions reported"
+      ],
+      "previousMedicines": [],
+      "previousLabResults": [],
+      "previousPrescriptions": [],
+      "pinnedReports": [
+        {
+          "documentId": "6a9d03cd1427193573bfa7b6",
+          "title": "iron-man-doctor-3840x2160-18335.jpg",
+          "fileUrl": "/uploads/meddoc-1788675021312-86012125.jpg",
+          "fileType": "image/jpeg",
+          "uploadMethod": "device",
+          "hasExtractedText": true,
+          "extractedText": "======================================================================\n             HOSPITAL & CLINICAL DIAGNOSTIC REPORT                    \n======================================================================\nDOCUMENT:          iron-man-doctor-3840x2160-18335.jpg\nCATEGORY:          Diagnostic Imaging / Radiology Report\nFACILITY / LAB:    MediKiosk Clinical Laboratory\nCONSULTING DOCTOR: Dr. A. Sharma\nDOCUMENT DATE:     06/09/2026\n----------------------------------------------------------------------\nEXTRACTED REPORT TEXT / TRANSCRIPTION:\n‘\nFP) ‘ th SY -. § a al\n\\ \\ Vo. &\n, JERR : ye bid\nbi wy a 3 x >\na TL 1\n8 I : 4 \\ 4 7 il iy 3 N : © LL\n\\\\ \\ 4 3 J 7: EFA (A LK { N %\n3 N / = \\ he \\ 7 A { { 3 Lt\n2 FE Vs a es\n. \"ay vA. c 2 = A poss Raid \\ ¢ # 3 i\n\nNE V 2 & Ee “iN\nAa a 2 ¢ /\np 4 NR \\ p . = A AN RD i\n\n7 Na Shige yi \\ :\nAS % 2) NE U V/ : 3 i 74 nN : 4 b 9 \\ 4\nS CNS ire / b, oo Sh oy AA) AQ \\\\\\ H\\ a\nVEN oN JN\n| RE (el A >\nJ 7 yy or Bg RT 7\n& > ae CS / A Z)) !\n\\ . AL $< 7 Bt Ne ) %Y) A LN\nN= = CL |\npe sy, 7/5 oO Q Gh ;\n\\ y 2g BEN SN FR p=\nWes Ko An MW \\Y B : | :\n; “ i hye & g (EN WORN © of) 3 2 ah\ni =r I 4 ARAY = Jif - 1 ;\nSN A ALD Tat : |\n4 Vs i a Zz y 7 Hy AN Li Wid 4 ) : . : 3\n“ik lone 7 ~~ AN / ve i / \\ Bh) ol | \\ : $\n£9 GlAr LL \\ get) © 2 hE NEN IN \\ .\n, N : any dv Qe Ls in BERN :\n: X Aste Wl wc a i J \\ a i AN | | A 5 : N\nfs bo ERE 3 §aHay  # |\nA 5 NR wt Hl 3 3 J i 4 : SE AW ; Ed \\\n8 Rann Noiv. { FAS 5\n\nEN fi res ie Cle os {is op 8 bo My J :\n\n: { AEE A. Ai b =\n\n- = N “A : | ki ; 4 VE / ‘ : ; :\n: MR <A 4 i) oy\n| dg. A AE) Nt i a | :\n\\ > FN a hn 5 3\n7 \\ > 4 : N ; 5\n----------------------------------------------------------------------\nSTATUS: Converted into text document. Attached to Health Summary.\n======================================================================",
+          "confidenceScore": 32,
+          "isDirectPinnedImage": false,
+          "pinReason": "Converted into text document via OCR and attached to health summary.",
+          "createdAt": "2026-09-06T06:10:32.670Z"
+        }
+      ],
+      "redFlagStatus": "NORMAL",
+      "redFlagMessage": "",
+      "suggestedSpecialty": "General Medicine",
+      "specialtyRationale": "Clinical complaints strongly correlate with Fever / Systemic Infection. Recommended for evaluation by General Medicine.",
+      "aiGeneratedText": "Patient test1 (21, Male) presented with chief concern: \"my  legs are paining\". Disease classification: Fever / Systemic Infection. Symptoms duration: 2 days. Red-flag screening assessment: NORMAL. Suggested clinical department for consultation: General Medicine. Note: This is an AI-organized summary designed to expedite hospital triage and must be verified by the attending physician.",
+      "status": "DRAFT",
+      "createdAt": "2026-09-06T06:10:15.604Z",
+      "updatedAt": "2026-09-06T06:10:32.671Z"
+    },
+    {
+      "_id": "6a9d0aafbeaf1411eeb81d76",
+      "patientId": "6a9d03601427193573bfa7ab",
+      "interviewId": "6a9d0a7ebeaf1411eeb81d6f",
+      "patientName": "test1",
+      "patientAge": 21,
+      "patientGender": "Male",
+      "chiefComplaint": "hi",
+      "symptoms": [
+        "Fever",
+        "Headache",
+        "Body ache",
+        "Nausea",
+        "Vomiting",
+        "Skin rash"
+      ],
+      "duration": "fever",
+      "severity": "Severe",
+      "medicalHistory": [
+        "Reviewed during clinical intake - no major chronic conditions reported"
+      ],
+      "previousMedicines": [],
+      "previousLabResults": [],
+      "previousPrescriptions": [],
+      "pinnedReports": [],
+      "redFlagStatus": "NORMAL",
+      "redFlagMessage": "",
+      "suggestedSpecialty": "General Medicine",
+      "specialtyRationale": "Clinical complaints strongly correlate with Fever / Systemic Infection. Recommended for evaluation by General Medicine.",
+      "aiGeneratedText": "Patient test1 (21, Male) presented with chief concern: \"hi\". Disease classification: Fever / Systemic Infection. Symptoms duration: fever. Red-flag screening assessment: NORMAL. Suggested clinical department for consultation: General Medicine. Note: This is an AI-organized summary designed to expedite hospital triage and must be verified by the attending physician.",
+      "status": "DRAFT",
+      "createdAt": "2026-09-06T06:39:43.168Z",
+      "updatedAt": "2026-09-06T06:40:27.108Z"
+    },
+    {
+      "_id": "6a9d1286ac9e10a35f9465dd",
+      "patientId": "6a9d1286ac9e10a35f9465da",
+      "interviewId": "6a9d1286ac9e10a35f9465dc",
+      "patientName": "Ananya Deshmukh",
+      "patientAge": 28,
+      "patientGender": "female",
+      "chiefComplaint": "General health consultation",
+      "symptoms": [
+        "Unspecified clinical discomfort"
+      ],
+      "duration": "Reported during intake check-up",
+      "severity": "Moderate",
+      "medicalHistory": [
+        "Reviewed during clinical intake - no major chronic conditions reported"
+      ],
+      "previousMedicines": [],
+      "previousLabResults": [],
+      "previousPrescriptions": [],
+      "pinnedReports": [],
+      "redFlagStatus": "NORMAL",
+      "redFlagMessage": "",
+      "suggestedSpecialty": "General Medicine",
+      "specialtyRationale": "Primary clinical presentation is best comprehensively evaluated by a Physician in General Medicine.",
+      "aiGeneratedText": "Patient Ananya Deshmukh (28, female) presented with chief concern: \"General health consultation\". Disease classification: General clinical presentation. Symptoms duration: Reported during intake check-up. Red-flag screening assessment: NORMAL. Suggested clinical department for consultation: General Medicine. Note: This is an AI-organized summary designed to expedite hospital triage and must be verified by the attending physician.",
+      "status": "DRAFT",
+      "createdAt": "2026-09-06T07:13:10.654Z",
+      "updatedAt": "2026-09-06T07:13:10.654Z"
+    },
+    {
+      "_id": "6a9d1442ac9e10a35f9465ed",
+      "patientId": "6a9d03601427193573bfa7ab",
+      "interviewId": "6a9d1406ac9e10a35f9465e6",
+      "patientName": "test1",
+      "patientAge": 21,
+      "patientGender": "Male",
+      "chiefComplaint": "fever",
+      "symptoms": [
+        "Fever",
+        "Chills",
+        "Headache",
+        "Body ache",
+        "Nausea",
+        "Vomiting",
+        "Skin rash"
+      ],
+      "duration": "morning",
+      "severity": "Severe",
+      "medicalHistory": [
+        "Reviewed during clinical intake - no major chronic conditions reported"
+      ],
+      "previousMedicines": [],
+      "previousLabResults": [],
+      "previousPrescriptions": [],
+      "pinnedReports": [],
+      "redFlagStatus": "NORMAL",
+      "redFlagMessage": "",
+      "suggestedSpecialty": "General Medicine",
+      "specialtyRationale": "Clinical complaints strongly correlate with Fever / Systemic Infection. Recommended for evaluation by General Medicine.",
+      "aiGeneratedText": "Patient test1 (21, Male) presented with chief concern: \"fever\". Disease classification: Fever / Systemic Infection. Symptoms duration: morning. Red-flag screening assessment: NORMAL. Suggested clinical department for consultation: General Medicine. Note: This is an AI-organized summary designed to expedite hospital triage and must be verified by the attending physician.",
+      "status": "COMPLETED",
+      "createdAt": "2026-09-06T07:20:34.718Z",
+      "updatedAt": "2026-09-06T07:22:32.710Z",
+      "patientConfirmed": true,
+      "confirmedAt": "2026-09-06T07:21:39.117Z",
+      "doctorReview.doctorId": "6a9d13f7ac9e10a35f9465e4",
+      "doctorReview.doctorName": "Dr. test2",
+      "doctorReview.licenseNumber": "mcl-987",
+      "doctorReview.reviewedAt": "2026-09-06T07:22:27.251Z",
+      "doctorReview.clinicalNotes": "Your health summary has been accepted. Please visit tomorrow for in-person clinical examination at Cabin 204. Bring previous physical reports."
+    },
+    {
+      "_id": "6a9d18521758b30a07ced7b9",
+      "patientId": "6a9d03601427193573bfa7ab",
+      "interviewId": "6a9d181b1758b30a07ced7b2",
+      "patientName": "test1",
+      "opNumber": "OP-698917",
+      "patientAge": 21,
+      "patientGender": "Male",
+      "chiefComplaint": "eyes are burning",
+      "symptoms": [
+        "Fever",
+        "Headache",
+        "Dizziness",
+        "Fatigue",
+        "Burning urination"
+      ],
+      "duration": "2 days",
+      "severity": "Severe",
+      "medicalHistory": [
+        "Reviewed during clinical intake - no major chronic conditions reported"
+      ],
+      "previousMedicines": [
+        "Augmentin 625 Duo 625 mg",
+        "Dolo 650 650 mg",
+        "Pan 40 40 mg"
+      ],
+      "previousLabResults": [],
+      "previousPrescriptions": [
+        "Dr. Dr. test2 (General Medicine) - Augmentin 625 Duo, Dolo 650, Pan 40"
+      ],
+      "pinnedReports": [
+        {
+          "documentId": "6a9d185c1758b30a07ced7bb",
+          "title": "public.png",
+          "fileUrl": "/uploads/meddoc-1788680280487-115866766.png",
+          "fileType": "image/png",
+          "uploadMethod": "device",
+          "hasExtractedText": true,
+          "extractedText": "======================================================================\n             HOSPITAL & CLINICAL DIAGNOSTIC REPORT                    \n======================================================================\nDOCUMENT:          public.png\nCATEGORY:          Hospital Diagnostic & Pathology Lab Report\nFACILITY / LAB:    PS Lab\nCONSULTING DOCTOR: Dr. A. Sharma\nDOCUMENT DATE:     06/09/2026\n----------------------------------------------------------------------\nEXTRACTED REPORT TEXT / TRANSCRIPTION:\nPS Labsmart Software Savtgzass eon\nSample Letterhead ® hus sora\nMe. Saubhik Bhaumik TI age\npuedo rm mons | GR\nnor so frome Fe]\nsw REE Uae | Gia\nHAEMATOLOGY\n‘COMPLETE aL0oD couNT (c8c)\newoaioam 5 a To\nTOA LEUKOCYTE COUNT si Con 400. 10800\nDIFFERENTIAL LEUCOCYTE COUNT\nNEUTROPHILS » % ww\nLemoore f- “ Pa\ncosmos h % Te\nwonocvTes Cs . 210\nascomits : % =\nPLATELET COUNT as wwe 15-41\noraL me count H moon 45-55\nHEMATOCRIT VALUE eT « % pe)\nMEAN CORPUSCULAR VOLUME UOY 840 Io ao\nVERN CELL HAEMOGLOBIN, HOH “00 \" nw\nMEAN CELL HAEHOGLOBIN CON, MCHC W357 py Een\ncincs ots:\ntsa court (50) sd ako orl lt ard dt wid rang of rr cg arr.\nTE iosanie ae veo sats of WB Sl it cobs: ens an\nCoie Soo samp, aos wih pe er ange.\npossi causes of abl parsmotrs:\nH [High low\nCRBC, Hb, or HT | Deydraiion. polycythemia. shock. chronic hypoxia | Anemia, halassemia. and other hemogiobinopaiiies\nev a am hs roc oma\nWBE { Acite stress, infection, malignancies. \"Sepsis, mamow hypoplasia.\n{Platelets {Risk of thrombosis. Fisk of bleeding.\nSure Keb\nfrtcabes ranrz wei parang\nEEE pe\n----------------------------------------------------------------------\nSTATUS: Converted into text document. Attached to Health Summary.\n======================================================================",
+          "confidenceScore": 40,
+          "isDirectPinnedImage": false,
+          "pinReason": "Converted into clinical text document via OCR and attached to health summary.",
+          "createdAt": "2026-09-06T07:38:04.966Z"
+        }
+      ],
+      "redFlagStatus": "NORMAL",
+      "redFlagMessage": "",
+      "suggestedSpecialty": "General Medicine",
+      "specialtyRationale": "Clinical complaints strongly correlate with Fever / Systemic Infection. Recommended for evaluation by General Medicine.",
+      "aiGeneratedText": "Patient test1 (21, Male) presented with chief concern: \"eyes are burning\". Disease classification: Fever / Systemic Infection. Symptoms duration: 2 days. Red-flag screening assessment: NORMAL. Suggested clinical department for consultation: General Medicine. Note: This is an AI-organized summary designed to expedite hospital triage and must be verified by the attending physician.",
+      "status": "COMPLETED",
+      "createdAt": "2026-09-06T07:37:54.075Z",
+      "updatedAt": "2026-09-06T07:39:15.437Z",
+      "patientConfirmed": true,
+      "confirmedAt": "2026-09-06T07:38:14.949Z",
+      "doctorReview.doctorId": "6a9d13f7ac9e10a35f9465e4",
+      "doctorReview.doctorName": "Dr. test2",
+      "doctorReview.licenseNumber": "mcl-987",
+      "doctorReview.reviewedAt": "2026-09-06T07:39:04.077Z",
+      "doctorReview.clinicalNotes": "Your health summary has been accepted. Please visit tomorrow for in-person clinical examination at Cabin 204. Bring previous physical reports."
+    },
+    {
+      "_id": "6a9d2d871758b30a07ced7ce",
+      "patientId": "6a9d03601427193573bfa7ab",
+      "interviewId": "6a9d2cf61758b30a07ced7c7",
+      "patientName": "test1",
+      "opNumber": "OP-698917",
+      "patientAge": 21,
+      "patientGender": "Male",
+      "chiefComplaint": "I am feeling symptoms in my Elbows (Tennis elbow, joint swelling, tenderness).. Reported symptoms in right Elbows (spasms).",
+      "symptoms": [
+        "Joint pain",
+        "Swelling",
+        "High blood sugar"
+      ],
+      "duration": "morning",
+      "severity": "Severe",
+      "medicalHistory": [
+        "Reviewed during clinical intake - no major chronic conditions reported"
+      ],
+      "previousMedicines": [
+        "Augmentin 625 Duo 625 mg",
+        "Dolo 650 650 mg",
+        "Pan 40 40 mg"
+      ],
+      "previousLabResults": [],
+      "previousPrescriptions": [
+        "Dr. Dr. test2 (General Medicine) - Augmentin 625 Duo, Dolo 650, Pan 40",
+        "Dr. Dr. test2 (General Medicine) - Augmentin 625 Duo, Dolo 650, Pan 40"
+      ],
+      "pinnedReports": [
+        {
+          "documentId": "6a9d2da21758b30a07ced7d0",
+          "title": "GNU_Health_lab_report_sample.png",
+          "fileUrl": "/uploads/meddoc-1788685729211-786575841.png",
+          "fileType": "image/png",
+          "uploadMethod": "device",
+          "hasExtractedText": true,
+          "extractedText": "======================================================================\n             HOSPITAL & CLINICAL DIAGNOSTIC REPORT                    \n======================================================================\nDOCUMENT:          GNU_Health_lab_report_sample.png\nCATEGORY:          Hospital Diagnostic & Pathology Lab Report\nFACILITY / LAB:    MediKiosk Clinical Laboratory\nCONSULTING DOCTOR: Dr. Cameron Cordara\nDOCUMENT DATE:     06/09/2026\n----------------------------------------------------------------------\nEXTRACTED REPORT TEXT / TRANSCRIPTION:\ni &\nDr. Cameron Cordara.\n----------------------------------------------------------------------\nSTATUS: Converted into text document. Attached to Health Summary.\n======================================================================",
+          "confidenceScore": 64,
+          "isDirectPinnedImage": false,
+          "pinReason": "Converted into clinical text document via OCR and attached to health summary.",
+          "createdAt": "2026-09-06T09:08:50.294Z"
+        }
+      ],
+      "redFlagStatus": "NORMAL",
+      "redFlagMessage": "",
+      "suggestedSpecialty": "Orthopedics",
+      "specialtyRationale": "Clinical complaints strongly correlate with Orthopedic / Joint Pain / Back Pain. Recommended for evaluation by Orthopedics.",
+      "aiGeneratedText": "Patient test1 (21, Male) presented with chief concern: \"I am feeling symptoms in my Elbows (Tennis elbow, joint swelling, tenderness).. Reported symptoms in right Elbows (spasms).\". Disease classification: Orthopedic / Joint Pain / Back Pain. Symptoms duration: morning. Red-flag screening assessment: NORMAL. Suggested clinical department for consultation: Orthopedics. Note: This is an AI-organized summary designed to expedite hospital triage and must be verified by the attending physician.",
+      "status": "COMPLETED",
+      "createdAt": "2026-09-06T09:08:23.323Z",
+      "updatedAt": "2026-09-06T09:11:02.621Z",
+      "patientConfirmed": true,
+      "confirmedAt": "2026-09-06T09:09:07.380Z",
+      "doctorReview": {
+        "doctorId": "6a9d13f7ac9e10a35f9465e4",
+        "doctorName": "Dr. test2",
+        "licenseNumber": "mcl-987",
+        "reviewedAt": "2026-09-06T09:10:36.005Z",
+        "clinicalNotes": "Patient triage and previous records verified clinically.",
+        "doctorEdits": ""
+      },
+      "doctorReview.doctorId": "6a9d13f7ac9e10a35f9465e4",
+      "doctorReview.doctorName": "Dr. test2",
+      "doctorReview.licenseNumber": "mcl-987",
+      "doctorReview.reviewedAt": "2026-09-06T09:10:37.212Z",
+      "doctorReview.clinicalNotes": "Your health summary has been accepted. Please visit tomorrow for in-person clinical examination at Cabin 204. Bring previous physical reports."
+    },
+    {
+      "_id": "6a9d43a3794d49c38fbf90d4",
+      "patientId": "6a9d03601427193573bfa7ab",
+      "interviewId": "6a9d434d794d49c38fbf90cd",
+      "patientName": "test1",
+      "opNumber": "OP-698917",
+      "patientAge": 21,
+      "patientGender": "Male",
+      "chiefComplaint": "I am feeling symptoms in my Eyes (Vision blur, eye pain, redness, irritation).. Reported symptoms in Eyes (burnig).. I am feeling symptoms in my Eyes (Vision blur, eye pain, redness, irritation).. Reported symptoms in Eyes (burning\nred in colour).",
+      "symptoms": [
+        "Fever",
+        "Headache",
+        "Dizziness",
+        "Fatigue",
+        "Burning urination"
+      ],
+      "duration": "suddenly",
+      "severity": "Severe",
+      "medicalHistory": [
+        "Reviewed during clinical intake - no major chronic conditions reported"
+      ],
+      "previousMedicines": [
+        "Augmentin 625 Duo 625 mg",
+        "Dolo 650 650 mg",
+        "Pan 40 40 mg"
+      ],
+      "previousLabResults": [],
+      "previousPrescriptions": [
+        "Dr. Dr. test2 (General Medicine) - Augmentin 625 Duo, Dolo 650, Pan 40",
+        "Dr. Dr. test2 (General Medicine) - Augmentin 625 Duo, Dolo 650, Pan 40",
+        "Dr. Dr. test2 (General Medicine) - Augmentin 625 Duo, Dolo 650, Pan 40"
+      ],
+      "pinnedReports": [
+        {
+          "documentId": "6a9d43c1794d49c38fbf90d6",
+          "title": "Lab Report",
+          "fileUrl": "/uploads/meddoc-1788691389063-401181175.png",
+          "fileType": "image/png",
+          "uploadMethod": "device",
+          "hasExtractedText": true,
+          "extractedText": "======================================================================\n             HOSPITAL & CLINICAL DIAGNOSTIC REPORT                    \n======================================================================\nDOCUMENT:          public.png\nCATEGORY:          Hospital Diagnostic & Pathology Lab Report\nFACILITY / LAB:    PS Lab\nCONSULTING DOCTOR: Dr. A. Sharma\nDOCUMENT DATE:     06/09/2026\n----------------------------------------------------------------------\nEXTRACTED REPORT TEXT / TRANSCRIPTION:\nPS Labsmart Software Savtgzass eon\nSample Letterhead ® hus sora\nMe. Saubhik Bhaumik TI age\npuedo rm mons | GR\nnor so frome Fe]\nsw REE Uae | Gia\nHAEMATOLOGY\n‘COMPLETE aL0oD couNT (c8c)\newoaioam 5 a To\nTOA LEUKOCYTE COUNT si Con 400. 10800\nDIFFERENTIAL LEUCOCYTE COUNT\nNEUTROPHILS » % ww\nLemoore f- “ Pa\ncosmos h % Te\nwonocvTes Cs . 210\nascomits : % =\nPLATELET COUNT as wwe 15-41\noraL me count H moon 45-55\nHEMATOCRIT VALUE eT « % pe)\nMEAN CORPUSCULAR VOLUME UOY 840 Io ao\nVERN CELL HAEMOGLOBIN, HOH “00 \" nw\nMEAN CELL HAEHOGLOBIN CON, MCHC W357 py Een\ncincs ots:\ntsa court (50) sd ako orl lt ard dt wid rang of rr cg arr.\nTE iosanie ae veo sats of WB Sl it cobs: ens an\nCoie Soo samp, aos wih pe er ange.\npossi causes of abl parsmotrs:\nH [High low\nCRBC, Hb, or HT | Deydraiion. polycythemia. shock. chronic hypoxia | Anemia, halassemia. and other hemogiobinopaiiies\nev a am hs roc oma\nWBE { Acite stress, infection, malignancies. \"Sepsis, mamow hypoplasia.\n{Platelets {Risk of thrombosis. Fisk of bleeding.\nSure Keb\nfrtcabes ranrz wei parang\nEEE pe\n----------------------------------------------------------------------\nSTATUS: Converted into text document. Attached to Health Summary.\n======================================================================",
+          "confidenceScore": 40,
+          "isDirectPinnedImage": false,
+          "pinReason": "Converted into clinical text document via OCR and attached to health summary.",
+          "createdAt": "2026-09-06T10:43:13.945Z"
+        }
+      ],
+      "redFlagStatus": "NORMAL",
+      "redFlagMessage": "",
+      "suggestedSpecialty": "General Medicine",
+      "specialtyRationale": "Clinical complaints strongly correlate with Fever / Systemic Infection. Recommended for evaluation by General Medicine.",
+      "aiGeneratedText": "Patient test1 (21, Male) presented with chief concern: \"I am feeling symptoms in my Eyes (Vision blur, eye pain, redness, irritation).. Reported symptoms in Eyes (burnig).. I am feeling symptoms in my Eyes (Vision blur, eye pain, redness, irritation).. Reported symptoms in Eyes (burning\nred in colour).\". Disease classification: Fever / Systemic Infection. Symptoms duration: suddenly. Red-flag screening assessment: NORMAL. Suggested clinical department for consultation: General Medicine. Note: This is an AI-organized summary designed to expedite hospital triage and must be verified by the attending physician.",
+      "status": "COMPLETED",
+      "createdAt": "2026-09-06T10:42:43.522Z",
+      "updatedAt": "2026-09-06T10:44:45.710Z",
+      "patientConfirmed": true,
+      "confirmedAt": "2026-09-06T10:43:19.070Z",
+      "doctorReview.doctorId": "6a9d13f7ac9e10a35f9465e4",
+      "doctorReview.doctorName": "Dr. test2",
+      "doctorReview.licenseNumber": "mcl-987",
+      "doctorReview.reviewedAt": "2026-09-06T10:44:03.662Z",
+      "doctorReview.clinicalNotes": "Your health summary has been accepted. Please visit tomorrow for in-person clinical examination at Cabin 204. Bring previous physical reports.",
+      "doctorReview": {
+        "doctorId": "6a9d13f7ac9e10a35f9465e4",
+        "doctorName": "Dr. test2",
+        "licenseNumber": "mcl-987",
+        "reviewedAt": "2026-09-06T10:44:10.148Z",
+        "clinicalNotes": "Patient triage and previous records verified clinically.",
+        "doctorEdits": ""
+      }
+    },
+    {
+      "_id": "6a9d504d794d49c38fbf90e8",
+      "patientId": "6a9d03601427193573bfa7ab",
+      "interviewId": "6a9d5025794d49c38fbf90e1",
+      "patientName": "test1",
+      "opNumber": "OP-698917",
+      "patientAge": 21,
+      "patientGender": "Male",
+      "chiefComplaint": "fever",
+      "symptoms": [
+        "Fever",
+        "Chills",
+        "Headache",
+        "Body ache",
+        "Nausea",
+        "Vomiting",
+        "Skin rash"
+      ],
+      "duration": "evening",
+      "severity": "Severe",
+      "medicalHistory": [
+        "Reviewed during clinical intake - no major chronic conditions reported"
+      ],
+      "previousMedicines": [
+        "Augmentin 625 Duo 625 mg",
+        "Dolo 650 650 mg",
+        "Pan 40 40 mg"
+      ],
+      "previousLabResults": [],
+      "previousPrescriptions": [
+        "Dr. Dr. test2 (General Medicine) - Augmentin 625 Duo, Dolo 650, Pan 40",
+        "Dr. Dr. test2 (General Medicine) - Augmentin 625 Duo, Dolo 650, Pan 40",
+        "Dr. Dr. test2 (General Medicine) - Augmentin 625 Duo, Dolo 650, Pan 40",
+        "Dr. Dr. test2 (General Medicine) - Augmentin 625 Duo, Dolo 650, Pan 40"
+      ],
+      "pinnedReports": [
+        {
+          "documentId": "6a9d2da31758b30a07ced7d2",
+          "title": "GNU_Health_lab_report_sample.png",
+          "fileUrl": "/uploads/meddoc-1788685729212-710001466.png",
+          "fileType": "image/png",
+          "uploadMethod": "device",
+          "hasExtractedText": true,
+          "extractedText": "======================================================================\n             HOSPITAL & CLINICAL DIAGNOSTIC REPORT                    \n======================================================================\nDOCUMENT:          GNU_Health_lab_report_sample.png\nCATEGORY:          Hospital Diagnostic & Pathology Lab Report\nFACILITY / LAB:    MediKiosk Clinical Laboratory\nCONSULTING DOCTOR: Dr. Cameron Cordara\nDOCUMENT DATE:     06/09/2026\n----------------------------------------------------------------------\nEXTRACTED REPORT TEXT / TRANSCRIPTION:\ni &\nDr. Cameron Cordara.\n----------------------------------------------------------------------\nSTATUS: Converted into text document. Attached to Health Summary.\n======================================================================",
+          "confidenceScore": 64,
+          "isDirectPinnedImage": false,
+          "pinReason": "Converted into text document via OCR and attached to health summary.",
+          "createdAt": "2026-09-06T09:08:51.281Z"
+        },
+        {
+          "documentId": "6a9d43c1794d49c38fbf90d6",
+          "title": "Lab Report",
+          "fileUrl": "/uploads/meddoc-1788691389063-401181175.png",
+          "fileType": "image/png",
+          "uploadMethod": "device",
+          "hasExtractedText": true,
+          "extractedText": "======================================================================\n             HOSPITAL & CLINICAL DIAGNOSTIC REPORT                    \n======================================================================\nDOCUMENT:          public.png\nCATEGORY:          Hospital Diagnostic & Pathology Lab Report\nFACILITY / LAB:    PS Lab\nCONSULTING DOCTOR: Dr. A. Sharma\nDOCUMENT DATE:     06/09/2026\n----------------------------------------------------------------------\nEXTRACTED REPORT TEXT / TRANSCRIPTION:\nPS Labsmart Software Savtgzass eon\nSample Letterhead ® hus sora\nMe. Saubhik Bhaumik TI age\npuedo rm mons | GR\nnor so frome Fe]\nsw REE Uae | Gia\nHAEMATOLOGY\n‘COMPLETE aL0oD couNT (c8c)\newoaioam 5 a To\nTOA LEUKOCYTE COUNT si Con 400. 10800\nDIFFERENTIAL LEUCOCYTE COUNT\nNEUTROPHILS » % ww\nLemoore f- “ Pa\ncosmos h % Te\nwonocvTes Cs . 210\nascomits : % =\nPLATELET COUNT as wwe 15-41\noraL me count H moon 45-55\nHEMATOCRIT VALUE eT « % pe)\nMEAN CORPUSCULAR VOLUME UOY 840 Io ao\nVERN CELL HAEMOGLOBIN, HOH “00 \" nw\nMEAN CELL HAEHOGLOBIN CON, MCHC W357 py Een\ncincs ots:\ntsa court (50) sd ako orl lt ard dt wid rang of rr cg arr.\nTE iosanie ae veo sats of WB Sl it cobs: ens an\nCoie Soo samp, aos wih pe er ange.\npossi causes of abl parsmotrs:\nH [High low\nCRBC, Hb, or HT | Deydraiion. polycythemia. shock. chronic hypoxia | Anemia, halassemia. and other hemogiobinopaiiies\nev a am hs roc oma\nWBE { Acite stress, infection, malignancies. \"Sepsis, mamow hypoplasia.\n{Platelets {Risk of thrombosis. Fisk of bleeding.\nSure Keb\nfrtcabes ranrz wei parang\nEEE pe\n----------------------------------------------------------------------\nSTATUS: Converted into text document. Attached to Health Summary.\n======================================================================",
+          "confidenceScore": 40,
+          "isDirectPinnedImage": false,
+          "pinReason": "Converted into text document via OCR and attached to health summary.",
+          "createdAt": "2026-09-06T10:43:13.930Z"
+        }
+      ],
+      "redFlagStatus": "NORMAL",
+      "redFlagMessage": "",
+      "suggestedSpecialty": "General Medicine",
+      "specialtyRationale": "Clinical complaints strongly correlate with Fever / Systemic Infection. Recommended for evaluation by General Medicine.",
+      "aiGeneratedText": "Patient test1 (21, Male) presented with chief concern: \"fever\". Disease classification: Fever / Systemic Infection. Symptoms duration: evening. Red-flag screening assessment: NORMAL. Suggested clinical department for consultation: General Medicine. Note: This is an AI-organized summary designed to expedite hospital triage and must be verified by the attending physician.",
+      "status": "DRAFT",
+      "createdAt": "2026-09-06T11:36:45.174Z",
+      "updatedAt": "2026-09-06T11:36:49.895Z",
+      "patientConfirmed": true,
+      "confirmedAt": "2026-09-06T11:36:49.895Z"
+    },
+    {
+      "_id": "6a9ed36d60f40b366340b65f",
+      "patientId": "6a9d03601427193573bfa7ab",
+      "interviewId": "6a9ed33960f40b366340b658",
+      "patientName": "test1",
+      "opNumber": "OP-698917",
+      "patientAge": 21,
+      "patientGender": "Male",
+      "chiefComplaint": "my ears are in pain",
+      "symptoms": [
+        "Sore throat"
+      ],
+      "duration": "2 days",
+      "severity": "Severe",
+      "medicalHistory": [
+        "Reviewed during clinical intake - no major chronic conditions reported"
+      ],
+      "previousMedicines": [
+        "Augmentin 625 Duo 625 mg",
+        "Dolo 650 650 mg",
+        "Pan 40 40 mg"
+      ],
+      "previousLabResults": [],
+      "previousPrescriptions": [
+        "Dr. Dr. test2 (General Medicine) - Augmentin 625 Duo, Dolo 650, Pan 40",
+        "Dr. Dr. test2 (General Medicine) - Augmentin 625 Duo, Dolo 650, Pan 40",
+        "Dr. Dr. test2 (General Medicine) - Augmentin 625 Duo, Dolo 650, Pan 40",
+        "Dr. Dr. test2 (General Medicine) - Augmentin 625 Duo, Dolo 650, Pan 40"
+      ],
+      "pinnedReports": [
+        {
+          "documentId": "6a9d43c1794d49c38fbf90d6",
+          "title": "public.png",
+          "fileUrl": "/uploads/meddoc-1788691389063-401181175.png",
+          "fileType": "image/png",
+          "uploadMethod": "device",
+          "hasExtractedText": true,
+          "extractedText": "======================================================================\n             HOSPITAL & CLINICAL DIAGNOSTIC REPORT                    \n======================================================================\nDOCUMENT:          public.png\nCATEGORY:          Hospital Diagnostic & Pathology Lab Report\nFACILITY / LAB:    PS Lab\nCONSULTING DOCTOR: Dr. A. Sharma\nDOCUMENT DATE:     06/09/2026\n----------------------------------------------------------------------\nEXTRACTED REPORT TEXT / TRANSCRIPTION:\nPS Labsmart Software Savtgzass eon\nSample Letterhead ® hus sora\nMe. Saubhik Bhaumik TI age\npuedo rm mons | GR\nnor so frome Fe]\nsw REE Uae | Gia\nHAEMATOLOGY\n‘COMPLETE aL0oD couNT (c8c)\newoaioam 5 a To\nTOA LEUKOCYTE COUNT si Con 400. 10800\nDIFFERENTIAL LEUCOCYTE COUNT\nNEUTROPHILS » % ww\nLemoore f- “ Pa\ncosmos h % Te\nwonocvTes Cs . 210\nascomits : % =\nPLATELET COUNT as wwe 15-41\noraL me count H moon 45-55\nHEMATOCRIT VALUE eT « % pe)\nMEAN CORPUSCULAR VOLUME UOY 840 Io ao\nVERN CELL HAEMOGLOBIN, HOH “00 \" nw\nMEAN CELL HAEHOGLOBIN CON, MCHC W357 py Een\ncincs ots:\ntsa court (50) sd ako orl lt ard dt wid rang of rr cg arr.\nTE iosanie ae veo sats of WB Sl it cobs: ens an\nCoie Soo samp, aos wih pe er ange.\npossi causes of abl parsmotrs:\nH [High low\nCRBC, Hb, or HT | Deydraiion. polycythemia. shock. chronic hypoxia | Anemia, halassemia. and other hemogiobinopaiiies\nev a am hs roc oma\nWBE { Acite stress, infection, malignancies. \"Sepsis, mamow hypoplasia.\n{Platelets {Risk of thrombosis. Fisk of bleeding.\nSure Keb\nfrtcabes ranrz wei parang\nEEE pe\n----------------------------------------------------------------------\nSTATUS: Converted into text document. Attached to Health Summary.\n======================================================================",
+          "confidenceScore": 40,
+          "isDirectPinnedImage": false,
+          "pinReason": "Converted into text document via OCR and attached to health summary.",
+          "createdAt": "2026-09-06T10:43:13.930Z"
+        }
+      ],
+      "redFlagStatus": "NORMAL",
+      "redFlagMessage": "",
+      "suggestedSpecialty": "ENT (Ear, Nose, Throat)",
+      "specialtyRationale": "Clinical complaints strongly correlate with ENT / Ear, Nose & Throat Discomfort. Recommended for evaluation by ENT (Ear, Nose, Throat).",
+      "aiGeneratedText": "Patient test1 (21, Male) presented with chief concern: \"my ears are in pain\". Disease classification: ENT / Ear, Nose & Throat Discomfort. Symptoms duration: 2 days. Red-flag screening assessment: NORMAL. Suggested clinical department for consultation: ENT (Ear, Nose, Throat). Note: This is an AI-organized summary designed to expedite hospital triage and must be verified by the attending physician.",
+      "status": "SHARED_WITH_DOCTOR",
+      "createdAt": "2026-09-07T15:08:29.136Z",
+      "updatedAt": "2026-09-07T15:08:47.607Z",
+      "patientConfirmed": true,
+      "confirmedAt": "2026-09-07T15:08:36.080Z"
+    },
+    {
+      "_id": "6aa006f360f40b366340b66e",
+      "patientId": "6aa0067860f40b366340b665",
+      "interviewId": "6aa006a260f40b366340b667",
+      "patientName": "test3",
+      "opNumber": "OP-788373",
+      "patientAge": 22,
+      "patientGender": "Male",
+      "chiefComplaint": "fever",
+      "symptoms": [
+        "Fever",
+        "Chills",
+        "Headache",
+        "Body ache",
+        "Nausea",
+        "Vomiting",
+        "Skin rash"
+      ],
+      "duration": "4",
+      "severity": "Severe",
+      "medicalHistory": [
+        "Reviewed during clinical intake - no major chronic conditions reported"
+      ],
+      "previousMedicines": [],
+      "previousLabResults": [],
+      "previousPrescriptions": [],
+      "pinnedReports": [
+        {
+          "documentId": "6aa0070160f40b366340b670",
+          "title": "GNU_Health_lab_report_sample.png",
+          "fileUrl": "/uploads/meddoc-1788872448926-654276507.png",
+          "fileType": "image/png",
+          "uploadMethod": "device",
+          "hasExtractedText": true,
+          "extractedText": "======================================================================\n             HOSPITAL & CLINICAL DIAGNOSTIC REPORT                    \n======================================================================\nDOCUMENT:          GNU_Health_lab_report_sample.png\nCATEGORY:          Hospital Diagnostic & Pathology Lab Report\nFACILITY / LAB:    MediKiosk Clinical Laboratory\nCONSULTING DOCTOR: Dr. Cameron Cordara\nDOCUMENT DATE:     08/09/2026\n----------------------------------------------------------------------\nEXTRACTED REPORT TEXT / TRANSCRIPTION:\ni &\nDr. Cameron Cordara.\n----------------------------------------------------------------------\nSTATUS: Converted into text document. Attached to Health Summary.\n======================================================================",
+          "confidenceScore": 64,
+          "isDirectPinnedImage": false,
+          "pinReason": "Converted into clinical text document via OCR and attached to health summary.",
+          "createdAt": "2026-09-08T13:00:49.799Z"
+        },
+        {
+          "documentId": "6aa0072e60f40b366340b672",
+          "title": "public.png",
+          "fileUrl": "/uploads/meddoc-1788872488586-15890290.png",
+          "fileType": "image/png",
+          "uploadMethod": "device",
+          "hasExtractedText": true,
+          "extractedText": "======================================================================\n             HOSPITAL & CLINICAL DIAGNOSTIC REPORT                    \n======================================================================\nDOCUMENT:          public.png\nCATEGORY:          Hospital Diagnostic & Pathology Lab Report\nFACILITY / LAB:    PS Lab\nCONSULTING DOCTOR: Dr. A. Sharma\nDOCUMENT DATE:     08/09/2026\n----------------------------------------------------------------------\nEXTRACTED REPORT TEXT / TRANSCRIPTION:\nPS Labsmart Software Savtgzass eon\nSample Letterhead ® hus sora\nMe. Saubhik Bhaumik TI age\npuedo rm mons | GR\nnor so frome Fe]\nsw REE Uae | Gia\nHAEMATOLOGY\n‘COMPLETE aL0oD couNT (c8c)\newoaioam 5 a To\nTOA LEUKOCYTE COUNT si Con 400. 10800\nDIFFERENTIAL LEUCOCYTE COUNT\nNEUTROPHILS » % ww\nLemoore f- “ Pa\ncosmos h % Te\nwonocvTes Cs . 210\nascomits : % =\nPLATELET COUNT as wwe 15-41\noraL me count H moon 45-55\nHEMATOCRIT VALUE eT « % pe)\nMEAN CORPUSCULAR VOLUME UOY 840 Io ao\nVERN CELL HAEMOGLOBIN, HOH “00 \" nw\nMEAN CELL HAEHOGLOBIN CON, MCHC W357 py Een\ncincs ots:\ntsa court (50) sd ako orl lt ard dt wid rang of rr cg arr.\nTE iosanie ae veo sats of WB Sl it cobs: ens an\nCoie Soo samp, aos wih pe er ange.\npossi causes of abl parsmotrs:\nH [High low\nCRBC, Hb, or HT | Deydraiion. polycythemia. shock. chronic hypoxia | Anemia, halassemia. and other hemogiobinopaiiies\nev a am hs roc oma\nWBE { Acite stress, infection, malignancies. \"Sepsis, mamow hypoplasia.\n{Platelets {Risk of thrombosis. Fisk of bleeding.\nSure Keb\nfrtcabes ranrz wei parang\nEEE pe\n----------------------------------------------------------------------\nSTATUS: Converted into text document. Attached to Health Summary.\n======================================================================",
+          "confidenceScore": 40,
+          "isDirectPinnedImage": false,
+          "pinReason": "Converted into clinical text document via OCR and attached to health summary.",
+          "createdAt": "2026-09-08T13:01:34.936Z"
+        }
+      ],
+      "redFlagStatus": "NORMAL",
+      "redFlagMessage": "",
+      "suggestedSpecialty": "General Medicine",
+      "specialtyRationale": "Clinical complaints strongly correlate with Fever / Systemic Infection. Recommended for evaluation by General Medicine.",
+      "aiGeneratedText": "Patient test3 (22, Male) presented with chief concern: \"fever\". Disease classification: Fever / Systemic Infection. Symptoms duration: 4. Red-flag screening assessment: NORMAL. Suggested clinical department for consultation: General Medicine. Note: This is an AI-organized summary designed to expedite hospital triage and must be verified by the attending physician.",
+      "status": "COMPLETED",
+      "createdAt": "2026-09-08T13:00:35.849Z",
+      "updatedAt": "2026-09-08T13:24:53.590Z",
+      "patientConfirmed": true,
+      "confirmedAt": "2026-09-08T13:01:41.556Z",
+      "doctorReview.doctorId": "6aa0078560f40b366340b676",
+      "doctorReview.doctorName": "Dr. test4",
+      "doctorReview.licenseNumber": "mcl-0987",
+      "doctorReview.reviewedAt": "2026-09-08T13:04:41.949Z",
+      "doctorReview.clinicalNotes": "Your health summary has been accepted. Please visit tomorrow for in-person clinical examination at Cabin 204. Bring previous physical reports."
+    }
+  ],
+  "DoctorRequest": [
+    {
+      "_id": "6a9d148aac9e10a35f9465f3",
+      "patientId": "6a9d03601427193573bfa7ab",
+      "doctorId": "6a9d13f7ac9e10a35f9465e4",
+      "summaryId": "6a9d1442ac9e10a35f9465ed",
+      "documentIds": [],
+      "consentId": null,
+      "patientName": "test1",
+      "patientAge": 21,
+      "patientGender": "Male",
+      "patientPhone": "8985817969",
+      "chiefComplaint": "fever",
+      "priority": "NORMAL",
+      "status": "PRESCRIPTION_ISSUED",
+      "appointmentDate": "Tomorrow",
+      "appointmentSlot": "10:00 AM - 01:00 PM",
+      "createdAt": "2026-09-06T07:21:46.233Z",
+      "updatedAt": "2026-09-06T07:22:32.707Z",
+      "doctorMessage": "Your health summary has been accepted. Please visit tomorrow for in-person clinical examination at Cabin 204. Bring previous physical reports.",
+      "acceptedAt": "2026-09-06T07:22:27.251Z"
+    },
+    {
+      "_id": "6a9d186e1758b30a07ced7bf",
+      "patientId": "6a9d03601427193573bfa7ab",
+      "doctorId": "6a9d13f7ac9e10a35f9465e4",
+      "summaryId": "6a9d18521758b30a07ced7b9",
+      "documentIds": [],
+      "consentId": null,
+      "patientName": "test1",
+      "opNumber": "OP-698917",
+      "patientAge": 21,
+      "patientGender": "Male",
+      "patientPhone": "8985817969",
+      "chiefComplaint": "eyes are burning",
+      "priority": "NORMAL",
+      "status": "PRESCRIPTION_ISSUED",
+      "appointmentDate": "Tomorrow",
+      "appointmentSlot": "10:00 AM - 01:00 PM",
+      "createdAt": "2026-09-06T07:38:22.196Z",
+      "updatedAt": "2026-09-06T07:39:15.432Z",
+      "doctorMessage": "Your health summary has been accepted. Please visit tomorrow for in-person clinical examination at Cabin 204. Bring previous physical reports.",
+      "acceptedAt": "2026-09-06T07:39:04.077Z"
+    },
+    {
+      "_id": "6a9d2de11758b30a07ced7d4",
+      "patientId": "6a9d03601427193573bfa7ab",
+      "doctorId": "6a9d13f7ac9e10a35f9465e4",
+      "summaryId": "6a9d2d871758b30a07ced7ce",
+      "documentIds": [],
+      "consentId": null,
+      "patientName": "test1",
+      "opNumber": "OP-698917",
+      "patientAge": 21,
+      "patientGender": "Male",
+      "patientPhone": "8985817969",
+      "chiefComplaint": "I am feeling symptoms in my Elbows (Tennis elbow, joint swelling, tenderness).. Reported symptoms in right Elbows (spasms).",
+      "priority": "NORMAL",
+      "status": "PRESCRIPTION_ISSUED",
+      "appointmentDate": "Tomorrow",
+      "appointmentSlot": "10:00 AM - 01:00 PM",
+      "createdAt": "2026-09-06T09:09:53.285Z",
+      "updatedAt": "2026-09-06T09:11:02.610Z",
+      "reviewedAt": "2026-09-06T09:10:36.005Z",
+      "doctorMessage": "Your health summary has been accepted. Please visit tomorrow for in-person clinical examination at Cabin 204. Bring previous physical reports.",
+      "acceptedAt": "2026-09-06T09:10:37.212Z"
+    },
+    {
+      "_id": "6a9d43d9794d49c38fbf90d8",
+      "patientId": "6a9d03601427193573bfa7ab",
+      "doctorId": "6a9d13f7ac9e10a35f9465e4",
+      "summaryId": "6a9d43a3794d49c38fbf90d4",
+      "documentIds": [],
+      "consentId": null,
+      "patientName": "test1",
+      "opNumber": "OP-698917",
+      "patientAge": 21,
+      "patientGender": "Male",
+      "patientPhone": "8985817969",
+      "chiefComplaint": "I am feeling symptoms in my Eyes (Vision blur, eye pain, redness, irritation).. Reported symptoms in Eyes (burnig).. I am feeling symptoms in my Eyes (Vision blur, eye pain, redness, irritation).. Reported symptoms in Eyes (burning\nred in colour).",
+      "priority": "NORMAL",
+      "status": "PRESCRIPTION_ISSUED",
+      "appointmentDate": "Tomorrow",
+      "appointmentSlot": "10:00 AM - 01:00 PM",
+      "createdAt": "2026-09-06T10:43:37.163Z",
+      "updatedAt": "2026-09-06T10:44:45.703Z",
+      "doctorMessage": "Your health summary has been accepted. Please visit tomorrow for in-person clinical examination at Cabin 204. Bring previous physical reports.",
+      "acceptedAt": "2026-09-06T10:44:03.662Z",
+      "reviewedAt": "2026-09-06T10:44:10.148Z"
+    },
+    {
+      "_id": "6a9ed37960f40b366340b661",
+      "patientId": "6a9d03601427193573bfa7ab",
+      "doctorId": "6a9d13f7ac9e10a35f9465e4",
+      "summaryId": "6a9ed36d60f40b366340b65f",
+      "documentIds": [],
+      "consentId": null,
+      "patientName": "test1",
+      "opNumber": "OP-698917",
+      "patientAge": 21,
+      "patientGender": "Male",
+      "patientPhone": "8985817969",
+      "chiefComplaint": "my ears are in pain",
+      "priority": "NORMAL",
+      "status": "PENDING",
+      "appointmentDate": "Tomorrow",
+      "appointmentSlot": "10:00 AM - 01:00 PM",
+      "createdAt": "2026-09-07T15:08:41.899Z",
+      "updatedAt": "2026-09-07T15:08:41.899Z"
+    },
+    {
+      "_id": "6a9ed37f60f40b366340b663",
+      "patientId": "6a9d03601427193573bfa7ab",
+      "doctorId": "6a9d13f7ac9e10a35f9465e4",
+      "summaryId": "6a9ed36d60f40b366340b65f",
+      "documentIds": [],
+      "consentId": null,
+      "patientName": "test1",
+      "opNumber": "OP-698917",
+      "patientAge": 21,
+      "patientGender": "Male",
+      "patientPhone": "8985817969",
+      "chiefComplaint": "my ears are in pain",
+      "priority": "NORMAL",
+      "status": "PENDING",
+      "appointmentDate": "Tomorrow",
+      "appointmentSlot": "10:00 AM - 01:00 PM",
+      "createdAt": "2026-09-07T15:08:47.602Z",
+      "updatedAt": "2026-09-07T15:08:47.602Z"
+    },
+    {
+      "_id": "6aa007d260f40b366340b678",
+      "patientId": "6aa0067860f40b366340b665",
+      "doctorId": "6aa0078560f40b366340b676",
+      "summaryId": "6aa006f360f40b366340b66e",
+      "documentIds": [],
+      "consentId": null,
+      "patientName": "test3",
+      "opNumber": "OP-788373",
+      "patientAge": 22,
+      "patientGender": "Male",
+      "patientPhone": "8985817966",
+      "chiefComplaint": "fever",
+      "priority": "NORMAL",
+      "status": "PRESCRIPTION_ISSUED",
+      "appointmentDate": "Tomorrow",
+      "appointmentSlot": "10:00 AM - 01:00 PM",
+      "createdAt": "2026-09-08T13:04:18.118Z",
+      "updatedAt": "2026-09-08T13:24:53.579Z",
+      "doctorMessage": "Your health summary has been accepted. Please visit tomorrow for in-person clinical examination at Cabin 204. Bring previous physical reports.",
+      "acceptedAt": "2026-09-08T13:04:41.949Z"
+    }
+  ],
+  "Consent": [],
+  "Prescription": [
+    {
+      "_id": "6a9d14b8ac9e10a35f9465f7",
+      "doctorId": "6a9d13f7ac9e10a35f9465e4",
+      "patientId": "6a9d03601427193573bfa7ab",
+      "requestId": "6a9d148aac9e10a35f9465f3",
+      "doctorName": "Dr. test2",
+      "doctorLicense": "mcl-987",
+      "doctorSpecialty": "General Medicine",
+      "hospitalName": "MediKiosk Apex Hospital",
+      "patientName": "test1",
+      "patientAge": 21,
+      "patientGender": "Male",
+      "patientPhone": "8985817969",
+      "diagnosisOrImpression": "Acute Exacerbation / Provisional Assessment",
+      "medicines": [
+        {
+          "name": "Augmentin 625 Duo",
+          "genericName": "Amoxicillin + Clavulanic Acid",
+          "strength": "625 mg",
+          "form": "Tablet",
+          "dosage": "1 tablet",
+          "frequency": "Twice daily",
+          "timing": {
+            "morning": true,
+            "afternoon": false,
+            "night": true,
+            "mealRelation": "After food"
+          },
+          "duration": "5 days",
+          "instructions": "Complete full 5-day antibiotic course"
+        },
+        {
+          "name": "Dolo 650",
+          "genericName": "Paracetamol",
+          "strength": "650 mg",
+          "form": "Tablet",
+          "dosage": "1 tablet",
+          "frequency": "Every 8 hours as needed",
+          "timing": {
+            "morning": true,
+            "afternoon": true,
+            "night": true,
+            "mealRelation": "After food"
+          },
+          "duration": "3 days",
+          "instructions": "Take only if temperature exceeds 99.5 F or severe pain"
+        },
+        {
+          "name": "Pan 40",
+          "genericName": "Pantoprazole",
+          "strength": "40 mg",
+          "form": "Tablet",
+          "dosage": "1 tablet",
+          "frequency": "Once daily",
+          "timing": {
+            "morning": true,
+            "afternoon": false,
+            "night": false,
+            "mealRelation": "Before food"
+          },
+          "duration": "7 days",
+          "instructions": "Take 30 minutes before morning breakfast"
+        }
+      ],
+      "generalInstructions": "Maintain adequate hydration and take complete rest.",
+      "doctorNotes": "",
+      "followUpDays": 7,
+      "status": "ISSUED",
+      "createdAt": "2026-09-06T07:22:32.703Z",
+      "updatedAt": "2026-09-06T07:22:32.703Z"
+    },
+    {
+      "_id": "6a9d16bc1758b30a07ced7af",
+      "doctorId": "6a9d16bb1758b30a07ced7ad",
+      "patientId": "6a9d16bb1758b30a07ced7ab",
+      "opNumber": "OP-405818",
+      "requestId": null,
+      "doctorName": "Dr. Priya Varma",
+      "doctorLicense": "MCI-67734",
+      "doctorSpecialty": "Internal Medicine",
+      "hospitalName": "MediKiosk Apex Hospital",
+      "patientName": "Rohan Sharma",
+      "patientAge": 32,
+      "patientGender": "Male",
+      "patientPhone": "9179867734",
+      "diagnosisOrImpression": "Upper Respiratory Tract Infection",
+      "medicines": [
+        {
+          "name": "Augmentin 625 Duo",
+          "genericName": "Amoxicillin + Clavulanic Acid",
+          "strength": "625 mg",
+          "form": "Tablet",
+          "dosage": "1 tablet",
+          "frequency": "Twice daily",
+          "timing": {
+            "morning": true,
+            "afternoon": false,
+            "night": true,
+            "mealRelation": "After food"
+          },
+          "duration": "5 days",
+          "instructions": "Take after meals"
+        },
+        {
+          "name": "Pan 40",
+          "genericName": "Pantoprazole",
+          "strength": "40 mg",
+          "form": "Tablet",
+          "dosage": "1 tablet",
+          "frequency": "Once daily",
+          "timing": {
+            "morning": true,
+            "afternoon": false,
+            "night": false,
+            "mealRelation": "Before food"
+          },
+          "duration": "5 days",
+          "instructions": "Take 30 mins before breakfast"
+        }
+      ],
+      "generalInstructions": "Complete full course of antibiotics and drink warm water.",
+      "doctorNotes": "Patient advised to review if fever persists after 48 hours.",
+      "followUpDays": 5,
+      "status": "ISSUED",
+      "createdAt": "2026-09-06T07:31:08.041Z",
+      "updatedAt": "2026-09-06T07:31:08.041Z"
+    },
+    {
+      "_id": "6a9d18a31758b30a07ced7c3",
+      "doctorId": "6a9d13f7ac9e10a35f9465e4",
+      "patientId": "6a9d03601427193573bfa7ab",
+      "opNumber": "OP-698917",
+      "requestId": "6a9d186e1758b30a07ced7bf",
+      "doctorName": "Dr. test2",
+      "doctorLicense": "mcl-987",
+      "doctorSpecialty": "General Medicine",
+      "hospitalName": "MediKiosk Apex Hospital",
+      "patientName": "test1",
+      "patientAge": 21,
+      "patientGender": "Male",
+      "patientPhone": "8985817969",
+      "diagnosisOrImpression": "Acute Exacerbation / Provisional Assessment",
+      "medicines": [
+        {
+          "name": "Augmentin 625 Duo",
+          "genericName": "Amoxicillin + Clavulanic Acid",
+          "strength": "625 mg",
+          "form": "Tablet",
+          "dosage": "1 tablet",
+          "frequency": "Twice daily",
+          "timing": {
+            "morning": true,
+            "afternoon": false,
+            "night": true,
+            "mealRelation": "After food"
+          },
+          "duration": "5 days",
+          "instructions": "Complete full 5-day antibiotic course"
+        },
+        {
+          "name": "Dolo 650",
+          "genericName": "Paracetamol",
+          "strength": "650 mg",
+          "form": "Tablet",
+          "dosage": "1 tablet",
+          "frequency": "Every 8 hours as needed",
+          "timing": {
+            "morning": true,
+            "afternoon": true,
+            "night": true,
+            "mealRelation": "After food"
+          },
+          "duration": "3 days",
+          "instructions": "Take only if temperature exceeds 99.5 F or severe pain"
+        },
+        {
+          "name": "Pan 40",
+          "genericName": "Pantoprazole",
+          "strength": "40 mg",
+          "form": "Tablet",
+          "dosage": "1 tablet",
+          "frequency": "Once daily",
+          "timing": {
+            "morning": true,
+            "afternoon": false,
+            "night": false,
+            "mealRelation": "Before food"
+          },
+          "duration": "7 days",
+          "instructions": "Take 30 minutes before morning breakfast"
+        }
+      ],
+      "generalInstructions": "Maintain adequate hydration and take complete rest.",
+      "doctorNotes": "",
+      "followUpDays": 7,
+      "status": "ISSUED",
+      "createdAt": "2026-09-06T07:39:15.428Z",
+      "updatedAt": "2026-09-06T07:39:15.428Z"
+    },
+    {
+      "_id": "6a9d2e261758b30a07ced7d9",
+      "doctorId": "6a9d13f7ac9e10a35f9465e4",
+      "patientId": "6a9d03601427193573bfa7ab",
+      "opNumber": "OP-698917",
+      "requestId": "6a9d2de11758b30a07ced7d4",
+      "doctorName": "Dr. test2",
+      "doctorLicense": "mcl-987",
+      "doctorSpecialty": "General Medicine",
+      "hospitalName": "MediKiosk Apex Hospital",
+      "patientName": "test1",
+      "patientAge": 21,
+      "patientGender": "Male",
+      "patientPhone": "8985817969",
+      "diagnosisOrImpression": "Acute Exacerbation / Provisional Assessment",
+      "medicines": [
+        {
+          "name": "Augmentin 625 Duo",
+          "genericName": "Amoxicillin + Clavulanic Acid",
+          "strength": "625 mg",
+          "form": "Tablet",
+          "dosage": "1 tablet",
+          "frequency": "Twice daily",
+          "timing": {
+            "morning": true,
+            "afternoon": false,
+            "night": true,
+            "mealRelation": "After food"
+          },
+          "duration": "5 days",
+          "instructions": "Complete full 5-day antibiotic course"
+        },
+        {
+          "name": "Dolo 650",
+          "genericName": "Paracetamol",
+          "strength": "650 mg",
+          "form": "Tablet",
+          "dosage": "1 tablet",
+          "frequency": "Every 8 hours as needed",
+          "timing": {
+            "morning": true,
+            "afternoon": true,
+            "night": true,
+            "mealRelation": "After food"
+          },
+          "duration": "3 days",
+          "instructions": "Take only if temperature exceeds 99.5 F or severe pain"
+        },
+        {
+          "name": "Pan 40",
+          "genericName": "Pantoprazole",
+          "strength": "40 mg",
+          "form": "Tablet",
+          "dosage": "1 tablet",
+          "frequency": "Once daily",
+          "timing": {
+            "morning": true,
+            "afternoon": false,
+            "night": false,
+            "mealRelation": "Before food"
+          },
+          "duration": "7 days",
+          "instructions": "Take 30 minutes before morning breakfast"
+        }
+      ],
+      "generalInstructions": "Maintain adequate hydration and take complete rest.",
+      "doctorNotes": "",
+      "followUpDays": 7,
+      "status": "ISSUED",
+      "createdAt": "2026-09-06T09:11:02.603Z",
+      "updatedAt": "2026-09-06T09:11:02.603Z"
+    },
+    {
+      "_id": "6a9d441d794d49c38fbf90dd",
+      "doctorId": "6a9d13f7ac9e10a35f9465e4",
+      "patientId": "6a9d03601427193573bfa7ab",
+      "opNumber": "OP-698917",
+      "requestId": "6a9d43d9794d49c38fbf90d8",
+      "doctorName": "Dr. test2",
+      "doctorLicense": "mcl-987",
+      "doctorSpecialty": "General Medicine",
+      "hospitalName": "MediKiosk Apex Hospital",
+      "patientName": "test1",
+      "patientAge": 21,
+      "patientGender": "Male",
+      "patientPhone": "8985817969",
+      "diagnosisOrImpression": "Acute Exacerbation / Provisional Assessment",
+      "medicines": [
+        {
+          "name": "Augmentin 625 Duo",
+          "genericName": "Amoxicillin + Clavulanic Acid",
+          "strength": "625 mg",
+          "form": "Tablet",
+          "dosage": "1 tablet",
+          "frequency": "Twice daily",
+          "timing": {
+            "morning": true,
+            "afternoon": false,
+            "night": true,
+            "mealRelation": "After food"
+          },
+          "duration": "5 days",
+          "instructions": "Complete full 5-day antibiotic course"
+        },
+        {
+          "name": "Dolo 650",
+          "genericName": "Paracetamol",
+          "strength": "650 mg",
+          "form": "Tablet",
+          "dosage": "1 tablet",
+          "frequency": "Every 8 hours as needed",
+          "timing": {
+            "morning": true,
+            "afternoon": true,
+            "night": true,
+            "mealRelation": "After food"
+          },
+          "duration": "3 days",
+          "instructions": "Take only if temperature exceeds 99.5 F or severe pain"
+        },
+        {
+          "name": "Pan 40",
+          "genericName": "Pantoprazole",
+          "strength": "40 mg",
+          "form": "Tablet",
+          "dosage": "1 tablet",
+          "frequency": "Once daily",
+          "timing": {
+            "morning": true,
+            "afternoon": false,
+            "night": false,
+            "mealRelation": "Before food"
+          },
+          "duration": "7 days",
+          "instructions": "Take 30 minutes before morning breakfast"
+        }
+      ],
+      "generalInstructions": "Maintain adequate hydration and take complete rest.",
+      "doctorNotes": "",
+      "followUpDays": 4,
+      "status": "ISSUED",
+      "createdAt": "2026-09-06T10:44:45.697Z",
+      "updatedAt": "2026-09-06T10:44:45.697Z"
+    },
+    {
+      "_id": "6aa0082860f40b366340b67c",
+      "doctorId": "6aa0078560f40b366340b676",
+      "patientId": "6aa0067860f40b366340b665",
+      "opNumber": "OP-788373",
+      "requestId": "6aa007d260f40b366340b678",
+      "doctorName": "Dr. test4",
+      "doctorLicense": "mcl-0987",
+      "doctorSpecialty": "General Medicine",
+      "hospitalName": "MediKiosk Apex Hospital",
+      "patientName": "test3",
+      "patientAge": 22,
+      "patientGender": "Male",
+      "patientPhone": "8985817966",
+      "diagnosisOrImpression": "Acute Exacerbation / Provisional Assessment",
+      "medicines": [
+        {
+          "name": "Augmentin 625 Duo",
+          "genericName": "Amoxicillin + Clavulanic Acid",
+          "strength": "625 mg",
+          "form": "Tablet",
+          "dosage": "1 tablet",
+          "frequency": "Twice daily",
+          "timing": {
+            "morning": true,
+            "afternoon": false,
+            "night": true,
+            "mealRelation": "After food"
+          },
+          "duration": "5 days",
+          "instructions": "Complete full 5-day antibiotic course"
+        },
+        {
+          "name": "Dolo 650",
+          "genericName": "Paracetamol",
+          "strength": "650 mg",
+          "form": "Tablet",
+          "dosage": "1 tablet",
+          "frequency": "Every 8 hours as needed",
+          "timing": {
+            "morning": true,
+            "afternoon": true,
+            "night": true,
+            "mealRelation": "After food"
+          },
+          "duration": "3 days",
+          "instructions": "Take only if temperature exceeds 99.5 F or severe pain"
+        },
+        {
+          "name": "Pan 40",
+          "genericName": "Pantoprazole",
+          "strength": "40 mg",
+          "form": "Tablet",
+          "dosage": "1 tablet",
+          "frequency": "Once daily",
+          "timing": {
+            "morning": true,
+            "afternoon": false,
+            "night": false,
+            "mealRelation": "Before food"
+          },
+          "duration": "7 days",
+          "instructions": "Take 30 minutes before morning breakfast"
+        },
+        {
+          "name": "Novamox-CV-Forte 375 mg",
+          "genericName": "Amoxicillin + Clavulanic Acid (Forte formulation)",
+          "strength": "375 mg",
+          "form": "Tablet",
+          "dosage": "1 tablet twice daily after food",
+          "frequency": "Twice daily",
+          "timing": {
+            "morning": true,
+            "afternoon": false,
+            "night": true,
+            "mealRelation": "After food"
+          },
+          "duration": "5 days",
+          "instructions": "Bacterial respiratory, ENT, dental and skin infections"
+        }
+      ],
+      "generalInstructions": "Maintain adequate hydration and take complete rest.",
+      "doctorNotes": "",
+      "followUpDays": 7,
+      "status": "ISSUED",
+      "createdAt": "2026-09-08T13:05:44.142Z",
+      "updatedAt": "2026-09-08T13:05:44.142Z"
+    },
+    {
+      "_id": "6aa00ca560f40b366340b67f",
+      "doctorId": "6aa0078560f40b366340b676",
+      "patientId": "6aa0067860f40b366340b665",
+      "opNumber": "OP-788373",
+      "requestId": "6aa007d260f40b366340b678",
+      "doctorName": "Dr. test4",
+      "doctorLicense": "mcl-0987",
+      "doctorSpecialty": "General Medicine",
+      "hospitalName": "MediKiosk Apex Hospital",
+      "patientName": "test3",
+      "patientAge": 22,
+      "patientGender": "Male",
+      "patientPhone": "8985817966",
+      "diagnosisOrImpression": "Acute Exacerbation / Provisional Assessment",
+      "medicines": [
+        {
+          "name": "Augmentin 625 Duo",
+          "genericName": "Amoxicillin + Clavulanic Acid",
+          "strength": "625 mg",
+          "form": "Tablet",
+          "dosage": "1 tablet",
+          "frequency": "Twice daily",
+          "timing": {
+            "morning": true,
+            "afternoon": false,
+            "night": true,
+            "mealRelation": "After food"
+          },
+          "duration": "5 days",
+          "instructions": "Complete full 5-day antibiotic course"
+        },
+        {
+          "name": "Dolo 650",
+          "genericName": "Paracetamol",
+          "strength": "650 mg",
+          "form": "Tablet",
+          "dosage": "1 tablet",
+          "frequency": "Every 8 hours as needed",
+          "timing": {
+            "morning": true,
+            "afternoon": true,
+            "night": true,
+            "mealRelation": "After food"
+          },
+          "duration": "3 days",
+          "instructions": "Take only if temperature exceeds 99.5 F or severe pain"
+        },
+        {
+          "name": "Pan 40",
+          "genericName": "Pantoprazole",
+          "strength": "40 mg",
+          "form": "Tablet",
+          "dosage": "1 tablet",
+          "frequency": "Once daily",
+          "timing": {
+            "morning": true,
+            "afternoon": false,
+            "night": false,
+            "mealRelation": "Before food"
+          },
+          "duration": "7 days",
+          "instructions": "Take 30 minutes before morning breakfast"
+        }
+      ],
+      "generalInstructions": "Maintain adequate hydration and take complete rest.",
+      "doctorNotes": "",
+      "followUpDays": 7,
+      "status": "ISSUED",
+      "createdAt": "2026-09-08T13:24:53.570Z",
+      "updatedAt": "2026-09-08T13:24:53.570Z"
+    }
+  ],
+  "Notification": [
+    {
+      "_id": "6a9d148aac9e10a35f9465f4",
+      "recipientId": "6a9d13f7ac9e10a35f9465e4",
+      "recipientRole": "doctor",
+      "title": "New Patient Health Summary Received",
+      "message": "test1 shared a clinical health summary regarding: \"fever\". Tap to review and accept checkup.",
+      "type": "request",
+      "link": "/doctor/requests/6a9d148aac9e10a35f9465f3",
+      "createdAt": "2026-09-06T07:21:46.239Z",
+      "updatedAt": "2026-09-06T07:21:46.239Z"
+    },
+    {
+      "_id": "6a9d14b3ac9e10a35f9465f6",
+      "recipientId": "6a9d03601427193573bfa7ab",
+      "recipientRole": "patient",
+      "title": "✓ Doctor Accepted Your Health Summary",
+      "message": "Dr. Dr. test2 has accepted your health summary! You can go tomorrow (10:00 AM - 01:00 PM) for your checkup. Note: \"Your health summary has been accepted. Please visit tomorrow for in-person clinical examination at Cabin 204. Bring previous physical reports.\"",
+      "type": "request",
+      "link": "/patient/dashboard",
+      "createdAt": "2026-09-06T07:22:27.261Z",
+      "updatedAt": "2026-09-06T07:22:27.261Z"
+    },
+    {
+      "_id": "6a9d14b8ac9e10a35f9465f9",
+      "recipientId": "6a9d03601427193573bfa7ab",
+      "recipientRole": "patient",
+      "title": "💊 Prescribed Medicines from Dr. test2",
+      "message": "Dr. test2 has completed your checkup and sent your digital prescription with 3 prescribed medicines (Augmentin 625 Duo (1 tablet), Dolo 650 (1 tablet), Pan 40 (1 tablet)) directly to your platform.",
+      "type": "prescription",
+      "link": "/patient/prescriptions/6a9d14b8ac9e10a35f9465f7",
+      "createdAt": "2026-09-06T07:22:32.717Z",
+      "updatedAt": "2026-09-06T07:22:32.717Z"
+    },
+    {
+      "_id": "6a9d16bc1758b30a07ced7b1",
+      "recipientId": "6a9d16bb1758b30a07ced7ab",
+      "recipientRole": "patient",
+      "title": "💊 Prescribed Medicines from Dr. Priya Varma",
+      "message": "Dr. Priya Varma has completed your checkup and sent your digital prescription with 2 prescribed medicines (Augmentin 625 Duo (1 tablet), Pan 40 (1 tablet)) directly to your platform.",
+      "type": "prescription",
+      "link": "/patient/prescriptions/6a9d16bc1758b30a07ced7af",
+      "createdAt": "2026-09-06T07:31:08.045Z",
+      "updatedAt": "2026-09-06T07:31:08.045Z"
+    },
+    {
+      "_id": "6a9d186e1758b30a07ced7c0",
+      "recipientId": "6a9d13f7ac9e10a35f9465e4",
+      "recipientRole": "doctor",
+      "title": "New Patient Health Summary Received",
+      "message": "test1 shared a clinical health summary regarding: \"eyes are burning\". Tap to review and accept checkup.",
+      "type": "request",
+      "link": "/doctor/requests/6a9d186e1758b30a07ced7bf",
+      "createdAt": "2026-09-06T07:38:22.205Z",
+      "updatedAt": "2026-09-06T07:38:22.205Z"
+    },
+    {
+      "_id": "6a9d18981758b30a07ced7c2",
+      "recipientId": "6a9d03601427193573bfa7ab",
+      "recipientRole": "patient",
+      "title": "✓ Doctor Accepted Your Health Summary",
+      "message": "Dr. Dr. test2 has accepted your health summary! You can go tomorrow (10:00 AM - 01:00 PM) for your checkup. Note: \"Your health summary has been accepted. Please visit tomorrow for in-person clinical examination at Cabin 204. Bring previous physical reports.\"",
+      "type": "request",
+      "link": "/patient/dashboard",
+      "createdAt": "2026-09-06T07:39:04.093Z",
+      "updatedAt": "2026-09-06T07:39:04.093Z"
+    },
+    {
+      "_id": "6a9d18a31758b30a07ced7c5",
+      "recipientId": "6a9d03601427193573bfa7ab",
+      "recipientRole": "patient",
+      "title": "💊 Prescribed Medicines from Dr. test2",
+      "message": "Dr. test2 has completed your checkup and sent your digital prescription with 3 prescribed medicines (Augmentin 625 Duo (1 tablet), Dolo 650 (1 tablet), Pan 40 (1 tablet)) directly to your platform.",
+      "type": "prescription",
+      "link": "/patient/prescriptions/6a9d18a31758b30a07ced7c3",
+      "createdAt": "2026-09-06T07:39:15.446Z",
+      "updatedAt": "2026-09-06T07:39:15.446Z"
+    },
+    {
+      "_id": "6a9d2de11758b30a07ced7d5",
+      "recipientId": "6a9d13f7ac9e10a35f9465e4",
+      "recipientRole": "doctor",
+      "title": "New Patient Health Summary Received",
+      "message": "test1 shared a clinical health summary regarding: \"I am feeling symptoms in my Elbows (Tennis elbow, joint swelling, tenderness).. Reported symptoms in right Elbows (spasms).\". Tap to review and accept checkup.",
+      "type": "request",
+      "link": "/doctor/requests/6a9d2de11758b30a07ced7d4",
+      "createdAt": "2026-09-06T09:09:53.330Z",
+      "updatedAt": "2026-09-06T09:09:53.330Z"
+    },
+    {
+      "_id": "6a9d2e0c1758b30a07ced7d6",
+      "recipientId": "6a9d03601427193573bfa7ab",
+      "recipientRole": "patient",
+      "title": "✓ Doctor Reviewed Your Health Summary",
+      "message": "Dr. test2 has completed reviewing your health records and symptoms.",
+      "type": "review",
+      "link": "/patient/summary",
+      "createdAt": "2026-09-06T09:10:36.055Z",
+      "updatedAt": "2026-09-06T09:10:36.055Z"
+    },
+    {
+      "_id": "6a9d2e0d1758b30a07ced7d8",
+      "recipientId": "6a9d03601427193573bfa7ab",
+      "recipientRole": "patient",
+      "title": "✓ Doctor Accepted Your Health Summary",
+      "message": "Dr. Dr. test2 has accepted your health summary! You can go tomorrow (10:00 AM - 01:00 PM) for your checkup. Note: \"Your health summary has been accepted. Please visit tomorrow for in-person clinical examination at Cabin 204. Bring previous physical reports.\"",
+      "type": "request",
+      "link": "/patient/dashboard",
+      "createdAt": "2026-09-06T09:10:37.228Z",
+      "updatedAt": "2026-09-06T09:10:37.228Z"
+    },
+    {
+      "_id": "6a9d2e261758b30a07ced7db",
+      "recipientId": "6a9d03601427193573bfa7ab",
+      "recipientRole": "patient",
+      "title": "💊 Prescribed Medicines from Dr. test2",
+      "message": "Dr. test2 has completed your checkup and sent your digital prescription with 3 prescribed medicines (Augmentin 625 Duo (1 tablet), Dolo 650 (1 tablet), Pan 40 (1 tablet)) directly to your platform.",
+      "type": "prescription",
+      "link": "/patient/prescriptions/6a9d2e261758b30a07ced7d9",
+      "createdAt": "2026-09-06T09:11:02.635Z",
+      "updatedAt": "2026-09-06T09:11:02.635Z"
+    },
+    {
+      "_id": "6a9d43d9794d49c38fbf90d9",
+      "recipientId": "6a9d13f7ac9e10a35f9465e4",
+      "recipientRole": "doctor",
+      "title": "New Patient Health Summary Received",
+      "message": "test1 shared a clinical health summary regarding: \"I am feeling symptoms in my Eyes (Vision blur, eye pain, redness, irritation).. Reported symptoms in Eyes (burnig).. I am feeling symptoms in my Eyes (Vision blur, eye pain, redness, irritation).. Reported symptoms in Eyes (burning\nred in colour).\". Tap to review and accept checkup.",
+      "type": "request",
+      "link": "/doctor/requests/6a9d43d9794d49c38fbf90d8",
+      "createdAt": "2026-09-06T10:43:37.179Z",
+      "updatedAt": "2026-09-06T10:43:37.179Z"
+    },
+    {
+      "_id": "6a9d43f3794d49c38fbf90db",
+      "recipientId": "6a9d03601427193573bfa7ab",
+      "recipientRole": "patient",
+      "title": "✓ Doctor Accepted Your Health Summary",
+      "message": "Dr. Dr. test2 has accepted your health summary! You can go tomorrow (10:00 AM - 01:00 PM) for your checkup. Note: \"Your health summary has been accepted. Please visit tomorrow for in-person clinical examination at Cabin 204. Bring previous physical reports.\"",
+      "type": "request",
+      "link": "/patient/dashboard",
+      "createdAt": "2026-09-06T10:44:03.697Z",
+      "updatedAt": "2026-09-06T10:44:03.697Z"
+    },
+    {
+      "_id": "6a9d43fa794d49c38fbf90dc",
+      "recipientId": "6a9d03601427193573bfa7ab",
+      "recipientRole": "patient",
+      "title": "✓ Doctor Reviewed Your Health Summary",
+      "message": "Dr. test2 has completed reviewing your health records and symptoms.",
+      "type": "review",
+      "link": "/patient/summary",
+      "createdAt": "2026-09-06T10:44:10.174Z",
+      "updatedAt": "2026-09-06T10:44:10.174Z"
+    },
+    {
+      "_id": "6a9d441d794d49c38fbf90df",
+      "recipientId": "6a9d03601427193573bfa7ab",
+      "recipientRole": "patient",
+      "title": "💊 Prescribed Medicines from Dr. test2",
+      "message": "Dr. test2 has completed your checkup and sent your digital prescription with 3 prescribed medicines (Augmentin 625 Duo (1 tablet), Dolo 650 (1 tablet), Pan 40 (1 tablet)) directly to your platform.",
+      "type": "prescription",
+      "link": "/patient/prescriptions/6a9d441d794d49c38fbf90dd",
+      "createdAt": "2026-09-06T10:44:45.722Z",
+      "updatedAt": "2026-09-06T10:44:45.722Z"
+    },
+    {
+      "_id": "6a9ed37960f40b366340b662",
+      "recipientId": "6a9d13f7ac9e10a35f9465e4",
+      "recipientRole": "doctor",
+      "title": "New Patient Health Summary Received",
+      "message": "test1 shared a clinical health summary regarding: \"my ears are in pain\". Tap to review and accept checkup.",
+      "type": "request",
+      "link": "/doctor/requests/6a9ed37960f40b366340b661",
+      "createdAt": "2026-09-07T15:08:41.910Z",
+      "updatedAt": "2026-09-07T15:08:41.910Z"
+    },
+    {
+      "_id": "6a9ed37f60f40b366340b664",
+      "recipientId": "6a9d13f7ac9e10a35f9465e4",
+      "recipientRole": "doctor",
+      "title": "New Patient Health Summary Received",
+      "message": "test1 shared a clinical health summary regarding: \"my ears are in pain\". Tap to review and accept checkup.",
+      "type": "request",
+      "link": "/doctor/requests/6a9ed37f60f40b366340b663",
+      "createdAt": "2026-09-07T15:08:47.611Z",
+      "updatedAt": "2026-09-07T15:08:47.611Z"
+    },
+    {
+      "_id": "6aa007d260f40b366340b679",
+      "recipientId": "6aa0078560f40b366340b676",
+      "recipientRole": "doctor",
+      "title": "New Patient Health Summary Received",
+      "message": "test3 shared a clinical health summary regarding: \"fever\". Tap to review and accept checkup.",
+      "type": "request",
+      "link": "/doctor/requests/6aa007d260f40b366340b678",
+      "createdAt": "2026-09-08T13:04:18.133Z",
+      "updatedAt": "2026-09-08T13:04:18.133Z"
+    },
+    {
+      "_id": "6aa007ea60f40b366340b67b",
+      "recipientId": "6aa0067860f40b366340b665",
+      "recipientRole": "patient",
+      "title": "✓ Doctor Accepted Your Health Summary",
+      "message": "Dr. Dr. test4 has accepted your health summary! You can go tomorrow (10:00 AM - 01:00 PM) for your checkup. Note: \"Your health summary has been accepted. Please visit tomorrow for in-person clinical examination at Cabin 204. Bring previous physical reports.\"",
+      "type": "request",
+      "link": "/patient/dashboard",
+      "createdAt": "2026-09-08T13:04:42.000Z",
+      "updatedAt": "2026-09-08T13:04:42.000Z"
+    },
+    {
+      "_id": "6aa0082860f40b366340b67e",
+      "recipientId": "6aa0067860f40b366340b665",
+      "recipientRole": "patient",
+      "title": "💊 Prescribed Medicines from Dr. test4",
+      "message": "Dr. test4 has completed your checkup and sent your digital prescription with 4 prescribed medicines (Augmentin 625 Duo (1 tablet), Dolo 650 (1 tablet), Pan 40 (1 tablet)) directly to your platform.",
+      "type": "prescription",
+      "link": "/patient/prescriptions/6aa0082860f40b366340b67c",
+      "createdAt": "2026-09-08T13:05:44.225Z",
+      "updatedAt": "2026-09-08T13:05:44.225Z"
+    },
+    {
+      "_id": "6aa00ca560f40b366340b681",
+      "recipientId": "6aa0067860f40b366340b665",
+      "recipientRole": "patient",
+      "title": "💊 Prescribed Medicines from Dr. test4",
+      "message": "Dr. test4 has completed your checkup and sent your digital prescription with 3 prescribed medicines (Augmentin 625 Duo (1 tablet), Dolo 650 (1 tablet), Pan 40 (1 tablet)) directly to your platform.",
+      "type": "prescription",
+      "link": "/patient/prescriptions/6aa00ca560f40b366340b67f",
+      "createdAt": "2026-09-08T13:24:53.607Z",
+      "updatedAt": "2026-09-08T13:24:53.607Z"
+    }
+  ],
+  "MedicalTimeline": [
+    {
+      "_id": "6a9d03c71427193573bfa7b5",
+      "patientId": "6a9d03601427193573bfa7ab",
+      "eventDate": "2026-09-06T06:10:15.609Z",
+      "year": 2026,
+      "eventType": "AI_CHECKUP",
+      "title": "AI Health Check-Up: my  legs are paining",
+      "summary": "AI triage completed. Suggested specialty: General Medicine. Priority: NORMAL.",
+      "doctorOrFacility": "MediKiosk Smart Hospital Assistant",
+      "keyMetrics": [
+        {
+          "label": "Priority",
+          "value": "NORMAL"
+        },
+        {
+          "label": "Specialty",
+          "value": "General Medicine"
+        }
+      ],
+      "createdAt": "2026-09-06T06:10:15.609Z",
+      "updatedAt": "2026-09-06T06:10:15.609Z"
+    },
+    {
+      "_id": "6a9d09c21a0e83e8e7c6032b",
+      "patientId": "6a9d09c21a0e83e8e7c60324",
+      "eventDate": "2026-09-06T06:35:46.770Z",
+      "year": 2026,
+      "eventType": "PRESCRIPTION",
+      "title": "Doctor's Prescription (Rx): Cardiology_Doctor_Prescription_Rx.jpg",
+      "summary": "Verified hospital report processed and converted to text. All parameters within reference limits.",
+      "doctorOrFacility": "Dr. A. Sharma",
+      "associatedDocumentId": "6a9d09c21a0e83e8e7c60329",
+      "keyMetrics": [],
+      "createdAt": "2026-09-06T06:35:46.770Z",
+      "updatedAt": "2026-09-06T06:35:46.770Z"
+    },
+    {
+      "_id": "6a9d0a1fbeaf1411eeb81d6e",
+      "patientId": "6a9d0a1ebeaf1411eeb81d67",
+      "eventDate": "2026-09-06T06:37:19.331Z",
+      "year": 2026,
+      "eventType": "PRESCRIPTION",
+      "title": "Doctor's Prescription (Rx): Cardiology_Doctor_Prescription_Rx.jpg",
+      "summary": "Verified hospital report processed and converted to text. All parameters within reference limits.",
+      "doctorOrFacility": "Dr. A. Sharma",
+      "associatedDocumentId": "6a9d0a1fbeaf1411eeb81d6c",
+      "keyMetrics": [],
+      "createdAt": "2026-09-06T06:37:19.331Z",
+      "updatedAt": "2026-09-06T06:37:19.331Z"
+    },
+    {
+      "_id": "6a9d0aafbeaf1411eeb81d77",
+      "patientId": "6a9d03601427193573bfa7ab",
+      "eventDate": "2026-09-06T06:39:43.176Z",
+      "year": 2026,
+      "eventType": "AI_CHECKUP",
+      "title": "AI Health Check-Up: hi",
+      "summary": "AI triage completed. Suggested specialty: General Medicine. Priority: NORMAL.",
+      "doctorOrFacility": "MediKiosk Smart Hospital Assistant",
+      "keyMetrics": [
+        {
+          "label": "Priority",
+          "value": "NORMAL"
+        },
+        {
+          "label": "Specialty",
+          "value": "General Medicine"
+        }
+      ],
+      "createdAt": "2026-09-06T06:39:43.177Z",
+      "updatedAt": "2026-09-06T06:39:43.177Z"
+    },
+    {
+      "_id": "6a9d0da6420c9a0d61d363c9",
+      "patientId": "6a9d0da5420c9a0d61d363c5",
+      "eventDate": "2026-09-06T06:52:22.295Z",
+      "year": 2026,
+      "eventType": "LAB_TEST",
+      "title": "Hematology / Complete Blood Count (CBC): Apex_Hospital_CBC_Report.jpg",
+      "summary": "Verified hospital report processed and converted to text. All parameters within reference limits.",
+      "doctorOrFacility": "Dr. A. Sharma",
+      "associatedDocumentId": "6a9d0da6420c9a0d61d363c7",
+      "keyMetrics": [],
+      "createdAt": "2026-09-06T06:52:22.295Z",
+      "updatedAt": "2026-09-06T06:52:22.295Z"
+    },
+    {
+      "_id": "6a9d0dbd420c9a0d61d363ce",
+      "patientId": "6a9d0dbc420c9a0d61d363ca",
+      "eventDate": "2026-09-06T06:52:45.563Z",
+      "year": 2026,
+      "eventType": "LAB_TEST",
+      "title": "Hematology / Complete Blood Count (CBC): Apex_Hospital_CBC_Report.jpg",
+      "summary": "Verified hospital report processed and converted to text. All parameters within reference limits.",
+      "doctorOrFacility": "Dr. A. Sharma",
+      "associatedDocumentId": "6a9d0dbd420c9a0d61d363cc",
+      "keyMetrics": [],
+      "createdAt": "2026-09-06T06:52:45.563Z",
+      "updatedAt": "2026-09-06T06:52:45.563Z"
+    },
+    {
+      "_id": "6a9d0dd1420c9a0d61d363d6",
+      "patientId": "6a9d0dd0420c9a0d61d363cf",
+      "eventDate": "2026-09-06T06:53:05.088Z",
+      "year": 2026,
+      "eventType": "PRESCRIPTION",
+      "title": "Doctor's Prescription (Rx): Cardiology_Doctor_Prescription_Rx.jpg",
+      "summary": "Verified hospital report processed and converted to text. All parameters within reference limits.",
+      "doctorOrFacility": "Dr. A. Sharma",
+      "associatedDocumentId": "6a9d0dd1420c9a0d61d363d4",
+      "keyMetrics": [],
+      "createdAt": "2026-09-06T06:53:05.088Z",
+      "updatedAt": "2026-09-06T06:53:05.088Z"
+    },
+    {
+      "_id": "6a9d1286ac9e10a35f9465de",
+      "patientId": "6a9d1286ac9e10a35f9465da",
+      "eventDate": "2026-09-06T07:13:10.657Z",
+      "year": 2026,
+      "eventType": "AI_CHECKUP",
+      "title": "AI Health Check-Up: General health consultation",
+      "summary": "AI triage completed. Suggested specialty: General Medicine. Priority: NORMAL.",
+      "doctorOrFacility": "MediKiosk Smart Hospital Assistant",
+      "keyMetrics": [
+        {
+          "label": "Priority",
+          "value": "NORMAL"
+        },
+        {
+          "label": "Specialty",
+          "value": "General Medicine"
+        }
+      ],
+      "createdAt": "2026-09-06T07:13:10.657Z",
+      "updatedAt": "2026-09-06T07:13:10.657Z"
+    },
+    {
+      "_id": "6a9d12a6ac9e10a35f9465e3",
+      "patientId": "6a9d12a5ac9e10a35f9465df",
+      "eventDate": "2026-09-06T07:13:42.469Z",
+      "year": 2026,
+      "eventType": "LAB_TEST",
+      "title": "Hematology / Complete Blood Count (CBC): Apex_Hospital_CBC_Report.jpg",
+      "summary": "Verified hospital report processed and converted to text. All parameters within reference limits.",
+      "doctorOrFacility": "Dr. A. Sharma",
+      "associatedDocumentId": "6a9d12a6ac9e10a35f9465e1",
+      "keyMetrics": [],
+      "createdAt": "2026-09-06T07:13:42.469Z",
+      "updatedAt": "2026-09-06T07:13:42.469Z"
+    },
+    {
+      "_id": "6a9d1442ac9e10a35f9465ee",
+      "patientId": "6a9d03601427193573bfa7ab",
+      "eventDate": "2026-09-06T07:20:34.723Z",
+      "year": 2026,
+      "eventType": "AI_CHECKUP",
+      "title": "AI Health Check-Up: fever",
+      "summary": "AI triage completed. Suggested specialty: General Medicine. Priority: NORMAL.",
+      "doctorOrFacility": "MediKiosk Smart Hospital Assistant",
+      "keyMetrics": [
+        {
+          "label": "Priority",
+          "value": "NORMAL"
+        },
+        {
+          "label": "Specialty",
+          "value": "General Medicine"
+        }
+      ],
+      "createdAt": "2026-09-06T07:20:34.723Z",
+      "updatedAt": "2026-09-06T07:20:34.723Z"
+    },
+    {
+      "_id": "6a9d14b3ac9e10a35f9465f5",
+      "patientId": "6a9d03601427193573bfa7ab",
+      "eventDate": "2026-09-06T07:22:27.251Z",
+      "year": 2026,
+      "eventType": "APPOINTMENT",
+      "title": "Checkup Scheduled with Dr. test2",
+      "summary": "Dr. Dr. test2 accepted your health summary. Visit scheduled: Tomorrow (10:00 AM - 01:00 PM). Your health summary has been accepted. Please visit tomorrow for in-person clinical examination at Cabin 204. Bring previous physical reports.",
+      "doctorOrFacility": "Dr. test2 (General Medicine)",
+      "keyMetrics": [
+        {
+          "label": "Status",
+          "value": "Doctor Accepted"
+        },
+        {
+          "label": "Visit Time",
+          "value": "Tomorrow (10:00 AM - 01:00 PM)"
+        }
+      ],
+      "createdAt": "2026-09-06T07:22:27.258Z",
+      "updatedAt": "2026-09-06T07:22:27.258Z"
+    },
+    {
+      "_id": "6a9d14b8ac9e10a35f9465f8",
+      "patientId": "6a9d03601427193573bfa7ab",
+      "eventDate": "2026-09-06T07:22:32.714Z",
+      "year": 2026,
+      "eventType": "PRESCRIPTION",
+      "title": "Digital Prescription issued by Dr. test2",
+      "summary": "Prescribed: Augmentin 625 Duo (1 tablet), Dolo 650 (1 tablet), Pan 40 (1 tablet). Diagnosis: Acute Exacerbation / Provisional Assessment.",
+      "doctorOrFacility": "Dr. test2 (General Medicine)",
+      "keyMetrics": [
+        {
+          "label": "Medicines",
+          "value": "3 prescribed"
+        }
+      ],
+      "createdAt": "2026-09-06T07:22:32.714Z",
+      "updatedAt": "2026-09-06T07:22:32.714Z"
+    },
+    {
+      "_id": "6a9d16bc1758b30a07ced7b0",
+      "patientId": "6a9d16bb1758b30a07ced7ab",
+      "eventDate": "2026-09-06T07:31:08.043Z",
+      "year": 2026,
+      "eventType": "PRESCRIPTION",
+      "title": "Digital Prescription issued by Dr. Priya Varma",
+      "summary": "Prescribed: Augmentin 625 Duo (1 tablet), Pan 40 (1 tablet). Diagnosis: Upper Respiratory Tract Infection.",
+      "doctorOrFacility": "Dr. Priya Varma (Internal Medicine)",
+      "keyMetrics": [
+        {
+          "label": "Medicines",
+          "value": "2 prescribed"
+        }
+      ],
+      "createdAt": "2026-09-06T07:31:08.043Z",
+      "updatedAt": "2026-09-06T07:31:08.043Z"
+    },
+    {
+      "_id": "6a9d18521758b30a07ced7ba",
+      "patientId": "6a9d03601427193573bfa7ab",
+      "eventDate": "2026-09-06T07:37:54.081Z",
+      "year": 2026,
+      "eventType": "AI_CHECKUP",
+      "title": "AI Health Check-Up: eyes are burning",
+      "summary": "AI triage completed. Suggested specialty: General Medicine. Priority: NORMAL.",
+      "doctorOrFacility": "MediKiosk Smart Hospital Assistant",
+      "keyMetrics": [
+        {
+          "label": "Priority",
+          "value": "NORMAL"
+        },
+        {
+          "label": "Specialty",
+          "value": "General Medicine"
+        }
+      ],
+      "createdAt": "2026-09-06T07:37:54.081Z",
+      "updatedAt": "2026-09-06T07:37:54.081Z"
+    },
+    {
+      "_id": "6a9d18981758b30a07ced7c1",
+      "patientId": "6a9d03601427193573bfa7ab",
+      "eventDate": "2026-09-06T07:39:04.077Z",
+      "year": 2026,
+      "eventType": "APPOINTMENT",
+      "title": "Checkup Scheduled with Dr. test2",
+      "summary": "Dr. Dr. test2 accepted your health summary. Visit scheduled: Tomorrow (10:00 AM - 01:00 PM). Your health summary has been accepted. Please visit tomorrow for in-person clinical examination at Cabin 204. Bring previous physical reports.",
+      "doctorOrFacility": "Dr. test2 (General Medicine)",
+      "keyMetrics": [
+        {
+          "label": "Status",
+          "value": "Doctor Accepted"
+        },
+        {
+          "label": "Visit Time",
+          "value": "Tomorrow (10:00 AM - 01:00 PM)"
+        }
+      ],
+      "createdAt": "2026-09-06T07:39:04.086Z",
+      "updatedAt": "2026-09-06T07:39:04.086Z"
+    },
+    {
+      "_id": "6a9d18a31758b30a07ced7c4",
+      "patientId": "6a9d03601427193573bfa7ab",
+      "eventDate": "2026-09-06T07:39:15.442Z",
+      "year": 2026,
+      "eventType": "PRESCRIPTION",
+      "title": "Digital Prescription issued by Dr. test2",
+      "summary": "Prescribed: Augmentin 625 Duo (1 tablet), Dolo 650 (1 tablet), Pan 40 (1 tablet). Diagnosis: Acute Exacerbation / Provisional Assessment.",
+      "doctorOrFacility": "Dr. test2 (General Medicine)",
+      "keyMetrics": [
+        {
+          "label": "Medicines",
+          "value": "3 prescribed"
+        }
+      ],
+      "createdAt": "2026-09-06T07:39:15.442Z",
+      "updatedAt": "2026-09-06T07:39:15.442Z"
+    },
+    {
+      "_id": "6a9d2d871758b30a07ced7cf",
+      "patientId": "6a9d03601427193573bfa7ab",
+      "eventDate": "2026-09-06T09:08:23.336Z",
+      "year": 2026,
+      "eventType": "AI_CHECKUP",
+      "title": "AI Health Check-Up: I am feeling symptoms in my Elbows (Tennis elbow, joint swelling, tenderness).. Reported symptoms in right Elbows (spasms).",
+      "summary": "AI triage completed. Suggested specialty: Orthopedics. Priority: NORMAL.",
+      "doctorOrFacility": "MediKiosk Smart Hospital Assistant",
+      "keyMetrics": [
+        {
+          "label": "Priority",
+          "value": "NORMAL"
+        },
+        {
+          "label": "Specialty",
+          "value": "Orthopedics"
+        }
+      ],
+      "createdAt": "2026-09-06T09:08:23.336Z",
+      "updatedAt": "2026-09-06T09:08:23.336Z"
+    },
+    {
+      "_id": "6a9d2e0d1758b30a07ced7d7",
+      "patientId": "6a9d03601427193573bfa7ab",
+      "eventDate": "2026-09-06T09:10:37.212Z",
+      "year": 2026,
+      "eventType": "APPOINTMENT",
+      "title": "Checkup Scheduled with Dr. test2",
+      "summary": "Dr. Dr. test2 accepted your health summary. Visit scheduled: Tomorrow (10:00 AM - 01:00 PM). Your health summary has been accepted. Please visit tomorrow for in-person clinical examination at Cabin 204. Bring previous physical reports.",
+      "doctorOrFacility": "Dr. test2 (General Medicine)",
+      "keyMetrics": [
+        {
+          "label": "Status",
+          "value": "Doctor Accepted"
+        },
+        {
+          "label": "Visit Time",
+          "value": "Tomorrow (10:00 AM - 01:00 PM)"
+        }
+      ],
+      "createdAt": "2026-09-06T09:10:37.225Z",
+      "updatedAt": "2026-09-06T09:10:37.225Z"
+    },
+    {
+      "_id": "6a9d2e261758b30a07ced7da",
+      "patientId": "6a9d03601427193573bfa7ab",
+      "eventDate": "2026-09-06T09:11:02.628Z",
+      "year": 2026,
+      "eventType": "PRESCRIPTION",
+      "title": "Digital Prescription issued by Dr. test2",
+      "summary": "Prescribed: Augmentin 625 Duo (1 tablet), Dolo 650 (1 tablet), Pan 40 (1 tablet). Diagnosis: Acute Exacerbation / Provisional Assessment.",
+      "doctorOrFacility": "Dr. test2 (General Medicine)",
+      "keyMetrics": [
+        {
+          "label": "Medicines",
+          "value": "3 prescribed"
+        }
+      ],
+      "createdAt": "2026-09-06T09:11:02.628Z",
+      "updatedAt": "2026-09-06T09:11:02.628Z"
+    },
+    {
+      "_id": "6a9d43a3794d49c38fbf90d5",
+      "patientId": "6a9d03601427193573bfa7ab",
+      "eventDate": "2026-09-06T10:42:43.533Z",
+      "year": 2026,
+      "eventType": "AI_CHECKUP",
+      "title": "AI Health Check-Up: I am feeling symptoms in my Eyes (Vision blur, eye pain, redness, irritation).. Reported symptoms in Eyes (burnig).. I am feeling symptoms in my Eyes (Vision blur, eye pain, redness, irritation).. Reported symptoms in Eyes (burning\nred in colour).",
+      "summary": "AI triage completed. Suggested specialty: General Medicine. Priority: NORMAL.",
+      "doctorOrFacility": "MediKiosk Smart Hospital Assistant",
+      "keyMetrics": [
+        {
+          "label": "Priority",
+          "value": "NORMAL"
+        },
+        {
+          "label": "Specialty",
+          "value": "General Medicine"
+        }
+      ],
+      "createdAt": "2026-09-06T10:42:43.534Z",
+      "updatedAt": "2026-09-06T10:42:43.534Z"
+    },
+    {
+      "_id": "6a9d43f3794d49c38fbf90da",
+      "patientId": "6a9d03601427193573bfa7ab",
+      "eventDate": "2026-09-06T10:44:03.662Z",
+      "year": 2026,
+      "eventType": "APPOINTMENT",
+      "title": "Checkup Scheduled with Dr. test2",
+      "summary": "Dr. Dr. test2 accepted your health summary. Visit scheduled: Tomorrow (10:00 AM - 01:00 PM). Your health summary has been accepted. Please visit tomorrow for in-person clinical examination at Cabin 204. Bring previous physical reports.",
+      "doctorOrFacility": "Dr. test2 (General Medicine)",
+      "keyMetrics": [
+        {
+          "label": "Status",
+          "value": "Doctor Accepted"
+        },
+        {
+          "label": "Visit Time",
+          "value": "Tomorrow (10:00 AM - 01:00 PM)"
+        }
+      ],
+      "createdAt": "2026-09-06T10:44:03.686Z",
+      "updatedAt": "2026-09-06T10:44:03.686Z"
+    },
+    {
+      "_id": "6a9d441d794d49c38fbf90de",
+      "patientId": "6a9d03601427193573bfa7ab",
+      "eventDate": "2026-09-06T10:44:45.717Z",
+      "year": 2026,
+      "eventType": "PRESCRIPTION",
+      "title": "Digital Prescription issued by Dr. test2",
+      "summary": "Prescribed: Augmentin 625 Duo (1 tablet), Dolo 650 (1 tablet), Pan 40 (1 tablet). Diagnosis: Acute Exacerbation / Provisional Assessment.",
+      "doctorOrFacility": "Dr. test2 (General Medicine)",
+      "keyMetrics": [
+        {
+          "label": "Medicines",
+          "value": "3 prescribed"
+        }
+      ],
+      "createdAt": "2026-09-06T10:44:45.717Z",
+      "updatedAt": "2026-09-06T10:44:45.717Z"
+    },
+    {
+      "_id": "6a9d504d794d49c38fbf90e9",
+      "patientId": "6a9d03601427193573bfa7ab",
+      "eventDate": "2026-09-06T11:36:45.182Z",
+      "year": 2026,
+      "eventType": "AI_CHECKUP",
+      "title": "AI Health Check-Up: fever",
+      "summary": "AI triage completed. Suggested specialty: General Medicine. Priority: NORMAL.",
+      "doctorOrFacility": "MediKiosk Smart Hospital Assistant",
+      "keyMetrics": [
+        {
+          "label": "Priority",
+          "value": "NORMAL"
+        },
+        {
+          "label": "Specialty",
+          "value": "General Medicine"
+        }
+      ],
+      "createdAt": "2026-09-06T11:36:45.182Z",
+      "updatedAt": "2026-09-06T11:36:45.182Z"
+    },
+    {
+      "_id": "6a9ed36d60f40b366340b660",
+      "patientId": "6a9d03601427193573bfa7ab",
+      "eventDate": "2026-09-07T15:08:29.154Z",
+      "year": 2026,
+      "eventType": "AI_CHECKUP",
+      "title": "AI Health Check-Up: my ears are in pain",
+      "summary": "AI triage completed. Suggested specialty: ENT (Ear, Nose, Throat). Priority: NORMAL.",
+      "doctorOrFacility": "MediKiosk Smart Hospital Assistant",
+      "keyMetrics": [
+        {
+          "label": "Priority",
+          "value": "NORMAL"
+        },
+        {
+          "label": "Specialty",
+          "value": "ENT (Ear, Nose, Throat)"
+        }
+      ],
+      "createdAt": "2026-09-07T15:08:29.154Z",
+      "updatedAt": "2026-09-07T15:08:29.154Z"
+    },
+    {
+      "_id": "6aa006f360f40b366340b66f",
+      "patientId": "6aa0067860f40b366340b665",
+      "eventDate": "2026-09-08T13:00:35.857Z",
+      "year": 2026,
+      "eventType": "AI_CHECKUP",
+      "title": "AI Health Check-Up: fever",
+      "summary": "AI triage completed. Suggested specialty: General Medicine. Priority: NORMAL.",
+      "doctorOrFacility": "MediKiosk Smart Hospital Assistant",
+      "keyMetrics": [
+        {
+          "label": "Priority",
+          "value": "NORMAL"
+        },
+        {
+          "label": "Specialty",
+          "value": "General Medicine"
+        }
+      ],
+      "createdAt": "2026-09-08T13:00:35.857Z",
+      "updatedAt": "2026-09-08T13:00:35.857Z"
+    },
+    {
+      "_id": "6aa007e960f40b366340b67a",
+      "patientId": "6aa0067860f40b366340b665",
+      "eventDate": "2026-09-08T13:04:41.949Z",
+      "year": 2026,
+      "eventType": "APPOINTMENT",
+      "title": "Checkup Scheduled with Dr. test4",
+      "summary": "Dr. Dr. test4 accepted your health summary. Visit scheduled: Tomorrow (10:00 AM - 01:00 PM). Your health summary has been accepted. Please visit tomorrow for in-person clinical examination at Cabin 204. Bring previous physical reports.",
+      "doctorOrFacility": "Dr. test4 (General Medicine)",
+      "keyMetrics": [
+        {
+          "label": "Status",
+          "value": "Doctor Accepted"
+        },
+        {
+          "label": "Visit Time",
+          "value": "Tomorrow (10:00 AM - 01:00 PM)"
+        }
+      ],
+      "createdAt": "2026-09-08T13:04:41.990Z",
+      "updatedAt": "2026-09-08T13:04:41.990Z"
+    },
+    {
+      "_id": "6aa0082860f40b366340b67d",
+      "patientId": "6aa0067860f40b366340b665",
+      "eventDate": "2026-09-08T13:05:44.214Z",
+      "year": 2026,
+      "eventType": "PRESCRIPTION",
+      "title": "Digital Prescription issued by Dr. test4",
+      "summary": "Prescribed: Augmentin 625 Duo (1 tablet), Dolo 650 (1 tablet), Pan 40 (1 tablet). Diagnosis: Acute Exacerbation / Provisional Assessment.",
+      "doctorOrFacility": "Dr. test4 (General Medicine)",
+      "keyMetrics": [
+        {
+          "label": "Medicines",
+          "value": "4 prescribed"
+        }
+      ],
+      "createdAt": "2026-09-08T13:05:44.214Z",
+      "updatedAt": "2026-09-08T13:05:44.214Z"
+    },
+    {
+      "_id": "6aa00ca560f40b366340b680",
+      "patientId": "6aa0067860f40b366340b665",
+      "eventDate": "2026-09-08T13:24:53.599Z",
+      "year": 2026,
+      "eventType": "PRESCRIPTION",
+      "title": "Digital Prescription issued by Dr. test4",
+      "summary": "Prescribed: Augmentin 625 Duo (1 tablet), Dolo 650 (1 tablet), Pan 40 (1 tablet). Diagnosis: Acute Exacerbation / Provisional Assessment.",
+      "doctorOrFacility": "Dr. test4 (General Medicine)",
+      "keyMetrics": [
+        {
+          "label": "Medicines",
+          "value": "3 prescribed"
+        }
+      ],
+      "createdAt": "2026-09-08T13:24:53.599Z",
+      "updatedAt": "2026-09-08T13:24:53.599Z"
+    }
+  ]
+}

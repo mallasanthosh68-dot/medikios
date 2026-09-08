@@ -1,0 +1,328 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 980" width="100%" height="100%" style="background:#F3F8F8; font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
+  <defs>
+    <!-- Background Subtle Glows -->
+    <radialGradient id="bgGlow1" cx="20%" cy="15%" r="45%">
+      <stop offset="0%" stop-color="#0EA5A8" stop-opacity="0.06"/>
+      <stop offset="100%" stop-color="#F3F8F8" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="bgGlow2" cx="80%" cy="40%" r="50%">
+      <stop offset="0%" stop-color="#0284C7" stop-opacity="0.05"/>
+      <stop offset="100%" stop-color="#F3F8F8" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="bgGlow3" cx="50%" cy="85%" r="45%">
+      <stop offset="0%" stop-color="#16A34A" stop-opacity="0.04"/>
+      <stop offset="100%" stop-color="#F3F8F8" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- Card Fill Gradients -->
+    <linearGradient id="whiteCardGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="100%" stop-color="#FAFDFD"/>
+    </linearGradient>
+
+    <!-- Filters & Soft Clinical Shadows -->
+    <filter id="shadow" x="-8%" y="-8%" width="116%" height="120%">
+      <feDropShadow dx="0" dy="4" stdDeviation="7" flood-color="#0F172A" flood-opacity="0.06"/>
+    </filter>
+    <filter id="shadowSm" x="-5%" y="-5%" width="110%" height="115%">
+      <feDropShadow dx="0" dy="2" stdDeviation="4" flood-color="#0F172A" flood-opacity="0.04"/>
+    </filter>
+
+    <!-- Arrow Markers -->
+    <marker id="arrowTeal" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 8 5 L 0 9 z" fill="#0EA5A8"/>
+    </marker>
+    <marker id="arrowSky" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 8 5 L 0 9 z" fill="#0284C7"/>
+    </marker>
+    <marker id="arrowGreen" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 8 5 L 0 9 z" fill="#16A34A"/>
+    </marker>
+    <marker id="arrowIndigo" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 8 5 L 0 9 z" fill="#6366F1"/>
+    </marker>
+    <marker id="arrowAmber" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 8 5 L 0 9 z" fill="#D97706"/>
+    </marker>
+
+    <!-- Clinical Graph Paper Pattern -->
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#D9E4E5" stroke-width="0.75" stroke-opacity="0.5"/>
+      <circle cx="40" cy="40" r="1.2" fill="#CBD5E1" fill-opacity="0.6"/>
+    </pattern>
+  </defs>
+
+  <!-- Background Grids & Soft Medical Glows -->
+  <rect width="100%" height="100%" fill="#F3F8F8"/>
+  <rect width="100%" height="100%" fill="url(#grid)"/>
+  <rect width="100%" height="100%" fill="url(#bgGlow1)"/>
+  <rect width="100%" height="100%" fill="url(#bgGlow2)"/>
+  <rect width="100%" height="100%" fill="url(#bgGlow3)"/>
+
+  <!-- ==================== HEADER ==================== -->
+  <g transform="translate(60, 45)">
+    <!-- Brand Pill -->
+    <rect x="0" y="0" width="180" height="28" rx="14" fill="#E6F7F7" stroke="#0EA5A8" stroke-width="1" stroke-opacity="0.5"/>
+    <circle cx="14" cy="14" r="5" fill="#0EA5A8"/>
+    <text x="26" y="18" fill="#0EA5A8" font-size="11" font-weight="800" letter-spacing="1">SYSTEM ARCHITECTURE</text>
+
+    <!-- Main Title -->
+    <text x="0" y="62" fill="#172033" font-size="28" font-weight="800" letter-spacing="-0.5">
+      MediKiosk — Website Working Flowchart
+    </text>
+    <text x="0" y="86" fill="#64748B" font-size="14" font-weight="500">
+      End-to-End Clinical Check-in, AI Triage Interview, OCR Digitization &amp; Doctor Prescription Station
+    </text>
+
+    <!-- Header Badges -->
+    <g transform="translate(1000, 10)">
+      <rect x="0" y="0" width="150" height="34" rx="8" fill="#FFFFFF" stroke="#D9E4E5" stroke-width="1" filter="url(#shadowSm)"/>
+      <circle cx="20" cy="17" r="4" fill="#0EA5A8"/>
+      <text x="32" y="21" fill="#172033" font-size="11" font-weight="700">51 Indian Languages</text>
+
+      <rect x="165" y="0" width="150" height="34" rx="8" fill="#FFFFFF" stroke="#D9E4E5" stroke-width="1" filter="url(#shadowSm)"/>
+      <circle cx="185" cy="17" r="4" fill="#0284C7"/>
+      <text x="197" y="21" fill="#172033" font-size="11" font-weight="700">ABDM &amp; FHIR R4 Ready</text>
+    </g>
+  </g>
+
+  <!-- ==================== PHASE LABELS & CONTAINERS ==================== -->
+  
+  <!-- PHASE 1: PATIENT INTAKE & TRIAGE (TOP ROW) -->
+  <g transform="translate(50, 160)">
+    <!-- Container Box -->
+    <rect x="0" y="0" width="1340" height="230" rx="16" fill="#FFFFFF" fill-opacity="0.85" stroke="#D9E4E5" stroke-width="1.5"/>
+    <rect x="0" y="0" width="1340" height="32" rx="16" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="0.75"/>
+    <rect x="16" y="8" width="16" height="16" rx="4" fill="#E6F7F7" stroke="#99E2E3" stroke-width="1"/>
+    <text x="22" y="20" fill="#0EA5A8" font-size="10" font-weight="bold">1</text>
+    <text x="40" y="21" fill="#172033" font-size="12" font-weight="800" letter-spacing="0.5">PHASE 1: PATIENT INTAKE, SCREENING &amp; MULTIMODAL CAPTURE</text>
+
+    <!-- STEP 1: USER ACCESS -->
+    <g transform="translate(25, 45)" filter="url(#shadow)">
+      <rect width="280" height="160" rx="12" fill="url(#whiteCardGrad)" stroke="#BAE6FD" stroke-width="1.5"/>
+      <rect x="12" y="12" width="28" height="28" rx="7" fill="#E0F2FE" stroke="#BAE6FD" stroke-width="1"/>
+      <text x="21" y="30" fill="#0284C7" font-size="13" font-weight="bold">01</text>
+      <text x="50" y="28" fill="#172033" font-size="14" font-weight="700">User Access &amp; Portal</text>
+      <text x="50" y="42" fill="#0284C7" font-size="10" font-weight="700" letter-spacing="0.5">PUBLIC GATEWAY</text>
+      <line x1="15" y1="52" x2="265" y2="52" stroke="#E2E8F0" stroke-width="1"/>
+      <circle cx="24" cy="72" r="3" fill="#0284C7"/>
+      <text x="35" y="75" fill="#334155" font-size="11" font-weight="500">Homepage Triage Selection</text>
+      <circle cx="24" cy="94" r="3" fill="#0284C7"/>
+      <text x="35" y="97" fill="#334155" font-size="11" font-weight="500">Role: Patient / Doctor Login</text>
+      <circle cx="24" cy="116" r="3" fill="#0284C7"/>
+      <text x="35" y="119" fill="#334155" font-size="11" font-weight="500">Aadhaar Demo &amp; ABHA Link</text>
+      <circle cx="24" cy="138" r="3" fill="#0284C7"/>
+      <text x="35" y="141" fill="#334155" font-size="11" font-weight="500">51 Language Interface Toggle</text>
+    </g>
+
+    <!-- STEP 2: DASHBOARD -->
+    <g transform="translate(355, 45)" filter="url(#shadow)">
+      <rect width="280" height="160" rx="12" fill="url(#whiteCardGrad)" stroke="#99E2E3" stroke-width="1.5"/>
+      <rect x="12" y="12" width="28" height="28" rx="7" fill="#E6F7F7" stroke="#99E2E3" stroke-width="1"/>
+      <text x="21" y="30" fill="#0EA5A8" font-size="13" font-weight="bold">02</text>
+      <text x="50" y="28" fill="#172033" font-size="14" font-weight="700">Patient Dashboard</text>
+      <text x="50" y="42" fill="#0EA5A8" font-size="10" font-weight="700" letter-spacing="0.5">WORKSTATION HUB</text>
+      <line x1="15" y1="52" x2="265" y2="52" stroke="#E2E8F0" stroke-width="1"/>
+      <circle cx="24" cy="72" r="3" fill="#0EA5A8"/>
+      <text x="35" y="75" fill="#334155" font-size="11" font-weight="500">Active Health Overview</text>
+      <circle cx="24" cy="94" r="3" fill="#0EA5A8"/>
+      <text x="35" y="97" fill="#334155" font-size="11" font-weight="500">Launch AI Health Check-Up</text>
+      <circle cx="24" cy="116" r="3" fill="#0EA5A8"/>
+      <text x="35" y="119" fill="#334155" font-size="11" font-weight="500">Past Records &amp; Timeline</text>
+      <circle cx="24" cy="138" r="3" fill="#0EA5A8"/>
+      <text x="35" y="141" fill="#334155" font-size="11" font-weight="500">Direct Specialist Directory</text>
+    </g>
+
+    <!-- STEP 3: AI CHECK-UP INTERVIEW -->
+    <g transform="translate(685, 45)" filter="url(#shadow)">
+      <rect width="300" height="160" rx="12" fill="url(#whiteCardGrad)" stroke="#99E2E3" stroke-width="1.5"/>
+      <rect x="12" y="12" width="28" height="28" rx="7" fill="#E6F7F7" stroke="#99E2E3" stroke-width="1"/>
+      <text x="21" y="30" fill="#0EA5A8" font-size="13" font-weight="bold">03</text>
+      <text x="50" y="28" fill="#172033" font-size="14" font-weight="700">AI Health Check-Up</text>
+      <text x="50" y="42" fill="#0EA5A8" font-size="10" font-weight="700" letter-spacing="0.5">GEMINI TRIAGE ENGINE</text>
+      <line x1="15" y1="52" x2="285" y2="52" stroke="#E2E8F0" stroke-width="1"/>
+      <circle cx="24" cy="72" r="3" fill="#0EA5A8"/>
+      <text x="35" y="75" fill="#334155" font-size="11" font-weight="500">Voice Input + Speech Output</text>
+      <circle cx="24" cy="94" r="3" fill="#0EA5A8"/>
+      <text x="35" y="97" fill="#334155" font-size="11" font-weight="500">English, हिन्दी &amp; తెలుగు Speech</text>
+      <circle cx="24" cy="116" r="3" fill="#0EA5A8"/>
+      <text x="35" y="119" fill="#334155" font-size="11" font-weight="500">Adaptive Clinical Questioning</text>
+      <circle cx="24" cy="138" r="3" fill="#0EA5A8"/>
+      <text x="35" y="141" fill="#334155" font-size="11" font-weight="500">Symptom Severity Triage (1-10)</text>
+    </g>
+
+    <!-- STEP 4: CAMERA & OCR DOCUMENT SCAN -->
+    <g transform="translate(1035, 45)" filter="url(#shadow)">
+      <rect width="280" height="160" rx="12" fill="url(#whiteCardGrad)" stroke="#C7D2FE" stroke-width="1.5"/>
+      <rect x="12" y="12" width="28" height="28" rx="7" fill="#EEF2FF" stroke="#C7D2FE" stroke-width="1"/>
+      <text x="21" y="30" fill="#6366F1" font-size="13" font-weight="bold">04</text>
+      <text x="50" y="28" fill="#172033" font-size="14" font-weight="700">Document Scan &amp; OCR</text>
+      <text x="50" y="42" fill="#6366F1" font-size="10" font-weight="700" letter-spacing="0.5">TESSERACT.JS OCR</text>
+      <line x1="15" y1="52" x2="265" y2="52" stroke="#E2E8F0" stroke-width="1"/>
+      <circle cx="24" cy="72" r="3" fill="#6366F1"/>
+      <text x="35" y="75" fill="#334155" font-size="11" font-weight="500">Live Kiosk Camera Scanner</text>
+      <circle cx="24" cy="94" r="3" fill="#6366F1"/>
+      <text x="35" y="97" fill="#334155" font-size="11" font-weight="500">Lab Report Data Extraction</text>
+      <circle cx="24" cy="116" r="3" fill="#6366F1"/>
+      <text x="35" y="119" fill="#334155" font-size="11" font-weight="500">Trilingual Plain-Text Explanations</text>
+      <circle cx="24" cy="138" r="3" fill="#6366F1"/>
+      <text x="35" y="141" fill="#334155" font-size="11" font-weight="500">Receipt &amp; Junk Doc Rejection</text>
+    </g>
+
+    <!-- Horizontal Connectors in Row 1 -->
+    <path d="M 305 125 L 350 125" stroke="#0284C7" stroke-width="2.5" fill="none" marker-end="url(#arrowTeal)"/>
+    <path d="M 635 125 L 680 125" stroke="#0EA5A8" stroke-width="2.5" fill="none" marker-end="url(#arrowTeal)"/>
+    <path d="M 985 125 L 1030 125" stroke="#6366F1" stroke-width="2.5" fill="none" marker-end="url(#arrowIndigo)"/>
+  </g>
+
+  <!-- CONNECTOR: ROW 1 TO ROW 2 -->
+  <path d="M 1175 390 L 1175 425 L 1050 425 L 1050 455" stroke="#D97706" stroke-width="2.5" stroke-dasharray="5,5" fill="none" marker-end="url(#arrowAmber)"/>
+
+  <!-- PHASE 2: AI CLINICAL REASONING & RISK TRIAGE (MIDDLE ROW) -->
+  <g transform="translate(50, 450)">
+    <rect x="0" y="0" width="1340" height="210" rx="16" fill="#FFFFFF" fill-opacity="0.85" stroke="#D9E4E5" stroke-width="1.5"/>
+    <rect x="0" y="0" width="1340" height="32" rx="16" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="0.75"/>
+    <rect x="16" y="8" width="16" height="16" rx="4" fill="#FEF3C7" stroke="#FDE68A" stroke-width="1"/>
+    <text x="22" y="20" fill="#D97706" font-size="10" font-weight="bold">2</text>
+    <text x="40" y="21" fill="#172033" font-size="12" font-weight="800" letter-spacing="0.5">PHASE 2: CLINICAL REASONING, DOSSIER SYNTHESIS &amp; SPECIALIST ROUTING</text>
+
+    <!-- STEP 5: AI REASONING & RED-FLAG TRIAGE -->
+    <g transform="translate(930, 45)" filter="url(#shadow)">
+      <rect width="385" height="145" rx="12" fill="url(#whiteCardGrad)" stroke="#FDE68A" stroke-width="1.5"/>
+      <rect x="12" y="12" width="28" height="28" rx="7" fill="#FEF3C7" stroke="#FDE68A" stroke-width="1"/>
+      <text x="21" y="30" fill="#D97706" font-size="13" font-weight="bold">05</text>
+      <text x="50" y="28" fill="#172033" font-size="14" font-weight="700">AI Reasoning &amp; Red-Flags</text>
+      <text x="50" y="42" fill="#D97706" font-size="10" font-weight="700" letter-spacing="0.5">RULE ENGINE &amp; SAFETY TRIAGE</text>
+      <line x1="15" y1="52" x2="370" y2="52" stroke="#E2E8F0" stroke-width="1"/>
+      <circle cx="24" cy="70" r="3" fill="#D97706"/>
+      <text x="35" y="73" fill="#334155" font-size="11" font-weight="500">Emergency Red-Flag Trigger (Chest Pain, Stroke, Dyspnea)</text>
+      <circle cx="24" cy="92" r="3" fill="#D97706"/>
+      <text x="35" y="95" fill="#334155" font-size="11" font-weight="500">Non-diagnostic Specialty Clustering</text>
+      <circle cx="24" cy="114" r="3" fill="#D97706"/>
+      <text x="35" y="117" fill="#334155" font-size="11" font-weight="500">Differential Clinical Possibility Matrix</text>
+    </g>
+
+    <!-- STEP 6: STRUCTURED CLINICAL SUMMARY -->
+    <g transform="translate(490, 45)" filter="url(#shadow)">
+      <rect width="390" height="145" rx="12" fill="url(#whiteCardGrad)" stroke="#BBF7D0" stroke-width="1.5"/>
+      <rect x="12" y="12" width="28" height="28" rx="7" fill="#DCFCE7" stroke="#BBF7D0" stroke-width="1"/>
+      <text x="21" y="30" fill="#16A34A" font-size="13" font-weight="bold">06</text>
+      <text x="50" y="28" fill="#172033" font-size="14" font-weight="700">Structured Health Summary</text>
+      <text x="50" y="42" fill="#16A34A" font-size="10" font-weight="700" letter-spacing="0.5">PATIENT DOSSIER &amp; CONSENT</text>
+      <line x1="15" y1="52" x2="375" y2="52" stroke="#E2E8F0" stroke-width="1"/>
+      <circle cx="24" cy="70" r="3" fill="#16A34A"/>
+      <text x="35" y="73" fill="#334155" font-size="11" font-weight="500">Chief Complaint, Duration &amp; Associated Symptoms</text>
+      <circle cx="24" cy="92" r="3" fill="#16A34A"/>
+      <text x="35" y="95" fill="#334155" font-size="11" font-weight="500">Pinned Diagnostic Reports &amp; Extracted Lab Values</text>
+      <circle cx="24" cy="114" r="3" fill="#16A34A"/>
+      <text x="35" y="117" fill="#334155" font-size="11" font-weight="500">Patient Explicit Consent Gate &amp; Verification</text>
+    </g>
+
+    <!-- STEP 7: DOCTOR DIRECTORY ROUTING -->
+    <g transform="translate(25, 45)" filter="url(#shadow)">
+      <rect width="415" height="145" rx="12" fill="url(#whiteCardGrad)" stroke="#BAE6FD" stroke-width="1.5"/>
+      <rect x="12" y="12" width="28" height="28" rx="7" fill="#E0F2FE" stroke="#BAE6FD" stroke-width="1"/>
+      <text x="21" y="30" fill="#0284C7" font-size="13" font-weight="bold">07</text>
+      <text x="50" y="28" fill="#172033" font-size="14" font-weight="700">Doctor Directory &amp; Selection</text>
+      <text x="50" y="42" fill="#0284C7" font-size="10" font-weight="700" letter-spacing="0.5">PATIENT-CHOICE ROUTING</text>
+      <line x1="15" y1="52" x2="400" y2="52" stroke="#E2E8F0" stroke-width="1"/>
+      <circle cx="24" cy="70" r="3" fill="#0284C7"/>
+      <text x="35" y="73" fill="#334155" font-size="11" font-weight="500">Hospital Department Search (Cardio, Neuro, Ortho, etc.)</text>
+      <circle cx="24" cy="92" r="3" fill="#0284C7"/>
+      <text x="35" y="95" fill="#334155" font-size="11" font-weight="500">Verified Doctor Profiles (NMC / Registration Check)</text>
+      <circle cx="24" cy="114" r="3" fill="#0284C7"/>
+      <text x="35" y="117" fill="#334155" font-size="11" font-weight="500">Encrypted Dossier Dispatch with Token Queue</text>
+    </g>
+
+    <!-- Row 2 Connectors (Right-to-Left Flow) -->
+    <path d="M 930 115 L 885 115" stroke="#D97706" stroke-width="2.5" fill="none" marker-end="url(#arrowAmber)"/>
+    <path d="M 490 115 L 445 115" stroke="#16A34A" stroke-width="2.5" fill="none" marker-end="url(#arrowGreen)"/>
+  </g>
+
+  <!-- CONNECTOR: ROW 2 TO ROW 3 -->
+  <path d="M 230 660 L 230 690 L 160 690 L 160 715" stroke="#0284C7" stroke-width="2.5" stroke-dasharray="5,5" fill="none" marker-end="url(#arrowSky)"/>
+
+  <!-- PHASE 3: PHYSICIAN STATION, PRESCRIPTIONS & INTEGRATIONS (BOTTOM ROW) -->
+  <g transform="translate(50, 715)">
+    <rect x="0" y="0" width="1340" height="215" rx="16" fill="#FFFFFF" fill-opacity="0.85" stroke="#D9E4E5" stroke-width="1.5"/>
+    <rect x="0" y="0" width="1340" height="32" rx="16" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="0.75"/>
+    <rect x="16" y="8" width="16" height="16" rx="4" fill="#EEF2FF" stroke="#C7D2FE" stroke-width="1"/>
+    <text x="22" y="20" fill="#6366F1" font-size="10" font-weight="bold">3</text>
+    <text x="40" y="21" fill="#172033" font-size="12" font-weight="800" letter-spacing="0.5">PHASE 3: PHYSICIAN CLINICAL REVIEW, DIGITAL PRESCRIPTION &amp; INTEROPERABILITY</text>
+
+    <!-- STEP 8: DOCTOR VERIFICATION -->
+    <g transform="translate(25, 45)" filter="url(#shadow)">
+      <rect width="390" height="150" rx="12" fill="url(#whiteCardGrad)" stroke="#BBF7D0" stroke-width="1.5"/>
+      <rect x="12" y="12" width="28" height="28" rx="7" fill="#DCFCE7" stroke="#BBF7D0" stroke-width="1"/>
+      <text x="21" y="30" fill="#16A34A" font-size="13" font-weight="bold">08</text>
+      <text x="50" y="28" fill="#172033" font-size="14" font-weight="700">Doctor Clinical Review</text>
+      <text x="50" y="42" fill="#16A34A" font-size="10" font-weight="700" letter-spacing="0.5">PHYSICIAN VERIFICATION STATION</text>
+      <line x1="15" y1="52" x2="375" y2="52" stroke="#E2E8F0" stroke-width="1"/>
+      <circle cx="24" cy="70" r="3" fill="#16A34A"/>
+      <text x="35" y="73" fill="#334155" font-size="11" font-weight="500">Incoming Patient Intake Queue &amp; Urgency Flags</text>
+      <circle cx="24" cy="92" r="3" fill="#16A34A"/>
+      <text x="35" y="95" fill="#334155" font-size="11" font-weight="500">Inspect Full Dossier, Lab Scans &amp; Health Timeline</text>
+      <circle cx="24" cy="114" r="3" fill="#16A34A"/>
+      <text x="35" y="117" fill="#334155" font-size="11" font-weight="500">Doctor Edits Notes &amp; Applies Official "✓ Doctor Reviewed" Stamp</text>
+    </g>
+
+    <!-- STEP 9: DIGITAL RX BUILDER -->
+    <g transform="translate(465, 45)" filter="url(#shadow)">
+      <rect width="410" height="150" rx="12" fill="url(#whiteCardGrad)" stroke="#99E2E3" stroke-width="1.5"/>
+      <rect x="12" y="12" width="28" height="28" rx="7" fill="#E6F7F7" stroke="#99E2E3" stroke-width="1"/>
+      <text x="21" y="30" fill="#0EA5A8" font-size="13" font-weight="bold">09</text>
+      <text x="50" y="28" fill="#172033" font-size="14" font-weight="700">Digital Prescription Builder</text>
+      <text x="50" y="42" fill="#0EA5A8" font-size="10" font-weight="700" letter-spacing="0.5">110+ MEDICINES CATALOG</text>
+      <line x1="15" y1="52" x2="395" y2="52" stroke="#E2E8F0" stroke-width="1"/>
+      <circle cx="24" cy="70" r="3" fill="#0EA5A8"/>
+      <text x="35" y="73" fill="#334155" font-size="11" font-weight="500">Formulary Search (Brand, Generic, Strength, Route)</text>
+      <circle cx="24" cy="92" r="3" fill="#0EA5A8"/>
+      <text x="35" y="95" fill="#334155" font-size="11" font-weight="500">Visual Morning / Noon / Night Dosage Scheduler</text>
+      <circle cx="24" cy="114" r="3" fill="#0EA5A8"/>
+      <text x="35" y="117" fill="#334155" font-size="11" font-weight="500">Doctor Digital Signature, Advice &amp; Printable Copy</text>
+    </g>
+
+    <!-- STEP 10: COMPLETE CONSULTATION & STANDARDS -->
+    <g transform="translate(925, 45)" filter="url(#shadow)">
+      <rect width="390" height="150" rx="12" fill="url(#whiteCardGrad)" stroke="#C7D2FE" stroke-width="1.5"/>
+      <rect x="12" y="12" width="28" height="28" rx="7" fill="#EEF2FF" stroke="#C7D2FE" stroke-width="1"/>
+      <text x="21" y="30" fill="#6366F1" font-size="13" font-weight="bold">10</text>
+      <text x="50" y="28" fill="#172033" font-size="14" font-weight="700">Completed Care &amp; Standards</text>
+      <text x="50" y="42" fill="#6366F1" font-size="10" font-weight="700" letter-spacing="0.5">ABDM, FHIR &amp; HIS CONNECT</text>
+      <line x1="15" y1="52" x2="375" y2="52" stroke="#E2E8F0" stroke-width="1"/>
+      <circle cx="24" cy="70" r="3" fill="#6366F1"/>
+      <text x="35" y="73" fill="#334155" font-size="11" font-weight="500">Instant Patient Portal Sync &amp; Prescription PDF</text>
+      <circle cx="24" cy="92" r="3" fill="#6366F1"/>
+      <text x="35" y="95" fill="#334155" font-size="11" font-weight="500">ABDM Health Records (M1/M2/M3 Sandbox Link)</text>
+      <circle cx="24" cy="114" r="3" fill="#6366F1"/>
+      <text x="35" y="117" fill="#334155" font-size="11" font-weight="500">HL7 FHIR R4 Bundle &amp; Hospital HIS Queue Hand-off</text>
+    </g>
+
+    <!-- Row 3 Connectors (Left-to-Right Flow) -->
+    <path d="M 415 120 L 460 120" stroke="#16A34A" stroke-width="2.5" fill="none" marker-end="url(#arrowTeal)"/>
+    <path d="M 875 120 L 920 120" stroke="#0EA5A8" stroke-width="2.5" fill="none" marker-end="url(#arrowIndigo)"/>
+  </g>
+
+  <!-- ==================== FOOTER BADGES & LEGEND ==================== -->
+  <g transform="translate(60, 945)">
+    <circle cx="10" cy="10" r="5" fill="#0284C7"/>
+    <text x="22" y="14" fill="#64748B" font-size="11" font-weight="600">Intake Portal</text>
+
+    <circle cx="130" cy="10" r="5" fill="#0EA5A8"/>
+    <text x="142" y="14" fill="#64748B" font-size="11" font-weight="600">Clinical Check-Up</text>
+
+    <circle cx="280" cy="10" r="5" fill="#0284C7"/>
+    <text x="292" y="14" fill="#64748B" font-size="11" font-weight="600">Doctor Routing</text>
+
+    <circle cx="420" cy="10" r="5" fill="#D97706"/>
+    <text x="432" y="14" fill="#64748B" font-size="11" font-weight="600">Safety &amp; Triage</text>
+
+    <circle cx="550" cy="10" r="5" fill="#16A34A"/>
+    <text x="562" y="14" fill="#64748B" font-size="11" font-weight="600">Doctor Verification</text>
+
+    <circle cx="700" cy="10" r="5" fill="#6366F1"/>
+    <text x="712" y="14" fill="#64748B" font-size="11" font-weight="600">Interoperability (ABDM / FHIR)</text>
+
+    <text x="1310" y="14" fill="#94A3B8" font-size="11" font-weight="600" text-anchor="end">MediKiosk Autonomous Clinical Intake Architecture v2.4 • Clinical Light Theme</text>
+  </g>
+</svg>

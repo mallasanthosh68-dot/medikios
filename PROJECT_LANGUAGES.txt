@@ -1,0 +1,144 @@
+================================================================================
+                    MEDIKIOSK PROJECT - LANGUAGES & TECH STACK REPORT
+================================================================================
+Generated: 2026-09-06
+Project: MediKiosk (Autonomous Clinical Intake & Smart Hospital Assistant)
+Workspace: D:\prototype 47
+
+This document provides a comprehensive breakdown of:
+  PART 1: Full-Stack Architecture, Languages & Technology Specifications
+  PART 2: Target Technology Matrix (Frontend, Backend, AI, Database, Standards)
+  PART 3: Human / Natural Spoken Languages Supported (51 Languages & Voice AI)
+
+================================================================================
+PART 1: TARGET TECHNOLOGY SPECIFICATION MATRIX
+================================================================================
+
+Layer / Category        | Technology / Language       | Purpose & Usage in MediKiosk
+------------------------|-----------------------------|---------------------------------------------------------------
+Frontend                | TypeScript                  | Safer, scalable React development with strict type contracts
+Frontend                | React 18                    | Patient & Doctor portals, interactive intake workflow
+UI                      | HTML5 + CSS3                | Web structure, semantic DOM, and modern custom styling
+UI Framework            | Tailwind CSS                | Fast responsive UI, glassmorphic themes, design tokens
+Animation               | Framer Motion               | Professional fluid micro-animations & triage modal transitions
+3D / Visuals            | Three.js                    | Advanced 3D healthcare visualizations & symptom organ selector
+Backend                 | TypeScript + Node.js        | Typed server runtime, high-throughput REST APIs
+Backend Framework       | NestJS / Express.js         | Structured backend architecture, controllers & routing
+Database                | PostgreSQL                  | Reliable, structured, relational healthcare data storage
+Backend Platform        | Supabase                    | Database, Auth, Storage, and real-time APIs
+AI API                  | Python FastAPI              | High-performance microservice connecting AI services to the app
+AI                      | LLM API                     | Multilingual patient conversation, triage & summarization
+OCR                     | Python / Tesseract          | Medical-document text extraction & lab report parsing
+Voice                   | JavaScript / Web Speech API | Client-side voice interaction (Speech-to-Text & Text-to-Speech)
+Healthcare Data         | JSON                        | Universal structured data exchange format
+Healthcare Standard     | FHIR (HL7 FHIR R4)          | International healthcare interoperability & document bundles
+India Healthcare        | ABDM APIs                   | Ayushman Bharat Digital Mission (M1, M2, M3) health record linking
+Testing                 | Playwright                  | End-to-end (E2E) automated browser application testing
+
+================================================================================
+PART 2: DETAILED SYSTEM MAPPING & LAYER ARCHITECTURE
+================================================================================
+
+1. CLIENT & KIOSK PORTAL (Frontend):
+   - Languages: TypeScript (TSX), JavaScript (ES2024), HTML5, CSS3
+   - UI Architecture: React 18 component tree with Tailwind CSS utility classes
+   - Visual Experiences: Three.js 3D human anatomy model for spatial symptom localization,
+     accompanied by Framer Motion entrance/exit transitions and spring physics
+   - Voice Engine: Browser Web Speech API supporting real-time recognition & speech synthesis
+
+2. BACKEND & SERVICE LAYER (Node.js & Python):
+   - Node.js API Service: TypeScript + Express.js / NestJS architecture providing authentication,
+     RBAC middleware, patient triage routing, and prescription generation
+   - AI Microservice: Python FastAPI service powering OCR extraction (pytesseract)
+     and LLM triage summarization, communicating via JSON REST payloads
+   - Testing Suite: Playwright E2E test automation verifying multi-step clinical check-in flows
+
+3. DATA, PLATFORM & HEALTHCARE INTEROPERABILITY:
+   - Primary Relational Database: PostgreSQL managed via Supabase (Auth, RLS, Realtime, Storage)
+   - Resilient Fallback: In-memory dual-mode seed system for zero-config offline evaluations
+   - Healthcare Interoperability: HL7 FHIR Release 4 Document Bundles (JSON format)
+   - National Health Stack: ABDM M1 (ABHA Creation), M2 (Discovery & Linking), M3 (HIP/HIU Flow)
+
+================================================================================
+PART 3: HUMAN & NATURAL SPOKEN LANGUAGES SUPPORTED IN MEDIKIOSK
+================================================================================
+The project features a 51-language universal healthcare localization engine
+powered by Google Gemini LLM and Web Speech APIs.
+
+--------------------------------------------------------------------------------
+CORE TRILINGUAL VOICE & OCR PIPELINE (PRIMARY)
+--------------------------------------------------------------------------------
+Language | Native Name | Code  | Speech Locale | Acoustic TTS | Support Level
+---------|-------------|-------|---------------|--------------|-----------------------------------
+English  | English     | en    | en-IN         | en-US        | Full Voice, Text, OCR, Clinical Rx
+Hindi    | हिन्दी       | hi    | hi-IN         | hi-IN        | Full Voice, Text, OCR, Plain-Text
+Telugu   | తెలుగు       | te    | te-IN         | te-IN        | Full Voice, Text, OCR, Plain-Text
+
+--------------------------------------------------------------------------------
+COMPLETE REGISTRY OF 51 INDIAN LANGUAGES SUPPORTED IN UI & TRIAGE
+--------------------------------------------------------------------------------
+No. | Language Name  | Native Script     | Code | Region / Classification
+----|----------------|-------------------|------|---------------------------------------
+1   | English        | English           | en   | Global / All India
+2   | Hindi          | हिन्दी            | hi   | North & Central India
+3   | Bengali        | বাংলা             | bn   | West Bengal, Tripura
+4   | Marathi        | मराठी             | mr   | Maharashtra, Goa
+5   | Telugu         | తెలుగు            | te   | Andhra Pradesh, Telangana
+6   | Tamil          | தமிழ்             | ta   | Tamil Nadu, Puducherry
+7   | Gujarati       | ગુજરાતી           | gu   | Gujarat, Daman & Diu
+8   | Urdu           | اردو              | ur   | Pan-India
+9   | Kannada        | ಕನ್ನಡ             | kn   | Karnataka
+10  | Odia           | ଓଡ଼ିଆ             | or   | Odisha
+11  | Malayalam      | മലയാളം           | ml   | Kerala, Lakshadweep
+12  | Punjabi        | ਪੰਜਾਬੀ            | pa   | Punjab, Chandigarh
+13  | Assamese       | অসমীয়া           | as   | Assam
+14  | Maithili       | मैथिली            | mai  | Bihar, Jharkhand
+15  | Sanskrit       | संस्कृतम्          | sa   | Classical Indian
+16  | Nepali         | नेपाली            | ne   | Sikkim, West Bengal
+17  | Konkani        | कोंकणी            | kok  | Goa, Maharashtra, Karnataka
+18  | Sindhi         | سنڌي / सिन्धी     | sd   | Pan-India
+19  | Dogri          | डोगरी             | doi  | Jammu & Kashmir
+20  | Kashmiri       | کٲشُر / कॉशुर     | ks   | Jammu & Kashmir
+21  | Bodo           | बड़ो              | brx  | Assam, Bodoland
+22  | Santali        | ᱥᱟᱱᱛᱟᱲᱤ           | sat  | Jharkhand, Odisha, West Bengal
+23  | Manipuri       | মৈতৈলোন্ / ꯃꯤꯇꯩꯂꯣꯟ| mni  | Manipur
+24  | Bhojpuri       | भोजपुरी           | bho  | Bihar, Uttar Pradesh
+25  | Magahi         | मगही              | mag  | Bihar, Jharkhand
+26  | Chhattisgarhi  | छत्तीसगढ़ी        | hne  | Chhattisgarh
+27  | Marwari        | मारवाड़ी           | mwr  | Rajasthan
+28  | Haryanvi       | हरियाणवी          | bgc  | Haryana
+29  | Tulu           | ತುಳು              | tcy  | Coastal Karnataka
+30  | Khasi          | Ka Ktien Khasi    | kha  | Meghalaya
+31  | Garo           | A·chik            | grt  | Meghalaya, Assam
+32  | Mizo           | Mizo ṭawng        | lus  | Mizoram
+33  | Kokborok       | Kokborok          | trp  | Tripura
+34  | Gondi          | गोंडी             | gon  | MP, Maharashtra, Chhattisgarh
+35  | Kurukh         | कुड़ुख़            | kru  | Jharkhand, Chhattisgarh
+36  | Mundari        | मुंडारी           | unr  | Jharkhand, Odisha
+37  | Ho             | ᱦᱳ / हो           | hoc  | Jharkhand, Odisha
+38  | Kui            | କୁଇ               | kxu  | Odisha
+39  | Koya           | కోయ               | kff  | Telangana, Andhra Pradesh
+40  | Korku          | कोरकू             | kfq  | Madhya Pradesh, Maharashtra
+41  | Halbi          | हलबी              | hlb  | Chhattisgarh, Odisha
+42  | Sadri          | सादरी             | sck  | Jharkhand, Chhattisgarh
+43  | Dhatki         | धाटकी             | dhn  | Rajasthan
+44  | Lepcha         | ᰛᰩᰵᰛᰧᰵ᰿           | lep  | Sikkim
+45  | Limbu          | ᤕᤠᤰᤌᤢᤱ ᤐᤠᤴ        | lif  | Sikkim, West Bengal
+46  | Angika         | अंगिका            | anp  | Bihar, Jharkhand
+47  | Karbi          | Arleng            | mjw  | Assam
+48  | Dimasa         | Grao Dima         | dis  | Assam, Nagaland
+49  | Rabha          | Rábha             | rah  | Assam, West Bengal
+50  | Bhili          | भीली              | bhb  | Rajasthan, Gujarat, MP
+51  | Ladakhi        | ལ་དྭགས་སྐད་       | lbj  | Ladakh
+
+================================================================================
+SUMMARY
+================================================================================
+- Frontend:          TypeScript, React 18, HTML5, CSS3, Tailwind CSS, Framer Motion, Three.js
+- Backend:           TypeScript + Node.js (Express / NestJS architecture), JSON REST APIs
+- Database:          PostgreSQL & Supabase Platform (with offline in-memory fallback)
+- AI & OCR:          Python FastAPI microservice, LLM API, Python Tesseract OCR
+- Voice:             JavaScript Web Speech API (51 natural languages & trilingual acoustic TTS)
+- Standards:         HL7 FHIR Release 4 JSON Bundles & ABDM M1/M2/M3 National Health Stack
+- Testing:           Playwright End-to-End test suite
+================================================================================

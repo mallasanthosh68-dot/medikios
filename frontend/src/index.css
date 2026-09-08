@@ -1,0 +1,143 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --brand-primary: #0EA5A8;
+    --brand-bg: #F3F8F8;
+    --brand-card: #FFFFFF;
+    --brand-border: #D9E4E5;
+    --brand-text: #172033;
+    --brand-muted: #64748B;
+  }
+
+  body {
+    background-color: #F3F8F8;
+    color: #172033;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    font-family: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  }
+}
+
+/* Medical Design System Surface & Card Tokens */
+.medical-card {
+  background-color: #FFFFFF;
+  border: 1px solid #D9E4E5;
+  box-shadow: 0 1px 3px 0 rgba(23, 32, 51, 0.04), 0 1px 2px -1px rgba(23, 32, 51, 0.04);
+}
+
+.medical-card-hover {
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.medical-card-hover:hover {
+  border-color: #0EA5A8;
+  box-shadow: 0 10px 25px -5px rgba(14, 165, 168, 0.12), 0 8px 10px -6px rgba(14, 165, 168, 0.06);
+  transform: translateY(-1.5px);
+}
+
+/* Backward-compatible classes mapped to clean light medical theme */
+.glass-panel {
+  background-color: #FFFFFF;
+  border: 1px solid #D9E4E5;
+  box-shadow: 0 1px 3px 0 rgba(23, 32, 51, 0.04);
+}
+
+.glass-panel-light {
+  background-color: #F8FAFA;
+  border: 1px solid #E2E8F0;
+}
+
+.glass-panel-card {
+  background-color: #FFFFFF;
+  border: 1px solid #D9E4E5;
+  box-shadow: 0 2px 5px -1px rgba(23, 32, 51, 0.05);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.glass-panel-card:hover {
+  border-color: #0EA5A8;
+  box-shadow: 0 12px 28px -6px rgba(14, 165, 168, 0.12);
+  transform: translateY(-2px);
+}
+
+/* Custom Clean Medical Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #F3F8F8;
+}
+::-webkit-scrollbar-thumb {
+  background: #CBD5E1;
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #94A3B8;
+}
+
+/* Print specific styles for Digital Prescription */
+@media print {
+  body {
+    background-color: white !important;
+    color: black !important;
+  }
+  .no-print {
+    display: none !important;
+  }
+  .printable-area {
+    width: 100% !important;
+    background: white !important;
+    color: black !important;
+    border: none !important;
+    box-shadow: none !important;
+  }
+}
+
+/* Universal Website Translator Clean Headless Overrides */
+.goog-te-banner-frame.skiptranslate,
+.goog-te-banner-frame,
+iframe.goog-te-banner-frame,
+.goog-te-banner {
+  display: none !important;
+  visibility: hidden !important;
+  height: 0 !important;
+  width: 0 !important;
+}
+
+body {
+  top: 0px !important;
+  position: static !important;
+}
+
+#goog-gt-tt,
+.goog-te-balloon-frame,
+.goog-tooltip,
+.goog-tooltip:hover {
+  display: none !important;
+}
+
+.goog-text-highlight {
+  background: none !important;
+  box-shadow: none !important;
+}
+
+/* Medical Report Laser Scanning Animation (Section 52) */
+@keyframes scanLaser {
+  0% {
+    top: 2%;
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  85% {
+    opacity: 1;
+  }
+  100% {
+    top: 94%;
+    opacity: 0;
+  }
+}
