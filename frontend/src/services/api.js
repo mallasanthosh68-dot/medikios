@@ -1,6 +1,10 @@
-const rawApiUrl = (import.meta.env.VITE_API_URL || '').trim().replace(/\/$/, '');
+const defaultBackend = (typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'))
+  ? ''
+  : 'https://medikios-backend.onrender.com';
+
+const rawApiUrl = (import.meta.env.VITE_API_URL || defaultBackend).trim().replace(/\/$/, '');
 const API_BASE = rawApiUrl ? (rawApiUrl.endsWith('/api') ? rawApiUrl : `${rawApiUrl}/api`) : '/api';
-export const API_ORIGIN = rawApiUrl.replace(/\/api$/, '') || (typeof window !== 'undefined' && window.location.hostname === 'localhost' ? 'http://localhost:5000' : '');
+export const API_ORIGIN = rawApiUrl.replace(/\/api$/, '') || (typeof window !== 'undefined' && window.location.hostname === 'localhost' ? 'http://localhost:5000' : 'https://medikios-backend.onrender.com');
 
 /**
  * Multi-Tab Isolated Storage Engine
@@ -18,7 +22,7 @@ export const getToken = () => {
       sessionStorage.setItem('medikiosk_token', localToken);
       return localToken;
     }
-  } catch (e) {}
+  } catch (e) { }
   return null;
 };
 
@@ -32,7 +36,7 @@ export const setToken = (token, role) => {
         localStorage.setItem(`medikiosk_token_${role}`, token);
       }
     }
-  } catch (e) {}
+  } catch (e) { }
 };
 
 export const removeToken = () => {
@@ -44,7 +48,7 @@ export const removeToken = () => {
     if (currentRole) {
       localStorage.removeItem(`medikiosk_token_${currentRole}`);
     }
-  } catch (e) {}
+  } catch (e) { }
 };
 
 export const getUser = () => {
@@ -56,7 +60,7 @@ export const getUser = () => {
       sessionStorage.setItem('medikiosk_user', l);
       return JSON.parse(l);
     }
-  } catch (e) {}
+  } catch (e) { }
   return null;
 };
 
@@ -71,7 +75,7 @@ export const setUser = (user) => {
         localStorage.setItem(`medikiosk_user_${user.role}`, val);
       }
     }
-  } catch (e) {}
+  } catch (e) { }
 };
 
 export const removeUser = () => {
@@ -82,7 +86,7 @@ export const removeUser = () => {
     if (currentRole) {
       localStorage.removeItem(`medikiosk_user_${currentRole}`);
     }
-  } catch (e) {}
+  } catch (e) { }
 };
 
 export const getStoredProfile = () => {
@@ -94,7 +98,7 @@ export const getStoredProfile = () => {
       sessionStorage.setItem('medikiosk_profile', l);
       return JSON.parse(l);
     }
-  } catch (e) {}
+  } catch (e) { }
   return null;
 };
 
@@ -109,7 +113,7 @@ export const setStoredProfile = (profile) => {
         localStorage.setItem(`medikiosk_profile_${currentRole}`, val);
       }
     }
-  } catch (e) {}
+  } catch (e) { }
 };
 
 export const removeStoredProfile = () => {
@@ -120,7 +124,7 @@ export const removeStoredProfile = () => {
     if (currentRole) {
       localStorage.removeItem(`medikiosk_profile_${currentRole}`);
     }
-  } catch (e) {}
+  } catch (e) { }
 };
 
 const request = async (endpoint, options = {}) => {

@@ -129,7 +129,7 @@ export const PinnedReportsGallery = ({
       return url;
     }
     const envOrigin = (import.meta.env.VITE_API_URL || '').trim().replace(/\/api\/?$/, '').replace(/\/$/, '');
-    const backendHost = envOrigin || (window.location.hostname === 'localhost' ? 'http://localhost:5000' : '');
+    const backendHost = envOrigin || (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' ? 'http://localhost:5000' : 'https://medikios-backend.onrender.com');
     return `${backendHost}${url.startsWith('/') ? '' : '/'}${url}`;
   };
 
@@ -357,9 +357,8 @@ export const PinnedReportsGallery = ({
                         </div>
                       </div>
                       <div
-                        className={`p-2.5 rounded-xl bg-slate-900/80 border border-slate-800 text-[11px] font-mono text-slate-300 leading-relaxed whitespace-pre-wrap ${
-                          isExpanded ? 'max-h-56 overflow-y-auto' : 'line-clamp-4'
-                        }`}
+                        className={`p-2.5 rounded-xl bg-slate-900/80 border border-slate-800 text-[11px] font-mono text-slate-300 leading-relaxed whitespace-pre-wrap ${isExpanded ? 'max-h-56 overflow-y-auto' : 'line-clamp-4'
+                          }`}
                       >
                         {report.extractedText}
                       </div>
