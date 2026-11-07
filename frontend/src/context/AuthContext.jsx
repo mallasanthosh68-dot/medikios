@@ -73,10 +73,10 @@ export const AuthProvider = ({ children }) => {
     }
   }, []);
 
-  const login = async ({ phoneNumber, password, role }) => {
+  const login = async ({ phoneNumber, email, identifier, password, role }) => {
     setLoading(true);
     try {
-      const res = await api.post('/auth/login', { phoneNumber, password, role });
+      const res = await api.post('/auth/login', { phoneNumber, email, identifier, password, role });
       if (res.success) {
         const userRole = res.user?.role || role;
         setToken(res.token, userRole);

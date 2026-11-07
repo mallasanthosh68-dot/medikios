@@ -15,6 +15,7 @@ const { connectDB, getDBStatus } = require('./src/config/db');
 const { isSupabaseConfigured, testSupabaseConnection } = require('./src/config/supabase');
 const { errorHandler } = require('./src/middleware/errorHandler');
 const { seedDatabase } = require('./src/utils/seedData');
+const { ensureAdminUser } = require('./src/controllers/authController');
 
 // Route Handlers
 const authRoutes = require('./src/routes/authRoutes');
@@ -25,6 +26,9 @@ const prescriptionRoutes = require('./src/routes/prescriptionRoutes');
 const integrationRoutes = require('./src/routes/integrationRoutes');
 const notificationRoutes = require('./src/routes/notificationRoutes');
 const documentRoutes = require('./src/routes/documentRoutes');
+const adminRoutes = require('./src/routes/adminRoutes');
+const aiRoutes = require('./src/routes/aiRoutes');
+const ayushRoutes = require('./src/routes/ayushRoutes');
 const { createDoctorRequest } = require('./src/controllers/doctorController');
 const { protect } = require('./src/middleware/authMiddleware');
 const { requireRole } = require('./src/middleware/rbacMiddleware');
@@ -84,6 +88,10 @@ app.use('/api/prescriptions', prescriptionRoutes);
 app.use('/api/integrations', integrationRoutes);
 app.use('/api/notifications', notificationRoutes);
 app.use('/api/documents', documentRoutes);
+app.use('/api/admin', adminRoutes);
+app.use('/api/ai', aiRoutes);
+app.use('/api/ayush', ayushRoutes);
+app.use('/api/doctor/ayush', ayushRoutes);
 app.post('/api/doctor-requests', protect, requireRole('patient'), createDoctorRequest);
 
 // Root Welcome Route
@@ -139,6 +147,7 @@ const startServer = async () => {
   try {
     await connectDB();
     await seedDatabase();
+    await ensureAdminUser();
 
     // Ensure port is available before binding
     freePortIfOccupied(PORT);

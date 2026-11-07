@@ -408,6 +408,43 @@ const DISEASE_PROFILES = {
   },
 };
 
+// Multilingual opening greetings for AYUSH consultation mode
+const AYUSH_GREETINGS = {
+  en: 'Welcome to MediKiosk AYUSH Case Taking. Please describe what health concern, imbalance, or symptoms you would like to discuss today.',
+  hi: 'मेडिकियोस्क आयुष केस-टेकिंग में आपका स्वागत है। कृपया बताएं कि आज आप किस स्वास्थ्य समस्या, असंतुलन या लक्षण के बारे में चर्चा करना चाहते हैं?',
+  te: 'మెడికియోస్క్ ఆయుష్ కేస్-టేకింగ్‌కు స్వాగతం. దయచేసి ఈ రోజు మీరు ఎదుర్కొంటున్న ఆరోగ్య సమస్య, అసమతుల్యత లేదా లక్షణాల గురించి చెప్పండి.',
+  bn: 'মেডিকিয়স্ক আয়ুশ কেস-টেকিংয়ে আপনাকে স্বাগতম। আজ আপনি কী ধরনের স্বাস্থ্য সমস্যা বা ভারসাম্যহীনতা নিয়ে আলোচনা করতে চান দয়া করে জানান।',
+  ta: 'மெடிகியோஸ்க் ஆயுஷ் ஆலோசனைக்கு வரவேற்கிறோம். இன்று நீங்கள் விவாதிக்க விரும்பும் உடல்நலக் குறைபாடு அல்லது அறிகுறிகளை விவரிக்கவும்.',
+  mr: 'मेडिकिओस्क आयुष केस-टेकिंगमध्ये आपले स्वागत आहे. कृपया सांगा आज आपल्याला कोणत्या आरोग्याच्या तक्रारी किंवा लक्षणांवर चर्चा करायची आहे?',
+  gu: 'મેડિકિઓસ્ક આયુષ કેસ-ટેકિંગમાં આપનું સ્વાગત છે. કૃપા કરીને જણાવો કે આજે તમે કઈ સ્વાસ્થ્ય સમસ્યા અથવા લક્ષણો વિશે ચર્ચા કરવા માંગો છો.',
+  kn: 'ಮೆಡಿಕಿಯೋಸ್ಕ್ ಆಯುಷ್ ಕೇಸ್-ಟೇಕಿಂಗ್‌ಗೆ ಸುಸ್ವಾಗತ. ಇಂದು ನೀವು ಯಾವ ಆರೋಗ್ಯ ಸಮಸ್ಯೆ ಅಥವಾ ಲಕ್ಷಣಗಳ ಬಗ್ಗೆ ಚರ್ಚಿಸಲು ಬಯಸುತ್ತೀರಿ ದಯವಿಟ್ಟು ತಿಳಿಸಿ.',
+};
+
+// Fallback AYUSH clinical intake questions
+const AYUSH_QUESTIONS = {
+  en: [
+    'How long have you been experiencing this condition, and at what time of day or seasonal weather do your symptoms usually change or increase?',
+    'In AYUSH, your digestion (Agni) is vital. How is your appetite, how do you feel after meals (heaviness, gas, acidity, or normal), and what are your common dietary habits (Ahara)?',
+    'How is your bowel movement tendency (Koshtha — smooth, constipated, or loose), and do you naturally feel sensitive to heat/sun or cold climates (Prakriti body constitution)?',
+    'How is your sleep quality (Nidra — deep, disturbed, or sleepless), and how is your daily physical routine, exercise, and stress level (Vihara)?',
+    'Are you currently taking any AYUSH remedies (Ayurveda, Homeopathy, Unani, Siddha), home preparations, or modern medicines, and do you have any other chronic conditions?',
+  ],
+  hi: [
+    'यह समस्या लगभग कितने समय से है, और दिन के किस समय या मौसम में आपके लक्षण अधिक बढ़ जाते हैं?',
+    'आयुष में पाचन (अग्नि) सबसे महत्वपूर्ण है। आपकी भूख कैसी है, भोजन के बाद कैसा महसूस होता है (भारीपन, गैस, जलन या सामान्य), और खान-पान की आदतें (आहार) कैसी हैं?',
+    'आपका पेट साफ होने की प्रवृत्ति (कोष्ठ — सामान्य, कब्ज या दस्त) कैसी है, और क्या आपको स्वाभाविक रूप से गर्मी या ठंड अधिक प्रभावित करती है (प्रकृति)?',
+    'आपकी नींद की गुणवत्ता (निद्रा — गहरी, टूटी हुई या अनिद्रा) कैसी है, और दैनिक शारीरिक दिनचर्या, व्यायाम व तनाव (विहार) कैसा रहता है?',
+    'क्या आप वर्तमान में कोई पारंपरिक आयुष दवा (आयुर्वेदिक, होम्योपैथिक, यूनानी, सिद्धा), घरेलू काढ़ा या एलोपैथिक दवा ले रहे हैं, और कोई अन्य पुरानी बीमारी है?',
+  ],
+  te: [
+    'ఈ సమస్య ఎంతకాలంగా ఉంది, మరియు రోజులోని ఏ సమయంలో లేదా వాతావరణంలో లక్షణాలు ఎక్కువగా ఉంటాయి?',
+    'ఆయుష్‌లో జీర్ణశక్తి (అగ్ని) చాలా కీలకం. మీ ఆకలి ఎలా ఉంది, తిన్న తర్వాత ఎలా అనిపిస్తుంది (బరువు, గ్యాస్, మంట లేదా సాధారణం), మరియు ఆహారపు అలవాట్లు (ఆహార) ఏమిటి?',
+    'మీ ప్రేగుల కదలికలు (కోష్ఠ — సాఫీగా, మలబద్ధకం లేదా విరేచనాలు) ఎలా ఉన్నాయి, మరియు మీకు సహజంగా వేడి లేదా చలి ఎక్కువగా ప్రభావం చూపుతుందా (ప్రకృతి)?',
+    'మీ నిద్ర (నిద్ర — గాఢమైన, కలత నిద్ర లేదా నిద్రలేమి) ఎలా ఉంది, మరియు రోజువారీ శారీరక శ్రమ, వ్యాయామం, మానసిక ఒత్తిడి (విహార) ఎలా ఉంది?',
+    'మీరు ప్రస్తుతం ఏవైనా ఆయుష్ మందులు (ఆయుర్వేద, హోమియోపతి, యునాని, సిద్ధ), ఇంటి వైద్యం లేదా అల్లోపతి మందులు వాడుతున్నారా?',
+  ],
+};
+
 // Fallback general clinical questions
 const GENERAL_QUESTIONS = {
   en: [
@@ -675,6 +712,8 @@ const generateNextQuestion = async ({
   language = 'en',
   patientProfile = {},
   groqApiKey = '',
+  healthcareMode = 'general_medical',
+  communicationMode = 'text',
 }) => {
   const turnCount = history.length;
   const conversationText = history.map((h) => `${h.question} ${h.answer}`).join(' ') + ' ' + currentAnswer;
@@ -686,24 +725,15 @@ const generateNextQuestion = async ({
 
   let nextQuestion = '';
   let isComplete = false;
-  let aiSource = 'MediKiosk Clinical Knowledge Base';
+  let aiSource = healthcareMode === 'ayush' ? 'MediKiosk AYUSH Knowledge Core' : 'MediKiosk Clinical Knowledge Base';
 
   const apiKey = groqApiKey || process.env.GROQ_API_KEY;
 
   // Detect if patient explicitly indicates they want to finish or have told everything
-  // (Must NOT match simple negative answers like 'no', 'none', 'nothing' to a symptom question)
   const cleanAns = (currentAnswer || '').trim().toLowerCase();
   const isExplicitWrapUp =
     /\b(nothing more to add|that's all|that is all|thats all|all details given|already told everything|told everything|no other symptoms|no other issues|done with details|please finish|finish interview|generate summary|bas itna hi|sab bata diya|chalu anthe|inkem ledu|avvalavudhan)\b/i.test(cleanAns);
 
-  // Target: 5 core clinical dimensions gathering complete pin-to-pin details
-  // Turn 1 (history.length = 1): Onset, Duration & Character/Sensation
-  // Turn 2 (history.length = 2): Associated Symptoms, Radiation & Triggers
-  // Turn 3 (history.length = 3): Severity Rating (1-10 Scale) & Daily Routine Impact
-  // Turn 4 (history.length = 4): Past Medical History & Chronic Conditions
-  // Turn 5 (history.length = 5): Current Medications & Known Drug Allergies
-  // Turn 6+ (history.length >= 6): Conclude consultation after all 5 dimensions gathered.
-  // Or if patient explicitly requested wrap-up after sharing core details (turnCount >= 5 && isExplicitWrapUp)
   const shouldWrapUp = turnCount >= 6 || (turnCount >= 5 && isExplicitWrapUp);
 
   // 1. Attempt Groq Doctor LLM generation
@@ -711,8 +741,84 @@ const generateNextQuestion = async ({
     try {
       let doctorSystemPrompt = '';
 
-      if (shouldWrapUp) {
-        doctorSystemPrompt = `You are Dr. MediKiosk, an expert Senior Clinical Triage Physician and Hospital Medical Intake Specialist.
+      if (healthcareMode === 'ayush') {
+        // ----------------- AYUSH MODE SYSTEM PROMPTS -----------------
+        if (shouldWrapUp) {
+          doctorSystemPrompt = `You are Dr. MediKiosk, an expert AYUSH Intake Specialist (Ayurveda, Yoga & Naturopathy, Unani, Siddha, Homoeopathy) at a smart hospital kiosk in India.
+You are concluding an AYUSH clinical case-taking consultation with a patient after gathering symptoms, digestion (Agni), dietary habits (Ahara), lifestyle (Vihara), and sleep (Nidra).
+
+PATIENT PROFILE:
+- Preferred Consultation Language: ${languageName} (Language code: ${language})
+- Mode: AYUSH Case Taking
+- Final Patient Statement: "${currentAnswer}"
+
+TRIAGE DISCUSSION IS NOW FULLY DISCUSSED AND COMPLETE:
+1. MANDATORY OPENING - SAY THANK YOU: Start by thanking the patient explicitly for providing their health and lifestyle details in ${languageName} (e.g., in Hindi "अपनी स्वास्थ्य और जीवनशैली की जानकारी साझा करने के लिए धन्यवाद।", in Telugu "మీ ఆరోగ్య మరియు జీవనశైలి వివరాలను పంచుకున్నందుకు ధన్యవాదాలు.").
+2. ABSOLUTELY ZERO QUESTIONS: Do NOT ask any questions whatsoever. No further inquiry, no question mark '?'. The discussion is officially finished.
+3. REASSURING CONCLUSION: Confirm that their reported symptoms, digestion (Agni), diet (Ahara), lifestyle (Vihara), and sleep (Nidra) have been structured for review by a qualified AYUSH practitioner or physician.
+4. MANDATORY TOKEN: You MUST append the exact token [INTERVIEW_COMPLETE] at the very end of your response.
+
+CONSTRAINTS:
+- Reply entirely in ${languageName} in its native script.
+- 2 short, comforting sentences.
+- Do NOT prescribe medications, claim "AI diagnosed your Prakriti", or give definitive diagnoses.`;
+        } else {
+          let ayushDirective = '';
+          if (turnCount === 1) {
+            ayushDirective = `AYUSH CLINICAL FOCUS FOR TURN 1 - ONSET, DURATION & AGGRAVATING FACTORS:
+- Empathetically acknowledge their primary complaint: "${currentAnswer}".
+- Ask how long this imbalance has been present and whether symptoms increase during certain times of day, after eating, or in specific seasons/weather.`;
+          } else if (turnCount === 2) {
+            ayushDirective = `AYUSH CLINICAL FOCUS FOR TURN 2 - DIGESTION (AGNI) & FOOD HABITS (AHARA):
+- Empathetically acknowledge what they said about onset and triggers.
+- Inquire about their digestion (Agni): ask how their appetite is, how they feel after meals (heaviness, gas, acidity, or light), and their dietary patterns (Ahara). Explain simply: "In AYUSH, your digestion (Agni) is vital."`;
+          } else if (turnCount === 3) {
+            ayushDirective = `AYUSH CLINICAL FOCUS FOR TURN 3 - BOWEL TENDENCY (KOSTHTHA) & CLIMATE/BODY SENSITIVITY (PRAKRITI):
+- Empathetically acknowledge their digestion response.
+- Inquire about their bowel regularity (Koshtha: smooth, constipated, or loose) and whether they are naturally sensitive to hot or cold weather (Prakriti body constitution tendencies).`;
+          } else if (turnCount === 4) {
+            ayushDirective = `AYUSH CLINICAL FOCUS FOR TURN 4 - SLEEP PATTERNS (NIDRA) & LIFESTYLE / STRESS (VIHARA):
+- Empathetically acknowledge their body tendency response.
+- Inquire about sleep quality (Nidra: deep, disturbed, or insomnia) and daily physical routine, exercise, and mental stress levels (Vihara).`;
+          } else {
+            ayushDirective = `AYUSH CLINICAL FOCUS FOR TURN 5 - TRADITIONAL REMEDIES & CURRENT MEDICATIONS:
+- Empathetically acknowledge their sleep and lifestyle response.
+- Inquire whether they are currently taking any traditional AYUSH remedies (Ayurveda, Homeopathy, Unani, Siddha), home preparations, or modern allopathic medicines, and if they have any known medical conditions.`;
+          }
+
+          doctorSystemPrompt = `You are Dr. MediKiosk, an expert AYUSH Intake Specialist (Ayurveda, Yoga & Naturopathy, Unani, Siddha, Homoeopathy) at a smart hospital kiosk in India.
+You are conducting a structured, empathetic, pin-to-pin AYUSH intake consultation with a patient.
+
+PATIENT PROFILE:
+- Preferred Consultation Language: ${languageName} (Language code: ${language})
+- Mode: AYUSH Case Taking
+- Current Step: Step ${turnCount} of 5 AYUSH Clinical Dimensions
+
+${ayushDirective}
+${
+  redFlagCheck.isRedFlag
+    ? `
+CRITICAL HIGH-PRIORITY EMERGENCY ALERT:
+- Patient symptoms indicate an active EMERGENCY: [${(redFlagCheck.matchedCategories || []).map((c) => `${c.emoji} ${c.category}`).join(', ')}].
+- While inquiring, you MUST advise the patient with doctor urgency that their symptoms are high-priority and urge them to alert hospital triage nursing staff immediately or call 112/108.
+`
+    : ''
+}
+
+MANDATORY 2-PART CLINICAL RESPONSE STRUCTURE:
+1. PART 1: DIRECT EMPATHETIC ACKNOWLEDGMENT of what the patient just answered: "${currentAnswer}".
+2. PART 2: ONE TARGETED AYUSH INQUIRY focused on the clinical objective specified above.
+
+CONSTRAINTS:
+- Reply entirely in ${languageName} in its native script.
+- Keep to 2 natural, comforting sentences.
+- Under NO circumstances prescribe medications or claim "AI diagnosed your Prakriti". Everything is patient-reported for professional review.
+- NEVER repeat questions that were already asked in previous turns.`;
+        }
+      } else {
+        // ----------------- GENERAL MEDICAL SYSTEM PROMPTS -----------------
+        if (shouldWrapUp) {
+          doctorSystemPrompt = `You are Dr. MediKiosk, an expert Senior Clinical Triage Physician and Hospital Medical Intake Specialist.
 You are concluding a diagnostic intake consultation with a patient at a smart hospital kiosk in India after systematically gathering all pin-to-pin clinical details.
 
 PATIENT PROFILE:
@@ -730,31 +836,31 @@ CONSTRAINTS:
 - Reply entirely in ${languageName} in its native script.
 - 2 short, comforting, professional sentences.
 - Do NOT prescribe medications or give definitive diagnoses.`;
-      } else {
-        let turnDirective = '';
-        if (turnCount === 1) {
-          turnDirective = `CLINICAL FOCUS FOR TURN 1 - ONSET, DURATION & CHARACTER:
+        } else {
+          let turnDirective = '';
+          if (turnCount === 1) {
+            turnDirective = `CLINICAL FOCUS FOR TURN 1 - ONSET, DURATION & CHARACTER:
 - Empathetically acknowledge their primary complaint: "${currentAnswer}".
 - Inquire about onset, duration, whether it started suddenly or gradually, and whether the symptom is continuous or comes and goes.`;
-        } else if (turnCount === 2) {
-          turnDirective = `CLINICAL FOCUS FOR TURN 2 - ASSOCIATED SYMPTOMS & ANATOMICAL RADIATION:
+          } else if (turnCount === 2) {
+            turnDirective = `CLINICAL FOCUS FOR TURN 2 - ASSOCIATED SYMPTOMS & ANATOMICAL RADIATION:
 - Empathetically acknowledge what they said about timeline and duration.
 - Inquire about associated symptoms, anatomical radiation, or specific clinical signs related to ${detectedProfile ? detectedProfile.name : 'their condition'} (e.g., chills, nausea, vomiting, cough, breathing difficulty, dizziness, radiating pain).`;
-        } else if (turnCount === 3) {
-          turnDirective = `CLINICAL FOCUS FOR TURN 3 - SEVERITY RATING (1-10 SCALE) & DAILY ROUTINE IMPACT:
+          } else if (turnCount === 3) {
+            turnDirective = `CLINICAL FOCUS FOR TURN 3 - SEVERITY RATING (1-10 SCALE) & DAILY ROUTINE IMPACT:
 - Empathetically acknowledge what they shared about associated symptoms (including negative replies like "no vomiting").
 - Ask them to rate their pain or discomfort severity on a scale of 1 to 10 (1 mild, 10 severe) and how it affects their daily routine, sleep, eating, or ability to work.`;
-        } else if (turnCount === 4) {
-          turnDirective = `CLINICAL FOCUS FOR TURN 4 - PAST MEDICAL HISTORY & CHRONIC CONDITIONS:
+          } else if (turnCount === 4) {
+            turnDirective = `CLINICAL FOCUS FOR TURN 4 - PAST MEDICAL HISTORY & CHRONIC CONDITIONS:
 - Empathetically acknowledge their reported severity level.
 - Inquire specifically about past medical history and chronic conditions: ask if they have a history of diabetes, high blood pressure (BP), thyroid disease, asthma, heart conditions, or previous hospitalizations/surgeries.`;
-        } else {
-          turnDirective = `CLINICAL FOCUS FOR TURN 5 - CURRENT MEDICATIONS & KNOWN DRUG ALLERGIES:
+          } else {
+            turnDirective = `CLINICAL FOCUS FOR TURN 5 - CURRENT MEDICATIONS & KNOWN DRUG ALLERGIES:
 - Empathetically acknowledge their chronic history response.
 - Inquire specifically what medications or tablets they have taken today or take regularly, and whether they have any known allergies to medicines (like penicillin, sulfa, or pain relievers).`;
-        }
+          }
 
-        doctorSystemPrompt = `You are Dr. MediKiosk, an expert Senior Clinical Triage Physician and Hospital Medical Intake Specialist.
+          doctorSystemPrompt = `You are Dr. MediKiosk, an expert Senior Clinical Triage Physician and Hospital Medical Intake Specialist.
 You are conducting a thorough, empathetic, pin-to-pin diagnostic intake consultation with a patient at a smart hospital kiosk in India.
 
 PATIENT PROFILE:
@@ -787,6 +893,7 @@ CONSTRAINTS:
 - Keep to 2 natural, comforting, doctor-grade sentences.
 - Under NO circumstances prescribe medications (like antibiotics) or state a definitive diagnosis without an in-person doctor check.
 - NEVER repeat questions that were already asked in previous turns.`;
+        }
       }
 
       // Build pristine multi-turn history
@@ -823,14 +930,20 @@ CONSTRAINTS:
           const lowerClean = cleaned.toLowerCase();
           const hasThankYou = lowerClean.includes('thank') || lowerClean.includes('धन्यवाद') || lowerClean.includes('ధన్యవాదాలు') || lowerClean.includes('நன்றி') || lowerClean.includes('ಧನ್ಯವಾದ') || lowerClean.includes('നന്ദി') || lowerClean.includes('ধন্যবাদ');
           if (!hasThankYou) {
-            const thankYouPrefix = await translateText('Thank you for providing all your health details.', language, apiKey);
+            const thankYouPrefix = await translateText(
+              healthcareMode === 'ayush'
+                ? 'Thank you for sharing your health details.'
+                : 'Thank you for providing all your health details.',
+              language,
+              apiKey
+            );
             cleaned = `${thankYouPrefix} ${cleaned}`.trim();
           }
           nextQuestion = cleaned;
         } else {
           nextQuestion = cleaned;
         }
-        aiSource = 'Groq Ultra-Fast AI (Doctor Engine)';
+        aiSource = healthcareMode === 'ayush' ? 'Groq AI (AYUSH Intake Engine)' : 'Groq Ultra-Fast AI (Doctor Engine)';
       }
     } catch (llmErr) {
       console.warn('[Groq Doctor AI] Error generating next question:', llmErr.message);
@@ -841,35 +954,52 @@ CONSTRAINTS:
   if (!nextQuestion) {
     if (shouldWrapUp) {
       isComplete = true;
-      const closingText = `Thank you for providing all your health details. Your preliminary consultation discussion is now complete. All your symptoms, duration, severity, medical history, and medication details have been documented for the attending physician. Please review your Health Summary below.`;
+      const closingText =
+        healthcareMode === 'ayush'
+          ? `Thank you for sharing your health details. Your preliminary AYUSH case-taking is now complete. All your reported symptoms, digestion (Agni), dietary habits (Ahara), lifestyle (Vihara), and sleep (Nidra) patterns have been structured for review by a qualified AYUSH practitioner or physician. Please review your Health Summary below.`
+          : `Thank you for providing all your health details. Your preliminary consultation discussion is now complete. All your symptoms, duration, severity, medical history, and medication details have been documented for the attending physician. Please review your Health Summary below.`;
       nextQuestion = await translateText(closingText, language, apiKey);
     } else {
-      const profileQuestions = detectedProfile && detectedProfile.questions;
-      const langQuestions = (profileQuestions && (profileQuestions[language] || profileQuestions.en)) || GENERAL_QUESTIONS[language] || GENERAL_QUESTIONS.en;
+      if (healthcareMode === 'ayush') {
+        const langQuestions = AYUSH_QUESTIONS[language] || AYUSH_QUESTIONS.en;
+        const qIndex = Math.min(Math.max(0, turnCount - 1), 4);
+        const rawQuestion = langQuestions[qIndex] || AYUSH_QUESTIONS.en[qIndex];
 
-      // Question index mapped directly to clinical turn (0 to 4)
-      const qIndex = Math.min(Math.max(0, turnCount - 1), 4);
-      const rawQuestion = langQuestions[qIndex] || GENERAL_QUESTIONS.en[qIndex];
-
-      // Acknowledge patient's answer with empathetic validation
-      let ackPrefix = '';
-      if (language === 'hi') {
-        ackPrefix = `आपके द्वारा बताए गए विवरण ("${currentAnswer}") को नोट कर लिया गया है। `;
-      } else if (language === 'te') {
-        ackPrefix = `మీరు తెలిపిన సమాచారాన్ని ("${currentAnswer}") నమోదు చేసుకున్నాను. `;
-      } else if (language === 'ta') {
-        ackPrefix = `நீங்கள் கூறிய விவரங்களை ("${currentAnswer}") குறித்துக் கொண்டேன். `;
-      } else if (language === 'kn') {
-        ackPrefix = `ನೀವು ತಿಳಿಸಿದ ವಿವರಗಳನ್ನು ("${currentAnswer}") ದಾಖಲಿಸಿಕೊಂಡಿದ್ದೇನೆ. `;
-      } else if (language === 'bn') {
-        ackPrefix = `আপনার জানানো বিবরণ ("${currentAnswer}") নথিভুক্ত করা হয়েছে। `;
+        let ackPrefix = '';
+        if (language === 'hi') {
+          ackPrefix = `आपके द्वारा बताए गए विवरण ("${currentAnswer}") को नोट कर लिया गया है। `;
+        } else if (language === 'te') {
+          ackPrefix = `మీరు తెలిపిన సమాచారాన్ని ("${currentAnswer}") నమోదు చేసుకున్నాను. `;
+        } else {
+          ackPrefix = `I have noted what you shared regarding "${currentAnswer}". `;
+        }
+        nextQuestion = ackPrefix + rawQuestion;
       } else {
-        ackPrefix = `I have noted what you shared regarding "${currentAnswer}". `;
-      }
+        const profileQuestions = detectedProfile && detectedProfile.questions;
+        const langQuestions = (profileQuestions && (profileQuestions[language] || profileQuestions.en)) || GENERAL_QUESTIONS[language] || GENERAL_QUESTIONS.en;
 
-      nextQuestion = ackPrefix + rawQuestion;
-      if (!profileQuestions || !profileQuestions[language]) {
-        nextQuestion = await translateText(nextQuestion, language, apiKey);
+        const qIndex = Math.min(Math.max(0, turnCount - 1), 4);
+        const rawQuestion = langQuestions[qIndex] || GENERAL_QUESTIONS.en[qIndex];
+
+        let ackPrefix = '';
+        if (language === 'hi') {
+          ackPrefix = `आपके द्वारा बताए गए विवरण ("${currentAnswer}") को नोट कर लिया गया है। `;
+        } else if (language === 'te') {
+          ackPrefix = `మీరు తెలిపిన సమాచారాన్ని ("${currentAnswer}") నమోదు చేసుకున్నాను. `;
+        } else if (language === 'ta') {
+          ackPrefix = `நீங்கள் கூறிய விவரங்களை ("${currentAnswer}") குறித்துக் கொண்டேன். `;
+        } else if (language === 'kn') {
+          ackPrefix = `ನೀವು ತಿಳಿಸಿದ ವಿವರಗಳನ್ನು ("${currentAnswer}") ದಾಖಲಿಸಿಕೊಂಡಿದ್ದೇನೆ. `;
+        } else if (language === 'bn') {
+          ackPrefix = `আপনার জানানো বিবরণ ("${currentAnswer}") নথিভুক্ত করা হয়েছে। `;
+        } else {
+          ackPrefix = `I have noted what you shared regarding "${currentAnswer}". `;
+        }
+
+        nextQuestion = ackPrefix + rawQuestion;
+        if (!profileQuestions || !profileQuestions[language]) {
+          nextQuestion = await translateText(nextQuestion, language, apiKey);
+        }
       }
     }
   }
@@ -879,9 +1009,63 @@ CONSTRAINTS:
     turnCount: turnCount + 1,
     isComplete,
     redFlagCheck,
-    detectedDisease: detectedProfile ? detectedProfile.name : 'General Consultation',
-    suggestedSpecialty: detectedProfile ? detectedProfile.specialty : 'General Medicine',
+    detectedDisease: detectedProfile ? detectedProfile.name : healthcareMode === 'ayush' ? 'AYUSH Case Taking' : 'General Consultation',
+    suggestedSpecialty:
+      healthcareMode === 'ayush' && !redFlagCheck.isRedFlag
+        ? 'AYUSH / Integrative Medicine'
+        : detectedProfile
+        ? detectedProfile.specialty
+        : 'General Medicine',
     aiSource,
+  };
+};
+
+/**
+ * Computes a standardized Case Data Quality Score for clinical triage
+ */
+const calculateCaseDataQualityScore = ({
+  chiefComplaint = '',
+  duration = '',
+  severity = '',
+  medicalHistory = [],
+  responses = [],
+  documents = [],
+  redFlagStatus = 'NONE',
+  healthcareMode = 'general_medical',
+}) => {
+  // 1. Completeness Score (0 - 100)
+  let completeness = 35;
+  if (chiefComplaint && chiefComplaint.length > 3) completeness += 20;
+  if (duration && duration.length > 2) completeness += 15;
+  if (severity) completeness += 10;
+  if (medicalHistory && medicalHistory.length > 0 && !medicalHistory[0]?.includes('no major chronic')) completeness += 10;
+  if (responses && responses.length >= 3) completeness += 10;
+  completeness = Math.min(100, completeness);
+
+  // 2. Consistency Score (0 - 100)
+  let consistency = 92;
+  if (redFlagStatus === 'HIGH_PRIORITY') {
+    consistency = 88;
+  }
+
+  // 3. Clarity Score (0 - 100)
+  let clarity = 80;
+  if (responses && responses.length > 0) {
+    const totalChars = responses.reduce((acc, r) => acc + (r.answer?.length || 0), 0);
+    const avgChars = totalChars / responses.length;
+    if (avgChars > 25) clarity = 95;
+    else if (avgChars > 12) clarity = 88;
+    else clarity = 78;
+  }
+
+  const overallScore = Math.round(completeness * 0.45 + consistency * 0.3 + clarity * 0.25);
+
+  return {
+    overallScore,
+    completenessScore: completeness,
+    consistencyScore: consistency,
+    clarityScore: clarity,
+    verificationStatus: 'NEEDS_VERIFICATION',
   };
 };
 
@@ -894,6 +1078,8 @@ const generateHealthSummary = async ({
   documents = [],
   language = 'en',
   groqApiKey = '',
+  healthcareMode = 'general_medical',
+  communicationMode = 'text',
 }) => {
   const fullText = interviewResponses.map((r) => `${r.question} ${r.answer}`).join(' ');
   let chiefComplaint = interviewResponses[0]?.answer || 'General health consultation';
@@ -901,7 +1087,14 @@ const generateHealthSummary = async ({
 
   const redFlagCheck = screenRedFlags(fullText);
   const detectedProfile = detectDiseaseProfile(fullText);
-  const specialtyInfo = suggestSpecialty(fullText, patientProfile.age || 30);
+  let specialtyInfo = suggestSpecialty(fullText, patientProfile.age || 30);
+
+  if (healthcareMode === 'ayush' && !redFlagCheck.isRedFlag) {
+    specialtyInfo = {
+      specialty: 'AYUSH / Integrative Medicine',
+      rationale: 'Patient completed AYUSH-oriented intake. Recommended for evaluation by AYUSH practitioner / Integrative Medicine department.',
+    };
+  }
 
   // Extract symptoms list heuristically
   const potentialSymptoms = [
@@ -929,18 +1122,27 @@ const generateHealthSummary = async ({
 
   const detectedSymptoms = potentialSymptoms.filter((s) => new RegExp(s.split(' ')[0], 'i').test(fullText));
   if (detectedSymptoms.length === 0) {
-    detectedSymptoms.push(detectedProfile ? detectedProfile.name : 'Unspecified clinical discomfort');
+    detectedSymptoms.push(detectedProfile ? detectedProfile.name : healthcareMode === 'ayush' ? 'AYUSH Case Taking' : 'Unspecified clinical discomfort');
   }
 
-  let summaryText = `Patient ${patientProfile.name || 'Patient'} (${patientProfile.age || 'Age unrecorded'}, ${patientProfile.gender || 'Gender unrecorded'}) presented with chief concern: "${chiefComplaint}". Disease classification: ${detectedProfile ? detectedProfile.name : 'General clinical presentation'}. Symptoms duration: ${duration}. Red-flag screening assessment: ${redFlagCheck.priority}. Suggested clinical department for consultation: ${specialtyInfo.specialty}. Note: This is an AI-organized summary designed to expedite hospital triage and must be verified by the attending physician.`;
+  let summaryText = '';
+  if (healthcareMode === 'ayush') {
+    summaryText = `Patient ${patientProfile.name || 'Patient'} (${patientProfile.age || 'Age unrecorded'}, ${patientProfile.gender || 'Gender unrecorded'}) completed an AYUSH-oriented clinical intake for chief concern: "${chiefComplaint}". Symptoms duration: ${duration}. Mode: AYUSH Case Taking (Patient-reported). Red-flag screening assessment: ${redFlagCheck.priority}. Suggested department: ${specialtyInfo.specialty}. Note: All AYUSH constitutional and lifestyle findings are patient-reported and require verification by a qualified practitioner.`;
+  } else {
+    summaryText = `Patient ${patientProfile.name || 'Patient'} (${patientProfile.age || 'Age unrecorded'}, ${patientProfile.gender || 'Gender unrecorded'}) presented with chief concern: "${chiefComplaint}". Disease classification: ${detectedProfile ? detectedProfile.name : 'General clinical presentation'}. Symptoms duration: ${duration}. Red-flag screening assessment: ${redFlagCheck.priority}. Suggested clinical department for consultation: ${specialtyInfo.specialty}. Note: This is an AI-organized summary designed to expedite hospital triage and must be verified by the attending physician.`;
+  }
 
   // If Groq API key is present, generate high-fidelity LLM clinical dossier synthesis
   const apiKey = groqApiKey || process.env.GROQ_API_KEY;
   if (apiKey) {
+    const sysPrompt = healthcareMode === 'ayush'
+      ? 'You are a hospital AYUSH clinical scribe. Write a concise 2-3 sentence clinical summary of the patient AYUSH intake for the attending practitioner. Emphasize chief complaint, digestion (Agni), lifestyle, and reported symptoms without diagnosing.'
+      : 'You are a hospital triage clinical scribe. Write a concise 2-3 sentence clinical summary of the patient intake for the attending doctor. Emphasize chief complaint, timeline, and key reported symptoms without diagnosing.';
+
     const groqSummary = await callGroqLLM({
       groqApiKey: apiKey,
-      systemPrompt: 'You are a hospital triage clinical scribe. Write a concise 2-3 sentence clinical summary of the patient intake for the attending doctor. Emphasize chief complaint, timeline, and key reported symptoms without diagnosing.',
-      userPrompt: `Patient: ${patientProfile.name || 'Patient'} (${patientProfile.age || 'Age unrecorded'}, ${patientProfile.gender || 'Gender unrecorded'}).\nResponses:\n${interviewResponses.map((r) => `Q: ${r.question}\nA: ${r.answer}`).join('\n')}`,
+      systemPrompt: sysPrompt,
+      userPrompt: `Patient: ${patientProfile.name || 'Patient'} (${patientProfile.age || 'Age unrecorded'}, ${patientProfile.gender || 'Gender unrecorded'}). Mode: ${healthcareMode}.\nResponses:\n${interviewResponses.map((r) => `Q: ${r.question}\nA: ${r.answer}`).join('\n')}`,
       maxTokens: 300,
     });
     if (groqSummary) {
@@ -992,14 +1194,97 @@ const generateHealthSummary = async ({
     }
   });
 
+  // AYUSH parameters synthesis
+  let ayushAssessment = {
+    prakriti: 'Patient-reported constitution traits noted for practitioner evaluation',
+    vikriti: 'Current health imbalance under discussion',
+    agni: 'Metabolic & digestion status noted during consultation',
+    koshtha: 'Bowel tendency recorded for practitioner review',
+    ahara: 'Food habits and dietary preferences recorded',
+    vihara: 'Daily routine, physical activity, and sleep patterns noted',
+    nidra: 'Sleep quality recorded',
+    traditionalPractices: [],
+    verificationNotice: 'Patient-reported AYUSH information. Qualified AYUSH practitioner verification required.',
+  };
+
+  if (healthcareMode === 'ayush') {
+    const answersText = interviewResponses.map((r) => r.answer || '').join(' ');
+    if (/digestion|gas|bloat|acidity|heavy|भूख|पाचन|అజీర్ణం/i.test(answersText)) {
+      ayushAssessment.agni = 'Reported digestive variability or post-meal heaviness/acidity';
+    } else {
+      ayushAssessment.agni = 'Normal digestive pattern reported';
+    }
+
+    if (/constipat|loose|hard|motion|कब्ज|मल|మలబద్ధకం/i.test(answersText)) {
+      ayushAssessment.koshtha = 'Irregular / slow bowel tendencies reported';
+    } else {
+      ayushAssessment.koshtha = 'Regular bowel movements reported';
+    }
+
+    if (/heat|hot|pitta|cold|vata|kapha|गर्मी|ठंड|వేడి|చలి/i.test(answersText)) {
+      ayushAssessment.prakriti = 'Temperature sensitivity reported — practitioner clinical evaluation required';
+    }
+
+    if (/sleep|insomnia|disturbed|wake|नींद|నిద్ర/i.test(answersText)) {
+      ayushAssessment.nidra = 'Reported sleep sensitivity or restlessness';
+    } else {
+      ayushAssessment.nidra = 'Adequate sleep reported';
+    }
+
+    const ayushMeds = ['ashwagandha', 'triphala', 'chyawanprash', 'tulsi', 'giloy', 'kadha', 'neem', 'ayurvedic', 'homeopathic', 'unani', 'siddha', 'काढ़ा', 'च्यवनप्राश'];
+    ayushMeds.forEach((am) => {
+      if (new RegExp(`\\b${am}`, 'i').test(answersText)) {
+        ayushAssessment.traditionalPractices.push(am.charAt(0).toUpperCase() + am.slice(1));
+      }
+    });
+  }
+
+  // Calculate Case Data Quality Score
+  const caseDataQualityScore = calculateCaseDataQualityScore({
+    chiefComplaint,
+    duration,
+    severity: /severe|intense|sharp|10|9|8|unbearable/i.test(fullText) ? 'Severe' : /mild|1|2|3/i.test(fullText) ? 'Mild' : 'Moderate',
+    medicalHistory: detectedHistory,
+    responses: interviewResponses,
+    documents,
+    redFlagStatus: redFlagCheck.priority,
+    healthcareMode,
+  });
+
+  // Generate structured AI medication suggestions for the attending physician's clinical review
+  const aiMedicationSuggestions = generateAiMedicationSuggestions({
+    fullText,
+    chiefComplaint,
+    symptoms: detectedSymptoms,
+    detectedProfile,
+    healthcareMode,
+    patientProfile,
+  });
+
   return {
     chiefComplaint,
-    diseaseClassification: detectedProfile ? detectedProfile.name : 'General Clinical Presentation',
+    healthcareMode,
+    communicationMode,
+    language,
+    diseaseClassification: detectedProfile ? detectedProfile.name : healthcareMode === 'ayush' ? 'AYUSH Case Taking' : 'General Clinical Presentation',
     symptoms: detectedSymptoms,
     duration,
     severity: /severe|intense|sharp|10|9|8|unbearable/i.test(fullText) ? 'Severe' : /mild|1|2|3/i.test(fullText) ? 'Mild' : 'Moderate',
     medicalHistory: detectedHistory.length > 0 ? detectedHistory : ['Reviewed during clinical intake - no major chronic conditions reported'],
     previousMedicines: detectedMeds.length > 0 ? detectedMeds : ['Reviewed during clinical intake - no regular medicines reported'],
+    // Full Q&A Transcript: AI Questions Asked & Patient Answers Given
+    interviewResponses: Array.isArray(interviewResponses) && interviewResponses.length > 0
+      ? interviewResponses.map((r) => ({
+          question: r.question || '',
+          answer: r.answer || '',
+          inputMode: r.inputMode || communicationMode || 'text',
+          timestamp: r.timestamp || new Date(),
+        }))
+      : [],
+    // AI Medication Suggestions for Doctor's Review & Prescription
+    aiMedicationSuggestions,
+    ayushAssessment,
+    caseDataQualityScore,
     redFlagStatus: redFlagCheck.priority,
     redFlagMessage: redFlagCheck.alertMessage,
     suggestedSpecialty: specialtyInfo.specialty,
@@ -1008,8 +1293,341 @@ const generateHealthSummary = async ({
   };
 };
 
+/**
+ * Intelligent clinical rule-based + evidence-based AI Medication Suggestion generator
+ * Explicitly provided as suggestions for the attending doctor's review and prescription
+ */
+const generateAiMedicationSuggestions = ({
+  fullText = '',
+  chiefComplaint = '',
+  symptoms = [],
+  detectedProfile = null,
+  healthcareMode = 'general_medical',
+  patientProfile = {},
+}) => {
+  const suggestions = [];
+  const text = `${chiefComplaint} ${symptoms.join(' ')} ${fullText}`.toLowerCase();
+
+  if (healthcareMode === 'ayush') {
+    // AYUSH suggestions
+    if (/fever|temperature|chills|cold|flu|ताप|बुखार|జ్వరం/i.test(text)) {
+      suggestions.push({
+        medicineName: 'Mahasudarshan Ghan Vati',
+        genericName: 'Herbo-mineral classical Ayurvedic formulation',
+        category: 'Antipyretic / Ama Pachana',
+        form: 'Tablet',
+        strength: '500 mg',
+        dosage: '2 tablets',
+        frequency: 'Twice daily',
+        duration: '5 days',
+        timing: 'After meals with lukewarm water',
+        clinicalRationale: 'Classic formulation for digestive fire stimulation (Deepana-Pachana) and natural body temperature equilibrium.',
+        advisoryNote: 'AYUSH Suggestion for Attending Vaidya — Vaidya will evaluate and prescribe.',
+      });
+      suggestions.push({
+        medicineName: 'Giloy (Guduchi) Ghan Vati',
+        genericName: 'Tinospora cordifolia extract',
+        category: 'Immunomodulator / Rasayana',
+        form: 'Tablet',
+        strength: '500 mg',
+        dosage: '1 tablet',
+        frequency: 'Twice daily',
+        duration: '7 days',
+        timing: 'After meals',
+        clinicalRationale: 'Supports cellular immunity and mitigates persistent post-viral fatigue.',
+        advisoryNote: 'AYUSH Suggestion for Attending Vaidya — Vaidya will evaluate and prescribe.',
+      });
+    }
+
+    if (/cough|throat|cold|mucus|chest|asthma|कफ|खांसी|దగ్గు/i.test(text)) {
+      suggestions.push({
+        medicineName: 'Sitopaladi Churna',
+        genericName: 'Cinnamomum, Cardamomum & Bambusa extract',
+        category: 'Respiratory / Kapha Hara',
+        form: 'Churna (Powder)',
+        strength: '3 grams',
+        dosage: '1/2 teaspoon',
+        frequency: 'Thrice daily',
+        duration: '5 days',
+        timing: 'With 1 teaspoon pure honey',
+        clinicalRationale: 'Soothes inflamed bronchial mucosal lining, reduces paroxysmal dry cough, and facilitates mucus expectoration.',
+        advisoryNote: 'AYUSH Suggestion for Attending Vaidya — Vaidya will evaluate and prescribe.',
+      });
+      suggestions.push({
+        medicineName: 'Kanthasudha Vati / Talisadi',
+        genericName: 'Talisadi classical formulation',
+        category: 'Throat Lozenges',
+        form: 'Chewable Tablet',
+        strength: '250 mg',
+        dosage: '1 tablet',
+        frequency: '3-4 times daily',
+        duration: '3 days',
+        timing: 'Slowly dissolve in mouth',
+        clinicalRationale: 'Provides soothing local anti-inflammatory action for pharyngitis and hoarseness.',
+        advisoryNote: 'AYUSH Suggestion for Attending Vaidya — Vaidya will evaluate and prescribe.',
+      });
+    }
+
+    if (/acidity|gas|bloat|constipat|digestion|motion|पेट|कब्ज|అజీర్ణం/i.test(text) || suggestions.length === 0) {
+      suggestions.push({
+        medicineName: 'Avipattikar Churna',
+        genericName: 'Classical Pitta pacifying herbal compound',
+        category: 'Digestive / Pitta Shamak',
+        form: 'Churna (Powder)',
+        strength: '3 grams',
+        dosage: '1/2 teaspoon',
+        frequency: 'Twice daily',
+        duration: '7 days',
+        timing: 'Before meals with warm water',
+        clinicalRationale: 'Neutralizes excessive stomach acid (Amlapitta), eases heartburn, and regulates bowel motility.',
+        advisoryNote: 'AYUSH Suggestion for Attending Vaidya — Vaidya will evaluate and prescribe.',
+      });
+      suggestions.push({
+        medicineName: 'Triphala Tablet / Churna',
+        genericName: 'Emblica, Terminalia chebula & bellerica',
+        category: 'Bowel Regulator / Rasayana',
+        form: 'Tablet',
+        strength: '500 mg',
+        dosage: '2 tablets',
+        frequency: 'Once daily',
+        duration: '14 days',
+        timing: 'At bedtime with lukewarm water',
+        clinicalRationale: 'Promotes regular peristalsis, supports gut microbiome, and detoxifies colon.',
+        advisoryNote: 'AYUSH Suggestion for Attending Vaidya — Vaidya will evaluate and prescribe.',
+      });
+    }
+
+    if (/joint|knee|back|pain|stiff|नसों|दर्द|నొప్పులు/i.test(text)) {
+      suggestions.push({
+        medicineName: 'Yograj Guggulu',
+        genericName: 'Purified Commiphora mukul compound',
+        category: 'Anti-inflammatory / Vata Shamak',
+        form: 'Tablet',
+        strength: '500 mg',
+        dosage: '2 tablets',
+        frequency: 'Twice daily',
+        duration: '14 days',
+        timing: 'After meals with warm water',
+        clinicalRationale: 'Relieves joint stiffness, nourishes musculoskeletal tissues, and alleviates Vata-induced arthralgia.',
+        advisoryNote: 'AYUSH Suggestion for Attending Vaidya — Vaidya will evaluate and prescribe.',
+      });
+      suggestions.push({
+        medicineName: 'Mahanarayan Taila',
+        genericName: 'Medicated herbal oil',
+        category: 'External Application',
+        form: 'Oil',
+        strength: '100 ml',
+        dosage: 'Gentle massage',
+        frequency: 'Twice daily',
+        duration: '10 days',
+        timing: 'Apply warm over affected joints',
+        clinicalRationale: 'Improves synovial circulation and reduces local swelling and tenderness.',
+        advisoryNote: 'AYUSH Suggestion for Attending Vaidya — Vaidya will evaluate and prescribe.',
+      });
+    }
+
+    return suggestions;
+  }
+
+  // General Medical Mode Suggestions
+  if (/fever|temperature|typhoid|dengue|malaria|chills|shivering|बुखार|ताप|జ్వరం/i.test(text)) {
+    suggestions.push({
+      medicineName: 'Dolo 650',
+      genericName: 'Paracetamol',
+      category: 'Antipyretic / Analgesic',
+      form: 'Tablet',
+      strength: '650 mg',
+      dosage: '1 tablet',
+      frequency: 'Every 6-8 hours SOS',
+      duration: '3-5 days',
+      timing: 'After food',
+      clinicalRationale: 'First-line antipyretic for temperature reduction (>100°F) and systemic body ache relief. Maximum 3g/day.',
+      advisoryNote: 'AI Clinical Advisory — Attending doctor will verify contraindications and prescribe.',
+    });
+    suggestions.push({
+      medicineName: 'Pan 40',
+      genericName: 'Pantoprazole',
+      category: 'Proton Pump Inhibitor (PPI)',
+      form: 'Tablet',
+      strength: '40 mg',
+      dosage: '1 tablet',
+      frequency: 'Once daily',
+      duration: '5 days',
+      timing: '30 minutes before breakfast',
+      clinicalRationale: 'Gastric acid suppression to prevent NSAID/illness-related gastritis or hyperacidity.',
+      advisoryNote: 'AI Clinical Advisory — Attending doctor will verify contraindications and prescribe.',
+    });
+    suggestions.push({
+      medicineName: 'Electral Sachet',
+      genericName: 'Oral Rehydration Salts (WHO Formula)',
+      category: 'Electrolyte Restoration',
+      form: 'Powder',
+      strength: '21.8 g sachet',
+      dosage: '1 sachet in 1 Litre boiled & cooled water',
+      frequency: 'Sip throughout day',
+      duration: '3 days',
+      timing: 'Throughout the day',
+      clinicalRationale: 'Essential electrolyte restoration and dehydration prophylaxis during acute febrile episode.',
+      advisoryNote: 'AI Clinical Advisory — Attending doctor will verify contraindications and prescribe.',
+    });
+  } else if (/cough|cold|throat|sneez|congestion|phlegm|sputum|bronch|खराश|खांसी|దగ్గు/i.test(text)) {
+    suggestions.push({
+      medicineName: 'Montair-LC',
+      genericName: 'Levocetirizine 5mg + Montelukast 10mg',
+      category: 'Antihistamine / Leukotriene Receptor Antagonist',
+      form: 'Tablet',
+      strength: '5mg / 10mg',
+      dosage: '1 tablet',
+      frequency: 'Once daily at bedtime',
+      duration: '5 days',
+      timing: 'At night after food',
+      clinicalRationale: 'Controls allergic rhinitis, reduces airway hyperresponsiveness and mucosal swelling.',
+      advisoryNote: 'AI Clinical Advisory — Attending doctor will verify contraindications and prescribe.',
+    });
+    suggestions.push({
+      medicineName: 'Ascoril-D Plus / Grilinctus',
+      genericName: 'Dextromethorphan + Chlorpheniramine + Phenylephrine',
+      category: 'Cough Suppressant & Decongestant',
+      form: 'Syrup',
+      strength: '100 ml bottle',
+      dosage: '10 ml (2 teaspoons)',
+      frequency: 'Thrice daily',
+      duration: '5 days',
+      timing: 'After meals',
+      clinicalRationale: 'Relieves irritating dry/allergic cough and clears upper respiratory congestion.',
+      advisoryNote: 'AI Clinical Advisory — Attending doctor will verify contraindications and prescribe.',
+    });
+    suggestions.push({
+      medicineName: 'Betadine 2% Gargle',
+      genericName: 'Povidone-Iodine 2% w/v',
+      category: 'Antiseptic Oral Rinse',
+      form: 'Liquid Gargle',
+      strength: '50 ml bottle',
+      dosage: 'Dilute 1:1 with warm water',
+      frequency: 'Thrice daily',
+      duration: '4 days',
+      timing: 'Gargle for 30 seconds after meals',
+      clinicalRationale: 'Local antimicrobial action for pharyngitis, tonsillar inflammation, and throat irritation.',
+      advisoryNote: 'AI Clinical Advisory — Attending doctor will verify contraindications and prescribe.',
+    });
+  } else if (/acidity|gastric|reflux|gerd|stomach|ulcer|bloat|nausea|vomit|heartburn|पेट|गैस|కడుపునొప్పి/i.test(text)) {
+    suggestions.push({
+      medicineName: 'Pan-D',
+      genericName: 'Pantoprazole 40mg + Domperidone 30mg SR',
+      category: 'PPI & Prokinetic',
+      form: 'Capsule',
+      strength: '40mg / 30mg',
+      dosage: '1 capsule',
+      frequency: 'Once daily',
+      duration: '7 days',
+      timing: '30 minutes before morning breakfast (Empty stomach)',
+      clinicalRationale: 'Potent gastric acid inhibition and accelerated gastric emptying for GERD and dyspepsia.',
+      advisoryNote: 'AI Clinical Advisory — Attending doctor will verify contraindications and prescribe.',
+    });
+    suggestions.push({
+      medicineName: 'Mucaine Gel',
+      genericName: 'Oxetacaine + Aluminium Hydroxide + Magnesium Hydroxide',
+      category: 'Antacid & Local Anaesthetic Mucosal Barrier',
+      form: 'Suspension',
+      strength: '200 ml',
+      dosage: '10 ml',
+      frequency: 'Thrice daily (as needed)',
+      duration: '5 days',
+      timing: '15-30 minutes before meals and at bedtime',
+      clinicalRationale: 'Rapid local pain relief for acute epigastric burning and mucosal erosion.',
+      advisoryNote: 'AI Clinical Advisory — Attending doctor will verify contraindications and prescribe.',
+    });
+  } else if (/chest\s*pain|heart|angina|palpitation|pressure\s*in\s*chest|tightness|bp|hypertension|छाती|గుండె/i.test(text)) {
+    suggestions.push({
+      medicineName: 'Ecosprin 75',
+      genericName: 'Aspirin Gastro-resistant',
+      category: 'Antiplatelet',
+      form: 'Tablet',
+      strength: '75 mg',
+      dosage: '1 tablet',
+      frequency: 'Once daily',
+      duration: 'Ongoing as advised by cardiologist',
+      timing: 'After food',
+      clinicalRationale: 'Platelet aggregation inhibition. *Doctor clinical evaluation and ECG mandatory prior to dispensing.*',
+      advisoryNote: 'CRITICAL: Doctor Prescription & In-Person 12-Lead ECG mandatory.',
+    });
+    suggestions.push({
+      medicineName: 'Telma 40',
+      genericName: 'Telmisartan',
+      category: 'Angiotensin II Receptor Blocker (ARB)',
+      form: 'Tablet',
+      strength: '40 mg',
+      dosage: '1 tablet',
+      frequency: 'Once daily in morning',
+      duration: 'As prescribed by physician',
+      timing: 'After breakfast',
+      clinicalRationale: '24-hour arterial blood pressure management and cardio-renal protection.',
+      advisoryNote: 'AI Clinical Advisory — Attending doctor will titrate and prescribe.',
+    });
+  } else if (/headache|migraine|back\s*pain|joint|body\s*ache|muscle|cramp|नसों|दर्द|నొప్పి/i.test(text)) {
+    suggestions.push({
+      medicineName: 'Zerodol-SP',
+      genericName: 'Aceclofenac 100mg + Paracetamol 325mg + Serratiopeptidase 15mg',
+      category: 'NSAID / Anti-inflammatory / Anti-edema',
+      form: 'Tablet',
+      strength: '100mg/325mg/15mg',
+      dosage: '1 tablet',
+      frequency: 'Twice daily',
+      duration: '3-5 days',
+      timing: 'Strictly after meals',
+      clinicalRationale: 'Triple-action relief for acute musculoskeletal inflammation, joint pain, and soft-tissue edema.',
+      advisoryNote: 'AI Clinical Advisory — Attending doctor will verify contraindications and prescribe.',
+    });
+    suggestions.push({
+      medicineName: 'Pan 40',
+      genericName: 'Pantoprazole',
+      category: 'Proton Pump Inhibitor (PPI)',
+      form: 'Tablet',
+      strength: '40 mg',
+      dosage: '1 tablet',
+      frequency: 'Once daily',
+      duration: '5 days',
+      timing: 'Before breakfast',
+      clinicalRationale: 'Prophylactic gastric protection against NSAID-induced mucosal irritation.',
+      advisoryNote: 'AI Clinical Advisory — Attending doctor will verify contraindications and prescribe.',
+    });
+  } else {
+    // Default safe first-line clinical support
+    suggestions.push({
+      medicineName: 'Dolo 650',
+      genericName: 'Paracetamol',
+      category: 'Analgesic / Antipyretic',
+      form: 'Tablet',
+      strength: '650 mg',
+      dosage: '1 tablet',
+      frequency: 'SOS as needed (Max 3/day)',
+      duration: '3 days',
+      timing: 'After food',
+      clinicalRationale: 'General symptom management for headache, malaise, or mild body discomfort.',
+      advisoryNote: 'AI Clinical Advisory — Attending doctor will evaluate and prescribe.',
+    });
+    suggestions.push({
+      medicineName: 'Pan 40',
+      genericName: 'Pantoprazole',
+      category: 'Proton Pump Inhibitor (PPI)',
+      form: 'Tablet',
+      strength: '40 mg',
+      dosage: '1 tablet',
+      frequency: 'Once daily',
+      duration: '5 days',
+      timing: '30 minutes before breakfast',
+      clinicalRationale: 'Gastric acid suppression for digestive comfort during clinical triage.',
+      advisoryNote: 'AI Clinical Advisory — Attending doctor will evaluate and prescribe.',
+    });
+  }
+
+  return suggestions;
+};
+
 module.exports = {
   GREETINGS,
+  AYUSH_GREETINGS,
+  AYUSH_QUESTIONS,
   LANGUAGE_NAMES,
   DISEASE_PROFILES,
   EMERGENCY_RED_FLAG_CATEGORIES,
@@ -1017,7 +1635,10 @@ module.exports = {
   screenRedFlags,
   generateNextQuestion,
   generateHealthSummary,
+  generateAiMedicationSuggestions,
+  calculateCaseDataQualityScore,
   suggestSpecialty,
   detectDiseaseProfile,
   translateText,
+  callGroqLLM,
 };

@@ -14,6 +14,10 @@ import {
   Download,
   X,
   FileCheck2,
+  Pill,
+  AlertTriangle,
+  Stethoscope,
+  Calendar,
 } from 'lucide-react';
 import { api } from '../../services/api';
 import { CameraScannerModal } from './CameraScannerModal';
@@ -349,6 +353,21 @@ export const MedicalRecords = () => {
                             <span>Converted to Text</span>
                           </span>
                         )}
+                        {Array.isArray(doc.structuredData?.labTests) && doc.structuredData.labTests.length > 0 && (
+                          <span className="text-[10px] px-2 py-0.5 rounded-md bg-purple-50 text-purple-700 border border-purple-200 font-semibold">
+                            🧪 {doc.structuredData.labTests.length} Tests
+                          </span>
+                        )}
+                        {Array.isArray(doc.structuredData?.medicines) && doc.structuredData.medicines.length > 0 && (
+                          <span className="text-[10px] px-2 py-0.5 rounded-md bg-amber-50 text-amber-700 border border-amber-200 font-semibold">
+                            💊 {doc.structuredData.medicines.length} Medicines
+                          </span>
+                        )}
+                        {Array.isArray(doc.structuredData?.abnormalFindings) && doc.structuredData.abnormalFindings.length > 0 && (
+                          <span className="text-[10px] px-2 py-0.5 rounded-md bg-rose-50 text-rose-700 border border-rose-200 font-semibold">
+                            ⚠️ {doc.structuredData.abnormalFindings.length} Abnormal
+                          </span>
+                        )}
                       </div>
                       <div className="flex items-center gap-3 text-[11px] text-[#64748B] mt-1 flex-wrap">
                         <span>Method: {doc.uploadMethod === 'camera' ? '📷 Camera Scan' : '💻 Device Upload'}</span>
@@ -447,15 +466,55 @@ export const MedicalRecords = () => {
               </div>
             </div>
 
-            {/* Modal Body: Structured Lab Parameters + Full Converted Text */}
+            {/* Modal Body: Structured Clinical Data + Full Converted Text */}
             <div className="p-6 overflow-y-auto space-y-5">
-              
+
+              {/* Facility / Doctor / Date Meta Header */}
+              {(viewingTextDoc.structuredData?.facilityName || viewingTextDoc.structuredData?.doctorName || viewingTextDoc.structuredData?.documentDate) && (
+                <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-wrap items-center justify-between gap-2 text-xs">
+                  <div className="flex items-center gap-4 flex-wrap">
+                    {viewingTextDoc.structuredData.facilityName && (
+                      <div className="flex items-center gap-1.5 text-[#172033] font-semibold">
+                        <Stethoscope className="w-4 h-4 text-[#0EA5A8]" />
+                        <span>{viewingTextDoc.structuredData.facilityName}</span>
+                      </div>
+                    )}
+                    {viewingTextDoc.structuredData.doctorName && (
+                      <div className="text-[#475569]">
+                        Doctor: <strong className="text-[#172033]">{viewingTextDoc.structuredData.doctorName}</strong>
+                      </div>
+                    )}
+                  </div>
+                  {viewingTextDoc.structuredData.documentDate && (
+                    <div className="flex items-center gap-1 text-[#64748B] text-[11px]">
+                      <Calendar className="w-3.5 h-3.5" />
+                      <span>Date: {viewingTextDoc.structuredData.documentDate}</span>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* Abnormal Findings Banner */}
+              {Array.isArray(viewingTextDoc.structuredData?.abnormalFindings) && viewingTextDoc.structuredData.abnormalFindings.length > 0 && (
+                <div className="p-4 rounded-2xl bg-rose-50 border border-rose-200 text-xs text-rose-900 space-y-1.5">
+                  <div className="flex items-center gap-2 font-bold text-rose-700">
+                    <AlertTriangle className="w-4 h-4" />
+                    <span>Abnormal Clinical Findings Detected</span>
+                  </div>
+                  <ul className="list-disc list-inside space-y-0.5 text-[11px] text-rose-800">
+                    {viewingTextDoc.structuredData.abnormalFindings.map((finding, fIdx) => (
+                      <li key={fIdx}>{finding}</li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
               {/* Structured Lab Tests if available */}
-              {viewingTextDoc.structuredData?.labTests?.length > 0 && (
+              {Array.isArray(viewingTextDoc.structuredData?.labTests) && viewingTextDoc.structuredData.labTests.length > 0 && (
                 <div>
                   <h4 className="text-xs font-bold text-[#172033] uppercase tracking-wider mb-2 flex items-center gap-1.5">
                     <Sparkles className="w-3.5 h-3.5 text-[#0EA5A8]" />
-                    <span>Extracted Lab Test Parameters</span>
+                    <span>Extracted Lab Test Parameters ({viewingTextDoc.structuredData.labTests.length})</span>
                   </h4>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                     {viewingTextDoc.structuredData.labTests.map((t, idx) => (
@@ -467,10 +526,38 @@ export const MedicalRecords = () => {
                         <div className="text-right">
                           <span className="font-mono font-bold text-[#172033]">{t.value} {t.unit}</span>
                           <span className={`block text-[10px] font-bold ${
-                            t.status === 'High' || t.status === 'Low' ? 'text-rose-600' : 'text-emerald-600'
+                            t.status === 'High' || t.status === 'Low' || t.status === 'Borderline' ? 'text-rose-600' : 'text-emerald-600'
                           }`}>
-                            [{t.status}]
+                            [{t.status || 'NORMAL'}]
                           </span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Prescribed Medications if available */}
+              {Array.isArray(viewingTextDoc.structuredData?.medicines) && viewingTextDoc.structuredData.medicines.length > 0 && (
+                <div>
+                  <h4 className="text-xs font-bold text-[#172033] uppercase tracking-wider mb-2 flex items-center gap-1.5">
+                    <Pill className="w-3.5 h-3.5 text-amber-600" />
+                    <span>Prescribed Medications ({viewingTextDoc.structuredData.medicines.length})</span>
+                  </h4>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                    {viewingTextDoc.structuredData.medicines.map((m, idx) => (
+                      <div key={idx} className="p-3 rounded-xl bg-amber-50/50 border border-amber-200/70 text-xs space-y-1">
+                        <div className="flex items-center justify-between">
+                          <span className="font-bold text-[#172033]">
+                            {m.medicineName || m.name} {m.strength ? `(${m.strength})` : ''}
+                          </span>
+                          <span className="text-[10px] font-semibold text-amber-800 bg-amber-100/80 px-2 py-0.5 rounded-md">
+                            {m.dosage || '1 tablet'}
+                          </span>
+                        </div>
+                        <div className="text-[11px] text-[#475569] flex flex-wrap gap-2">
+                          <span>⏱ {m.frequency || 'Once daily'}</span>
+                          {m.instructions && <span>• ℹ️ {m.instructions}</span>}
                         </div>
                       </div>
                     ))}

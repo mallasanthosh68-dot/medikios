@@ -9,7 +9,8 @@ const PrescriptionSchema = new mongoose.Schema({
   patientId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
-    required: true,
+    required: false,
+    default: null,
   },
   requestId: {
     type: mongoose.Schema.Types.ObjectId,
@@ -21,10 +22,13 @@ const PrescriptionSchema = new mongoose.Schema({
   doctorSpecialty: { type: String, required: true },
   hospitalName: { type: String, default: 'MediKiosk Apex Hospital' },
   patientName: { type: String, required: true },
-  patientAge: { type: Number, required: true },
-  patientGender: { type: String, required: true },
-  patientPhone: { type: String, required: true },
-  opNumber: { type: String, required: true },
+  patientAge: { type: Number, default: 35 },
+  patientGender: { type: String, default: 'Not specified' },
+  patientPhone: { type: String, default: '—' },
+  opNumber: { type: String, default: '' },
+  abhaId: { type: String, default: '' },
+  printedByDoctor: { type: Boolean, default: true },
+  sentToPatient: { type: Boolean, default: false },
   diagnosisOrImpression: { type: String, default: 'Provisional Clinical Assessment' },
   medicines: [
     {

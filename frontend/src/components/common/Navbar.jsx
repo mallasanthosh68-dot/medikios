@@ -26,6 +26,7 @@ import {
   Users,
   Home,
   Sparkles,
+  ArrowLeft,
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { useLanguage } from '../../context/LanguageContext';
@@ -37,12 +38,17 @@ export const Navbar = ({
   setActiveSection,
   onOpenLogin,
   onOpenRegister,
+  onOpenAICheckup,
+  onOpenDoctorLogin,
   currentView,
   setCurrentView,
   activeDashboardTab,
   onNavigateDashboardTab,
   sidebarOpen = true,
   onToggleSidebar,
+  onGoBack,
+  showBackButton,
+  backTooltip,
 }) => {
   const { role, logout, isAuthenticated, user } = useAuth();
   const { currentLanguage, setLanguage, languages, currentLanguageInfo, t } = useLanguage();
@@ -52,7 +58,11 @@ export const Navbar = ({
   const [searchQuery, setSearchQuery] = useState('');
   const [categoryFilter, setCategoryFilter] = useState('all');
 
-  const isDashboardView = isAuthenticated && (currentView === 'patient' || currentView === 'doctor');
+  const isDashboardView = isAuthenticated && (currentView === 'patient' || currentView === 'doctor' || currentView === 'admin');
+
+  const shouldShowBack = showBackButton !== undefined
+    ? showBackButton
+    : (currentView !== 'public' || (currentView === 'public' && activeSection !== 'home') || (isDashboardView && activeDashboardTab !== 'dashboard'));
 
   const publicNavLinks = useMemo(() => [
     { id: 'home', label: t('Home', 'Home'), icon: Home },
@@ -83,11 +93,17 @@ export const Navbar = ({
     { id: 'home', label: t('Public Site', 'Public Site'), icon: Home },
   ], [t]);
 
+  const adminNavLinks = useMemo(() => [
+    { id: 'admin', label: t('Admin Governance', 'Admin Governance'), icon: LayoutDashboard },
+    { id: 'home', label: t('Public Site', 'Public Site'), icon: Home },
+  ], [t]);
+
   const displayedLinks = useMemo(() => {
     if (!isAuthenticated) return publicNavLinks;
     if (role === 'doctor') return doctorNavLinks;
+    if (role === 'admin') return adminNavLinks;
     return patientNavLinks;
-  }, [isAuthenticated, role, publicNavLinks, doctorNavLinks, patientNavLinks]);
+  }, [isAuthenticated, role, publicNavLinks, doctorNavLinks, adminNavLinks, patientNavLinks]);
 
   const isLinkActive = (id) => {
     if (!isAuthenticated) {
@@ -204,8 +220,8 @@ export const Navbar = ({
           ? 'h-16 px-4 sm:px-6'
           : `max-w-7xl mx-auto px-2 sm:px-4 lg:px-6 xl:px-8 gap-1.5 sm:gap-2.5 ${isScrolled ? 'h-16 sm:h-17' : 'h-18 sm:h-20'}`
       }`}>
-        {/* LEFT: Side Menu Bar Toggle Icon (In Dashboard) + Application Logo & Name */}
-        <div className="flex items-center gap-3 shrink-0">
+        {/* LEFT: Side Menu Bar Toggle Icon (In Dashboard) + Back Button + Application Logo & Name */}
+        <div className="flex items-center gap-2 sm:gap-2.5 shrink-0">
           {isDashboardView && (
             <button
               onClick={onToggleSidebar}
@@ -214,6 +230,19 @@ export const Navbar = ({
               aria-label="Toggle navigation sidebar"
             >
               <Menu className="w-5 h-5 text-[#0EA5A8]" />
+            </button>
+          )}
+
+          {/* Top Header Back Button (Visible on all inner pages & whenever previous view exists) */}
+          {shouldShowBack && onGoBack && (
+            <button
+              onClick={onGoBack}
+              className="flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-xl bg-white hover:bg-[#F3F8F8] text-[#172033] hover:text-[#0EA5A8] border border-[#D9E4E5] hover:border-[#0EA5A8] text-xs font-bold transition-all shadow-xs shrink-0 cursor-pointer group active:scale-95"
+              title={backTooltip || `${t('Back', 'Back')} (Alt + ←)`}
+              aria-label={backTooltip || t('Back', 'Back')}
+            >
+              <ArrowLeft className="w-4 h-4 text-[#0EA5A8] group-hover:-translate-x-0.5 transition-transform shrink-0" />
+              <span className="hidden sm:inline font-bold text-xs">{t('Back', 'Back')}</span>
             </button>
           )}
 
@@ -293,9 +322,9 @@ export const Navbar = ({
               <button
                 onClick={() => {
                   if (isDashboardView) {
-                    if (onNavigateDashboardTab) onNavigateDashboardTab('profile');
+                    if (onNavigateDashboardTab && role !== 'admin') onNavigateDashboardTab('profile');
                   } else {
-                    setCurrentView(role === 'doctor' ? 'doctor' : 'patient');
+                    setCurrentView(role === 'doctor' ? 'doctor' : role === 'admin' ? 'admin' : 'patient');
                     window.scrollTo({ top: 0, behavior: 'smooth' });
                   }
                 }}
@@ -303,12 +332,12 @@ export const Navbar = ({
                 title={t('User Profile', 'User Profile')}
               >
                 <div className={`w-6 h-6 rounded-lg flex items-center justify-center text-white text-xs font-bold shrink-0 ${
-                  role === 'doctor' ? 'bg-[#0284C7]' : 'bg-[#0EA5A8]'
+                  role === 'doctor' ? 'bg-[#0284C7]' : role === 'admin' ? 'bg-[#7C3AED]' : 'bg-[#0EA5A8]'
                 }`}>
-                  {user?.name ? user.name.charAt(0).toUpperCase() : (role === 'doctor' ? 'D' : 'P')}
+                  {user?.name ? user.name.charAt(0).toUpperCase() : (role === 'doctor' ? 'D' : role === 'admin' ? 'A' : 'P')}
                 </div>
                 <span className="truncate font-bold text-[#172033]">
-                  {user?.name || user?.username || (role === 'doctor' ? 'Dr. Physician' : 'Patient')}
+                  {user?.name || user?.username || (role === 'doctor' ? 'Dr. Physician' : role === 'admin' ? 'Admin' : 'Patient')}
                 </span>
               </button>
 
@@ -321,23 +350,24 @@ export const Navbar = ({
               </button>
             </div>
           ) : (
-            /* TOP-RIGHT ONLY: Login and Create Account Buttons for unauthenticated users */
+            /* Direct Health Check (No login or account creation required) + Doctor Portal */
             <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
               <button
-                onClick={onOpenLogin}
-                className="flex items-center gap-1 px-3 sm:px-4 py-1.5 sm:py-2 rounded-xl bg-white hover:bg-[#F3F8F8] text-[#172033] border border-[#D9E4E5] text-xs font-semibold transition-all whitespace-nowrap shrink-0 shadow-xs cursor-pointer"
+                onClick={onOpenAICheckup || onOpenLogin}
+                className="flex items-center gap-1.5 px-3 sm:px-4 py-1.5 sm:py-2 rounded-xl bg-gradient-to-r from-[#0EA5A8] to-[#0284C7] hover:from-[#0C8F92] hover:to-[#0369A1] text-white text-xs font-bold shadow-sm hover:shadow transition-all whitespace-nowrap shrink-0 cursor-pointer"
+                title="Direct Instant Health Checkup - No account or login required"
               >
-                <LogIn className="w-3.5 h-3.5 text-[#0EA5A8] shrink-0" />
-                <span key={`login-${currentLanguage}`}>{t('Login', 'Login')}</span>
+                <HeartPulse className="w-3.5 h-3.5 shrink-0" />
+                <span>{t('Start Health Check', 'Start Health Check')}</span>
               </button>
 
               <button
-                onClick={onOpenRegister}
-                className="flex items-center gap-1 px-3 sm:px-4 py-1.5 sm:py-2 rounded-xl bg-[#0EA5A8] hover:bg-[#0C8F92] text-white text-xs font-semibold shadow-sm hover:shadow transition-all whitespace-nowrap shrink-0 cursor-pointer"
+                onClick={() => (onOpenDoctorLogin ? onOpenDoctorLogin() : onOpenLogin('doctor'))}
+                className="flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-xl bg-white hover:bg-[#F3F8F8] text-[#0284C7] border border-[#D9E4E5] hover:border-[#0284C7]/40 text-xs font-semibold transition-all whitespace-nowrap shrink-0 shadow-xs cursor-pointer"
+                title="Healthcare Provider & Doctor Station"
               >
-                <UserPlus className="w-3.5 h-3.5 shrink-0" />
-                <span key={`register-${currentLanguage}`} className="hidden sm:inline">{t('Create Account', 'Create Account')}</span>
-                <span key={`register-short-${currentLanguage}`} className="sm:hidden">{t('Register', 'Register')}</span>
+                <Stethoscope className="w-3.5 h-3.5 text-[#0284C7] shrink-0" />
+                <span>{t('Doctor Portal', 'Doctor Portal')}</span>
               </button>
             </div>
           )}
@@ -358,6 +388,18 @@ export const Navbar = ({
       {/* Mobile Navigation Drawer (strictly for public marketing view) */}
       {!isDashboardView && mobileMenuOpen && (
         <div className="lg:hidden border-t border-[#D9E4E5] bg-white px-4 py-3 space-y-1 animate-in slide-in-from-top-2 duration-150 shadow-md max-h-[70vh] overflow-y-auto">
+          {shouldShowBack && onGoBack && (
+            <button
+              onClick={() => {
+                onGoBack();
+                setMobileMenuOpen(false);
+              }}
+              className="w-full flex items-center gap-2.5 text-left px-3.5 py-2.5 rounded-xl text-xs font-bold text-[#0EA5A8] bg-[#E6F7F7] border border-[#0EA5A8]/20 mb-2 cursor-pointer transition-all hover:bg-[#D4F3F3]"
+            >
+              <ArrowLeft className="w-4 h-4 shrink-0" />
+              <span>{t('Back to Previous', 'Back to Previous')}</span>
+            </button>
+          )}
           {publicNavLinks.map((link) => {
             const Icon = link.icon;
             const active = isLinkActive(link.id);

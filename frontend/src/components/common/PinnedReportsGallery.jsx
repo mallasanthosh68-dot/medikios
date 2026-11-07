@@ -128,7 +128,8 @@ export const PinnedReportsGallery = ({
     if (url.startsWith('http://') || url.startsWith('https://') || url.startsWith('data:')) {
       return url;
     }
-    const backendHost = window.location.hostname === 'localhost' ? 'http://localhost:5000' : '';
+    const envOrigin = (import.meta.env.VITE_API_URL || '').trim().replace(/\/api\/?$/, '').replace(/\/$/, '');
+    const backendHost = envOrigin || (window.location.hostname === 'localhost' ? 'http://localhost:5000' : '');
     return `${backendHost}${url.startsWith('/') ? '' : '/'}${url}`;
   };
 

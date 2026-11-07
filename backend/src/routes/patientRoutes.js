@@ -29,7 +29,14 @@ const {
   removeReportFromSummary,
   deleteDocument,
   translatePatientText,
+  lookupPatientByPhone,
 } = require('../controllers/patientController');
+
+// Fast patient phone lookup for returning patient auto-detection
+router.post('/lookup-phone', protect, lookupPatientByPhone);
+router.get('/lookup-phone/:phone', protect, lookupPatientByPhone);
+router.post('/lookup-patient', protect, lookupPatientByPhone);
+router.get('/lookup-patient/:phone', protect, lookupPatientByPhone);
 
 // All patient routes require authentication and patient role
 router.use(protect);

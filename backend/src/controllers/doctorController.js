@@ -372,53 +372,179 @@ const acceptDoctorRequest = async (req, res, next) => {
   }
 };
 
-// @route   POST /api/doctor/verify-op-number
-// Pre-verifies patient OP number entered by doctor
-const verifyPatientOpNumber = async (req, res, next) => {
+// @route   GET /api/doctor/op-summary/:opNumber
+// @route   POST /api/doctor/lookup-op
+// Direct OP Number lookup: Doctor enters patient OP token to immediately inspect full AI health summary
+const lookupOpSummary = async (req, res, next) => {
   try {
-    const { patientId, opNumber } = req.body;
-
-    if (!patientId || !opNumber) {
+    const rawOp = req.params.opNumber || req.body.opNumber;
+    if (!rawOp || !String(rawOp).trim()) {
       return res.status(400).json({
         success: false,
-        message: 'Both patientId and opNumber are required for verification.',
+        message: 'Please provide a valid OP Number to look up (e.g. OP-447118).',
       });
     }
 
-    const patientUser = await User.findById(patientId);
-    const patientProfile = await PatientProfile.findOne({ userId: patientId });
+    let cleanOp = String(rawOp).trim().toUpperCase();
+    if (/^\d{6}$/.test(cleanOp)) {
+      cleanOp = `OP-${cleanOp}`;
+    }
 
-    if (!patientUser && !patientProfile) {
+    // 1. Search HealthSummary by opNumber (exact or regex)
+    const escaped = cleanOp.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    let summary = await HealthSummary.findOne({
+      opNumber: { $regex: new RegExp(`^${escaped}$`, 'i') }
+    }).populate('patientId', 'name phoneNumber email age gender bloodGroup abhaId abhaAddress').lean();
+
+    // 2. If not found by exact string, try finding by patient profile or user opNumber
+    if (!summary) {
+      const patientProfile = await PatientProfile.findOne({
+        $or: [
+          { opNumber: { $regex: new RegExp(`^${escaped}$`, 'i') } },
+          { generatedOpNumbers: { $in: [cleanOp, rawOp.trim()] } },
+        ]
+      }).lean();
+
+      if (patientProfile && patientProfile.userId) {
+        summary = await HealthSummary.findOne({ patientId: patientProfile.userId })
+          .sort({ createdAt: -1 })
+          .populate('patientId', 'name phoneNumber email age gender bloodGroup abhaId abhaAddress')
+          .lean();
+      }
+    }
+
+    if (!summary) {
+      const userWithOp = await User.findOne({
+        opNumber: { $regex: new RegExp(`^${escaped}$`, 'i') }
+      }).lean();
+
+      if (userWithOp) {
+        summary = await HealthSummary.findOne({ patientId: userWithOp._id })
+          .sort({ createdAt: -1 })
+          .populate('patientId', 'name phoneNumber email age gender bloodGroup abhaId abhaAddress')
+          .lean();
+      }
+    }
+
+    if (!summary) {
       return res.status(404).json({
         success: false,
-        message: 'Patient record not found.',
+        message: `No clinical health summary found for OP Number "${cleanOp}". Please check the OP token with the patient.`,
       });
     }
 
-    const cleanEnteredOp = String(opNumber).trim().toUpperCase();
-    const expectedOp = (patientProfile?.opNumber || patientUser?.opNumber || '').trim().toUpperCase();
-
-    if (!expectedOp) {
-      return res.status(400).json({
-        success: false,
-        message: 'Patient has not yet been assigned an OP Number.',
-      });
+    // Attach patient details
+    let patient = summary.patientId;
+    if (!patient || typeof patient !== 'object' || !patient.name) {
+      const profile = await PatientProfile.findOne({ userId: summary.patientId }).lean().catch(() => null);
+      const usr = await User.findById(summary.patientId).lean().catch(() => null);
+      patient = {
+        _id: summary.patientId || 'patient-walkin',
+        name: summary.patientName || profile?.name || usr?.name || 'Walk-In Patient',
+        phoneNumber: summary.patientPhone || profile?.phoneNumber || usr?.phoneNumber || '',
+        age: summary.patientAge || profile?.age || usr?.age || '',
+        gender: summary.patientGender || profile?.gender || usr?.gender || '',
+        bloodGroup: profile?.bloodGroup || '',
+        abhaId: summary.abhaId || profile?.abhaId || usr?.abhaId || '',
+        abhaAddress: summary.abhaAddress || profile?.abhaAddress || usr?.abhaAddress || '',
+      };
+    } else {
+      patient.abhaId = patient.abhaId || summary.abhaId || '';
+      patient.abhaAddress = patient.abhaAddress || summary.abhaAddress || '';
     }
 
-    if (cleanEnteredOp !== expectedOp) {
-      return res.status(400).json({
-        success: false,
-        verified: false,
-        message: `Invalid OP Number "${opNumber}". Please enter the exact OP Number given by the patient.`,
-      });
+    // Ensure full interview responses dialogue is attached
+    if (!summary.interviewResponses || summary.interviewResponses.length === 0) {
+      if (summary.interviewId) {
+        const interviewDoc = await HealthInterview.findById(summary.interviewId).lean().catch(() => null);
+        if (interviewDoc && interviewDoc.responses && interviewDoc.responses.length > 0) {
+          summary.interviewResponses = interviewDoc.responses;
+        }
+      }
     }
 
     return res.json({
       success: true,
-      verified: true,
-      opNumber: expectedOp,
-      patientName: patientUser?.name || patientProfile?.name,
-      message: `✓ Patient OP Number ${expectedOp} verified successfully! Prescribing unlocked.`,
+      opNumber: summary.opNumber || cleanOp,
+      summary,
+      patient,
+      message: `✓ Clinical Health Summary retrieved for OP ${summary.opNumber || cleanOp}!`,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// @route   POST /api/doctor/verify-op-number
+// Pre-verifies patient OP number entered by doctor (supports verification by OP alone or OP + patientId)
+const verifyPatientOpNumber = async (req, res, next) => {
+  try {
+    const { patientId, opNumber } = req.body;
+
+    if (!opNumber) {
+      return res.status(400).json({
+        success: false,
+        message: 'Please provide the OP Number to verify.',
+      });
+    }
+
+    let cleanEnteredOp = String(opNumber).trim().toUpperCase();
+    if (/^\d{6}$/.test(cleanEnteredOp)) {
+      cleanEnteredOp = `OP-${cleanEnteredOp}`;
+    }
+
+    // If patientId is provided, verify against that patient
+    if (patientId) {
+      const patientUser = await User.findById(patientId);
+      const patientProfile = await PatientProfile.findOne({ userId: patientId });
+
+      const patientSummaries = await HealthSummary.find({ patientId }).lean().catch(() => []);
+      const validOps = new Set();
+      if (patientProfile?.opNumber) validOps.add(patientProfile.opNumber.trim().toUpperCase());
+      if (patientUser?.opNumber) validOps.add(patientUser.opNumber.trim().toUpperCase());
+      if (Array.isArray(patientProfile?.generatedOpNumbers)) {
+        patientProfile.generatedOpNumbers.forEach((op) => validOps.add(String(op).trim().toUpperCase()));
+      }
+      patientSummaries.forEach((s) => {
+        if (s.opNumber) validOps.add(String(s.opNumber).trim().toUpperCase());
+      });
+
+      if (validOps.has(cleanEnteredOp)) {
+        return res.json({
+          success: true,
+          verified: true,
+          opNumber: cleanEnteredOp,
+          patientId,
+          patientName: patientUser?.name || patientProfile?.name,
+          message: `✓ Patient OP Number ${cleanEnteredOp} verified successfully! Prescribing unlocked.`,
+        });
+      }
+    }
+
+    // Direct lookup & verification by OP number alone across all summaries:
+    const escaped = cleanEnteredOp.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const summary = await HealthSummary.findOne({
+      opNumber: { $regex: new RegExp(`^${escaped}$`, 'i') }
+    }).lean();
+
+    if (summary) {
+      const patientProfile = await PatientProfile.findOne({ userId: summary.patientId }).lean().catch(() => null);
+      const patientUser = await User.findById(summary.patientId).lean().catch(() => null);
+      return res.json({
+        success: true,
+        verified: true,
+        opNumber: summary.opNumber || cleanEnteredOp,
+        patientId: summary.patientId,
+        patientName: patientUser?.name || patientProfile?.name || 'Walk-In Patient',
+        summary,
+        message: `✓ Patient OP Number ${summary.opNumber || cleanEnteredOp} verified successfully! Prescribing unlocked.`,
+      });
+    }
+
+    return res.status(400).json({
+      success: false,
+      verified: false,
+      message: `Invalid OP Number "${opNumber}". Please enter the exact OP Number from the patient's screen.`,
     });
   } catch (error) {
     next(error);
@@ -435,4 +561,5 @@ module.exports = {
   confirmDoctorReview,
   acceptDoctorRequest,
   verifyPatientOpNumber,
+  lookupOpSummary,
 };

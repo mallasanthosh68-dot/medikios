@@ -58,9 +58,6 @@ export const HomePage = ({
   // 10-Step Interactive Stepper state
   const [activeWorkflowStep, setActiveWorkflowStep] = useState(0);
 
-  // Experience Preview Modal state: null | 'patient' | 'doctor'
-  const [previewModalRole, setPreviewModalRole] = useState(null);
-
   // Medical Report Laser Scanning Animation state (Section 52)
   const [scanStep, setScanStep] = useState(0); // 0: Idle, 1: Scanning, 2: Extracted
   const [isScanning, setIsScanning] = useState(false);
@@ -83,20 +80,11 @@ export const HomePage = ({
     if (elem) elem.scrollIntoView({ behavior: 'smooth' });
   };
 
-  // Handlers for "Explore Patient Experience" and "Explore Doctor Experience"
-  const handleExplorePatient = () => {
-    if (isAuthenticated && role === 'patient') {
-      onNavigatePortal('patient');
-    } else {
-      setPreviewModalRole('patient');
-    }
-  };
-
   const handleExploreDoctor = () => {
     if (isAuthenticated && role === 'doctor') {
       onNavigatePortal('doctor');
     } else {
-      setPreviewModalRole('doctor');
+      onOpenLogin('doctor');
     }
   };
 
@@ -265,10 +253,11 @@ export const HomePage = ({
             <div className="pt-2 flex flex-wrap items-center gap-4">
               <MagneticButton maxOffset={6}>
                 <button
-                  onClick={() => onOpenRegister && onOpenRegister()}
+                  onClick={() => (onOpenAICheckup ? onOpenAICheckup() : onNavigatePortal && onNavigatePortal('patient'))}
                   className="px-8 py-3.5 rounded-2xl bg-gradient-to-r from-[#0EA5A8] to-[#0284C7] hover:from-[#0C8F92] hover:to-[#0369A1] text-white text-sm font-semibold shadow-md hover:shadow-lg transition-all flex items-center gap-2.5 cursor-pointer group"
                 >
-                  <span>{t('Get Started', 'Get Started')}</span>
+                  <HeartPulse className="w-4 h-4 shrink-0" />
+                  <span>{t('Start Health Checkup', 'Start Health Checkup')}</span>
                   <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-200" />
                 </button>
               </MagneticButton>
@@ -317,81 +306,26 @@ export const HomePage = ({
 
       </section>
 
-      {/* 2. WHO ARE YOU? DUAL CARDS SECTION (3D TILT CARDS, NO DUPLICATE LOGIN FORMS) */}
-      <section id="who-are-you" className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-20 border-t border-[#D9E4E5]">
+      {/* 2. CLINICAL DOCTOR WORKSTATION SECTION */}
+      <section id="who-are-you" className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-20 border-t border-[#D9E4E5]">
         
-        <div className="text-center mb-14">
-          <span className="text-xs font-semibold uppercase tracking-widest text-[#0EA5A8]">Portal Architecture</span>
+        <div className="text-center mb-12">
+          <span className="text-xs font-semibold uppercase tracking-widest text-[#0284C7]">Hospital Clinical Portal</span>
           <h2 className="text-3xl sm:text-4xl font-extrabold text-[#172033] mt-2">
-            {t('Designed for Patients & Healthcare Providers', 'Designed for Patients & Healthcare Providers')}
+            {t('Healthcare Provider & Doctor Workstation', 'Healthcare Provider & Doctor Workstation')}
           </h2>
           <p className="text-sm text-[#64748B] mt-2 max-w-xl mx-auto">
             {t(
-              'Seamless collaboration before the consultation even begins. Select an experience below to explore the clinical features.',
-              'Seamless collaboration before the consultation even begins. Select an experience below to explore the clinical features.'
+              'Hospital physicians and attending doctors review AI-structured clinical briefings, verify patient OP numbers, and generate verified digital prescriptions.',
+              'Hospital physicians and attending doctors review AI-structured clinical briefings, verify patient OP numbers, and generate verified digital prescriptions.'
             )}
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          
-          {/* PATIENT CARD WITH 3D TILT (Section 48) */}
+        <div className="w-full">
+          {/* DOCTOR CARD WITH 3D TILT */}
           <TiltCard maxTilt={4} lift={6} dataCursor="card">
-            <div className="bg-white border border-[#D9E4E5] p-8 sm:p-10 rounded-3xl transition-all flex flex-col justify-between group relative overflow-hidden h-full">
-              <div>
-                <div className="flex items-center justify-between mb-6">
-                  <div className="w-14 h-14 rounded-2xl bg-[#E6F7F7] border border-[#0EA5A8]/20 flex items-center justify-center shadow-xs group-hover:scale-105 transition-transform">
-                    <HeartPulse className="w-7 h-7 text-[#0EA5A8]" />
-                  </div>
-                  <span className="text-[11px] font-mono font-semibold px-3 py-1 rounded-full bg-[#E6F7F7] text-[#0EA5A8] border border-[#0EA5A8]/20">
-                    Fast • Multilingual
-                  </span>
-                </div>
-                
-                <h3 className="text-2xl sm:text-3xl font-bold text-[#172033] tracking-tight">
-                  {t('Patient Experience', 'Patient Experience')}
-                </h3>
-                <p className="text-xs text-[#0EA5A8] font-semibold mt-1">Smart Hospital Check-In & AI Triage Kiosk</p>
-                
-                <p className="text-xs text-[#64748B] mt-3 leading-relaxed">
-                  Explain your health concerns in your native language, scan prior medical documents, and generate your private OP Number for your doctor visit.
-                </p>
-
-                <ul className="mt-6 space-y-3.5">
-                  {[
-                    '51-Language conversational AI health check-in',
-                    'Voice speech recognition & natural audio responses',
-                    'Multi-document hospital report OCR extraction',
-                    'Strict filter rejecting non-medical & food photos',
-                    'Confidential 5-digit Outpatient (OP) Number generated',
-                    'Encrypted longitudinal timeline & digital prescription access',
-                  ].map((item, idx) => (
-                    <li key={idx} className="flex items-start gap-3 text-sm text-[#172033]">
-                      <CheckCircle2 className="w-4 h-4 text-[#0EA5A8] shrink-0 mt-0.5" />
-                      <span className="text-xs sm:text-sm">{t(item, item)}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              {/* Explore Patient Experience button (Strictly NO login/register inputs) */}
-              <div className="mt-8 pt-6 border-t border-[#D9E4E5]">
-                <MagneticButton className="w-full" maxOffset={4}>
-                  <button
-                    onClick={handleExplorePatient}
-                    className="w-full py-3.5 px-6 rounded-2xl bg-[#0EA5A8] hover:bg-[#0C8F92] text-white text-sm font-semibold shadow-sm hover:shadow transition-all flex items-center justify-center gap-2 cursor-pointer group/btn"
-                  >
-                    <span>{t('Explore Patient Experience', 'Explore Patient Experience')}</span>
-                    <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
-                  </button>
-                </MagneticButton>
-              </div>
-            </div>
-          </TiltCard>
-
-          {/* DOCTOR CARD WITH 3D TILT (Section 48) */}
-          <TiltCard maxTilt={4} lift={6} dataCursor="card">
-            <div className="bg-white border border-[#D9E4E5] p-8 sm:p-10 rounded-3xl transition-all flex flex-col justify-between group relative overflow-hidden h-full">
+            <div className="bg-white border border-[#D9E4E5] p-8 sm:p-10 rounded-3xl transition-all flex flex-col justify-between group relative overflow-hidden h-full shadow-xs">
               <div>
                 <div className="flex items-center justify-between mb-6">
                   <div className="w-14 h-14 rounded-2xl bg-[#E0F2FE] border border-[#0284C7]/20 flex items-center justify-center shadow-xs group-hover:scale-105 transition-transform">
@@ -403,7 +337,7 @@ export const HomePage = ({
                 </div>
 
                 <h3 className="text-2xl sm:text-3xl font-bold text-[#172033] tracking-tight">
-                  {t('Doctor Experience', 'Doctor Experience')}
+                  {t('Doctor Experience & Review Station', 'Doctor Experience & Review Station')}
                 </h3>
                 <p className="text-xs text-[#0284C7] font-semibold mt-1">Clinical Review & Digital Rx Station</p>
                 
@@ -411,7 +345,7 @@ export const HomePage = ({
                   Review structured pre-consultation briefings, enter patient OP numbers to authorize consultations, and write digital prescriptions with our 10,000+ formulary.
                 </p>
 
-                <ul className="mt-6 space-y-3.5">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 mt-6">
                   {[
                     'Structured pre-consultation clinical briefings in seconds',
                     'Zero-trust OP number gate (prescriptions locked until verified)',
@@ -420,29 +354,28 @@ export const HomePage = ({
                     'Doctor reviewed verification stamp & digital signature',
                     'HL7 FHIR R4 JSON export & Ayushman Bharat (ABDM) sync',
                   ].map((item, idx) => (
-                    <li key={idx} className="flex items-start gap-3 text-sm text-[#172033]">
+                    <div key={idx} className="flex items-start gap-3 text-sm text-[#172033]">
                       <CheckCircle2 className="w-4 h-4 text-[#0284C7] shrink-0 mt-0.5" />
                       <span className="text-xs sm:text-sm">{t(item, item)}</span>
-                    </li>
+                    </div>
                   ))}
-                </ul>
+                </div>
               </div>
 
-              {/* Explore Doctor Experience button (Strictly NO login/register inputs) */}
+              {/* Explore Doctor Experience button */}
               <div className="mt-8 pt-6 border-t border-[#D9E4E5]">
                 <MagneticButton className="w-full" maxOffset={4}>
                   <button
                     onClick={handleExploreDoctor}
                     className="w-full py-3.5 px-6 rounded-2xl bg-[#0284C7] hover:bg-[#0369A1] text-white text-sm font-semibold shadow-sm hover:shadow transition-all flex items-center justify-center gap-2 cursor-pointer group/btn"
                   >
-                    <span>{t('Explore Doctor Experience', 'Explore Doctor Experience')}</span>
+                    <span>{t('Open Doctor Portal & Clinical Station', 'Open Doctor Portal & Clinical Station')}</span>
                     <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
                   </button>
                 </MagneticButton>
               </div>
             </div>
           </TiltCard>
-
         </div>
 
       </section>
@@ -878,144 +811,6 @@ export const HomePage = ({
           © {new Date().getFullYear()} MediKiosk. Built with HL7 FHIR R4 standards, ABDM sandbox integration, and zero-trust patient OP verification.
         </p>
       </section>
-
-      {/* EXPERIENCE PREVIEW MODAL (Triggered by Explore Patient Experience / Explore Doctor Experience) */}
-      {previewModalRole && (
-        <div
-          className="fixed inset-0 z-[99990] bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4 animate-in fade-in duration-200"
-          onClick={() => setPreviewModalRole(null)}
-        >
-          <div
-            className="bg-white rounded-3xl border border-[#D9E4E5] shadow-2xl max-w-lg w-full p-6 sm:p-8 relative overflow-hidden"
-            onClick={(e) => e.stopPropagation()}
-          >
-            {/* Close Button */}
-            <button
-              onClick={() => setPreviewModalRole(null)}
-              className="absolute top-5 right-5 p-2 rounded-xl bg-[#F8FAFC] hover:bg-[#F1F5F9] text-[#64748B] transition-colors cursor-pointer"
-            >
-              <X className="w-4 h-4" />
-            </button>
-
-            {previewModalRole === 'patient' ? (
-              <div className="space-y-5">
-                <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 rounded-2xl bg-[#E6F7F7] border border-[#0EA5A8]/20 flex items-center justify-center text-[#0EA5A8]">
-                    <HeartPulse className="w-6 h-6" />
-                  </div>
-                  <div>
-                    <h3 className="text-xl font-bold text-[#172033]">Patient Experience</h3>
-                    <p className="text-xs text-[#0EA5A8] font-semibold">Smart Hospital Intake & AI Triage Kiosk</p>
-                  </div>
-                </div>
-
-                <div className="space-y-3 bg-[#F8FAFC] p-4 rounded-2xl border border-[#E2E8F0] text-xs text-[#475569]">
-                  <div className="flex items-start gap-2.5">
-                    <CheckCircle2 className="w-4 h-4 text-[#0EA5A8] shrink-0 mt-0.5" />
-                    <span><strong>51 Languages:</strong> Conversational speech-to-text intake in Telugu, Hindi, English, Tamil, and 47 others.</span>
-                  </div>
-                  <div className="flex items-start gap-2.5">
-                    <CheckCircle2 className="w-4 h-4 text-[#0EA5A8] shrink-0 mt-0.5" />
-                    <span><strong>Hospital Report OCR:</strong> Upload lab results and blood tests. Our AI rejects non-medical photos automatically.</span>
-                  </div>
-                  <div className="flex items-start gap-2.5">
-                    <CheckCircle2 className="w-4 h-4 text-[#0EA5A8] shrink-0 mt-0.5" />
-                    <span><strong>OP Number Security:</strong> You receive an Outpatient Number (#OP-XXXXX) that only you can share with your doctor.</span>
-                  </div>
-                </div>
-
-                <div className="pt-2 text-center">
-                  <p className="text-xs text-[#64748B] mb-4">
-                    To access your personalized patient health portal, use the Navbar controls or proceed below:
-                  </p>
-                  <div className="flex flex-col gap-2.5">
-                    <MagneticButton maxOffset={3}>
-                      <button
-                        onClick={() => {
-                          setPreviewModalRole(null);
-                          onOpenLogin('patient');
-                        }}
-                        className="w-full py-3 px-6 rounded-xl bg-[#0EA5A8] hover:bg-[#0C8F92] text-white text-xs font-bold shadow-sm transition-all cursor-pointer"
-                      >
-                        Sign In to Patient Portal
-                      </button>
-                    </MagneticButton>
-                    <MagneticButton maxOffset={3}>
-                      <button
-                        onClick={() => {
-                          setPreviewModalRole(null);
-                          onOpenRegister();
-                        }}
-                        className="w-full py-3 px-6 rounded-xl bg-white hover:bg-[#F3F8F8] text-[#172033] border border-[#D9E4E5] text-xs font-bold transition-all cursor-pointer"
-                      >
-                        Create New Patient Account
-                      </button>
-                    </MagneticButton>
-                  </div>
-                </div>
-              </div>
-            ) : (
-              <div className="space-y-5">
-                <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 rounded-2xl bg-[#E0F2FE] border border-[#0284C7]/20 flex items-center justify-center text-[#0284C7]">
-                    <Stethoscope className="w-6 h-6" />
-                  </div>
-                  <div>
-                    <h3 className="text-xl font-bold text-[#172033]">Doctor Experience</h3>
-                    <p className="text-xs text-[#0284C7] font-semibold">Clinical Review & Digital Rx Station</p>
-                  </div>
-                </div>
-
-                <div className="space-y-3 bg-[#F8FAFC] p-4 rounded-2xl border border-[#E2E8F0] text-xs text-[#475569]">
-                  <div className="flex items-start gap-2.5">
-                    <CheckCircle2 className="w-4 h-4 text-[#0284C7] shrink-0 mt-0.5" />
-                    <span><strong>Pre-Consultation Briefing:</strong> Read structured chief complaints and OCR clinical lab digests before patient enters.</span>
-                  </div>
-                  <div className="flex items-start gap-2.5">
-                    <CheckCircle2 className="w-4 h-4 text-[#0284C7] shrink-0 mt-0.5" />
-                    <span><strong>OP Number Verification Gate:</strong> Enter patient’s OP number to unlock medical records and authorize prescriptions.</span>
-                  </div>
-                  <div className="flex items-start gap-2.5">
-                    <CheckCircle2 className="w-4 h-4 text-[#0284C7] shrink-0 mt-0.5" />
-                    <span><strong>10,000+ Medicine Formulary:</strong> Search generics and brands, configure morning/noon/night doses, and issue verified Rx.</span>
-                  </div>
-                </div>
-
-                <div className="pt-2 text-center">
-                  <p className="text-xs text-[#64748B] mb-4">
-                    To access your clinical physician station, use the Navbar controls or proceed below:
-                  </p>
-                  <div className="flex flex-col gap-2.5">
-                    <MagneticButton maxOffset={3}>
-                      <button
-                        onClick={() => {
-                          setPreviewModalRole(null);
-                          onOpenLogin('doctor');
-                        }}
-                        className="w-full py-3 px-6 rounded-xl bg-[#0284C7] hover:bg-[#0369A1] text-white text-xs font-bold shadow-sm transition-all cursor-pointer"
-                      >
-                        Sign In to Doctor Portal
-                      </button>
-                    </MagneticButton>
-                    <MagneticButton maxOffset={3}>
-                      <button
-                        onClick={() => {
-                          setPreviewModalRole(null);
-                          onOpenRegister();
-                        }}
-                        className="w-full py-3 px-6 rounded-xl bg-white hover:bg-[#F3F8F8] text-[#172033] border border-[#D9E4E5] text-xs font-bold transition-all cursor-pointer"
-                      >
-                        Register Healthcare Provider Account
-                      </button>
-                    </MagneticButton>
-                  </div>
-                </div>
-              </div>
-            )}
-          </div>
-        </div>
-      )}
-
     </div>
   );
 };

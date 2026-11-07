@@ -1,4 +1,6 @@
-const API_BASE = '/api';
+const rawApiUrl = (import.meta.env.VITE_API_URL || '').trim().replace(/\/$/, '');
+const API_BASE = rawApiUrl ? (rawApiUrl.endsWith('/api') ? rawApiUrl : `${rawApiUrl}/api`) : '/api';
+export const API_ORIGIN = rawApiUrl.replace(/\/api$/, '') || (typeof window !== 'undefined' && window.location.hostname === 'localhost' ? 'http://localhost:5000' : '');
 
 /**
  * Multi-Tab Isolated Storage Engine

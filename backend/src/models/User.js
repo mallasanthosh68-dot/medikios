@@ -7,13 +7,19 @@ const UserSchema = new mongoose.Schema({
     unique: true,
     trim: true,
   },
+  email: {
+    type: String,
+    trim: true,
+    lowercase: true,
+    default: '',
+  },
   password: {
     type: String,
     required: true,
   },
   role: {
     type: String,
-    enum: ['patient', 'doctor'],
+    enum: ['patient', 'doctor', 'admin'],
     required: true,
   },
   name: {
@@ -29,6 +35,11 @@ const UserSchema = new mongoose.Schema({
     type: String,
     trim: true,
     default: null,
+  },
+  abhaId: {
+    type: String,
+    trim: true,
+    default: '',
   },
   createdAt: {
     type: Date,

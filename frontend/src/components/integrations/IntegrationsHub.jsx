@@ -10,10 +10,11 @@ import {
   AlertCircle,
   ExternalLink,
   Sparkles,
+  ArrowLeft,
 } from 'lucide-react';
 import { api } from '../../services/api';
 
-export const IntegrationsHub = () => {
+export const IntegrationsHub = ({ onGoBack }) => {
   const [activeTab, setActiveTab] = useState('abdm');
   const [abdmStatus, setAbdmStatus] = useState(null);
   const [hisStatus, setHisStatus] = useState(null);
@@ -58,6 +59,16 @@ export const IntegrationsHub = () => {
       <div className="glass-panel p-6 sm:p-8 rounded-3xl border border-slate-800">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-slate-800/80">
           <div>
+            {onGoBack && (
+              <button
+                onClick={onGoBack}
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-850 hover:bg-slate-700/80 text-teal-300 hover:text-white border border-slate-700 text-xs font-bold transition-all cursor-pointer shadow-xs mb-3 group active:scale-95"
+                title="Back to Previous View (Alt + ←)"
+              >
+                <ArrowLeft className="w-3.5 h-3.5 text-teal-400 group-hover:-translate-x-0.5 transition-transform" />
+                <span>Back to Website</span>
+              </button>
+            )}
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-teal-500/10 border border-teal-500/25 text-xs font-semibold text-teal-400 mb-2">
               <Layers className="w-3.5 h-3.5" />
               <span>Standards & Interoperability Architecture</span>

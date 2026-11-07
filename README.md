@@ -96,18 +96,18 @@ npm run dev
 
 ---
 
-## 🔑 Demo Accounts for Evaluators
+## 🔑 Administrative & Portal Credentials
+ 
+- **Super Administrator**:
+  - **Login Email**: `admin321@gmail.com` *(Email Only)*
+  - **Password**: `midikiosk@adminpass`
+  - **Capabilities**: Live OP Token Intake & Doctor Assignment Desk, AI User Increment Graph, Patient & Doctor Registries, Clinical Dossier Routing.
 
-Quick-fill shortcut buttons are provided directly inside the Login modal for instantaneous evaluation without typing:
-
-| Role | Name | Phone Number | Password | Key Capabilities |
-| :--- | :--- | :--- | :--- | :--- |
-| **Patient** | Ramesh Kumar | `9876543210` | `Password@123` | AI Voice/Text Check-Up, Report OCR, Timeline, Prescriptions |
-| **Patient** | Sunita Devi | `9876543211` | `Password@123` | Hindi Language Flow, Historical Lab Timeline |
-| **Patient** | Arjun Reddy | `9876543212` | `Password@123` | Telugu Language Flow, Unlinked ABHA Flow |
-| **Doctor** | Dr. Rajesh Iyer | `9876543201` | `Password@123` | Senior Cardiologist, Clinical Dossier Review, Rx Builder |
-| **Doctor** | Dr. Anita Sharma | `9876543202` | `Password@123` | General Medicine, Triage Queue, Medicine Search |
-| **Doctor** | Dr. Vikramaditya Rao | `9876543203` | `Password@123` | Neurology Specialist, Patient Review Station |
+- **Patients & Doctors (Clean Slate)**:
+  - MediKiosk starts with a completely clean slate with zero mock patient or doctor records.
+  - Evaluators can create brand new **Patient** and **Doctor** accounts via the **"Create Account"** modal in the top navigation bar.
+  - Patients and Doctors can sign in using either their registered **Indian Mobile Number** (genuine 10-digit number starting with 6, 7, 8, or 9) or their registered **Email Address**.
+  - All accounts and generated clinical data (AI check-up summaries, OP tokens, prescriptions, doctor assignments) persist permanently in the datastore.
 
 ---
 
@@ -219,7 +219,7 @@ Before the AI Health Check-Up begins, a legal consent gate appears:
 ### Doctor Endpoints (Requires Doctor Role)
 - `GET /api/doctors` - Searchable doctor directory (Public/Patient)
 - `GET /api/doctors/:id` - Doctor profile details
-- `POST /api/doctors/requests` - Patient dispatches request to doctor
+- `POST /api/doctors/requests` - Patient dispatches request to d octor
 - `GET /api/doctors/portal/requests` - Doctor view of incoming patient queue
 - `GET /api/doctors/portal/requests/:id` - Complete patient clinical dossier
 - `PUT /api/doctors/portal/summaries/:id` - Edit summary & add notes

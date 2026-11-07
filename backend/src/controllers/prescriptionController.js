@@ -5,17 +5,23 @@ const {
   User,
   DoctorRequest,
   MedicalTimeline,
+  HealthSummary,
   Notification,
 } = require('../models');
 
 // @route   POST /api/prescriptions
-// Doctor generates a digital prescription
+// Doctor generates a digital prescription and prints it directly to their system
 const createPrescription = async (req, res, next) => {
   try {
     const {
       patientId,
       opNumber,
+      abhaId,
       requestId,
+      patientName,
+      patientAge,
+      patientGender,
+      patientPhone,
       medicines,
       instructions = 'Take medications as directed with plenty of water.',
       doctorNotes = '',
@@ -23,52 +29,51 @@ const createPrescription = async (req, res, next) => {
       diagnosisOrImpression = 'Clinical Evaluation',
     } = req.body;
 
-    if (!patientId || !medicines || !Array.isArray(medicines) || medicines.length === 0) {
+    if (!medicines || !Array.isArray(medicines) || medicines.length === 0) {
       return res.status(400).json({
         success: false,
-        message: 'Patient ID and at least one medicine entry are required.',
+        message: 'At least one medicine entry is required.',
       });
     }
 
     const doctorProfile = await DoctorProfile.findOne({ userId: req.user.id });
-    const patientUser = await User.findById(patientId);
-    const patientProfile = await PatientProfile.findOne({ userId: patientId });
 
-    if (!patientUser) {
-      return res.status(404).json({ success: false, message: 'Patient not found.' });
+    // Resolve patient details (handles registered patients, OP lookups, and walk-ins)
+    let resolvedPatientName = (patientName || '').trim() || 'Walk-in Patient';
+    let resolvedPatientAge = parseInt(patientAge, 10) || 35;
+    let resolvedPatientGender = patientGender || 'Not specified';
+    let resolvedPatientPhone = patientPhone || '—';
+    let validPatientId = null;
+
+    if (patientId && patientId !== 'patient-walkin' && patientId !== 'patient-op-direct') {
+      const patientUser = await User.findById(patientId).catch(() => null);
+      const patientProfile = await PatientProfile.findOne({ userId: patientId }).catch(() => null);
+      if (patientUser) {
+        validPatientId = patientUser._id || patientId;
+        resolvedPatientName = patientUser.name || resolvedPatientName;
+        resolvedPatientPhone = patientUser.phoneNumber || resolvedPatientPhone;
+        resolvedPatientAge = patientProfile?.age || resolvedPatientAge;
+        resolvedPatientGender = patientProfile?.gender || resolvedPatientGender;
+      }
     }
 
-    // Strict OP Number Verification Check
+    // OP Number is completely optional — no verification lock or enforcement
     const cleanEnteredOp = (opNumber || '').trim().toUpperCase();
-    const expectedOp = (patientProfile?.opNumber || patientUser?.opNumber || '').trim().toUpperCase();
-
-    if (!cleanEnteredOp) {
-      return res.status(403).json({
-        success: false,
-        message: 'Patient OP Number is required. The doctor must enter the OP Number given by the patient to prescribe medicines and send report.',
-      });
-    }
-
-    if (!expectedOp || cleanEnteredOp !== expectedOp) {
-      return res.status(403).json({
-        success: false,
-        message: `Invalid Patient OP Number (${opNumber}). Verification failed. You must enter the exact OP Number provided by the patient to issue and send medicines.`,
-      });
-    }
 
     const prescription = await Prescription.create({
       doctorId: req.user.id,
-      patientId,
-      opNumber: expectedOp,
+      patientId: validPatientId,
+      opNumber: cleanEnteredOp,
+      abhaId: (abhaId || '').trim(),
       requestId: requestId || null,
       doctorName: doctorProfile?.doctorName || req.user.name,
       doctorLicense: doctorProfile?.licenseNumber || 'MCI-REG-89104',
       doctorSpecialty: doctorProfile?.specialization || 'General Medicine',
       hospitalName: doctorProfile?.hospitalAffiliation || 'MediKiosk Apex Hospital',
-      patientName: patientUser.name,
-      patientAge: patientProfile?.age || 35,
-      patientGender: patientProfile?.gender || 'Not specified',
-      patientPhone: patientUser.phoneNumber,
+      patientName: resolvedPatientName,
+      patientAge: resolvedPatientAge,
+      patientGender: resolvedPatientGender,
+      patientPhone: resolvedPatientPhone,
       diagnosisOrImpression,
       medicines: medicines.map((m) => ({
         name: m.name,
@@ -90,50 +95,34 @@ const createPrescription = async (req, res, next) => {
       doctorNotes,
       followUpDays: parseInt(followUpDays, 10) || 7,
       status: 'ISSUED',
+      printedByDoctor: true,
+      sentToPatient: false,
     });
 
-    // Update Request status if linked
+    // Update Request status if linked to doctor review request
     if (requestId) {
       const linkedReq = await DoctorRequest.findByIdAndUpdate(
         requestId,
         { $set: { status: 'PRESCRIPTION_ISSUED' } },
         { new: true }
-      );
+      ).catch(() => null);
+
       if (linkedReq?.summaryId) {
         const { HealthSummary } = require('../models');
         await HealthSummary.findByIdAndUpdate(linkedReq.summaryId, {
           $set: { status: 'COMPLETED' },
-        });
+        }).catch(() => null);
       }
     }
 
-    // Add Timeline Event
-    const medSummary = medicines.map((m) => `${m.name} (${m.dosage})`).slice(0, 3).join(', ');
-    await MedicalTimeline.create({
-      patientId,
-      eventDate: new Date(),
-      year: new Date().getFullYear(),
-      eventType: 'PRESCRIPTION',
-      title: `Digital Prescription issued by ${doctorProfile?.doctorName || req.user.name}`,
-      summary: `Prescribed: ${medSummary}. Diagnosis: ${diagnosisOrImpression}.`,
-      doctorOrFacility: `${doctorProfile?.doctorName || req.user.name} (${doctorProfile?.specialization || 'Consultant'})`,
-      keyMetrics: [{ label: 'Medicines', value: `${medicines.length} prescribed` }],
-    });
-
-    // Notify Patient directly
-    await Notification.create({
-      recipientId: patientId,
-      recipientRole: 'patient',
-      title: `💊 Prescribed Medicines from ${doctorProfile?.doctorName || req.user.name}`,
-      message: `${doctorProfile?.doctorName || req.user.name} has completed your checkup and sent your digital prescription with ${medicines.length} prescribed medicine${medicines.length > 1 ? 's' : ''} (${medSummary}) directly to your platform.`,
-      type: 'prescription',
-      link: `/patient/prescriptions/${prescription._id}`,
-    });
+    // NOTE: Per requirement, the medicines/prescription are NOT sent to the patient.
+    // No notification is dispatched to the patient portal.
+    // The prescription is generated for the doctor to print to his system.
 
     res.status(201).json({
       success: true,
       prescription,
-      message: 'Digital prescription successfully created and added to patient records.',
+      message: 'Prescription generated successfully. Ready to print to your system.',
     });
   } catch (error) {
     next(error);
@@ -143,10 +132,13 @@ const createPrescription = async (req, res, next) => {
 // @route   GET /api/prescriptions
 const getPrescriptions = async (req, res, next) => {
   try {
-    let query = {};
+    // If patient, medicines are not sent to patient portal per clinical policy
     if (req.user.role === 'patient') {
-      query.patientId = req.user.id;
-    } else if (req.user.role === 'doctor') {
+      return res.json({ success: true, prescriptions: [] });
+    }
+
+    let query = {};
+    if (req.user.role === 'doctor') {
       query.doctorId = req.user.id;
     }
 

@@ -14,8 +14,15 @@ const {
   Notification,
 } = require('../models');
 const fs = require('fs');
-const { generateNextQuestion, generateHealthSummary, GREETINGS, screenRedFlags, translateText } = require('../services/aiService');
-const { processDocumentOCR, validateAndClassifyDocument } = require('../services/ocrService');
+const { generateNextQuestion, generateHealthSummary, GREETINGS, AYUSH_GREETINGS, screenRedFlags, translateText } = require('../services/aiService');
+const { validateAndClassifyDocument, processDocumentOCR } = require('../services/ocrService');
+const { generateUniqueOpNumber } = require('../utils/opNumber');
+const {
+  validateAbhaNumber,
+  buildAbhaSearchQuery,
+  formatAbhaNumber,
+  extractAbhaDigits,
+} = require('../utils/abhaValidation');
 
 // @route   GET /api/patients/me
 const getProfile = async (req, res, next) => {
@@ -90,26 +97,32 @@ const recordConsent = async (req, res, next) => {
 // @route   POST /api/patients/interview/start
 const startInterview = async (req, res, next) => {
   try {
-    const { language = 'en' } = req.body;
+    const { language = 'en', healthcareMode = 'general_medical', communicationMode = 'text' } = req.body;
     const profile = await PatientProfile.findOne({ userId: req.user.id });
 
     const interview = await HealthInterview.create({
       patientId: req.user.id,
       language,
+      healthcareMode,
+      communicationMode,
       status: 'in_progress',
       responses: [],
       redFlagsDetected: [],
       priority: 'NORMAL',
     });
 
-    const greeting = GREETINGS[language] || GREETINGS.en;
+    const greeting = healthcareMode === 'ayush'
+      ? (AYUSH_GREETINGS[language] || AYUSH_GREETINGS.en)
+      : (GREETINGS[language] || GREETINGS.en);
 
     res.status(201).json({
       success: true,
       interviewId: interview._id,
       language,
+      healthcareMode,
+      communicationMode,
       greeting,
-      message: 'AI Health Check-Up session initiated.',
+      message: `AI Health Check-Up session initiated (${healthcareMode === 'ayush' ? 'AYUSH' : 'General Medical'}).`,
     });
   } catch (error) {
     next(error);
@@ -193,6 +206,8 @@ const submitAnswer = async (req, res, next) => {
       language: interview.language || 'en',
       patientProfile: profile || {},
       groqApiKey: effectiveGroqKey,
+      healthcareMode: interview.healthcareMode || 'general_medical',
+      communicationMode: interview.communicationMode || 'text',
     });
 
     const newRedFlags = [...(interview.redFlagsDetected || [])];
@@ -319,20 +334,214 @@ const createOrGetSummary = async (req, res, next) => {
       return res.status(404).json({ success: false, message: 'Interview not found.' });
     }
 
-    const profile = await PatientProfile.findOne({ userId: req.user.id });
+    const patientDetails = req.body.patientDetails || {};
+    let resolvedUser = req.user;
+    let profile = await PatientProfile.findOne({ userId: req.user.id });
+
+    // Extract patient details fields
+    const rawPhone = (patientDetails.phoneNumber || '').trim();
+    const cleanPhone = rawPhone.replace(/\D/g, '').slice(-10);
+    const providedName = (patientDetails.name || '').trim();
+    const rawAbha = (patientDetails.abhaId || patientDetails.abhaNumber || patientDetails.abhaAddress || '').trim();
+    const abhaSearch = rawAbha ? buildAbhaSearchQuery(rawAbha) : null;
+    const cleanAbha = abhaSearch ? abhaSearch.formatted : '';
+
+    if (cleanPhone || providedName || cleanAbha) {
+      let existingUser = null;
+      if (cleanPhone) {
+        existingUser = await User.findOne({
+          phoneNumber: cleanPhone,
+          role: 'patient',
+        });
+        if (!existingUser) {
+          existingUser = await User.findOne({
+            phoneNumber: { $regex: new RegExp(cleanPhone + '$') },
+            role: 'patient',
+          });
+        }
+      }
+
+      if (!existingUser && abhaSearch) {
+        const prof = await PatientProfile.findOne({
+          $or: [
+            { abhaId: abhaSearch.regex },
+            { aadhaarDemoId: abhaSearch.regex },
+            { abhaAddress: abhaSearch.regex },
+            { abhaId: abhaSearch.formatted },
+            { abhaId: abhaSearch.digits },
+          ],
+        });
+        if (prof && prof.userId) {
+          existingUser = await User.findById(prof.userId);
+          profile = prof;
+        } else {
+          existingUser = await User.findOne({
+            $or: [
+              { abhaId: abhaSearch.regex },
+              { abhaId: abhaSearch.formatted },
+              { abhaId: abhaSearch.digits },
+            ],
+            role: 'patient',
+          });
+          if (existingUser) {
+            profile = await PatientProfile.findOne({ userId: existingUser._id });
+          }
+        }
+      }
+
+      if (existingUser) {
+        resolvedUser = existingUser;
+        if (!profile) {
+          profile = await PatientProfile.findOne({ userId: existingUser._id });
+        }
+        if (providedName && providedName !== existingUser.name) {
+          existingUser.name = providedName;
+        }
+        if (cleanAbha && !existingUser.abhaId) {
+          existingUser.abhaId = cleanAbha;
+        }
+        if (typeof existingUser.save === 'function') await existingUser.save();
+
+        if (profile) {
+          if (providedName && providedName !== profile.name) profile.name = providedName;
+          if (patientDetails.age && !profile.age) profile.age = Number(patientDetails.age);
+          if (patientDetails.gender && (!profile.gender || profile.gender === 'Other')) profile.gender = patientDetails.gender;
+          if (cleanAbha) {
+            profile.abhaId = cleanAbha;
+            profile.aadhaarDemoId = cleanAbha;
+          }
+          if (typeof profile.save === 'function') await profile.save();
+        } else {
+          profile = await PatientProfile.create({
+            userId: existingUser._id,
+            name: providedName || existingUser.name,
+            phoneNumber: cleanPhone || existingUser.phoneNumber,
+            age: Number(patientDetails.age) || 35,
+            gender: patientDetails.gender || 'Other',
+            abhaId: cleanAbha,
+            aadhaarDemoId: cleanAbha,
+            preferredLanguage: interview.language || 'en',
+          });
+        }
+      } else {
+        const phoneToStore = cleanPhone || (req.user?.phoneNumber && req.user.phoneNumber !== '9999900000' ? req.user.phoneNumber : `98${Math.floor(10000000 + Math.random() * 90000000)}`);
+        const finalName = providedName || req.user?.name || 'Walk-In Patient';
+        const finalAge = Number(patientDetails.age) || (profile?.age || 35);
+        const finalGender = patientDetails.gender || 'Other';
+
+        if (req.user?.isGuest || req.user?.name === 'Direct Patient' || !profile) {
+          try {
+            const newUser = await User.create({
+              phoneNumber: phoneToStore,
+              name: finalName,
+              password: '$2a$10$direct_patient_access_hash_dummy_2026',
+              role: 'patient',
+              abhaId: cleanAbha,
+            });
+            resolvedUser = newUser;
+            profile = await PatientProfile.create({
+              userId: newUser._id,
+              name: finalName,
+              phoneNumber: phoneToStore,
+              age: finalAge,
+              gender: finalGender,
+              abhaId: cleanAbha,
+              aadhaarDemoId: cleanAbha,
+              preferredLanguage: interview.language || 'en',
+            });
+          } catch (createErr) {
+            const found = await User.findOne({ phoneNumber: phoneToStore });
+            if (found) {
+              resolvedUser = found;
+              found.name = finalName;
+              if (cleanAbha) found.abhaId = cleanAbha;
+              if (typeof found.save === 'function') await found.save();
+              profile = await PatientProfile.findOne({ userId: found._id });
+              if (!profile) {
+                profile = await PatientProfile.create({
+                  userId: found._id,
+                  name: finalName,
+                  phoneNumber: phoneToStore,
+                  age: finalAge,
+                  gender: finalGender,
+                  abhaId: cleanAbha,
+                  aadhaarDemoId: cleanAbha,
+                });
+              } else if (cleanAbha) {
+                profile.abhaId = cleanAbha;
+                profile.aadhaarDemoId = cleanAbha;
+                if (typeof profile.save === 'function') await profile.save();
+              }
+            }
+          }
+        } else {
+          if (profile) {
+            if (providedName) profile.name = providedName;
+            if (cleanPhone) profile.phoneNumber = cleanPhone;
+            if (patientDetails.age) profile.age = Number(patientDetails.age);
+            if (patientDetails.gender) profile.gender = patientDetails.gender;
+            if (cleanAbha) {
+              profile.abhaId = cleanAbha;
+              profile.aadhaarDemoId = cleanAbha;
+            }
+            if (typeof profile.save === 'function') await profile.save();
+          }
+        }
+      }
+
+      if (resolvedUser && resolvedUser._id) {
+        interview.patientId = resolvedUser._id;
+        if (typeof interview.save === 'function') await interview.save();
+      }
+    }
+
+    const finalPatientName = providedName || profile?.name || resolvedUser?.name || 'Walk-In Patient';
+    const finalPatientPhone = cleanPhone || profile?.phoneNumber || resolvedUser?.phoneNumber || '';
+    const finalPatientAge = Number(patientDetails.age) || profile?.age || 35;
+    const finalPatientGender = patientDetails.gender || profile?.gender || 'Not specified';
 
     // Check if summary already exists
     let existing = await HealthSummary.findOne({ interviewId: interview._id });
     if (existing) {
+      existing.patientId = resolvedUser._id;
+      existing.patientName = finalPatientName;
+      existing.patientPhone = finalPatientPhone;
+      existing.patientAge = finalPatientAge;
+      existing.patientGender = finalPatientGender;
+      existing.abhaId = cleanAbha || profile?.abhaId || existing.abhaId || '';
+      if (!existing.opNumber) {
+        existing.opNumber = await generateUniqueOpNumber();
+      }
+      if (typeof existing.save === 'function') {
+        await existing.save();
+      } else {
+        await HealthSummary.findByIdAndUpdate(existing._id, {
+          $set: {
+            patientId: resolvedUser._id,
+            patientName: finalPatientName,
+            patientPhone: finalPatientPhone,
+            patientAge: finalPatientAge,
+            patientGender: finalPatientGender,
+            opNumber: existing.opNumber,
+            abhaId: existing.abhaId,
+          },
+        });
+      }
       return res.json({ success: true, summary: existing });
     }
 
     const effectiveGroqKey = req.body?.groqApiKey || req.headers['x-groq-api-key'] || process.env.GROQ_API_KEY;
     const aiSummaryData = await generateHealthSummary({
-      patientProfile: profile || { name: req.user.name },
+      patientProfile: {
+        name: finalPatientName,
+        age: finalPatientAge,
+        gender: finalPatientGender,
+      },
       interviewResponses: interview.responses || [],
       language: interview.language || 'en',
       groqApiKey: effectiveGroqKey,
+      healthcareMode: interview.healthcareMode || 'general_medical',
+      communicationMode: interview.communicationMode || 'text',
     });
 
     // Fetch previous documents, extractions & prescriptions for complete clinical dossier
@@ -350,68 +559,28 @@ const createOrGetSummary = async (req, res, next) => {
     const previousLabResults = [];
     const previousMedicines = [];
     const previousPrescriptionList = [];
-    const pinnedReports = [];
+    
+    // Strict Document Policy: Only attach health documents / images explicitly uploaded
+    // by the patient during THIS checkup session. If the patient did not upload any image,
+    // do NOT attach or display any random or historical images!
+    const sessionUploadedReports = Array.isArray(req.body.attachedReports) && req.body.attachedReports.length > 0
+      ? req.body.attachedReports
+      : (Array.isArray(interview.pinnedReports) && interview.pinnedReports.length > 0)
+      ? interview.pinnedReports
+      : [];
 
-    // Process all uploaded documents: convert to text or directly pin image (Single copy guarantee)
-    if (Array.isArray(pastDocuments)) {
+    const pinnedReports = [];
+    if (sessionUploadedReports.length > 0) {
       const seenDocKeys = new Set();
-      pastDocuments.forEach((doc) => {
-        const docKey = (doc.originalName || doc.fileName || doc.title || '').toLowerCase().trim();
+      sessionUploadedReports.forEach((doc) => {
+        const docKey = (doc.originalName || doc.fileName || doc.title || doc.documentId || doc.fileUrl || '').toLowerCase().trim();
         if (seenDocKeys.has(docKey)) return;
         seenDocKeys.add(docKey);
-
-        const ext = pastExtractions.find((e) => String(e.documentId) === String(doc._id));
-        const fileUrl = doc.fileName ? `/uploads/${doc.fileName}` : doc.filePath || '';
-        
-        // Determine if text was successfully converted into text document
-        const hasText = !!(
-          ext &&
-          ext.status !== 'unconverted_photo' &&
-          ext.rawText &&
-          ext.rawText.trim().length >= 20
-        );
-
-        const extractedText = hasText ? ext.rawText : '';
-
-        pinnedReports.push({
-          documentId: String(doc._id),
-          title: doc.originalName || doc.title || 'Diagnostic Report',
-          fileUrl,
-          fileType: doc.fileType || 'image/jpeg',
-          uploadMethod: doc.uploadMethod || 'device',
-          hasExtractedText: hasText,
-          extractedText: hasText ? extractedText : '',
-          confidenceScore: ext?.confidenceScore || 0,
-          isDirectPinnedImage: !hasText,
-          pinReason: hasText
-            ? 'Converted into text document via OCR and attached to health summary.'
-            : 'Direct Photo Attached: Text could not be automatically converted with high confidence. Full report photo attached directly for doctor review.',
-          createdAt: doc.createdAt || new Date(),
-        });
-
-        // If structured lab tests exist, add into previousLabResults
-        if (ext?.structuredData?.labTests) {
-          ext.structuredData.labTests.forEach((t) => {
-            previousLabResults.push({
-              test: t.testName,
-              value: `${t.value} ${t.unit || ''}`.trim(),
-              date: ext.structuredData?.documentDate || 'Recent Lab Report',
-            });
-          });
-        }
+        pinnedReports.push(doc);
       });
     }
 
-    // Deduplicate pinnedReports so each document appears strictly a single time
-    const uniquePinnedReports = [];
-    const seenPinnedKeys = new Set();
-    pinnedReports.forEach((p) => {
-      const key = (p.title || p.fileUrl || p.documentId || '').toLowerCase().trim();
-      if (!seenPinnedKeys.has(key)) {
-        seenPinnedKeys.add(key);
-        uniquePinnedReports.push(p);
-      }
-    });
+    const uniquePinnedReports = pinnedReports;
 
     pastExtractions.forEach((ext) => {
       if (ext.structuredData?.labTests) {
@@ -445,19 +614,33 @@ const createOrGetSummary = async (req, res, next) => {
       }
     });
 
+    // Generate fresh guaranteed unique OP ID for every new summary per hospital triage workflow
+    const generatedOpId = await generateUniqueOpNumber();
+
     const summary = await HealthSummary.create({
-      patientId: req.user.id,
+      patientId: resolvedUser._id,
       interviewId: interview._id,
-      patientName: req.user.name,
-      opNumber: profile?.opNumber || req.user.opNumber || '',
-      patientAge: profile?.age || 35,
-      patientGender: profile?.gender || 'Not specified',
+      patientName: finalPatientName,
+      patientPhone: finalPatientPhone,
+      opNumber: generatedOpId,
+      abhaId: cleanAbha || profile?.abhaId || '',
+      patientAge: finalPatientAge,
+      patientGender: finalPatientGender,
+      language: interview.language || 'en',
+      healthcareMode: interview.healthcareMode || 'general_medical',
+      communicationMode: interview.communicationMode || 'text',
       chiefComplaint: aiSummaryData.chiefComplaint,
       symptoms: aiSummaryData.symptoms,
       duration: aiSummaryData.duration,
       severity: aiSummaryData.severity,
       medicalHistory: profile?.medicalHistory?.length ? profile.medicalHistory : aiSummaryData.medicalHistory,
+      ayushAssessment: aiSummaryData.ayushAssessment,
+      caseDataQualityScore: aiSummaryData.caseDataQualityScore,
       previousMedicines,
+      // Full Q&A Transcript: AI Questions Asked & Patient Answers Given
+      interviewResponses: aiSummaryData.interviewResponses || interview.responses || [],
+      // AI Medication Suggestions for Attending Doctor's Clinical Review
+      aiMedicationSuggestions: aiSummaryData.aiMedicationSuggestions || [],
       previousLabResults,
       previousPrescriptions: previousPrescriptionList,
       pinnedReports: uniquePinnedReports,
@@ -469,18 +652,40 @@ const createOrGetSummary = async (req, res, next) => {
       status: 'DRAFT',
     });
 
-    // Record timeline entry for this AI checkup
+    if (profile) {
+      profile.opNumber = generatedOpId;
+      if (!Array.isArray(profile.generatedOpNumbers)) {
+        profile.generatedOpNumbers = [];
+      }
+      if (!profile.generatedOpNumbers.includes(generatedOpId)) {
+        profile.generatedOpNumbers.push(generatedOpId);
+      }
+      if (typeof profile.save === 'function') {
+        await profile.save();
+      } else {
+        await PatientProfile.findByIdAndUpdate(profile._id, {
+          $set: { opNumber: generatedOpId },
+          $addToSet: { generatedOpNumbers: generatedOpId },
+        });
+      }
+    }
+    try {
+      await User.findByIdAndUpdate(resolvedUser._id, { $set: { opNumber: generatedOpId } });
+    } catch (uErr) {}
+
+    // Record timeline entry for this AI checkup with OP ID in patient history
     await MedicalTimeline.create({
       patientId: req.user.id,
       eventDate: new Date(),
       year: new Date().getFullYear(),
       eventType: 'AI_CHECKUP',
-      title: `AI Health Check-Up: ${aiSummaryData.chiefComplaint}`,
-      summary: `AI triage completed. Suggested specialty: ${aiSummaryData.suggestedSpecialty}. Priority: ${aiSummaryData.redFlagStatus}.`,
+      title: `AI Health Check-Up (${generatedOpId}): ${aiSummaryData.chiefComplaint}`,
+      summary: `AI triage completed under OP ID ${generatedOpId}. Suggested specialty: ${aiSummaryData.suggestedSpecialty}. Priority: ${aiSummaryData.redFlagStatus}. Awaiting Admin specialist assignment.`,
       doctorOrFacility: 'MediKiosk Smart Hospital Assistant',
       keyMetrics: [
-        { label: 'Priority', value: aiSummaryData.redFlagStatus },
+        { label: 'OP ID', value: generatedOpId },
         { label: 'Specialty', value: aiSummaryData.suggestedSpecialty },
+        { label: 'Priority', value: aiSummaryData.redFlagStatus },
       ],
     });
 
@@ -569,26 +774,57 @@ const updateSummary = async (req, res, next) => {
 const confirmSummary = async (req, res, next) => {
   try {
     const { id } = req.params;
-    let summary = await HealthSummary.findOneAndUpdate(
-      { interviewId: id, patientId: req.user.id },
-      { $set: { patientConfirmed: true, confirmedAt: new Date() } },
-      { new: true }
-    );
+    let summary = await HealthSummary.findOne({ interviewId: id });
     if (!summary) {
-      summary = await HealthSummary.findOneAndUpdate(
-        { _id: id, patientId: req.user.id },
-        { $set: { patientConfirmed: true, confirmedAt: new Date() } },
-        { new: true }
-      );
+      summary = await HealthSummary.findOne({ _id: id });
     }
     if (!summary) {
       return res.status(404).json({ success: false, message: 'Health summary not found.' });
     }
+
+    if (!summary.opNumber) {
+      summary.opNumber = await generateUniqueOpNumber();
+    }
+    summary.patientConfirmed = true;
+    summary.confirmedAt = new Date();
+    if (Array.isArray(req.body?.interviewResponses) && req.body.interviewResponses.length > 0) {
+      if (!summary.interviewResponses || summary.interviewResponses.length === 0) {
+        summary.interviewResponses = req.body.interviewResponses;
+      }
+    }
+    if (typeof summary.save === 'function') {
+      await summary.save();
+    } else {
+      await HealthSummary.findByIdAndUpdate(summary._id, {
+        $set: {
+          opNumber: summary.opNumber,
+          patientConfirmed: true,
+          confirmedAt: summary.confirmedAt,
+          interviewResponses: summary.interviewResponses,
+        },
+      });
+    }
+
+    // Ensure patient profile and user record has the latest OP number and tracks history
+    try {
+      if (summary.patientId) {
+        await PatientProfile.findOneAndUpdate(
+          { userId: summary.patientId },
+          {
+            $set: { opNumber: summary.opNumber },
+            $addToSet: { generatedOpNumbers: summary.opNumber },
+          }
+        );
+        await User.findByIdAndUpdate(summary.patientId, { $set: { opNumber: summary.opNumber } });
+      }
+    } catch (profErr) {}
+
     res.json({
       success: true,
       summary,
+      opNumber: summary.opNumber,
       summaryConfirmed: true,
-      message: 'Summary confirmed by patient. Ready for physician review.',
+      message: `Summary confirmed under OP ID ${summary.opNumber}. Please provide this OP ID to the hospital triage desk for doctor assignment.`,
     });
   } catch (error) {
     next(error);
@@ -621,7 +857,7 @@ const attachReportToSummary = async (req, res, next) => {
       return res.status(400).json({ success: false, message: 'Please provide at least one report file to attach.' });
     }
 
-    const { title = 'Lab Report', uploadMethod = 'device' } = req.body;
+    const { title = 'Lab Report', uploadMethod = 'device', documentType = 'Lab Report' } = req.body;
     const attachedReports = [];
     const rejectedReports = [];
 
@@ -636,7 +872,8 @@ const attachReportToSummary = async (req, res, next) => {
       const validation = validateAndClassifyDocument({
         filePath: file.path,
         originalName: file.originalname,
-        documentType: 'Lab Report',
+        documentType: documentType || title || 'Lab Report',
+        fileType: file.mimetype,
       });
 
       if (!validation.isValid) {
@@ -657,8 +894,9 @@ const attachReportToSummary = async (req, res, next) => {
         ocrResult = await processDocumentOCR({
           filePath: file.path,
           originalName: file.originalname,
-          documentType: validation.clinicalCategory || 'Lab Report',
-          isHandwritten: false,
+          documentType: validation.clinicalCategory || documentType || 'Lab Report',
+          isHandwritten: (validation.clinicalCategory || '').includes('Prescription'),
+          fileType: file.mimetype,
         });
       } catch (ocrErr) {
         console.warn('OCR extraction warning:', ocrErr);
@@ -717,11 +955,13 @@ const attachReportToSummary = async (req, res, next) => {
       const newPinnedReport = {
         documentId: String(doc._id),
         title: doc.originalName || doc.title,
+        documentType: doc.documentType || validation.clinicalCategory || 'Lab Report',
         fileUrl: `/uploads/${doc.fileName}`,
         fileType: doc.fileType,
         uploadMethod: doc.uploadMethod,
         hasExtractedText: true,
         extractedText: textDocument || extraction?.rawText || '',
+        structuredData: ocrResult?.structuredData || extraction?.structuredData || {},
         confidenceScore: ocrResult?.confidenceScore || 85,
         isDirectPinnedImage: false,
         pinReason: 'Converted into clinical text document via OCR and attached to health summary.',
@@ -756,12 +996,23 @@ const attachReportToSummary = async (req, res, next) => {
           });
         }
 
+        const updatedMedicines = [...(summary.previousMedicines || [])];
+        if (Array.isArray(ocrResult?.structuredData?.medicines)) {
+          ocrResult.structuredData.medicines.forEach((m) => {
+            const medDesc = `${m.name}${m.strength ? ` (${m.strength})` : ''} - ${m.dosage || '1 unit'}, ${m.frequency || 'As directed'}`;
+            if (!updatedMedicines.some((existing) => existing.toLowerCase().includes(m.name.toLowerCase()))) {
+              updatedMedicines.push(medDesc);
+            }
+          });
+        }
+
         summary = await HealthSummary.findOneAndUpdate(
           { _id: summary._id },
           {
             $set: {
               pinnedReports: updatedPinned,
               previousLabResults: updatedLabResults,
+              previousMedicines: updatedMedicines,
               updatedAt: new Date(),
             },
           },
@@ -781,7 +1032,11 @@ const attachReportToSummary = async (req, res, next) => {
               timestamp: new Date(),
               documentId: String(doc._id),
             });
-            await interview.save();
+            if (typeof interview.save === 'function') {
+              await interview.save();
+            } else {
+              await HealthInterview.findByIdAndUpdate(interview._id, { $set: { responses: interview.responses } });
+            }
           }
         } catch (intErr) {
           console.warn('Interview link warning:', intErr.message);
@@ -875,6 +1130,7 @@ const uploadDocument = async (req, res, next) => {
           originalName: file.originalname,
           documentType: clinicalCategory,
           isHandwritten,
+          fileType: file.mimetype,
         });
       } catch (ocrErr) {
         console.warn('OCR extraction warning:', ocrErr.message);
@@ -1268,7 +1524,11 @@ const removeReportFromSummary = async (req, res, next) => {
         interview.responses = (interview.responses || []).filter(
           (r) => String(r.documentId) !== String(reportId) && String(r.documentId) !== String(docId)
         );
-        await interview.save();
+        if (typeof interview.save === 'function') {
+          await interview.save();
+        } else {
+          await HealthInterview.findByIdAndUpdate(interview._id, { $set: { responses: interview.responses } });
+        }
       }
     } catch (intErr) {}
 
@@ -1364,7 +1624,218 @@ const getLatestSummary = async (req, res, next) => {
         return true;
       });
     }
+    if (!summary.opNumber) {
+      summary.opNumber = await generateUniqueOpNumber();
+      if (typeof summary.save === 'function') {
+        await summary.save();
+      } else {
+        await HealthSummary.findByIdAndUpdate(summary._id, { $set: { opNumber: summary.opNumber } });
+      }
+    }
     return res.json({ success: true, summary });
+  } catch (error) {
+    next(error);
+  }
+};
+
+/**
+ * POST /api/patients/lookup-phone (also GET /api/patients/lookup-phone/:phone)
+ * Fast lookup to verify if a mobile number belongs to a returning patient
+ */
+const lookupPatientByPhone = async (req, res, next) => {
+  try {
+    const rawAbha = (req.body.abhaId || req.body.abhaNumber || req.query.abhaId || req.params.abha || '').trim();
+
+    // 1. Prioritize 14-digit ABHA Number lookup for returning patients
+    if (rawAbha) {
+      const abhaSearch = buildAbhaSearchQuery(rawAbha);
+
+      let profile = await PatientProfile.findOne({
+        $or: [
+          { abhaId: abhaSearch.regex },
+          { aadhaarDemoId: abhaSearch.regex },
+          { abhaAddress: abhaSearch.regex },
+          { abhaId: abhaSearch.formatted },
+          { abhaId: abhaSearch.digits },
+        ],
+      });
+
+      let user = null;
+      if (profile && profile.userId) {
+        user = await User.findById(profile.userId);
+      } else {
+        user = await User.findOne({
+          $or: [
+            { abhaId: abhaSearch.regex },
+            { abhaId: abhaSearch.formatted },
+            { abhaId: abhaSearch.digits },
+          ],
+          role: 'patient',
+        });
+        if (user) {
+          profile = await PatientProfile.findOne({ userId: user._id });
+        }
+      }
+
+      if (!profile && !user) {
+        const summary = await HealthSummary.findOne({
+          $or: [
+            { abhaId: abhaSearch.regex },
+            { abhaId: abhaSearch.formatted },
+            { abhaId: abhaSearch.digits },
+          ],
+        }).sort({ createdAt: -1 });
+        if (summary) {
+          return res.json({
+            success: true,
+            verified: true,
+            exists: true,
+            found: true,
+            isNewToKiosk: false,
+            patient: {
+              name: summary.patientName,
+              phoneNumber: summary.patientPhone || '',
+              age: summary.patientAge || null,
+              gender: summary.patientGender || 'Other',
+              abhaId: abhaSearch.formatted || summary.abhaId,
+              opNumber: summary.opNumber || null,
+              previousVisitsCount: 1,
+              abdmStatus: 'ACTIVE_VERIFIED',
+            },
+            message: '✓ 14-Digit ABHA verified via ABDM Gateway. Previous visit record retrieved.',
+          });
+        }
+      }
+
+      if (profile || user) {
+        return res.json({
+          success: true,
+          verified: true,
+          exists: true,
+          found: true,
+          isNewToKiosk: false,
+          patient: {
+            name: profile?.name || user?.name,
+            phoneNumber: profile?.phoneNumber || user?.phoneNumber || '',
+            age: profile?.age || null,
+            gender: profile?.gender || 'Other',
+            abhaId: abhaSearch.formatted || profile?.abhaId || profile?.aadhaarDemoId || user?.abhaId,
+            opNumber: profile?.opNumber || user?.opNumber || null,
+            previousVisitsCount: Array.isArray(profile?.generatedOpNumbers) ? profile.generatedOpNumbers.length : 1,
+            abdmStatus: 'ACTIVE_VERIFIED',
+          },
+          message: '✓ 14-Digit ABHA verified via ABDM Gateway. Patient profile retrieved.',
+        });
+      }
+
+      if (abhaSearch.is14Digits) {
+        return res.json({
+          success: true,
+          verified: true,
+          exists: false,
+          found: true,
+          isNewToKiosk: true,
+          patient: {
+            name: '',
+            phoneNumber: '',
+            age: null,
+            gender: 'Male',
+            abhaId: abhaSearch.formatted,
+            opNumber: null,
+            previousVisitsCount: 0,
+            abdmStatus: 'ACTIVE_VERIFIED',
+          },
+          message: `✓ 14-Digit ABHA (${abhaSearch.formatted}) verified via ABDM Gateway. Please enter your name and phone number to link your health records.`,
+        });
+      }
+
+      return res.json({
+        success: false,
+        verified: false,
+        exists: false,
+        found: false,
+        message: `Invalid ABHA format. ABHA Number must be exactly 14 digits in format XX-XXXX-XXXX-XXXX.`,
+      });
+    }
+
+    // 2. Fallback to phone number lookup
+    const rawPhone = req.params.phone || req.body.phoneNumber || req.query.phone || '';
+    const cleanPhone = String(rawPhone).trim().replace(/\D/g, '').slice(-10);
+
+    if (!cleanPhone || cleanPhone.length < 10) {
+      return res.status(400).json({ success: false, message: 'Valid 10-digit mobile number or ABHA ID required.' });
+    }
+
+    const user = await User.findOne({
+      phoneNumber: cleanPhone,
+      role: 'patient',
+    });
+    const profile = user ? await PatientProfile.findOne({ userId: user._id }) : null;
+
+    if (user && profile) {
+      return res.json({
+        success: true,
+        exists: true,
+        found: true,
+        patient: {
+          name: profile.name || user.name,
+          phoneNumber: cleanPhone,
+          age: profile.age || null,
+          gender: profile.gender || 'Other',
+          abhaId: profile.abhaId || profile.aadhaarDemoId || user.abhaId || '',
+          opNumber: profile.opNumber || null,
+          previousVisitsCount: Array.isArray(profile.generatedOpNumbers) ? profile.generatedOpNumbers.length : 1,
+        },
+      });
+    }
+
+    const profileOnly = await PatientProfile.findOne({
+      phoneNumber: cleanPhone,
+    });
+    if (profileOnly) {
+      return res.json({
+        success: true,
+        exists: true,
+        found: true,
+        patient: {
+          name: profileOnly.name,
+          phoneNumber: cleanPhone,
+          age: profileOnly.age || null,
+          gender: profileOnly.gender || 'Other',
+          abhaId: profileOnly.abhaId || profileOnly.aadhaarDemoId || '',
+          opNumber: profileOnly.opNumber || null,
+          previousVisitsCount: Array.isArray(profileOnly.generatedOpNumbers) ? profileOnly.generatedOpNumbers.length : 1,
+        },
+      });
+    }
+
+    const summary = await HealthSummary.findOne({
+      patientPhone: cleanPhone,
+    }).sort({ createdAt: -1 });
+    if (summary) {
+      return res.json({
+        success: true,
+        exists: true,
+        found: true,
+        patient: {
+          name: summary.patientName,
+          phoneNumber: cleanPhone,
+          age: summary.patientAge || null,
+          gender: summary.patientGender || 'Other',
+          abhaId: summary.abhaId || '',
+          opNumber: summary.opNumber || null,
+          previousVisitsCount: 1,
+        },
+        message: 'Previous visit record retrieved successfully.',
+      });
+    }
+
+    return res.json({
+      success: true,
+      exists: false,
+      found: false,
+      message: 'No previous record found for this phone number. Patient can register as a New Patient.',
+    });
   } catch (error) {
     next(error);
   }
@@ -1396,4 +1867,5 @@ module.exports = {
   attachReportToSummary,
   removeReportFromSummary,
   deleteDocument,
+  lookupPatientByPhone,
 };

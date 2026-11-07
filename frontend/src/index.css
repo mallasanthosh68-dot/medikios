@@ -18,6 +18,7 @@
     font-feature-settings: "cv02", "cv03", "cv04", "cv11";
     font-family: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   }
+
 }
 
 /* Medical Design System Surface & Card Tokens */
@@ -67,13 +68,16 @@
   width: 6px;
   height: 6px;
 }
+
 ::-webkit-scrollbar-track {
   background: #F3F8F8;
 }
+
 ::-webkit-scrollbar-thumb {
   background: #CBD5E1;
   border-radius: 9999px;
 }
+
 ::-webkit-scrollbar-thumb:hover {
   background: #94A3B8;
 }
@@ -84,9 +88,11 @@
     background-color: white !important;
     color: black !important;
   }
+
   .no-print {
     display: none !important;
   }
+
   .printable-area {
     width: 100% !important;
     background: white !important;
@@ -130,12 +136,15 @@ body {
     top: 2%;
     opacity: 0;
   }
+
   10% {
     opacity: 1;
   }
+
   85% {
     opacity: 1;
   }
+
   100% {
     top: 94%;
     opacity: 0;

@@ -1,25 +1,53 @@
 import { api } from './api';
 
-export const startInterview = async (language = 'en') => {
-  return await api.post('/patients/interview/start', { language });
+export const startInterview = async (language = 'en', healthcareMode = 'general_medical', communicationMode = 'text') => {
+  return await api.post('/patients/interview/start', {
+    language,
+    healthcareMode,
+    communicationMode,
+  });
 };
 
-export const sendMessage = async (interviewId, message, question = 'Health concern') => {
+export const chat = async ({
+  conversationId,
+  patientId,
+  healthcareMode = 'general_medical',
+  communicationMode = 'text',
+  language = 'en',
+  message = '',
+}) => {
   const groqApiKey = localStorage.getItem('medikiosk_groq_api_key') || undefined;
-  return await api.post(`/patients/interview/${interviewId}/answer`, {
-    question,
-    answer: message,
-    inputMode: 'text',
+  return await api.post('/ai/chat', {
+    conversationId,
+    patientId,
+    healthcareMode,
+    communicationMode,
+    language,
+    message,
     groqApiKey,
   });
 };
 
-export const sendVoiceTranscript = async (interviewId, transcript, question = 'Health concern') => {
+export const sendMessage = async (interviewId, message, question = 'Health concern', options = {}) => {
+  const groqApiKey = localStorage.getItem('medikiosk_groq_api_key') || undefined;
+  return await api.post(`/patients/interview/${interviewId}/answer`, {
+    question,
+    answer: message,
+    inputMode: options.communicationMode || 'text',
+    translatedAnswer: options.translatedAnswer,
+    originalSpokenAnswer: options.originalSpokenAnswer,
+    groqApiKey,
+  });
+};
+
+export const sendVoiceTranscript = async (interviewId, transcript, question = 'Health concern', options = {}) => {
   const groqApiKey = localStorage.getItem('medikiosk_groq_api_key') || undefined;
   return await api.post(`/patients/interview/${interviewId}/answer`, {
     question,
     answer: transcript,
     inputMode: 'voice',
+    translatedAnswer: options.translatedAnswer,
+    originalSpokenAnswer: options.originalSpokenAnswer,
     groqApiKey,
   });
 };
@@ -32,17 +60,17 @@ export const completeInterview = async (interviewId) => {
   return await api.post(`/patients/interview/${interviewId}/complete`);
 };
 
-export const generateSummary = async (interviewId) => {
+export const generateSummary = async (interviewId, patientDetails = {}, attachedReports = []) => {
   const groqApiKey = localStorage.getItem('medikiosk_groq_api_key') || undefined;
-  return await api.post(`/patients/interview/${interviewId}/summary`, { groqApiKey });
+  return await api.post(`/patients/interview/${interviewId}/summary`, { groqApiKey, patientDetails, attachedReports });
 };
 
 export const updateSummary = async (interviewId, data) => {
   return await api.put(`/patients/interview/${interviewId}/summary`, data);
 };
 
-export const confirmSummary = async (interviewId) => {
-  return await api.post(`/patients/interview/${interviewId}/summary/confirm`);
+export const confirmSummary = async (interviewId, data = {}) => {
+  return await api.post(`/patients/interview/${interviewId}/summary/confirm`, data);
 };
 
 export const attachReportToSummary = async (interviewIdOrSummaryId, formData) => {
@@ -85,6 +113,7 @@ export const saveGroqApiKey = async (apiKey) => {
 
 export default {
   startInterview,
+  chat,
   sendMessage,
   sendVoiceTranscript,
   getInterview,

@@ -22,11 +22,18 @@ const fileFilter = (req, file, cb) => {
   const allowedMimeTypes = [
     'image/jpeg',
     'image/jpg',
+    'image/pjpeg',
     'image/png',
+    'image/x-png',
     'image/webp',
     'application/pdf',
+    'application/x-pdf',
+    'application/octet-stream',
   ];
-  if (allowedMimeTypes.includes(file.mimetype)) {
+  const ext = path.extname(file.originalname || '').toLowerCase();
+  const allowedExts = ['.jpg', '.jpeg', '.png', '.webp', '.pdf'];
+
+  if (allowedMimeTypes.includes(file.mimetype) || allowedExts.includes(ext)) {
     cb(null, true);
   } else {
     cb(new Error('Unsupported file type. Only JPG, PNG, WEBP, and PDF documents are allowed.'));

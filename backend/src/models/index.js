@@ -122,28 +122,79 @@ class MemoryCollection {
     return chain;
   }
 
-  async findOne(query = {}) {
+  findOne(query = {}) {
     const item = this.data.find((d) => this._matchesQuery(d, query));
-    if (!item) return null;
-    const res = { ...item };
-    res.toObject = function () {
-      const obj = { ...this };
-      delete obj.toObject;
-      return obj;
+    let res = null;
+    if (item) {
+      const self = this;
+      res = { ...item };
+      res.toObject = function () {
+        const obj = { ...this };
+        delete obj.toObject;
+        delete obj.save;
+        return obj;
+      };
+      res.save = async function () {
+        const idx = self.data.findIndex((d) => String(d._id) === String(this._id));
+        if (idx !== -1) {
+          self.data[idx] = { ...this, updatedAt: new Date() };
+          persistStore();
+          syncUpsert(self.name, self.data[idx]).catch(() => {});
+        }
+        return this;
+      };
+    }
+    const chain = {
+      _res: res,
+      sort() { return chain; },
+      select() { return chain; },
+      populate() { return chain; },
+      lean() { return chain; },
+      then(resolve, reject) {
+        return Promise.resolve(chain._res).then(resolve, reject);
+      },
+      catch(reject) {
+        return Promise.resolve(chain._res).catch(reject);
+      },
     };
-    return res;
+    return chain;
   }
 
-  async findById(id) {
+  findById(id) {
     const item = this.data.find((d) => String(d._id) === String(id));
-    if (!item) return null;
-    const res = { ...item };
-    res.toObject = function () {
-      const obj = { ...this };
-      delete obj.toObject;
-      return obj;
+    let res = null;
+    if (item) {
+      const self = this;
+      res = { ...item };
+      res.toObject = function () {
+        const obj = { ...this };
+        delete obj.toObject;
+        delete obj.save;
+        return obj;
+      };
+      res.save = async function () {
+        const idx = self.data.findIndex((d) => String(d._id) === String(this._id));
+        if (idx !== -1) {
+          self.data[idx] = { ...this, updatedAt: new Date() };
+          persistStore();
+          syncUpsert(self.name, self.data[idx]).catch(() => {});
+        }
+        return this;
+      };
+    }
+    const chain = {
+      _res: res,
+      select() { return chain; },
+      populate() { return chain; },
+      lean() { return chain; },
+      then(resolve, reject) {
+        return Promise.resolve(chain._res).then(resolve, reject);
+      },
+      catch(reject) {
+        return Promise.resolve(chain._res).catch(reject);
+      },
     };
-    return res;
+    return chain;
   }
 
   async create(doc) {

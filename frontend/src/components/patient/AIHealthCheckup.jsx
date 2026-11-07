@@ -28,7 +28,6 @@ import {
   getSpokenEmergencyWarning,
 } from '../../utils/emergencyRedFlags';
 import { EmergencyRedFlagAlert } from '../common/EmergencyRedFlagAlert';
-import ThreeDAnatomyViewer from './ThreeDAnatomyViewer';
 
 export const AIHealthCheckup = ({ onSummaryReady }) => {
   const { user } = useAuth();
@@ -45,11 +44,6 @@ export const AIHealthCheckup = ({ onSummaryReady }) => {
   const [redFlagAcknowledged, setRedFlagAcknowledged] = useState(false);
   const [showEmergencyModal, setShowEmergencyModal] = useState(false);
   const [isCompleted, setIsCompleted] = useState(false);
-  const [show3DAnatomy, setShow3DAnatomy] = useState(false);
-
-  const handleSelect3DZone = (zone) => {
-    setInputText(`I am feeling discomfort/symptoms in my ${zone.name} (${zone.subtext}).`);
-  };
 
   // Groq API Key state
   const [groqApiKey, setGroqApiKey] = useState(() => localStorage.getItem('medikiosk_groq_api_key') || '');
@@ -313,7 +307,7 @@ export const AIHealthCheckup = ({ onSummaryReady }) => {
 
   return (
     <div className="flex flex-col h-[78vh] bg-white border border-[#D9E4E5] rounded-3xl overflow-hidden shadow-sm">
-      
+
       {/* Header */}
       <div className="px-6 py-4 bg-white border-b border-[#D9E4E5] flex items-center justify-between">
         <div className="flex items-center gap-3">
@@ -437,21 +431,19 @@ export const AIHealthCheckup = ({ onSummaryReady }) => {
             className={`flex items-start gap-3 ${msg.sender === 'user' ? 'flex-row-reverse' : 'flex-row'}`}
           >
             <div
-              className={`w-8 h-8 rounded-xl flex items-center justify-center shrink-0 ${
-                msg.sender === 'user'
+              className={`w-8 h-8 rounded-xl flex items-center justify-center shrink-0 ${msg.sender === 'user'
                   ? 'bg-[#0EA5A8] text-white shadow-xs'
                   : 'bg-white text-[#0EA5A8] border border-[#D9E4E5] shadow-xs'
-              }`}
+                }`}
             >
               {msg.sender === 'user' ? <User className="w-4 h-4" /> : <Bot className="w-4 h-4" />}
             </div>
 
             <div
-              className={`max-w-[78%] sm:max-w-[65%] rounded-2xl p-4 text-xs leading-relaxed ${
-                msg.sender === 'user'
+              className={`max-w-[78%] sm:max-w-[65%] rounded-2xl p-4 text-xs leading-relaxed ${msg.sender === 'user'
                   ? 'bg-[#0EA5A8] text-white shadow-xs'
                   : 'bg-white text-[#172033] border border-[#D9E4E5] shadow-xs'
-              }`}
+                }`}
             >
               <p className="whitespace-pre-wrap">{msg.text}</p>
               <span className={`block text-[10px] mt-1.5 text-right font-mono ${msg.sender === 'user' ? 'text-white/80' : 'text-[#64748B]'}`}>
@@ -492,7 +484,7 @@ export const AIHealthCheckup = ({ onSummaryReady }) => {
 
       {/* Input / Voice Bar */}
       <div className="p-4 sm:p-6 bg-white border-t border-[#D9E4E5]">
-        
+
         {/* If listening: Show Voice Waveform */}
         {isListening && (
           <div className="mb-3 p-3 rounded-2xl bg-[#E6F7F7] border border-[#0EA5A8]/30 flex items-center justify-between text-xs text-[#0EA5A8] animate-pulse">
@@ -546,51 +538,16 @@ export const AIHealthCheckup = ({ onSummaryReady }) => {
           </button>
         </div>
 
-        {/* Three.js 3D Visualizer Toggle Button */}
-        <div className="mb-3 flex items-center justify-between">
-          <button
-            type="button"
-            onClick={() => setShow3DAnatomy(!show3DAnatomy)}
-            className={`px-3 py-1.5 rounded-xl text-xs font-semibold flex items-center gap-1.5 transition-all shadow-xs border ${
-              show3DAnatomy
-                ? 'bg-cyan-600 text-white border-cyan-500 shadow-cyan-600/20'
-                : 'bg-white text-slate-700 hover:text-cyan-700 border-slate-200 hover:border-cyan-400'
-            }`}
-          >
-            <Sparkles className="w-3.5 h-3.5 text-cyan-500" />
-            <span>{show3DAnatomy ? 'Hide 3D Anatomy Map' : 'Open 3D Anatomy Symptom Map (Three.js)'}</span>
-          </button>
-          <span className="text-[11px] text-slate-400 hidden sm:inline">Tap 3D organ node to auto-fill symptoms</span>
-        </div>
-
-        {/* 3D Anatomy Viewer Component */}
-        {show3DAnatomy && (
-          <div className="mb-4">
-            <ThreeDAnatomyViewer
-              onSelectZone={(zone) => {
-                handleSelect3DZone(zone);
-              }}
-              onConfirmSymptoms={(data) => {
-                if (data?.summaryText) {
-                  setInputText((prev) => (prev ? `${prev}. ${data.summaryText}` : data.summaryText));
-                }
-                setShow3DAnatomy(false);
-              }}
-            />
-          </div>
-        )}
-
         <div className="flex items-center gap-2">
           {/* Microphone Button */}
           <button
             type="button"
             onClick={toggleListening}
             title={isListening ? 'Stop listening' : 'Start voice input'}
-            className={`p-3 rounded-2xl border transition-all ${
-              isListening
+            className={`p-3 rounded-2xl border transition-all ${isListening
                 ? 'bg-rose-50 border-rose-400 text-rose-600 animate-pulse'
                 : 'bg-[#F8FAFC] border-[#D9E4E5] text-[#172033] hover:text-[#0EA5A8] hover:border-[#0EA5A8]/40'
-            }`}
+              }`}
           >
             {isListening ? <MicOff className="w-5 h-5" /> : <Mic className="w-5 h-5" />}
           </button>

@@ -12,6 +12,7 @@ const {
   confirmDoctorReview,
   acceptDoctorRequest,
   verifyPatientOpNumber,
+  lookupOpSummary,
 } = require('../controllers/doctorController');
 
 // Public / Patient directory of available doctors
@@ -35,8 +36,10 @@ router.put('/portal/summaries/:id', protect, requireRole('doctor'), updateDoctor
 router.post('/portal/confirm-review/:requestId', protect, requireRole('doctor'), confirmDoctorReview);
 router.post('/confirm-review/:requestId', protect, requireRole('doctor'), confirmDoctorReview);
 
-// Doctor verify patient OP Number
+// Doctor verify patient OP Number & Direct OP Summary Lookup
 router.post('/verify-op-number', protect, requireRole('doctor'), verifyPatientOpNumber);
+router.get('/op-summary/:opNumber', protect, requireRole('doctor'), lookupOpSummary);
+router.post('/lookup-op', protect, requireRole('doctor'), lookupOpSummary);
 
 // Parameterized doctor profile route (defined after specific routes)
 router.get('/:id', getDoctorById);

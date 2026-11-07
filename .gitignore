@@ -43,6 +43,18 @@ logs/
 playwright-report/
 test-results/
 
+# Uploaded patient & diagnostic documents
+backend/uploads/*
+!backend/uploads/.gitkeep
+uploads/*
+!uploads/.gitkeep
+
+# Vercel deployment cache
+.vercel/
+
+# Scratch & temporary verification scripts
+scratch/
+
 # OS metadata
 .DS_Store
 Thumbs.db

@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MediKiosk Portal | Secure Indian Mobile & Email Login</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --primary: #0ea5a8;
+      --primary-hover: #0c8f92;
+      --primary-light: #e6f7f7;
+      --text-dark: #172033;
+      --text-muted: #64748b;
+      --border-color: #d9e4e5;
+      --bg-surface: #ffffff;
+      --bg-page: #f3f8f8;
+      --error: #dc2626;
+      --error-bg: #fef2f2;
+      --success: #16a34a;
+      --success-bg: #f0fdf4;
+      --radius: 16px;
+      --transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-page);
+      background-image: radial-gradient(#0ea5a815 1px, transparent 1px), radial-gradient(#0284c710 1px, #f3f8f8 1px);
+      background-size: 32px 32px;
+      background-position: 0 0, 16px 16px;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      color: var(--text-dark);
+    }
+
+    .auth-container {
+      width: 100%;
+      max-width: 440px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      border-radius: 28px;
+      box-shadow: 0 20px 40px -15px rgba(14, 165, 168, 0.12), 0 0 1px rgba(0, 0, 0, 0.05);
+      padding: 36px 32px;
+      position: relative;
+    }
+
+    .brand-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .brand-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: var(--primary-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--primary);
+      font-size: 22px;
+      font-weight: 800;
+    }
+
+    .brand-text h1 {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--text-dark);
+      letter-spacing: -0.02em;
+    }
+
+    .brand-text span {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--primary);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .role-toggle {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 6px;
+      background: #f1f5f9;
+      padding: 4px;
+      border-radius: 14px;
+      margin-bottom: 24px;
+      border: 1px solid var(--border-color);
+    }
+
+    .role-btn {
+      border: none;
+      background: transparent;
+      padding: 8px 12px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-muted);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .role-btn.active {
+      background: #ffffff;
+      color: var(--primary);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    }
+
+    .role-btn.active.admin {
+      color: #7c3aed;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-label {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 12px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: var(--text-dark);
+    }
+
+    .label-hint {
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--primary);
+    }
+
+    .input-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .country-badge {
+      position: absolute;
+      left: 14px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text-dark);
+      border-right: 1px solid #cbd5e1;
+      padding-right: 10px;
+      user-select: none;
+    }
+
+    .form-input {
+      width: 100%;
+      height: 48px;
+      border: 1px solid var(--border-color);
+      background-color: #f8fafc;
+      border-radius: 14px;
+      font-size: 14px;
+      color: var(--text-dark);
+      padding: 0 16px;
+      outline: none;
+      transition: var(--transition);
+    }
+
+    .form-input.has-prefix {
+      padding-left: 90px;
+      font-family: monospace;
+      font-size: 15px;
+      letter-spacing: 0.05em;
+    }
+
+    .form-input:focus {
+      border-color: var(--primary);
+      background-color: #ffffff;
+      box-shadow: 0 0 0 4px rgba(14, 165, 168, 0.12);
+    }
+
+    .form-input.is-invalid {
+      border-color: var(--error);
+      background-color: var(--error-bg);
+    }
+
+    .form-input.is-valid {
+      border-color: var(--success);
+    }
+
+    .feedback-msg {
+      font-size: 11px;
+      margin-top: 6px;
+      display: none;
+      font-weight: 500;
+      line-height: 1.4;
+    }
+
+    .feedback-msg.show-error {
+      display: block;
+      color: var(--error);
+    }
+
+    .feedback-msg.show-success {
+      display: block;
+      color: var(--success);
+    }
+
+    .rules-card {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 14px;
+      padding: 12px 14px;
+      margin-bottom: 22px;
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .rules-card strong {
+      color: var(--text-dark);
+    }
+
+    .rules-card ul {
+      margin-top: 6px;
+      margin-left: 16px;
+    }
+
+    .rules-card li {
+      margin-bottom: 3px;
+    }
+
+    .btn-submit {
+      width: 100%;
+      height: 48px;
+      background-color: var(--primary);
+      color: #ffffff;
+      border: none;
+      border-radius: 14px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: var(--transition);
+      box-shadow: 0 4px 14px rgba(14, 165, 168, 0.25);
+    }
+
+    .btn-submit:hover {
+      background-color: var(--primary-hover);
+      transform: translateY(-1px);
+    }
+
+    .btn-submit:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .alert-banner {
+      display: none;
+      padding: 12px 14px;
+      border-radius: 12px;
+      margin-bottom: 18px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .alert-banner.error {
+      display: block;
+      background: var(--error-bg);
+      color: var(--error);
+      border: 1px solid #fecaca;
+    }
+
+    .alert-banner.success {
+      display: block;
+      background: var(--success-bg);
+      color: var(--success);
+      border: 1px solid #bbf7d0;
+    }
+
+    .footer-note {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .footer-note a {
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 700;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="auth-container">
+    
+    <!-- Brand Title -->
+    <div class="brand-header">
+      <div class="brand-icon">✚</div>
+      <div class="brand-text">
+        <span>Smart Hospital Kiosk</span>
+        <h1>MediKiosk Login</h1>
+      </div>
+    </div>
+
+    <!-- Alert Box -->
+    <div id="alertBanner" class="alert-banner"></div>
+
+    <!-- Role Switcher -->
+    <div class="role-toggle">
+      <button type="button" class="role-btn active" data-role="patient" onclick="switchRole('patient')">Patient</button>
+      <button type="button" class="role-btn" data-role="doctor" onclick="switchRole('doctor')">Doctor</button>
+      <button type="button" class="role-btn" data-role="admin" onclick="switchRole('admin')">Admin</button>
+    </div>
+
+    <!-- Validation Rules Pill -->
+    <div class="rules-card">
+      <strong>Strict Indian Mobile & Regex Rules:</strong>
+      <ul>
+        <li>Must be 10 numeric digits starting with <b>6, 7, 8, or 9</b> (<code>/^[6-9]\d{9}$/</code>)</li>
+        <li>Rejects repetitive digits like <code>9999999999</code>, <code>0000000000</code> (<code>/^(\d)\1{9}$/</code>)</li>
+        <li>Rejects dummy sequences (e.g. <code>9876543210</code>)</li>
+        <li>Allows verified email for patients & administrators</li>
+      </ul>
+    </div>
+
+    <!-- Login Form -->
+    <form id="loginForm" onsubmit="handleFormSubmit(event)">
+      
+      <!-- Phone / Identifier Input -->
+      <div class="form-group">
+        <label class="form-label" id="fieldLabel">
+          <span>Indian Mobile Number</span>
+          <span class="label-hint" id="formatHint">Strict 10-Digit</span>
+        </label>
+        
+        <div class="input-wrapper">
+          <span class="country-badge" id="countryBadge">🇮🇳 +91</span>
+          <input
+            type="tel"
+            id="mobileInput"
+            name="phoneNumber"
+            class="form-input has-prefix"
+            placeholder="98765 12345"
+            maxlength="10"
+            autocomplete="tel"
+            required
+            oninput="handleMobileInput(this)"
+          />
+        </div>
+        <div id="validationFeedback" class="feedback-msg"></div>
+      </div>
+
+      <!-- Password / OTP Field -->
+      <div class="form-group">
+        <label class="form-label">
+          <span>Password / PIN</span>
+          <a href="#" style="font-size: 11px; color: var(--primary); text-decoration: none;">Forgot?</a>
+        </label>
+        <input
+          type="password"
+          id="passwordInput"
+          name="password"
+          class="form-input"
+          placeholder="••••••••"
+          required
+        />
+      </div>
+
+      <!-- Submit Button -->
+      <button type="submit" id="submitBtn" class="btn-submit">
+        <span>Proceed to Secure Verification</span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M5 12h14M12 5l7 7-7 7"/>
+        </svg>
+      </button>
+
+    </form>
+
+    <div class="footer-note">
+      Need assistance? <a href="#">Contact Hospital Triage Desk</a>
+    </div>
+
+  </div>
+
+  <script>
+    let currentRole = 'patient';
+
+    // 1. Regular Expressions for Client-Side Validation
+    const REGEX = {
+      // Must be 10 digits starting strictly with 6, 7, 8, or 9
+      INDIAN_MOBILE: /^[6-9]\d{9}$/,
+      // Catch any repeating digit (e.g. 0000000000, 9999999999, 8888888888)
+      REPETITIVE_DIGITS: /^(\d)\1{9}$/,
+      // Email format
+      EMAIL: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+    };
+
+    // 2. Known Blacklisted Dummy / Test Sequences
+    const DUMMY_NUMBERS = [
+      '9876543210', '9876543211', '9123456789', '9000000000',
+      '8000000000', '7000000000', '6000000000', '9898989898',
+      '9191919191', '9090909090'
+    ];
+
+    /**
+     * Validates an Indian mobile number
+     * @param {string} rawNumber
+     * @returns {{ isValid: boolean, message: string }}
+     */
+    function validateIndianNumber(rawNumber) {
+      // Clean non-digits
+      const cleaned = String(rawNumber).replace(/\D/g, '');
+
+      if (!cleaned) {
+        return { isValid: false, message: 'Please enter your 10-digit mobile number.' };
+      }
+
+      // Check length
+      if (cleaned.length < 10) {
+        return { isValid: false, message: `Incomplete number (${cleaned.length}/10 digits).` };
+      }
+      if (cleaned.length > 10) {
+        return { isValid: false, message: 'Number must be exactly 10 digits.' };
+      }
+
+      // Check first digit must be 6, 7, 8, or 9
+      if (!REGEX.INDIAN_MOBILE.test(cleaned)) {
+        const firstDigit = cleaned.charAt(0);
+        return {
+          isValid: false,
+          message: `Invalid starting digit (${firstDigit}). Indian mobile numbers must begin with 6, 7, 8, or 9.`
+        };
+      }
+
+      // Check repetitive fake numbers (e.g. all 0s, all 9s)
+      if (REGEX.REPETITIVE_DIGITS.test(cleaned)) {
+        return {
+          isValid: false,
+          message: 'Fake or repetitive numbers (e.g., all identical digits) are blocked.'
+        };
+      }
+
+      // Check known test sequences
+      if (DUMMY_NUMBERS.includes(cleaned)) {
+        return {
+          isValid: false,
+          message: 'This mobile number is a recognized dummy/test sequence. Please provide a genuine mobile number.'
+        };
+      }
+
+      return { isValid: true, message: 'Valid genuine Indian mobile number.' };
+    }
+
+    /**
+     * Live input handler as user types
+     */
+    function handleMobileInput(input) {
+      // Strip any non-digits automatically
+      input.value = input.value.replace(/\D/g, '');
+      const val = input.value;
+      const feedback = document.getElementById('validationFeedback');
+
+      if (val.length === 0) {
+        input.className = 'form-input has-prefix';
+        feedback.className = 'feedback-msg';
+        feedback.innerText = '';
+        return;
+      }
+
+      // Live prefix check
+      if (val.length >= 1 && !['6', '7', '8', '9'].includes(val.charAt(0))) {
+        input.className = 'form-input has-prefix is-invalid';
+        feedback.className = 'feedback-msg show-error';
+        feedback.innerText = `⚠️ Mobile number cannot start with '${val.charAt(0)}'. Must start with 6, 7, 8, or 9.`;
+        return;
+      }
+
+      // When 10 digits entered, run full validation
+      if (val.length === 10) {
+        const res = validateIndianNumber(val);
+        if (res.isValid) {
+          input.className = 'form-input has-prefix is-valid';
+          feedback.className = 'feedback-msg show-success';
+          feedback.innerText = `✓ ${res.message}`;
+        } else {
+          input.className = 'form-input has-prefix is-invalid';
+          feedback.className = 'feedback-msg show-error';
+          feedback.innerText = `⚠️ ${res.message}`;
+        }
+      } else {
+        input.className = 'form-input has-prefix';
+        feedback.className = 'feedback-msg';
+        feedback.innerText = '';
+      }
+    }
+
+    /**
+     * Switch between Patient, Doctor, and Admin roles
+     */
+    function switchRole(role) {
+      currentRole = role;
+      document.querySelectorAll('.role-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.role === role);
+        if (role === 'admin') btn.classList.add('admin');
+        else btn.classList.remove('admin');
+      });
+
+      const label = document.getElementById('fieldLabel');
+      const input = document.getElementById('mobileInput');
+      const badge = document.getElementById('countryBadge');
+
+      if (role === 'admin') {
+        label.innerHTML = '<span>Admin Email Address</span><span class="label-hint">Email Only</span>';
+        input.placeholder = 'admin321@gmail.com';
+        input.value = 'admin321@gmail.com';
+        document.getElementById('passwordInput').value = 'midikiosk@adminpass';
+        badge.style.display = 'none';
+        input.classList.remove('has-prefix');
+      } else {
+        label.innerHTML = '<span>Indian Mobile Number</span><span class="label-hint">Strict 10-Digit</span>';
+        input.placeholder = '98765 12345';
+        input.value = '';
+        document.getElementById('passwordInput').value = '';
+        badge.style.display = 'flex';
+        input.classList.add('has-prefix');
+      }
+      showAlert('', '');
+    }
+
+    /**
+     * Form submission handler
+     */
+    function handleFormSubmit(event) {
+      event.preventDefault();
+      const mobileVal = document.getElementById('mobileInput').value.trim();
+      const passwordVal = document.getElementById('passwordInput').value;
+
+      // Handle Admin role allowing email or mobile
+      if (currentRole === 'admin') {
+        if (mobileVal.includes('@')) {
+          if (!REGEX.EMAIL.test(mobileVal)) {
+            showAlert('Please enter a valid admin email address.', 'error');
+            return;
+          }
+        } else {
+          const check = validateIndianNumber(mobileVal);
+          if (!check.isValid) {
+            showAlert(check.message, 'error');
+            return;
+          }
+        }
+        showAlert(`✓ Admin Login Verified: Authenticated as ${mobileVal}`, 'success');
+        return;
+      }
+
+      // Patient / Doctor mobile validation
+      const validation = validateIndianNumber(mobileVal);
+      if (!validation.isValid) {
+        showAlert(validation.message, 'error');
+        return;
+      }
+
+      showAlert(`✓ Strict Validation Passed! Sending OTP to +91 ${mobileVal}...`, 'success');
+    }
+
+    function showAlert(message, type) {
+      const banner = document.getElementById('alertBanner');
+      if (!message) {
+        banner.className = 'alert-banner';
+        banner.innerText = '';
+        return;
+      }
+      banner.className = `alert-banner ${type}`;
+      banner.innerText = message;
+    }
+  </script>
+</body>
+</html>

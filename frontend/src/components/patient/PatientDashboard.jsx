@@ -68,7 +68,7 @@ export const PatientDashboard = ({
   const [copiedOp, setCopiedOp] = useState(false);
 
   const handleCopyOp = () => {
-    const op = user?.opNumber || profile?.opNumber;
+    const op = activeSummary?.opNumber || user?.opNumber || profile?.opNumber || (typeof window !== 'undefined' && localStorage.getItem('medikiosk_last_op'));
     if (op) {
       navigator.clipboard.writeText(op);
       setCopiedOp(true);
@@ -267,7 +267,7 @@ export const PatientDashboard = ({
                     </div>
                     <div className="flex items-center gap-3 mt-1">
                       <h3 className="text-2xl sm:text-3xl font-black text-[#172033] font-mono tracking-wide">
-                        {user?.opNumber || profile?.opNumber || 'OP-749210'}
+                        {activeSummary?.opNumber || user?.opNumber || profile?.opNumber || (typeof window !== 'undefined' && localStorage.getItem('medikiosk_last_op')) || 'OP-749210'}
                       </h3>
                       <button
                         onClick={handleCopyOp}
