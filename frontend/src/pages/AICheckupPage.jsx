@@ -5342,7 +5342,7 @@ export const AICheckupPage = ({ onExit, onNavigateDoctor }) => {
                   )}
 
                   {/* Section 13: AI Bot & Patient Intake Conversation Dialogue */}
-                  <AIBotSummaryAssistant summary={summary} language={selectedLanguage} />
+                  <AIBotSummaryAssistant summary={summary} language={selectedLanguage} intakeMessages={messages} />
 
                   {/* Section 14: AI Medication Suggestions for Attending Vaidya */}
                   <div className="p-4 sm:p-5 rounded-2xl bg-gradient-to-br from-emerald-50 via-teal-50/50 to-white border-2 border-emerald-400 shadow-sm space-y-3">
@@ -5511,7 +5511,7 @@ export const AICheckupPage = ({ onExit, onNavigateDoctor }) => {
                   )}
 
                   {/* 6. AI Bot & Patient Intake Conversation Dialogue */}
-                  <AIBotSummaryAssistant summary={summary} language={selectedLanguage} />
+                  <AIBotSummaryAssistant summary={summary} language={selectedLanguage} intakeMessages={messages} />
 
                   {/* 7. AI Medication Suggestions for Attending Doctor */}
                   <div className="p-4 sm:p-5 rounded-2xl bg-gradient-to-br from-[#E6F7F7]/60 via-[#F0FDFA]/40 to-white border-2 border-[#0EA5A8] shadow-sm space-y-3">
@@ -5870,7 +5870,7 @@ export const AICheckupPage = ({ onExit, onNavigateDoctor }) => {
                 )}
 
                 {/* Interactive AI Clinical Bot & Intake Dialogue Hub (AI Bot and Patient Chat) */}
-                <AIBotSummaryAssistant summary={effectiveSummary} language={selectedLanguage} />
+                <AIBotSummaryAssistant summary={effectiveSummary} language={selectedLanguage} intakeMessages={messages} />
 
                 {/* AI Medication Suggestions for Doctor */}
                 {summary?.aiMedicationSuggestions && summary.aiMedicationSuggestions.length > 0 && (
