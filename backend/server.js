@@ -134,7 +134,7 @@ const freePortIfOccupied = (port) => {
             try {
               execSync(`taskkill /F /PID ${pid}`, { stdio: 'ignore' });
               console.log(`[Port Manager] Successfully released port ${port}.`);
-            } catch (e) {}
+            } catch (e) { }
           }
         }
       }
