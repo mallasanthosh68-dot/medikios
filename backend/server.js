@@ -81,6 +81,7 @@ app.get('/api/system/supabase-status', async (req, res) => {
 // Mount Core REST API Endpoints
 app.use('/api/auth', authRoutes);
 app.use('/api/patients', patientRoutes);
+app.use('/api/patient', patientRoutes);
 app.use('/api/doctors', doctorRoutes);
 app.use('/api/doctor', doctorRoutes);
 app.use('/api/medicines', medicineRoutes);

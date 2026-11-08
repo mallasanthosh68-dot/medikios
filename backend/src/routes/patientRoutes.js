@@ -31,14 +31,20 @@ const {
   translatePatientText,
   lookupPatientByPhone,
 } = require('../controllers/patientController');
+const {
+  sendPatientOtp,
+  verifyPatientOtp,
+} = require('../controllers/otpController');
 
-// Fast patient phone lookup for returning patient auto-detection
-router.post('/lookup-phone', protect, lookupPatientByPhone);
-router.get('/lookup-phone/:phone', protect, lookupPatientByPhone);
-router.post('/lookup-patient', protect, lookupPatientByPhone);
-router.get('/lookup-patient/:phone', protect, lookupPatientByPhone);
+// Public Kiosk Intake & Verification Endpoints (No JWT required for initial phone verification)
+router.post('/send-otp', sendPatientOtp);
+router.post('/verify-otp', verifyPatientOtp);
+router.post('/lookup-phone', lookupPatientByPhone);
+router.get('/lookup-phone/:phone', lookupPatientByPhone);
+router.post('/lookup-patient', lookupPatientByPhone);
+router.get('/lookup-patient/:phone', lookupPatientByPhone);
 
-// All patient routes require authentication and patient role
+// All patient dashboard routes require authentication and patient role
 router.use(protect);
 router.use(requireRole('patient'));
 

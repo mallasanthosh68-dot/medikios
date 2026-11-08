@@ -90,6 +90,36 @@ export const lookupPatientByPhone = async (phoneNumber) => {
 };
 
 /**
+ * Send OTP via WhatsApp or SMS for patient verification
+ */
+export const sendPatientOtp = async ({ phoneNumber, channel = 'whatsapp', name = '' }) => {
+  try {
+    return await api.post('/ayush/send-otp', { phoneNumber, channel, name });
+  } catch (err) {
+    try {
+      return await api.post('/auth/send-otp', { phoneNumber, channel, name });
+    } catch (fallbackErr) {
+      return { success: false, message: fallbackErr.message || err.message };
+    }
+  }
+};
+
+/**
+ * Verify 6-digit OTP code and retrieve returning patient record if existing
+ */
+export const verifyPatientOtp = async ({ phoneNumber, otp }) => {
+  try {
+    return await api.post('/ayush/verify-otp', { phoneNumber, otp });
+  } catch (err) {
+    try {
+      return await api.post('/auth/verify-otp', { phoneNumber, otp });
+    } catch (fallbackErr) {
+      return { success: false, verified: false, message: fallbackErr.message || err.message };
+    }
+  }
+};
+
+/**
  * Fast lookup for returning patient by ABHA ID
  */
 export const lookupPatientByAbha = async (abhaId) => {

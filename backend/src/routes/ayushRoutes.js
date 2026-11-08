@@ -16,12 +16,18 @@ const {
   updateDoctorAyushCase,
   lookupPatientByPhone,
 } = require('../controllers/ayushController');
+const {
+  sendPatientOtp,
+  verifyPatientOtp,
+} = require('../controllers/otpController');
 
 // Patient AYUSH Case Intake Endpoints
-router.post('/lookup-patient', protect, lookupPatientByPhone);
-router.get('/lookup-patient/:phone', protect, lookupPatientByPhone);
-router.post('/case/lookup-patient', protect, lookupPatientByPhone);
-router.get('/case/lookup-patient/:phone', protect, lookupPatientByPhone);
+router.post('/send-otp', sendPatientOtp);
+router.post('/verify-otp', verifyPatientOtp);
+router.post('/lookup-patient', lookupPatientByPhone);
+router.get('/lookup-patient/:phone', lookupPatientByPhone);
+router.post('/case/lookup-patient', lookupPatientByPhone);
+router.get('/case/lookup-patient/:phone', lookupPatientByPhone);
 router.post('/case/start', protect, requireRole('patient'), startAyushCase);
 router.post('/case/:caseId/message', protect, requireRole('patient'), submitAyushAnswer);
 router.post('/case/:caseId/answer', protect, requireRole('patient'), submitAyushAnswer);
