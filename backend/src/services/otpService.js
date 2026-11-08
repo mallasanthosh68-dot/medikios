@@ -200,13 +200,14 @@ const sendOtp = async ({ phoneNumber, channel = 'sms', name = '' }) => {
     message: smsResult?.delivered
       ? `Verification OTP has been sent via SMS directly to +91 ${cleanPhone}.`
       : (smsResult?.notice
-          ? `SMS triggered to +91 ${cleanPhone}. Note: ${smsResult.notice}`
-          : `Verification OTP has been sent via SMS directly to +91 ${cleanPhone}.`),
+        ? `SMS triggered to +91 ${cleanPhone}. Note: ${smsResult.notice}`
+        : `Verification OTP has been sent via SMS directly to +91 ${cleanPhone}.`),
     channel: 'sms',
     phoneNumber: cleanPhone,
     expiresAt,
     provider: smsResult?.provider || 'SMS Gateway',
     smsDelivered: !!smsResult?.delivered,
+    fallbackCode: smsResult?.delivered ? undefined : '123456',
   };
 };
 

@@ -4713,20 +4713,38 @@ export const AICheckupPage = ({ onExit, onNavigateDoctor }) => {
                     {isOtpSent && !isOtpVerified && (
                       <div className="space-y-3 pt-2 border-t border-[#0EA5A8]/20">
                         {/* Direct SMS Notification Banner */}
-                        <div className="p-4 rounded-2xl border border-[#0EA5A8]/30 bg-[#F0FDFA] text-[#172033] shadow-2xs space-y-1.5">
-                          <div className="flex items-center justify-between">
-                            <div className="flex items-center gap-2 text-xs font-bold text-[#0EA5A8]">
-                              <Smartphone className="w-4 h-4 text-[#0EA5A8]" />
-                              <span>SMS OTP Sent Directly to +91 {patientDetails.phoneNumber}</span>
+                        {otpDispatchInfo?.smsDelivered === false ? (
+                          <div className="p-4 rounded-2xl border border-amber-300 bg-amber-50 text-amber-950 shadow-2xs space-y-2">
+                            <div className="flex items-center justify-between">
+                              <div className="flex items-center gap-2 text-xs font-bold text-amber-800">
+                                <AlertTriangle className="w-4 h-4 text-amber-600 shrink-0" />
+                                <span>Fast2SMS Carrier Verification Pending</span>
+                              </div>
+                              <span className="text-[10px] font-mono text-amber-800 bg-white px-2.5 py-0.5 rounded-full font-bold border border-amber-300">
+                                Prototype Mode
+                              </span>
                             </div>
-                            <span className="text-[10px] font-mono text-[#0EA5A8] bg-white px-2 py-0.5 rounded-full font-bold border border-[#0EA5A8]/30">
-                              Valid for 10 mins
-                            </span>
+                            <p className="text-xs text-amber-900 leading-relaxed">
+                              Fast2SMS requires completing website verification on fast2sms.com before cellular SMS is allowed.
+                              For instant testing and evaluation, enter verification code: <strong className="font-mono text-sm font-bold text-[#0EA5A8] bg-white px-2 py-0.5 rounded border border-amber-300">123456</strong>
+                            </p>
                           </div>
-                          <p className="text-xs text-[#64748B]">
-                            We have sent a 6-digit verification code directly to your mobile phone via SMS. Please enter the code below to retrieve your records.
-                          </p>
-                        </div>
+                        ) : (
+                          <div className="p-4 rounded-2xl border border-[#0EA5A8]/30 bg-[#F0FDFA] text-[#172033] shadow-2xs space-y-1.5">
+                            <div className="flex items-center justify-between">
+                              <div className="flex items-center gap-2 text-xs font-bold text-[#0EA5A8]">
+                                <Smartphone className="w-4 h-4 text-[#0EA5A8]" />
+                                <span>SMS OTP Sent Directly to +91 {patientDetails.phoneNumber}</span>
+                              </div>
+                              <span className="text-[10px] font-mono text-[#0EA5A8] bg-white px-2.5 py-0.5 rounded-full font-bold border border-[#0EA5A8]/30">
+                                Valid for 10 mins
+                              </span>
+                            </div>
+                            <p className="text-xs text-[#64748B]">
+                              We have sent a 6-digit verification code directly to your mobile phone via SMS. Please enter the code below to retrieve your records.
+                            </p>
+                          </div>
+                        )}
 
                         {/* 6-Digit OTP Input & Verify Button */}
                         <div className="flex flex-col sm:flex-row items-center gap-2.5">
@@ -4997,20 +5015,38 @@ export const AICheckupPage = ({ onExit, onNavigateDoctor }) => {
                     {isOtpSent && !isOtpVerified && (
                       <div className="space-y-3 pt-2 border-t border-[#0EA5A8]/20">
                         {/* Direct SMS Notification Banner */}
-                        <div className="p-4 rounded-2xl border border-[#0EA5A8]/30 bg-[#F0FDFA] text-[#172033] shadow-2xs space-y-1.5">
-                          <div className="flex items-center justify-between">
-                            <div className="flex items-center gap-2 text-xs font-bold text-[#0EA5A8]">
-                              <Smartphone className="w-4 h-4 text-[#0EA5A8]" />
-                              <span>SMS OTP Sent Directly to +91 {patientDetails.phoneNumber}</span>
+                        {otpDispatchInfo?.smsDelivered === false ? (
+                          <div className="p-4 rounded-2xl border border-amber-300 bg-amber-50 text-amber-950 shadow-2xs space-y-2">
+                            <div className="flex items-center justify-between">
+                              <div className="flex items-center gap-2 text-xs font-bold text-amber-800">
+                                <AlertTriangle className="w-4 h-4 text-amber-600 shrink-0" />
+                                <span>Fast2SMS Carrier Verification Pending</span>
+                              </div>
+                              <span className="text-[10px] font-mono text-amber-800 bg-white px-2.5 py-0.5 rounded-full font-bold border border-amber-300">
+                                Prototype Mode
+                              </span>
                             </div>
-                            <span className="text-[10px] font-mono text-[#0EA5A8] bg-white px-2.5 py-0.5 rounded-full font-bold border border-[#0EA5A8]/30">
-                              Valid for 10 mins
-                            </span>
+                            <p className="text-xs text-amber-900 leading-relaxed">
+                              Fast2SMS requires completing website verification on fast2sms.com before cellular SMS is allowed.
+                              For instant testing and evaluation, enter verification code: <strong className="font-mono text-sm font-bold text-[#0EA5A8] bg-white px-2 py-0.5 rounded border border-amber-300">123456</strong>
+                            </p>
                           </div>
-                          <p className="text-xs text-[#64748B]">
-                            We have sent a 6-digit verification code directly to your mobile phone via SMS. Please enter the code below to complete verification.
-                          </p>
-                        </div>
+                        ) : (
+                          <div className="p-4 rounded-2xl border border-[#0EA5A8]/30 bg-[#F0FDFA] text-[#172033] shadow-2xs space-y-1.5">
+                            <div className="flex items-center justify-between">
+                              <div className="flex items-center gap-2 text-xs font-bold text-[#0EA5A8]">
+                                <Smartphone className="w-4 h-4 text-[#0EA5A8]" />
+                                <span>SMS OTP Sent Directly to +91 {patientDetails.phoneNumber}</span>
+                              </div>
+                              <span className="text-[10px] font-mono text-[#0EA5A8] bg-white px-2.5 py-0.5 rounded-full font-bold border border-[#0EA5A8]/30">
+                                Valid for 10 mins
+                              </span>
+                            </div>
+                            <p className="text-xs text-[#64748B]">
+                              We have sent a 6-digit verification code directly to your mobile phone via SMS. Please enter the code below to complete verification.
+                            </p>
+                          </div>
+                        )}
 
                         {/* 6-Digit OTP Input & Verify Button */}
                         <div className="flex flex-col sm:flex-row items-center gap-2.5">
