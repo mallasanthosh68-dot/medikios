@@ -56,11 +56,11 @@ const findPatientByPhone = async (cleanPhone) => {
 /**
  * POST /api/patient/send-otp
  * Also POST /api/auth/send-otp
- * Dispatches OTP via WhatsApp or SMS to the mobile number
+ * Dispatches verification OTP strictly via SMS directly to the mobile number
  */
 const sendPatientOtp = async (req, res, next) => {
   try {
-    const { phoneNumber, channel = 'whatsapp', name = '' } = req.body;
+    const { phoneNumber, channel = 'sms', name = '' } = req.body;
 
     if (!phoneNumber) {
       return res.status(400).json({
@@ -71,7 +71,7 @@ const sendPatientOtp = async (req, res, next) => {
 
     const result = await otpService.sendOtp({
       phoneNumber,
-      channel,
+      channel: 'sms',
       name,
     });
 
