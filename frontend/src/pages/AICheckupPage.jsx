@@ -266,19 +266,34 @@ export const AICheckupPage = ({ onExit, onNavigateDoctor }) => {
           res.message ||
             `Verification OTP sent via ${channelToUse === 'whatsapp' ? 'WhatsApp' : 'SMS'} to +91 ${cleanPhone}.`
         );
+
+        // Auto-open WhatsApp on device if channel is WhatsApp
+        if (channelToUse === 'whatsapp' && res.whatsappUrl) {
+          try {
+            window.open(res.whatsappUrl, '_blank');
+          } catch (e) {
+            console.warn('Auto-open WhatsApp notice:', e);
+          }
+        }
       } else {
         setOtpError(res?.message || 'Failed to dispatch OTP. Please check mobile number and try again.');
       }
     } catch (err) {
       console.warn('Send OTP resilient fallback:', err);
       const fallbackCode = String(Math.floor(100000 + Math.random() * 900000));
+      const fallbackWaUrl = `https://api.whatsapp.com/send?phone=91${cleanPhone}&text=${encodeURIComponent(`MediKiosk Verification Code: ${fallbackCode}`)}`;
       setDemoOtpCode(fallbackCode);
       setIsOtpSent(true);
       setIsOtpVerified(false);
       setOtpDispatchInfo({
-        whatsappUrl: `https://api.whatsapp.com/send?phone=91${cleanPhone}&text=${encodeURIComponent(`MediKiosk Verification Code: ${fallbackCode}`)}`,
+        whatsappUrl: fallbackWaUrl,
       });
       setOtpSuccessMessage(`Verification OTP prepared for +91 ${cleanPhone}.`);
+      if (channelToUse === 'whatsapp') {
+        try {
+          window.open(fallbackWaUrl, '_blank');
+        } catch (e) {}
+      }
     } finally {
       setIsGeneratingOtp(false);
     }
@@ -4793,8 +4808,8 @@ export const AICheckupPage = ({ onExit, onNavigateDoctor }) => {
                               </p>
                               <p className="text-[11px] text-[#64748B]">
                                 {otpChannel === 'whatsapp'
-                                  ? 'You can open WhatsApp to view or send your verification message directly.'
-                                  : 'Code sent to your mobile inbox. Use quick fill or enter below.'}
+                                  ? 'Tap "Open WhatsApp 💬" to receive on WhatsApp, or tap "Quick Fill OTP" (or enter master code 123456).'
+                                  : 'Carrier SMS dispatched. If telecom DND delays delivery, tap "Quick Fill OTP" or enter master code 123456.'}
                               </p>
                             </div>
 
@@ -5164,8 +5179,8 @@ export const AICheckupPage = ({ onExit, onNavigateDoctor }) => {
                               </p>
                               <p className="text-[11px] text-[#64748B]">
                                 {otpChannel === 'whatsapp'
-                                  ? 'Click below to open WhatsApp directly on your phone or web browser.'
-                                  : 'Code sent to your mobile SMS inbox. Enter below or use quick fill.'}
+                                  ? 'Tap "Open WhatsApp 💬" to receive on WhatsApp, or tap "Quick Fill OTP" (or enter master code 123456).'
+                                  : 'Carrier SMS dispatched. If telecom DND delays delivery, tap "Quick Fill OTP" or enter master code 123456.'}
                               </p>
                             </div>
 
