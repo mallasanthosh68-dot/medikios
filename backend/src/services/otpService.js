@@ -34,7 +34,9 @@ const dispatchSms = async ({ phoneNumber, otp, name }) => {
   const message = `MediKiosk Verification Code: ${otp}. Use this 6-digit code to complete your health kiosk intake. Valid for 10 minutes.`;
 
   // 1. Fast2SMS Integration (Instant Indian OTP route)
-  const fast2SmsKey = process.env.FAST2SMS_API_KEY;
+  const fast2SmsKey =
+    process.env.FAST2SMS_API_KEY ||
+    'PiNU79ZaGpXLQgpeEyAV2DFkbVZzg7lcvYDFS7IH1KlhAUtx3eXrnDI7DFVkedyGemMB6nVePUIGO1Zn';
   if (fast2SmsKey) {
     try {
       const res = await fetch('https://www.fast2sms.com/dev/bulkV2', {
@@ -59,6 +61,11 @@ const dispatchSms = async ({ phoneNumber, otp, name }) => {
         };
       }
       console.warn('[Fast2SMS Notice]', data.message);
+      return {
+        delivered: false,
+        provider: 'Fast2SMS Gateway',
+        notice: data.message,
+      };
     } catch (err) {
       console.warn('[Fast2SMS Error]', err.message);
     }
@@ -190,11 +197,16 @@ const sendOtp = async ({ phoneNumber, channel = 'sms', name = '' }) => {
 
   return {
     success: true,
-    message: `Verification OTP has been sent via SMS directly to +91 ${cleanPhone}.`,
+    message: smsResult?.delivered
+      ? `Verification OTP has been sent via SMS directly to +91 ${cleanPhone}.`
+      : (smsResult?.notice
+          ? `SMS triggered to +91 ${cleanPhone}. Note: ${smsResult.notice}`
+          : `Verification OTP has been sent via SMS directly to +91 ${cleanPhone}.`),
     channel: 'sms',
     phoneNumber: cleanPhone,
     expiresAt,
     provider: smsResult?.provider || 'SMS Gateway',
+    smsDelivered: !!smsResult?.delivered,
   };
 };
 
