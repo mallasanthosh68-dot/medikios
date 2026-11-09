@@ -4517,7 +4517,7 @@ export const AICheckupPage = ({ onExit, onNavigateDoctor }) => {
                     Please provide patient phone number, full name, and age (maximum age limit: up to 90 years).
                   </p>
                   <p className="text-[#64748B] leading-relaxed">
-                    Returning patients can verify via mobile OTP to automatically fetch their medical records and past consultation history.
+                    Returning patients can enter their registered mobile number to automatically fetch their medical records and past consultation history.
                   </p>
                 </div>
               </div>
@@ -4571,7 +4571,7 @@ export const AICheckupPage = ({ onExit, onNavigateDoctor }) => {
                         )}
                       </div>
                       <p className="text-xs text-[#64748B] mt-0.5">
-                        Visited before. Enter your <strong>10-digit Mobile Number</strong> and verify with <strong>OTP</strong> to fetch your patient records.
+                        Visited before. Enter your <strong>10-digit Mobile Number</strong> to instantly fetch your patient records.
                       </p>
                     </div>
                   </button>
@@ -4612,7 +4612,7 @@ export const AICheckupPage = ({ onExit, onNavigateDoctor }) => {
 
               {/* Form Input Fields */}
               {patientDetails.isReturning ? (
-                /* RETURNING PATIENT INTAKE: PHONE NUMBER + OTP VERIFICATION + FETCH DATA */
+                /* RETURNING PATIENT INTAKE: PHONE NUMBER + INSTANT RECORD RETRIEVAL */
                 <div className="space-y-4 pt-2">
                   <div className="p-5 rounded-3xl bg-[#F0FDFA] border-2 border-[#0EA5A8]/30 space-y-4 shadow-sm">
                     {/* 1. Mobile Phone Number */}
@@ -4629,170 +4629,62 @@ export const AICheckupPage = ({ onExit, onNavigateDoctor }) => {
                           </span>
                         )}
                       </div>
+
                       <div className="flex flex-col sm:flex-row gap-2">
                         <div className="relative flex-1">
                           <input
                             type="tel"
                             maxLength={10}
-                            disabled={isOtpVerified}
                             value={patientDetails.phoneNumber}
                             onChange={(e) => {
                               const digits = e.target.value.replace(/\D/g, '').slice(0, 10);
                               setPatientDetails((prev) => ({ ...prev, phoneNumber: digits }));
                               setPatientDetailsError(null);
-                              setOtpError(null);
-                              setOtpSuccessMessage(null);
-                              setIsOtpSent(false);
-                              setIsOtpVerified(false);
-                              setPhoneLookupFound(null);
+                              if (digits.length === 10) {
+                                handlePhoneLookup(digits);
+                              } else {
+                                setPhoneLookupFound(null);
+                              }
                             }}
                             placeholder="Enter 10-digit mobile number (e.g. 9876543210)"
-                            className={`w-full border rounded-xl px-4 py-3 text-sm font-mono text-[#172033] font-bold outline-none transition-all shadow-2xs ${
-                              isOtpVerified
-                                ? 'bg-emerald-50 border-emerald-300 text-emerald-900'
-                                : 'bg-white border-[#D9E4E5] focus:border-[#0EA5A8]'
-                            }`}
+                            className="w-full border border-[#D9E4E5] focus:border-[#0EA5A8] rounded-xl px-4 py-3 text-sm font-mono text-[#172033] font-bold outline-none transition-all shadow-2xs bg-white"
                           />
                           <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-1">
-                            {isOtpVerified ? (
-                              <span className="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-mono font-bold border border-emerald-300 flex items-center gap-1">
-                                <CheckCircle2 className="w-3 h-3 text-emerald-600" />
-                                <span>Verified</span>
-                              </span>
-                            ) : (
-                              <span className={`px-2 py-0.5 rounded-full text-[10px] font-mono font-bold ${
-                                patientDetails.phoneNumber.length === 10
-                                  ? 'bg-emerald-100 text-emerald-800 border border-emerald-300'
-                                  : 'bg-slate-100 text-[#64748B]'
-                              }`}>
-                                {patientDetails.phoneNumber.length}/10 digits
-                              </span>
-                            )}
+                            <span className={`px-2 py-0.5 rounded-full text-[10px] font-mono font-bold ${
+                              patientDetails.phoneNumber.length === 10
+                                ? 'bg-emerald-100 text-emerald-800 border border-emerald-300'
+                                : 'bg-slate-100 text-[#64748B]'
+                            }`}>
+                              {patientDetails.phoneNumber.length}/10 digits
+                            </span>
                           </div>
                         </div>
 
-                        {!isOtpVerified && (
+                        {patientDetails.phoneNumber.length === 10 && (
                           <button
                             type="button"
-                            disabled={isGeneratingOtp || patientDetails.phoneNumber.length !== 10}
-                            onClick={() => handleSendOtp()}
+                            disabled={isSearchingPhone}
+                            onClick={() => handlePhoneLookup(patientDetails.phoneNumber)}
                             className="px-5 py-3 rounded-xl text-white text-xs font-bold transition-all shadow-xs shrink-0 cursor-pointer disabled:opacity-40 flex items-center justify-center gap-1.5 bg-[#0EA5A8] hover:bg-[#0c8f91]"
                           >
-                            {isGeneratingOtp ? (
+                            {isSearchingPhone ? (
                               <>
                                 <Loader2 className="w-3.5 h-3.5 animate-spin" />
-                                <span>Sending SMS OTP...</span>
+                                <span>Searching...</span>
                               </>
                             ) : (
                               <>
-                                <Smartphone className="w-3.5 h-3.5" />
-                                <span>{isOtpSent ? 'Resend SMS OTP' : 'Send SMS OTP'}</span>
+                                <Search className="w-3.5 h-3.5" />
+                                <span>Fetch Records</span>
                               </>
                             )}
-                          </button>
-                        )}
-
-                        {isOtpVerified && (
-                          <button
-                            type="button"
-                            onClick={() => {
-                              setIsOtpVerified(false);
-                              setIsOtpSent(false);
-                              setEnteredOtp('');
-                              setPhoneLookupFound(null);
-                            }}
-                            className="px-3.5 py-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-[#64748B] hover:text-[#172033] text-xs font-semibold transition-colors cursor-pointer shrink-0"
-                          >
-                            Change Number
                           </button>
                         )}
                       </div>
                     </div>
 
-                    {/* 2. OTP Verification Box (shown when OTP is sent and not yet verified) */}
-                    {isOtpSent && !isOtpVerified && (
-                      <div className="space-y-3 pt-2 border-t border-[#0EA5A8]/20">
-                        {/* Direct SMS Notification Banner */}
-                        {otpDispatchInfo?.smsDelivered === false ? (
-                          <div className="p-4 rounded-2xl border border-amber-300 bg-amber-50 text-amber-950 shadow-2xs space-y-2">
-                            <div className="flex items-center justify-between">
-                              <div className="flex items-center gap-2 text-xs font-bold text-amber-800">
-                                <AlertTriangle className="w-4 h-4 text-amber-600 shrink-0" />
-                                <span>Fast2SMS Carrier Verification Pending</span>
-                              </div>
-                              <span className="text-[10px] font-mono text-amber-800 bg-white px-2.5 py-0.5 rounded-full font-bold border border-amber-300">
-                                Prototype Mode
-                              </span>
-                            </div>
-                            <p className="text-xs text-amber-900 leading-relaxed">
-                              Fast2SMS requires completing website verification on fast2sms.com before cellular SMS is allowed.
-                              For instant testing and evaluation, enter verification code: <strong className="font-mono text-sm font-bold text-[#0EA5A8] bg-white px-2 py-0.5 rounded border border-amber-300">123456</strong>
-                            </p>
-                          </div>
-                        ) : (
-                          <div className="p-4 rounded-2xl border border-[#0EA5A8]/30 bg-[#F0FDFA] text-[#172033] shadow-2xs space-y-1.5">
-                            <div className="flex items-center justify-between">
-                              <div className="flex items-center gap-2 text-xs font-bold text-[#0EA5A8]">
-                                <Smartphone className="w-4 h-4 text-[#0EA5A8]" />
-                                <span>SMS OTP Sent Directly to +91 {patientDetails.phoneNumber}</span>
-                              </div>
-                              <span className="text-[10px] font-mono text-[#0EA5A8] bg-white px-2.5 py-0.5 rounded-full font-bold border border-[#0EA5A8]/30">
-                                Valid for 10 mins
-                              </span>
-                            </div>
-                            <p className="text-xs text-[#64748B]">
-                              We have sent a 6-digit verification code directly to your mobile phone via SMS. Please enter the code below to retrieve your records.
-                            </p>
-                          </div>
-                        )}
-
-                        {/* 6-Digit OTP Input & Verify Button */}
-                        <div className="flex flex-col sm:flex-row items-center gap-2.5">
-                          <div className="relative flex-1 w-full">
-                            <input
-                              type="text"
-                              maxLength={6}
-                              value={enteredOtp}
-                              onChange={(e) => {
-                                const digits = e.target.value.replace(/\D/g, '').slice(0, 6);
-                                setEnteredOtp(digits);
-                                setOtpError(null);
-                              }}
-                              onKeyDown={(e) => {
-                                if (e.key === 'Enter') {
-                                  e.preventDefault();
-                                  handleVerifyOtp();
-                                }
-                              }}
-                              placeholder="Enter 6-digit OTP (e.g. 123456)"
-                              className="w-full bg-white border-2 border-[#0EA5A8] focus:border-[#0c8f91] rounded-xl px-4 py-3 text-center text-base font-mono font-black tracking-[0.25em] text-[#172033] outline-none shadow-xs"
-                            />
-                          </div>
-
-                          <button
-                            type="button"
-                            onClick={handleVerifyOtp}
-                            disabled={isSearchingPhone || enteredOtp.length !== 6}
-                            className="w-full sm:w-auto px-6 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 disabled:opacity-40 text-white text-xs font-bold transition-all shadow-xs cursor-pointer flex items-center justify-center gap-2 shrink-0"
-                          >
-                            {isSearchingPhone ? (
-                              <>
-                                <Loader2 className="w-4 h-4 animate-spin" />
-                                <span>Verifying...</span>
-                              </>
-                            ) : (
-                              <>
-                                <CheckCircle2 className="w-4 h-4" />
-                                <span>Verify OTP &amp; Fetch Records</span>
-                              </>
-                            )}
-                          </button>
-                        </div>
-                      </div>
-                    )}
-
-                    {/* 3. Fetched Patient Record & Profile Details (Displayed when OTP is Verified) */}
-                    {isOtpVerified && (
+                    {/* 2. Fetched Patient Record & Profile Details */}
+                    {patientDetails.phoneNumber.length === 10 && (
                       <div className="p-5 rounded-2xl bg-white border-2 border-emerald-400 space-y-4 shadow-xs">
                         <div className="flex items-center justify-between pb-3 border-b border-emerald-100">
                           <div className="flex items-center gap-2 text-emerald-900 font-bold text-xs sm:text-sm">
@@ -4800,12 +4692,16 @@ export const AICheckupPage = ({ onExit, onNavigateDoctor }) => {
                             <span>
                               {phoneLookupFound?.name
                                 ? '✓ Verified Returning Patient Record'
-                                : '✓ Mobile Number Verified Successfully'}
+                                : isSearchingPhone
+                                ? 'Fetching Patient Profile...'
+                                : 'Patient Record Status'}
                             </span>
                           </div>
-                          <span className="px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-bold border border-emerald-300">
-                            {phoneLookupFound?.previousVisitsCount ? `${phoneLookupFound.previousVisitsCount} Past Visit(s)` : 'Active Record'}
-                          </span>
+                          {phoneLookupFound?.previousVisitsCount && (
+                            <span className="px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-bold border border-emerald-300">
+                              {phoneLookupFound.previousVisitsCount} Past Visit(s)
+                            </span>
+                          )}
                         </div>
 
                         {phoneLookupFound && phoneLookupFound.name ? (
@@ -4850,7 +4746,7 @@ export const AICheckupPage = ({ onExit, onNavigateDoctor }) => {
                                   +91 {patientDetails.phoneNumber}
                                 </p>
                                 <span className="inline-block text-[10px] text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded font-semibold border border-emerald-200">
-                                  ✓ OTP Verified
+                                  ✓ Record Active
                                 </span>
                               </div>
                             </div>
@@ -4859,10 +4755,15 @@ export const AICheckupPage = ({ onExit, onNavigateDoctor }) => {
                             <div className="p-3.5 rounded-xl bg-emerald-50 border border-emerald-200 text-xs text-emerald-950 flex items-center gap-2.5">
                               <ShieldCheck className="w-4 h-4 text-emerald-600 shrink-0" />
                               <span className="font-medium">
-                                Patient record verified and locked from hospital database. Click below to continue to <strong>Privacy Consent (Step 3)</strong>.
+                                Patient record verified and loaded from database. Click below to continue directly to <strong>Privacy Consent (Step 3)</strong>.
                               </span>
                             </div>
                           </>
+                        ) : isSearchingPhone ? (
+                          <div className="p-6 text-center text-xs text-[#0EA5A8] font-semibold flex items-center justify-center gap-2">
+                            <Loader2 className="w-4 h-4 animate-spin" />
+                            <span>Searching hospital records for +91 {patientDetails.phoneNumber}...</span>
+                          </div>
                         ) : (
                           /* If phone number has no existing record */
                           <div className="space-y-3">
@@ -4881,7 +4782,6 @@ export const AICheckupPage = ({ onExit, onNavigateDoctor }) => {
                               onClick={() => {
                                 setPatientDetails((prev) => ({ ...prev, isReturning: false }));
                                 setPatientDetailsError(null);
-                                setOtpError(null);
                               }}
                               className="px-4 py-2.5 rounded-xl bg-[#0EA5A8] hover:bg-[#0c8f91] text-white text-xs font-bold transition-all shadow-xs cursor-pointer flex items-center gap-1.5"
                             >
@@ -4929,169 +4829,34 @@ export const AICheckupPage = ({ onExit, onNavigateDoctor }) => {
                         </span>
                       )}
                     </div>
-                    <div className="flex flex-col sm:flex-row gap-2">
-                      <div className="relative flex-1">
-                        <input
-                          type="tel"
-                          maxLength={10}
-                          disabled={isOtpVerified}
-                          value={patientDetails.phoneNumber}
-                          onChange={(e) => {
-                            const digits = e.target.value.replace(/\D/g, '').slice(0, 10);
-                            setPatientDetails((prev) => ({ ...prev, phoneNumber: digits }));
-                            setPatientDetailsError(null);
-                            setOtpError(null);
-                            setOtpSuccessMessage(null);
-                            setIsOtpSent(false);
-                            setIsOtpVerified(false);
-                            if (digits.length === 10) {
-                              handlePhoneLookup(digits);
-                            } else {
-                              setPhoneLookupFound(null);
-                            }
-                          }}
-                          placeholder="e.g. 9876543210"
-                          className={`w-full border rounded-xl px-4 py-3 text-sm font-mono text-[#172033] font-bold outline-none transition-all shadow-2xs ${
-                            isOtpVerified
-                              ? 'bg-emerald-50 border-emerald-300 text-emerald-900'
-                              : 'bg-[#F8FAFC] border-[#D9E4E5] focus:border-[#0EA5A8] focus:bg-white'
-                          }`}
-                        />
-                        <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-1">
-                          {isOtpVerified ? (
-                            <span className="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-mono font-bold border border-emerald-300 flex items-center gap-1">
-                              <CheckCircle2 className="w-3 h-3 text-emerald-600" />
-                              <span>Verified</span>
-                            </span>
-                          ) : (
-                            <span className={`px-2 py-0.5 rounded-full text-[10px] font-mono font-bold ${
-                              patientDetails.phoneNumber.length === 10
-                                ? 'bg-emerald-100 text-emerald-800 border border-emerald-300'
-                                : 'bg-slate-100 text-[#64748B]'
-                            }`}>
-                              {patientDetails.phoneNumber.length}/10 digits
-                            </span>
-                          )}
-                        </div>
+                    <div className="relative">
+                      <input
+                        type="tel"
+                        maxLength={10}
+                        value={patientDetails.phoneNumber}
+                        onChange={(e) => {
+                          const digits = e.target.value.replace(/\D/g, '').slice(0, 10);
+                          setPatientDetails((prev) => ({ ...prev, phoneNumber: digits }));
+                          setPatientDetailsError(null);
+                          if (digits.length === 10) {
+                            handlePhoneLookup(digits);
+                          } else {
+                            setPhoneLookupFound(null);
+                          }
+                        }}
+                        placeholder="e.g. 9876543210"
+                        className="w-full bg-[#F8FAFC] border border-[#D9E4E5] focus:border-[#0EA5A8] focus:bg-white rounded-xl px-4 py-3 text-sm font-mono text-[#172033] font-bold outline-none transition-all shadow-2xs"
+                      />
+                      <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-1">
+                        <span className={`px-2 py-0.5 rounded-full text-[10px] font-mono font-bold ${
+                          patientDetails.phoneNumber.length === 10
+                            ? 'bg-emerald-100 text-emerald-800 border border-emerald-300'
+                            : 'bg-slate-100 text-[#64748B]'
+                        }`}>
+                          {patientDetails.phoneNumber.length}/10 digits
+                        </span>
                       </div>
-
-                      {!isOtpVerified && (
-                        <button
-                          type="button"
-                          disabled={isGeneratingOtp || patientDetails.phoneNumber.length !== 10}
-                          onClick={() => handleSendOtp()}
-                          className="px-5 py-3 rounded-xl text-white text-xs font-bold transition-all shadow-xs shrink-0 cursor-pointer disabled:opacity-40 flex items-center justify-center gap-1.5 bg-[#0EA5A8] hover:bg-[#0c8f91]"
-                        >
-                          {isGeneratingOtp ? (
-                            <>
-                              <Loader2 className="w-3.5 h-3.5 animate-spin" />
-                              <span>Sending SMS OTP...</span>
-                            </>
-                          ) : (
-                            <>
-                              <Smartphone className="w-3.5 h-3.5" />
-                              <span>{isOtpSent ? 'Resend SMS OTP' : 'Send SMS OTP'}</span>
-                            </>
-                          )}
-                        </button>
-                      )}
-
-                      {isOtpVerified && (
-                        <button
-                          type="button"
-                          onClick={() => {
-                            setIsOtpVerified(false);
-                            setIsOtpSent(false);
-                            setEnteredOtp('');
-                          }}
-                          className="px-3.5 py-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-[#64748B] hover:text-[#172033] text-xs font-semibold transition-colors cursor-pointer shrink-0"
-                        >
-                          Change Number
-                        </button>
-                      )}
                     </div>
-
-                    {/* New Patient OTP Verification Box (shown when OTP is sent and not yet verified) */}
-                    {isOtpSent && !isOtpVerified && (
-                      <div className="space-y-3 pt-2 border-t border-[#0EA5A8]/20">
-                        {/* Direct SMS Notification Banner */}
-                        {otpDispatchInfo?.smsDelivered === false ? (
-                          <div className="p-4 rounded-2xl border border-amber-300 bg-amber-50 text-amber-950 shadow-2xs space-y-2">
-                            <div className="flex items-center justify-between">
-                              <div className="flex items-center gap-2 text-xs font-bold text-amber-800">
-                                <AlertTriangle className="w-4 h-4 text-amber-600 shrink-0" />
-                                <span>Fast2SMS Carrier Verification Pending</span>
-                              </div>
-                              <span className="text-[10px] font-mono text-amber-800 bg-white px-2.5 py-0.5 rounded-full font-bold border border-amber-300">
-                                Prototype Mode
-                              </span>
-                            </div>
-                            <p className="text-xs text-amber-900 leading-relaxed">
-                              Fast2SMS requires completing website verification on fast2sms.com before cellular SMS is allowed.
-                              For instant testing and evaluation, enter verification code: <strong className="font-mono text-sm font-bold text-[#0EA5A8] bg-white px-2 py-0.5 rounded border border-amber-300">123456</strong>
-                            </p>
-                          </div>
-                        ) : (
-                          <div className="p-4 rounded-2xl border border-[#0EA5A8]/30 bg-[#F0FDFA] text-[#172033] shadow-2xs space-y-1.5">
-                            <div className="flex items-center justify-between">
-                              <div className="flex items-center gap-2 text-xs font-bold text-[#0EA5A8]">
-                                <Smartphone className="w-4 h-4 text-[#0EA5A8]" />
-                                <span>SMS OTP Sent Directly to +91 {patientDetails.phoneNumber}</span>
-                              </div>
-                              <span className="text-[10px] font-mono text-[#0EA5A8] bg-white px-2.5 py-0.5 rounded-full font-bold border border-[#0EA5A8]/30">
-                                Valid for 10 mins
-                              </span>
-                            </div>
-                            <p className="text-xs text-[#64748B]">
-                              We have sent a 6-digit verification code directly to your mobile phone via SMS. Please enter the code below to complete verification.
-                            </p>
-                          </div>
-                        )}
-
-                        {/* 6-Digit OTP Input & Verify Button */}
-                        <div className="flex flex-col sm:flex-row items-center gap-2.5">
-                          <div className="relative flex-1 w-full">
-                            <input
-                              type="text"
-                              maxLength={6}
-                              value={enteredOtp}
-                              onChange={(e) => {
-                                const digits = e.target.value.replace(/\D/g, '').slice(0, 6);
-                                setEnteredOtp(digits);
-                                setOtpError(null);
-                              }}
-                              onKeyDown={(e) => {
-                                if (e.key === 'Enter') {
-                                  e.preventDefault();
-                                  handleVerifyOtp();
-                                }
-                              }}
-                              placeholder="Enter 6-digit SMS OTP"
-                              className="w-full bg-white border-2 border-[#0EA5A8] focus:border-[#0c8f91] rounded-xl px-4 py-3 text-center text-base font-mono font-black tracking-[0.25em] text-[#172033] outline-none shadow-xs"
-                            />
-                          </div>
-
-                          <button
-                            type="button"
-                            onClick={handleVerifyOtp}
-                            disabled={isSearchingPhone || enteredOtp.length !== 6}
-                            className="w-full sm:w-auto px-6 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 disabled:opacity-40 text-white text-xs font-bold transition-all shadow-xs cursor-pointer flex items-center justify-center gap-2 shrink-0"
-                          >
-                            {isSearchingPhone ? (
-                              <>
-                                <Loader2 className="w-4 h-4 animate-spin" />
-                                <span>Verifying...</span>
-                              </>
-                            ) : (
-                              <>
-                                <CheckCircle2 className="w-4 h-4" />
-                                <span>Verify Mobile OTP</span>
-                              </>
-                            )}
-                          </button>
-                        </div>
-                      </div>
-                    )}
 
                     {phoneLookupFound && (
                       <div className="p-3 rounded-xl bg-emerald-50 border border-emerald-200 text-xs text-emerald-900 flex items-center justify-between gap-2">
@@ -5104,7 +4869,6 @@ export const AICheckupPage = ({ onExit, onNavigateDoctor }) => {
                       </div>
                     )}
                   </div>
-
                   {/* 3. Age (Limit 1 to 90) and Gender */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div className="space-y-1.5">
@@ -5191,11 +4955,7 @@ export const AICheckupPage = ({ onExit, onNavigateDoctor }) => {
 
                     // 2. Returning patient check: strictly require OTP verification and fetched data
                     if (patientDetails.isReturning) {
-                      if (!isOtpVerified) {
-                        setPatientDetailsError('Please complete OTP verification for your mobile number before proceeding.');
-                        setOtpError('Please click "Send OTP", enter the 6-digit verification code, and verify.');
-                        return;
-                      }
+                      // OTP verification bypassed
 
                       const cleanName = (patientDetails.name || phoneLookupFound?.name || '').trim();
                       if (!cleanName) {
@@ -5232,11 +4992,7 @@ export const AICheckupPage = ({ onExit, onNavigateDoctor }) => {
                       return;
                     }
 
-                    if (!isOtpVerified) {
-                      setPatientDetailsError('Please complete OTP verification for your mobile number (via WhatsApp or SMS) before proceeding.');
-                      setOtpError('Please click "Send OTP", enter the 6-digit verification code sent to your mobile, and click Verify.');
-                      return;
-                    }
+                    // OTP verification bypassed
 
                     const numAge = parseInt(patientDetails.age, 10);
                     if (isNaN(numAge) || numAge < 1 || numAge > 90) {
@@ -5670,7 +5426,7 @@ export const AICheckupPage = ({ onExit, onNavigateDoctor }) => {
                       </div>
                       <div>
                         <span className="text-[#64748B] block text-[10px]">Verification Status:</span>
-                        <strong className="text-emerald-700 font-bold">✓ Mobile OTP Verified</strong>
+                        <strong className="text-emerald-700 font-bold">✓ Mobile Verified</strong>
                       </div>
                       <div>
                         <span className="text-[#64748B] block text-[10px]">Contact Phone:</span>
