@@ -4517,7 +4517,7 @@ export const AICheckupPage = ({ onExit, onNavigateDoctor }) => {
                     Please provide patient phone number, full name, and age (maximum age limit: up to 90 years).
                   </p>
                   <p className="text-[#64748B] leading-relaxed">
-                    Returning patients can enter their registered mobile number to automatically fetch their medical records and past consultation history.
+                    Returning patients can verify via mobile OTP to automatically fetch their medical records and past consultation history.
                   </p>
                 </div>
               </div>
@@ -4571,7 +4571,7 @@ export const AICheckupPage = ({ onExit, onNavigateDoctor }) => {
                         )}
                       </div>
                       <p className="text-xs text-[#64748B] mt-0.5">
-                        Visited before. Enter your <strong>10-digit Mobile Number</strong> to instantly fetch your patient records.
+                        Visited before. Enter your <strong>10-digit Mobile Number</strong> and verify with <strong>OTP</strong> to fetch your patient records.
                       </p>
                     </div>
                   </button>
@@ -5426,7 +5426,7 @@ export const AICheckupPage = ({ onExit, onNavigateDoctor }) => {
                       </div>
                       <div>
                         <span className="text-[#64748B] block text-[10px]">Verification Status:</span>
-                        <strong className="text-emerald-700 font-bold">✓ Mobile Verified</strong>
+                        <strong className="text-emerald-700 font-bold">✓ Mobile OTP Verified</strong>
                       </div>
                       <div>
                         <span className="text-[#64748B] block text-[10px]">Contact Phone:</span>
