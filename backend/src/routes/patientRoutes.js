@@ -43,6 +43,7 @@ router.post('/lookup-phone', lookupPatientByPhone);
 router.get('/lookup-phone/:phone', lookupPatientByPhone);
 router.post('/lookup-patient', lookupPatientByPhone);
 router.get('/lookup-patient/:phone', lookupPatientByPhone);
+router.post('/translate', translatePatientText);
 
 // All patient dashboard routes require authentication and patient role
 router.use(protect);
@@ -51,7 +52,6 @@ router.use(requireRole('patient'));
 router.get('/me', getProfile);
 router.put('/me', updateProfile);
 router.post('/consent', recordConsent);
-router.post('/translate', translatePatientText);
 router.post('/interview/start', startInterview);
 router.get('/interview/:id', getInterview);
 router.post('/interview/:id/answer', submitAnswer);

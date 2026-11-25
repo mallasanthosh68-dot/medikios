@@ -146,11 +146,16 @@ const submitAnswer = async (req, res, next) => {
 
     // If session is already completed, exit cleanly and prevent re-entering loop
     if (interview.status === 'completed') {
+      const completedMessages = {
+        te: 'ఈ సంప్రదింపు పూర్తయింది. మీ ఆరోగ్య సారాంశం సిద్ధంగా ఉంది.',
+        hi: 'यह परामर्श पूरा हो गया है। आपका स्वास्थ्य सारांश तैयार है।',
+        ta: 'இந்த ஆலோசனை முடிந்தது. உங்கள் உடல்நல சுருக்கம் தயாராக உள்ளது.',
+        kn: 'ಈ ಸಮಾಲೋಚನೆ ಪೂರ್ಣಗೊಂಡಿದೆ. ನಿಮ್ಮ ಆರೋಗ್ಯ ಸಾರಾಂಶ ಸಿದ್ಧವಾಗಿದೆ.',
+        en: 'This consultation is complete. Your health summary is ready for physician review.',
+      };
       return res.json({
         success: true,
-        nextQuestion: interview.language === 'hi'
-          ? 'यह परामर्श पूरा हो गया है। आपका स्वास्थ्य सारांश तैयार है।'
-          : 'This consultation is complete. Your health summary is ready for physician review.',
+        nextQuestion: completedMessages[interview.language] || completedMessages.en,
         isComplete: true,
         turnCount: interview.responses ? interview.responses.length : 3,
         aiSource: 'session_completed',

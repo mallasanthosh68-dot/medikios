@@ -430,33 +430,9 @@ export const transliterateEnglishWord = (word, script = 'devanagari') => {
     if (base) return base;
   }
 
-  // 3. Fallback character-by-character mapper
-  const map = SCRIPT_CHAR_MAPS[script] || SCRIPT_CHAR_MAPS.devanagari;
-  let result = '';
-  let i = 0;
-  const len = lower.length;
-
-  while (i < len) {
-    // Check 2-letter clusters
-    if (i + 1 < len) {
-      const two = lower.substring(i, i + 2);
-      if (map[two]) {
-        result += map[two];
-        i += 2;
-        continue;
-      }
-    }
-
-    const one = lower[i];
-    if (map[one]) {
-      result += map[one];
-    } else {
-      result += one;
-    }
-    i++;
-  }
-
-  return result || word;
+  // 3. Prevent arbitrary character-by-character corruption of English sentences into phonetic gibberish
+  // Return the clean word if no loanword translation exists.
+  return word;
 };
 
 /**
@@ -469,11 +445,15 @@ export const transliterateRemainingEnglish = (text, langCode = 'hi') => {
   const script = LANGUAGE_SCRIPT_MAP[langCode] || 'devanagari';
   if (script === 'latin') return text;
 
-  // Match English words of 2 or more letters
+  // Only transliterate known healthcare loanwords, NEVER corrupt sentences character-by-character
   return text.replace(/[a-zA-Z]{2,}/g, (match) => {
     // Skip if it's already an HTML tag or special token
     if (match === 'id' || match === 'px' || match === 'rem' || match === 'svg') return match;
-    return transliterateEnglishWord(match, script);
+    const lower = match.toLowerCase();
+    if (COMMON_LOANWORDS[lower] && COMMON_LOANWORDS[lower][script]) {
+      return COMMON_LOANWORDS[lower][script];
+    }
+    return match;
   });
 };
 
@@ -675,6 +655,118 @@ export const CORE_DICTIONARY = {
     hlb: 'डाक्टर पोर्टल देखा', mrg: 'Doctor portal kangka', mjw: 'Doctor portal lang non', kff: 'డాక్టర్ పోర్టల్ చూడండి', njo: 'Doctor portal reprangang', stv: 'Doctor portal julo', njm: 'Doctor portal züli', nbe: 'Doctor portal rang', nmf: 'Doctor portal che', lus: 'Daktawr portal en rawh',
     tcz: 'Doctor portal ve in', njh: 'Doctor portal zolanka', rah: 'Daktar portal niboba', nri: 'Doctor portal züli', nph: 'Doctor portal rang', njz: 'Doctor portal jima', lep: 'Doctor portal zut', lif: 'Doctor portal lang', bix: 'डाक्टर पोर्टल नेल', sa: 'चिकित्सक-प्रवेशद्वारं पश्यतु',
   },
+  'Are you feeling well': {
+    hi: 'क्या आप ठीक महसूस कर रहे हैं?', te: 'మీరు బాగున్నారా?', ta: 'நீங்கள் நலமாக இருக்கிறீர்களா?', kn: 'ನೀವು ಆರಾಮವಾಗಿದ್ದೀರಾ?', ml: 'സുഖമാണോ?', bn: 'আপনি কি সুস্থ বোধ করছেন?', mr: 'तुम्हाला बरे वाटत आहे का?', gu: 'શું તમે સારું અનુભવો છો?', ur: 'کیا آپ خیریت سے ہیں؟', pa: 'ਕੀ ਤੁਸੀਂ ਠੀਕ ਮਹਿਸੂਸ ਕਰ ਰਹੇ ਹੋ?', or: 'ଆପଣ ଭଲ ଅନୁଭବ କରୁଛନ୍ତି କି?',
+  },
+  'Are you feeling well?': {
+    hi: 'क्या आप ठीक महसूस कर रहे हैं?', te: 'మీరు బాగున్నారా?', ta: 'நீங்கள் நலமாக இருக்கிறீர்களா?', kn: 'ನೀವು ಆರಾಮವಾಗಿದ್ದೀರಾ?', ml: 'സുഖമാണോ?', bn: 'আপনি কি সুস্থ বোধ করছেন?', mr: 'तुम्हाला बरे वाटत आहे का?', gu: 'શું તમે સારું અનુભવો છો?', ur: 'کیا آپ خیریت سے ہیں؟', pa: 'ਕੀ ਤੁਸੀਂ ਠੀਕ ਮਹਿਸੂਸ ਕਰ ਰਹੇ ਹੋ?', or: 'ଆପଣ ଭଲ ଅନୁଭବ କରୁଛନ୍ତି କି?',
+  },
+  'How are you feeling today': {
+    hi: 'आज आप कैसा महसूस कर रहे हैं?', te: 'ఈ రోజు మీకు ఆరోగ్యం ఎలా ఉంది?', ta: 'இன்று உங்கள் உடல்நிலை எப்படி உள்ளது?', kn: 'ಇಂದು ನಿಮ್ಮ ಆರೋಗ್ಯ ಹೇಗಿದೆ?', ml: 'ഇന്ന് നിങ്ങൾക്ക് എങ്ങനെയുണ്ട്?', bn: 'আজ আপনি কেমন বোধ করছেন?', mr: 'आज तुम्हाला कसे वाटत आहे?', gu: 'આજે તમને કેવું લાગે છે?',
+  },
+  'How are you feeling today?': {
+    hi: 'आज आप कैसा महसूस कर रहे हैं?', te: 'ఈ రోజు మీకు ఆరోగ్యం ఎలా ఉంది?', ta: 'இன்று உங்கள் உடல்நிலை எப்படி உள்ளது?', kn: 'ಇಂದು ನಿಮ್ಮ ಆರೋಗ್ಯ ಹೇಗಿದೆ?', ml: 'இന്ന് നിങ്ങൾക്ക് എങ്ങനെയുണ്ട്?', bn: 'আজ আপনি কেমন বোধ করছেন?', mr: 'आज तुम्हाला कसे वाटत आहे?', gu: 'આજે તમને કેવું લાગે છે?',
+  },
+  'Please tell me what health problem or symptoms you are experiencing today.': {
+    hi: 'कृपया मुझे बताएं कि आज आपको क्या स्वास्थ्य समस्या या लक्षण महसूस हो रहे हैं।',
+    te: 'దయచేసి ఈ రోజు మీరు ఎదుర్కొంటున్న ఆరోగ్య సమస్య లేదా లక్షణాలు ఏమిటో చెప్పండి.',
+    ta: 'இன்று உங்களுக்கு என்ன உடல்நல பிரச்சனை அல்லது அறிகுறிகள் உள்ளன என்று கூறுங்கள்.',
+    kn: 'ದಯವಿಟ್ಟು ಇಂದು ನಿಮಗೆ ಯಾವ ಆರೋಗ್ಯ ಸಮಸ್ಯೆ ಅಥವಾ ಲಕ್ಷಣಗಳು ಇವೆ ಎಂದು ತಿಳಿಸಿ.',
+    ml: 'ഇന്ന് നിങ്ങൾക്ക് എന്തൊക്കെ ആരോഗ്യപ്രശ്നങ്ങളാണ് ഉള്ളതെന്ന് ദയവായി പറയുക.',
+    bn: 'দয়া করে জানান আজ আপনার কী স্বাস্থ্য সমস্যা বা উপসর্গ দেখা দিচ্ছে।',
+    mr: 'कृपया मला सांगा की आज तुम्हाला काय त्रास किंवा लक्षणे जाणवत आहेत.',
+    gu: 'કૃપા કરીને મને કહો કે આજે તમને શું સ્વાસ્થ્ય સમસ્યા કે લક્ષણો જણાય છે.',
+  },
+  'Hospital Outpatient Intake': {
+    hi: 'अस्पताल ओपीडी पंजीकरण', te: 'ఆసుపత్రి ఔట్ పేషెంట్ నమోదు', ta: 'மருத்துவமனை வெளிநோயாளி பதிவு', kn: 'ಆಸ್ಪತ್ರೆ ಹೊರರೋಗಿ ನೋಂದಣಿ', mr: 'रुग्णालय बाह्यरुग्ण नोंदणी', bn: 'হাসপাতাল বহির্বিভাগ ভর্তি',
+  },
+  'Enter Patient Information': {
+    hi: 'मरीज़ की जानकारी दर्ज करें', te: 'రోగి వివరాలను నమోదు చేయండి', ta: 'நோயாளி தகவலை உள்ளிடவும்', kn: 'ರೋಗಿಯ ಮಾಹಿತಿಯನ್ನು ನಮೂದಿಸಿ', mr: 'रुग्णाची माहिती प्रविष्ट करा', bn: 'রোগীর তথ্য লিখুন',
+  },
+  'PATIENT INFORMATION & VERIFICATION': {
+    hi: 'मरीज़ की जानकारी और सत्यापन', te: 'రోగి సమాచారం & ధృవీకరణ', ta: 'நோயாளி தகவல் & சரிபார்ப்பு', kn: 'ರೋಗಿಯ ಮಾಹಿತಿ ಮತ್ತು ಪರಿಶೀಲನೆ',
+  },
+  'Returning Patient': {
+    hi: 'पुराना मरीज़', te: 'గతంలో వచ్చిన రోగి', ta: 'ஏற்கனவே வந்த நோயாளி', kn: 'ಹಿಂದೆ ಭೇಟಿ ನೀಡಿದ ರೋಗಿ', mr: 'जुना रुग्ण', bn: 'পুরাতন রোগী',
+  },
+  'New Patient': {
+    hi: 'नया मरीज़', te: 'కొత్త రోగి', ta: 'புதிய நோயாளி', kn: 'ಹೊಸ ರೋಗಿ', mr: 'नवीन रुग्ण', bn: 'নতুন রোগী',
+  },
+  '10-Digit Mobile Phone Number': {
+    hi: '10 अंकों का मोबाइल नंबर', te: '10 అంకెల మొబైల్ ఫోన్ నంబర్', ta: '10 இலக்க கைபேசி எண்', kn: '10 ಅಂಕಿಗಳ ಮೊಬೈಲ್ ಸಂಖ್ಯೆ', mr: '10 अंकी मोबाइल नंबर',
+  },
+  'Send SMS OTP': {
+    hi: 'SMS OTP भेजें', te: 'SMS OTP పంపండి', ta: 'SMS OTP அனுப்பவும்', kn: 'SMS OTP ಕಳುಹಿಸಿ', mr: 'SMS OTP पाठवा',
+  },
+  'Resend SMS OTP': {
+    hi: 'SMS OTP फिर से भेजें', te: 'SMS OTP మళ్లీ పంపండి', ta: 'SMS OTP மீண்டும் அனுப்பவும்', kn: 'SMS OTP ಮರುಕಳುಹಿಸಿ', mr: 'SMS OTP पुन्हा पाठवा',
+  },
+  'Verify OTP & Continue': {
+    hi: 'OTP सत्यापित करें और आगे बढ़ें', te: 'OTP ధృవీకరించి కొనసాగండి', ta: 'OTP சரிபார்த்து தொடரவும்', kn: 'OTP ಪರಿಶೀಲಿಸಿ ಮತ್ತು ಮುಂದುವರಿಯಿರಿ', mr: 'OTP सत्यापित करा आणि पुढे जा',
+  },
+  'Verify OTP & Fetch Records': {
+    hi: 'OTP सत्यापित करें और रिकॉर्ड प्राप्त करें', te: 'OTP ధృవీకరించి రికార్డులను పొందండి', ta: 'OTP சரிபார்த்து பதிவுகளைப் பெறுக', kn: 'OTP ಪರಿಶೀಲಿಸಿ ಮತ್ತು ದಾಖಲೆಗಳನ್ನು ಪಡೆಯಿರಿ', mr: 'OTP सत्यापित करा आणि रेकॉर्ड मिळवा',
+  },
+  'Auto-fill Code (123456)': {
+    hi: 'कोड स्वतः भरें (123456)', te: 'కోడ్ ఆటో-ఫిల్ చేయండి (123456)', ta: 'குறியீட்டை தானாக நிரப்பவும் (123456)', kn: 'ಕೋಡ್ ಸ್ವಯಂ ಭರ್ತಿ ಮಾಡಿ (123456)', mr: 'कोड ऑटो-भरा (123456)',
+  },
+  'Continue to Privacy Consent': {
+    hi: 'गोपनीयता सहमति पर आगे बढ़ें', te: 'గోప్యతా సమ్మతికి కొనసాగండి', ta: 'தனியுரிமை ஒப்புதலுக்கு தொடரவும்', kn: 'ಗೌಪ್ಯತೆ ಒಪ್ಪಿಗೆಗೆ ಮುಂದುವರಿಯಿರಿ', mr: 'गोपनीयता संमतीकडे पुढे जा',
+  },
+  'Begin Check-Up': {
+    hi: 'जांच शुरू करें', te: 'తనిఖీని ప్రారంభించండి', ta: 'பரிசோதனையைத் தொடங்குங்கள்', kn: 'ತಪಾಸಣೆಯನ್ನು ಪ್ರಾರಂಭಿಸಿ', mr: 'तपासणी सुरू करा', bn: 'পরীক্ষা শুরু করুন',
+  },
+  'Start AI Health Check-Up': {
+    hi: 'AI स्वास्थ्य जांच शुरू करें', te: 'AI ఆరోగ్య తనిఖీని ప్రారంభించండి', ta: 'AI நலப் பரிசோதனையைத் தொடங்குங்கள்', kn: 'AI ಆರೋಗ್ಯ ತಪಾಸಣೆಯನ್ನು ಪ್ರಾರಂಭಿಸಿ', mr: 'AI आरोग्य तपासणी सुरू करा',
+  },
+  'Tap microphone to speak': {
+    hi: 'बोलने के लिए माइक दबाएं', te: 'మాట్లాడటానికి మైక్రోఫోన్ నొక్కండి', ta: 'பேச மைக்ரோஃபோனைத் தட்டவும்', kn: 'ಮಾತನಾಡಲು ಮೈಕ್ರೊಫೋನ್ ಒತ್ತಿರಿ', mr: 'बोलण्यासाठी माइक दाबा',
+  },
+  'Listening... Speak now': {
+    hi: 'सुन रहे हैं... अब बोलें', te: 'వింటోంది... ఇప్పుడు మాట్లాడండి', ta: 'கேட்கிறது... இப்போது பேசுங்கள்', kn: 'ಕೇಳುತ್ತಿದೆ... ಈಗ ಮಾತನಾಡಿ', mr: 'ऐकत आहे... आता बोला',
+  },
+  'Translating into Telugu...': {
+    hi: 'तेलुगु में अनुवाद कर रहे हैं...', te: 'తెలుగులోకి అనువదిస్తోంది...', ta: 'தெலுங்கில் மொழிபெயர்க்கிறது...',
+  },
+  'Translating...': {
+    hi: 'अनुवाद हो रहा है...', te: 'అనువదిస్తోంది...', ta: 'மொழிபெயர்க்கிறது...', kn: 'ಅನುವಾದಿಸಲಾಗುತ್ತಿದೆ...', mr: 'भाषांतर होत आहे...',
+  },
+  'AI Doctor is thinking...': {
+    hi: 'एआई डॉक्टर विचार कर रहे हैं...', te: 'AI డాక్టర్ ఆలోచిస్తున్నారు...', ta: 'AI மருத்துவர் சிந்திக்கிறார்...', kn: 'AI ವೈದ್ಯರು ಯೋಚಿಸುತ್ತಿದ್ದಾರೆ...', mr: 'AI डॉक्टर विचार करत आहेत...',
+  },
+  'Send Answer': {
+    hi: 'उत्तर भेजें', te: 'సమాధానం పంపండి', ta: 'பதிலை அனுப்பவும்', kn: 'ಉತ್ತರ ಕಳುಹಿಸಿ', mr: 'उत्तर पाठवा',
+  },
+  'Type your health concern here...': {
+    hi: 'अपनी स्वास्थ्य समस्या यहाँ लिखें...', te: 'మీ ఆరోగ్య సమస్యను ఇక్కడ టైప్ చేయండి...', ta: 'உங்கள் உடல்நலப் பிரச்சனையை இங்கே தட்டச்சு செய்க...', kn: 'ನಿಮ್ಮ ಆರೋಗ್ಯ ಸಮಸ್ಯೆಯನ್ನು ಇಲ್ಲಿ ಬರೆಯಿರಿ...', mr: 'तुमची आरोग्य समस्या येथे टाइप करा...',
+  },
+  'Where is the pain?': {
+    hi: 'दर्द कहाँ हो रहा है?', te: 'మీకు ఎక్కడ నొప్పిగా ఉంది?', ta: 'வலி எங்கே உள்ளது?', kn: 'ನೋವು ಎಲ್ಲಿ ಆಗುತ್ತಿದೆ?', mr: 'वेदना कुठे होत आहेत?',
+  },
+  'How long have you had this pain?': {
+    hi: 'यह दर्द कितने समय से है?', te: 'ఈ నొప్పి ఎంతకాలంగా ఉంది?', ta: 'இந்த வலி எவ்வளவு காலமாக உள்ளது?', kn: 'ಈ ನೋವು ಎಷ್ಟು ದಿನಗಳಿಂದ ಇದೆ?', mr: 'ही वेदना किती दिवसांपासून आहे?',
+  },
+  'I have fever and body pain': {
+    hi: 'मुझे बुखार और बदन दर्द है', te: 'నాకు జ్వరం మరియు ఒళ్ళు నొప్పులు ఉన్నాయి', ta: 'எனக்கு காய்ச்சலும் உடல் வலியும் உள்ளது', kn: 'ನನಗೆ ಜ್ವರ ಮತ್ತು ಮೈಕೈ ನೋವು ಇದೆ', mr: 'मला ताप आणि अंगदुखी आहे',
+  },
+  'I have stomach pain': {
+    hi: 'मुझे पेट में दर्द है', te: 'నాకు కడుపు నొప్పిగా ఉంది', ta: 'எனக்கு வயிற்று வலி உள்ளது', kn: 'ನನಗೆ ಹೊಟ್ಟೆ ನೋವು ಇದೆ', mr: 'माझे पोट दुखत आहे',
+  },
+  'I have cough and cold': {
+    hi: 'मुझे खांसी और जुकाम है', te: 'నాకు దగ్గు మరియు జలుబు ఉంది', ta: 'எனக்கு இருமலும் சளியும் உள்ளது', kn: 'ನನಗೆ ಕೆಮ್ಮು ಮತ್ತು ಶೀತ ಇದೆ', mr: 'मला खोकला आणि सर्दी आहे',
+  },
+  'I have chest pain': {
+    hi: 'मुझे छाती में दर्द है', te: 'నాకు ఛాతీలో నొప్పిగా ఉంది', ta: 'எனக்கு நெஞ்சு வலி உள்ளது', kn: 'ನನಗೆ ಎದೆ ನೋವು ಇದೆ', mr: 'माझ्या छातीत दुखत आहे',
+  },
+  'I have headache': {
+    hi: 'मुझे सिरदर्द है', te: 'నాకు తలనొప్పిగా ఉంది', ta: 'எனக்கு தலைவலி உள்ளது', kn: 'ನನಗೆ ತಲೆನೋವು ಇದೆ', mr: 'माझे डोके दुखत आहे',
+  },
+  'Yes': {
+    hi: 'हाँ', te: 'అవును', ta: 'ஆம்', kn: 'ಹೌದು', ml: 'അതെ', mr: 'होय', bn: 'হ্যাঁ', gu: 'હા',
+  },
+  'No': {
+    hi: 'नहीं', te: 'కాదు / లేదు', ta: 'இல்லை', kn: 'ಇಲ್ಲ', ml: 'അല്ല', mr: 'नाही', bn: 'না', gu: 'ના',
+  },
 };
 
 /**
@@ -690,6 +782,12 @@ export const translatePhrase = (phrase, targetLangCode = 'en') => {
   // 1. Direct exact dictionary lookup
   if (CORE_DICTIONARY[clean] && CORE_DICTIONARY[clean][targetLangCode]) {
     return CORE_DICTIONARY[clean][targetLangCode];
+  }
+
+  // 1b. Match with trailing punctuation stripped (? / . / !)
+  const unpunct = clean.replace(/[?.!]+$/, '').trim();
+  if (CORE_DICTIONARY[unpunct] && CORE_DICTIONARY[unpunct][targetLangCode]) {
+    return CORE_DICTIONARY[unpunct][targetLangCode];
   }
 
   // 2. Case-insensitive lookup

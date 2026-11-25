@@ -108,6 +108,7 @@ import {
 import { EmergencyRedFlagAlert } from '../components/common/EmergencyRedFlagAlert';
 import { AIBotSummaryAssistant } from '../components/patient/AIBotSummaryAssistant';
 import { useToast } from '../context/ToastContext';
+import { translatePhrase } from '../services/translationService';
 
 export const AICheckupPage = ({ onExit, onNavigateDoctor }) => {
   const { user } = useAuth();
@@ -902,13 +903,29 @@ export const AICheckupPage = ({ onExit, onNavigateDoctor }) => {
     // Immediately advance to interview phase so the AI Chat or Voice UI opens instantly
     setPhase('interview');
 
+    const GENERAL_GREETINGS = {
+      te: 'నమస్కారం! నేను మెడికియోస్క్, మీ స్మార్ట్ హాస్పిటల్ అసిస్టెంట్. దయచేసి ఈ రోజు మీరు ఎదుర్కొంటున్న ఆరోగ్య సమస్య లేదా వ్యాధి ఏమిటో చెప్పండి.',
+      hi: 'नमस्ते! मैं मेडिकियोस्क हूँ, आपका स्मार्ट हॉस्पिटल सहायक। कृपया मुझे बताएं कि आज आपको क्या स्वास्थ्य समस्या या बीमारी महसूस हो रही है?',
+      ta: 'வணக்கம்! நான் மெடிகியோஸ்க், உங்கள் ஸ்மார்ட் மருத்துவமனை உதவியாளர். இன்று உங்களுக்கு என்ன உடல்நல பிரச்சனை அல்லது அறிகுறிகள் உள்ளன என்று கூறுங்கள்.',
+      kn: 'ನಮಸ್ಕಾರ! ನಾನು ಮೆಡಿಕಿಯೋಸ್ಕ್, ನಿಮ್ಮ ಸ್ಮಾರ್ಟ್ ಆಸ್ಪತ್ರೆ ಸಹಾಯಕ. ದಯವಿಟ್ಟು ಇಂದು ನಿಮಗೆ ಯಾವ ಆರೋಗ್ಯ ಸಮಸ್ಯೆ ಅಥವಾ ಲಕ್ಷಣಗಳು ಇವೆ ಎಂದು ತಿಳಿಸಿ.',
+      ml: 'നമസ്കാരം! ഞാൻ മെഡികിയോസ്ക്, നിങ്ങളുടെ സ്മാർട്ട് ഹോസ്പിറ്റൽ അസിസ്റ്റന്റ്. ഇന്ന് നിങ്ങൾക്ക് എന്തൊക്കെ ആരോഗ്യപ്രശ്നങ്ങളാണ് ഉള്ളതെന്ന് ദയവായി പറയുക.',
+      bn: 'নমস্কার! আমি মেডিকিয়স্ক, আপনার স্মার্ট হাসপাতাল সহকারী। দয়া করে জানান আজ আপনার কী স্বাস্থ্য সমস্যা বা উপসর্গ দেখা দিচ্ছে।',
+      mr: 'नमस्कार! मी मेडिकिओस्क, तुमचा स्मार्ट हॉस्पिटल सहाय्यक. कृपया मला सांगा की आज तुम्हाला काय त्रास किंवा आजार होत आहे?',
+      gu: 'નમસ્તે! હું મેડિકિઓસ્ક છું, તમારો સ્માર્ટ હોસ્પિટલ સહાયક. કૃપા કરીને મને કહો કે આજે તમને શું સ્વાસ્થ્ય સમસ્યા છે?',
+      en: 'Hello! I am MediKiosk, your Smart Hospital Assistant. Please tell me what health problem or symptoms you are experiencing today.',
+    };
+
+    const AYUSH_GREETINGS_MAP = {
+      te: 'ఆయుష్ సంపూర్ణ ఆరోగ్య విభాగానికి స్వాగతం. దయచేసి ఈ రోజు మీరు ఆసుపత్రికి రావడానికి గల ప్రధాన ఆరోగ్య సమస్య లేదా ఆందోళన గురించి నాకు చెప్పండి.',
+      hi: 'आयुष समग्र स्वास्थ्य विभाग में आपका स्वागत है। कृपया मुझे उस मुख्य स्वास्थ्य समस्या या चिंता के बारे में बताएं जो आज आपको अस्पताल लाई है।',
+      ta: 'ஆயுஷ் நல்வாழ்வுப் பிரிவுக்கு வருக. உங்கள் முதன்மை உடல்நலப் பிரச்சனை, செரிமானம் மற்றும் வாழ்க்கை முறை பற்றி கூறுங்கள்.',
+      kn: 'ಆಯುಷ್ ಸಮಗ್ರ ಆರೋಗ್ಯ ವಿಭಾಗಕ್ಕೆ ಸುಸ್ವಾಗತ. ದಯವಿಟ್ಟು ನಿಮ್ಮ ಮುಖ್ಯ ಆರೋಗ್ಯ ಸಮಸ್ಯೆ, ಜೀರ್ಣಕ್ರಿಯೆ ಮತ್ತು ಜೀವನಶೈಲಿಯ ಬಗ್ಗೆ ತಿಳಿಸಿ.',
+      en: 'Please tell me about the main health problem or concern that brought you to the hospital today.',
+    };
+
     const defaultGreeting = healthcareMode === 'ayush'
-      ? (selectedLanguage === 'te'
-          ? 'దయచేసి ఈ రోజు మీరు ఆసుపత్రికి రావడానికి గల ప్రధాన ఆరోగ్య సమస్య లేదా ఆందోళన గురించి నాకు చెప్పండి.'
-          : selectedLanguage === 'hi'
-            ? 'कृपया मुझे उस मुख्य स्वास्थ्य समस्या या चिंता के बारे में बताएं जो आज आपको अस्पताल लाई है।'
-            : 'Please tell me about the main health problem or concern that brought you to the hospital today.')
-      : 'Please tell me what health problem or symptoms you are experiencing today.';
+      ? (AYUSH_GREETINGS_MAP[selectedLanguage] || AYUSH_GREETINGS_MAP.en)
+      : (GENERAL_GREETINGS[selectedLanguage] || GENERAL_GREETINGS.en);
 
     const firstMsg = {
       id: 'ai-0',
@@ -937,7 +954,9 @@ export const AICheckupPage = ({ onExit, onNavigateDoctor }) => {
       if (res?.success && (res.interviewId || res.caseId)) {
         const id = res.caseId || res.interviewId;
         setInterviewId(id);
-        const greetingText = res.message || res.greeting;
+        const greetingText = (res.greeting && res.greeting.length > 5)
+          ? res.greeting
+          : (res.message && !res.message.includes('initiated') ? res.message : null);
         if (greetingText && greetingText !== defaultGreeting) {
           const updatedFirstMsg = {
             id: 'ai-0',
@@ -1004,10 +1023,19 @@ export const AICheckupPage = ({ onExit, onNavigateDoctor }) => {
       try {
         setIsTranslatingSpeech(true);
         setLiveTranscript(`Translating into ${activeLangInfo.nativeName}...`);
-        const translated = await translatePatientSpeech(textToSend, selectedLanguage);
-        if (translated && translated.trim().toLowerCase() !== textToSend.trim().toLowerCase()) {
-          processedText = translated;
+        
+        // 1. Check instant dictionary match first (e.g. "are you feeling well" -> "మీరు బాగున్నారా?")
+        const dictTranslated = translatePhrase(textToSend, selectedLanguage);
+        if (dictTranslated && dictTranslated.trim().toLowerCase() !== textToSend.trim().toLowerCase()) {
+          processedText = dictTranslated;
           originalSpoken = textToSend;
+        } else {
+          // 2. High-fidelity translation via backend
+          const translated = await translatePatientSpeech(textToSend, selectedLanguage);
+          if (translated && translated.trim().toLowerCase() !== textToSend.trim().toLowerCase()) {
+            processedText = translated;
+            originalSpoken = textToSend;
+          }
         }
       } catch (err) {
         console.warn('[Translation] Speech translation notice:', err);
@@ -1109,11 +1137,32 @@ export const AICheckupPage = ({ onExit, onNavigateDoctor }) => {
 
       // Intelligent clinical adaptive fallback question if network endpoints glitched
       if (!res || (!res.success && !res.nextQuestion && !res.message)) {
+        const fallbacks = {
+          te: {
+            ayush: 'మీ సమాధానం నమోదయింది. దయచేసి మీ జీర్ణక్రియ, ఆకలి (అగ్ని), మరియు రోజువారీ ఆహారపు వేళల గురించి వివరించగలరా?',
+            general: 'మీ లక్షణాలు నమోదయ్యాయి. ఈ సమస్య ఎప్పటినుండి ప్రారంభమైంది మరియు మీరు ఏవైనా మందులు వాడుతున్నారా?',
+          },
+          hi: {
+            ayush: 'आपके उत्तर को नोट कर लिया गया है। क्या आप अपने पाचन, भूख (अग्नि) और भोजन के समय के बारे में बता सकते हैं?',
+            general: 'आपके लक्षण नोट कर लिए गए हैं। यह समस्या कब से शुरू हुई है और क्या आप कोई दवा ले रहे हैं?',
+          },
+          ta: {
+            ayush: 'உங்கள் பதில் பதிவு செய்யப்பட்டது. உங்கள் செரிமானம், பசி மற்றும் உணவுப் பழக்கம் பற்றி கூற முடியுமா?',
+            general: 'உங்கள் அறிகுறிகள் பதிவு செய்யப்பட்டன. இந்த பிரச்சனை எப்போது தொடங்கியது, ஏதேனும் மருந்துகள் உட்கொள்கிறீர்களா?',
+          },
+          kn: {
+            ayush: 'ನಿಮ್ಮ ಉತ್ತರ ದಾಖಲಾಗಿದೆ. ದಯವಿಟ್ಟು ನಿಮ್ಮ ಜೀರ್ಣಕ್ರಿಯೆ, ಹಸಿವು ಮತ್ತು ಆಹಾರ ಪದ್ಧತಿ ಬಗ್ಗೆ ತಿಳಿಸಬಹುದೇ?',
+            general: 'ನಿಮ್ಮ ಲಕ್ಷಣಗಳನ್ನು ದಾಖಲಿಸಲಾಗಿದೆ. ಈ ಸಮಸ್ಯೆ ಯಾವಾಗ ಪ್ರಾರಂಭವಾಯಿತು ಮತ್ತು ನೀವು ಯಾವುದೇ ಔಷಧಿಗಳನ್ನು ತೆಗೆದುಕೊಳ್ಳುತ್ತಿದ್ದೀರಾ?',
+          },
+          en: {
+            ayush: 'I have noted your response. Could you please describe your digestion, appetite (Agni), and daily meal timings?',
+            general: 'I have noted your symptoms. When did this discomfort start, and are you taking any medications?',
+          },
+        };
+        const langObj = fallbacks[selectedLanguage] || fallbacks.en;
         res = {
           success: true,
-          nextQuestion: healthcareMode === 'ayush'
-            ? 'I have noted your response. Could you please describe your digestion, appetite (Agni), and daily meal timings?'
-            : 'I have noted your symptoms. When did this discomfort start, and are you taking any medications?',
+          nextQuestion: healthcareMode === 'ayush' ? langObj.ayush : langObj.general,
           isComplete: false,
           turnCount: turnCount + 1,
         };
@@ -1182,14 +1231,25 @@ export const AICheckupPage = ({ onExit, onNavigateDoctor }) => {
       }
     } catch (err) {
       console.error('[Answer Submission Error]', err);
-      // Ensure patient is NEVER left hanging without a reply
+      // Ensure patient is NEVER left hanging without a reply in their chosen language
+      const fallbackMsgs = {
+        te: 'మీ సమాధానం నమోదయింది. ఈ సమస్య ఎంతకాలంగా ఉంది మరియు ఏవైనా ఇతర మార్పులు గమనించారా?',
+        hi: 'आपका उत्तर नोट कर लिया गया है। यह समस्या कितने समय से है और क्या आपने कोई अन्य लक्षण देखा है?',
+        ta: 'உங்கள் பதில் பதிவு செய்யப்பட்டது. இந்த பிரச்சனை எவ்வளவு காலமாக உள்ளது, வேறு ஏதேனும் அறிகுறிகளை கவனித்தீர்களா?',
+        kn: 'ನಿಮ್ಮ ಪ್ರತಿಕ್ರಿಯೆ ದಾಖಲಾಗಿದೆ. ಈ ಸಮಸ್ಯೆ ಎಷ್ಟು ದಿನಗಳಿಂದ ಇದೆ ಮತ್ತು ಬೇರೆ ಯಾವುದೇ ಲಕ್ಷಣಗಳನ್ನು ಗಮನಿಸಿದ್ದೀರಾ?',
+        en: 'I have noted your response. Could you please share more about how long you have had this condition and any other changes you noticed?',
+      };
+      const fallbackText = fallbackMsgs[selectedLanguage] || fallbackMsgs.en;
       const fallbackAiMsg = {
         id: 'ai-' + Date.now(),
         sender: 'ai',
-        text: 'I have noted your response. Could you please share more about how long you have had this condition and any other changes you noticed?',
+        text: fallbackText,
         timestamp: new Date(),
       };
       setMessages((prev) => [...prev, fallbackAiMsg]);
+      if (checkupMode === 'voice') {
+        speakText(fallbackText);
+      }
     } finally {
       setIsSending(false);
       setIsTyping(false);
@@ -1813,7 +1873,14 @@ export const AICheckupPage = ({ onExit, onNavigateDoctor }) => {
           }
 
           if (phase === 'interview') {
-            const statusText = `✓ Hospital Report Attached & Converted into Text! Findings added to your health summary.`;
+            const statusMap = {
+              te: '✓ ఆసుపత్రి రిపోర్ట్ విజయవంతంగా జతచేయబడింది! వివరాలు మీ ఆరోగ్య సారాంశానికి చేర్చబడ్డాయి.',
+              hi: '✓ अस्पताल रिपोर्ट सफलतापूर्वक संलग्न की गई! निष्कर्ष आपके स्वास्थ्य सारांश में जोड़ दिए गए हैं।',
+              ta: '✓ மருத்துவ அறிக்கை வெற்றிகரமாக இணைக்கப்பட்டது! விவரங்கள் உங்கள் சுருக்கத்தில் சேர்க்கப்பட்டுள்ளன.',
+              kn: '✓ ಆಸ್ಪತ್ರೆ ವರದಿಯನ್ನು ಯಶಸ್ವಿಯಾಗಿ ಲಗತ್ತಿಸಲಾಗಿದೆ! ವಿವರಗಳನ್ನು ನಿಮ್ಮ ಸಾರಾಂಶಕ್ಕೆ ಸೇರಿಸಲಾಗಿದೆ.',
+              en: '✓ Hospital Report Attached & Converted into Text! Findings added to your health summary.',
+            };
+            const statusText = statusMap[selectedLanguage] || statusMap.en;
             const reportMsg = {
               id: 'report-' + Date.now(),
               sender: 'ai',

@@ -131,7 +131,7 @@ export const LanguageProvider = ({ children }) => {
       );
 
       let node;
-      const dictKeys = Object.keys(CORE_DICTIONARY);
+      const dictKeys = Object.keys(CORE_DICTIONARY).sort((a, b) => b.length - a.length);
 
       while ((node = walker.nextNode())) {
         if (!originalTextMap.has(node)) {
@@ -140,10 +140,15 @@ export const LanguageProvider = ({ children }) => {
 
         const originalText = originalTextMap.get(node);
         const trimmed = originalText.trim();
+        const unpunct = trimmed.replace(/[?.!]+$/, '');
 
-        // Exact match
+        // Exact match (full or unpunctuated)
         if (CORE_DICTIONARY[trimmed] && CORE_DICTIONARY[trimmed][currentLanguage]) {
           node.nodeValue = originalText.replace(trimmed, CORE_DICTIONARY[trimmed][currentLanguage]);
+          continue;
+        }
+        if (CORE_DICTIONARY[unpunct] && CORE_DICTIONARY[unpunct][currentLanguage]) {
+          node.nodeValue = originalText.replace(unpunct, CORE_DICTIONARY[unpunct][currentLanguage]);
           continue;
         }
 
