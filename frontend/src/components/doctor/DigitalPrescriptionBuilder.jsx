@@ -837,6 +837,16 @@ export const DigitalPrescriptionBuilder = ({
               </button>
               <button
                 type="button"
+                onClick={() => {
+                  if (onPrescriptionCreated) onPrescriptionCreated(successRx);
+                }}
+                className="px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold flex items-center gap-1.5 shadow-xs transition-colors cursor-pointer"
+                title="Return to main OP lookup screen for next patient"
+              >
+                <span>Done — Next Patient (OP Lookup) →</span>
+              </button>
+              <button
+                type="button"
                 onClick={() => setSuccessRx(null)}
                 className="px-3 py-2.5 rounded-xl bg-white border border-emerald-300 hover:bg-emerald-100 text-emerald-900 text-xs font-semibold transition-colors cursor-pointer"
               >

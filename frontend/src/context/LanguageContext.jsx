@@ -46,10 +46,26 @@ export const LanguageProvider = ({ children }) => {
         document.cookie = `googtrans=/auto/${googleCode}; path=/; domain=${window.location.hostname};`;
       }
 
-      const selectEl = document.querySelector('.goog-te-combo');
-      if (selectEl) {
-        selectEl.value = googleCode;
-        selectEl.dispatchEvent(new Event('change'));
+      const syncGoogleCombo = () => {
+        const selectEl = document.querySelector('.goog-te-combo');
+        if (selectEl) {
+          if (selectEl.value !== googleCode) {
+            selectEl.value = googleCode;
+            selectEl.dispatchEvent(new Event('change'));
+          }
+          return true;
+        }
+        return false;
+      };
+
+      if (!syncGoogleCombo()) {
+        let attempts = 0;
+        const interval = setInterval(() => {
+          attempts++;
+          if (syncGoogleCombo() || attempts > 15) {
+            clearInterval(interval);
+          }
+        }, 300);
       }
     } catch (e) {
       console.warn('Google Translate sync notice:', e);
@@ -118,8 +134,8 @@ export const LanguageProvider = ({ children }) => {
             if (['script', 'style', 'noscript', 'textarea', 'input', 'code', 'pre'].includes(tag)) {
               return NodeFilter.FILTER_REJECT;
             }
-            // Exclude header navbar and elements with data-no-dom-translate so React handles them directly
-            if (parent.closest('header') || parent.closest('[data-no-dom-translate]')) {
+            // Exclude elements explicitly marked to avoid DOM translation
+            if (parent.closest('[data-no-dom-translate]')) {
               return NodeFilter.FILTER_REJECT;
             }
             if (!node.nodeValue || !node.nodeValue.trim()) {

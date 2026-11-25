@@ -117,34 +117,13 @@ export const AICheckupPage = ({ onExit, onNavigateDoctor }) => {
 
   // Dual Communication Mode: 'text' | 'voice'
   const [checkupMode, setCheckupMode] = useState('text');
-  // Healthcare Pathway Mode: 'general_medical' | 'ayush'
-  const [healthcareMode, setHealthcareMode] = useState('general_medical');
+  // Healthcare Pathway Mode: strictly 'general_medical' (AYUSH mode removed)
+  const healthcareMode = 'general_medical';
 
-  // Primary Phase State: 'welcome' (Step 1) | 'patient_details' (Step 2) | 'consent' (Step 3) | 'mode_selection' (Step 4) | 'communication_selection' (Step 5) | 'interview' (Step 6) | 'upload_documents' (Step 7) | 'summary' (Step 8) | 'confirmed' (Step 9)
+  // Primary Phase State: 'welcome' (Step 1) | 'patient_details' (Step 2) | 'consent' (Step 3) | 'communication_selection' (Step 4) | 'interview' (Step 5) | 'upload_documents' (Step 6) | 'summary' (Step 7) | 'confirmed' (Step 8)
   const [phase, setPhase] = useState('welcome');
   const [selectedLanguage, setSelectedLanguage] = useState(currentLanguage || 'en');
   const [consentGiven, setConsentGiven] = useState(false);
-
-  // AYUSH Specific State
-  const [ayushSectionLabel, setAyushSectionLabel] = useState('Present Health Concern');
-  const [ayushCollectedCount, setAyushCollectedCount] = useState(0);
-  const [ayushReadyForReview, setAyushReadyForReview] = useState(false);
-  const [ayushStructuredData, setAyushStructuredData] = useState({
-    chiefConcern: '',
-    duration: '',
-    progression: '',
-    symptoms: [],
-    dietAhara: '',
-    digestionAgni: '',
-    bowelKoshtha: '',
-    lifestyleVihara: '',
-    sleepNidra: '',
-    medicalHistory: [],
-    medications: [],
-    allergies: [],
-    ayushObservations: '',
-  });
-  const [ayushEditingField, setAyushEditingField] = useState(null);
   const [voiceEditingTranscript, setVoiceEditingTranscript] = useState(false);
   const [voiceCustomTranscript, setVoiceCustomTranscript] = useState('');
   const [isConfirmingSummary, setIsConfirmingSummary] = useState(false);
@@ -250,19 +229,12 @@ export const AICheckupPage = ({ onExit, onNavigateDoctor }) => {
     setIsGeneratingOtp(true);
 
     try {
-      // Fire backend SMS dispatch opportunistically in background (non-blocking)
-      sendPatientOtp({
-        phoneNumber: cleanPhone,
-        channel: 'sms',
-        name: patientDetails.name || '',
-      }).catch((e) => console.log('[Background SMS notice]', e?.message));
-
       // Immediate, 100% reliable demo OTP setup for kiosk workflow
       setIsOtpSent(true);
       setIsOtpVerified(false);
       setEnteredOtp('');
       setOtpDispatchInfo({ isDemoReady: true, phoneNumber: cleanPhone, code: '123456' });
-      const msg = `Verification code 123456 ready for +91 ${cleanPhone}. Enter code below or click Auto-fill.`;
+      const msg = `Verification code 123456 ready for +91 ${cleanPhone}. Enter 123456 or click Auto-fill.`;
       setOtpSuccessMessage(msg);
       toast.info(`Demo Code: 123456 generated for +91 ${cleanPhone}`);
     } catch (err) {
@@ -702,6 +674,15 @@ export const AICheckupPage = ({ onExit, onNavigateDoctor }) => {
       return;
     }
 
+    // Automatically translate English phrases to active language if active language is not English
+    let spokenText = text;
+    if (activeLangInfo.code !== 'en') {
+      const translated = translatePhrase(text, activeLangInfo.code);
+      if (translated && translated !== text) {
+        spokenText = translated;
+      }
+    }
+
     if ('speechSynthesis' in window) {
       // Mute microphone immediately so AI speech is not captured by mic
       stopListening();
@@ -710,7 +691,7 @@ export const AICheckupPage = ({ onExit, onNavigateDoctor }) => {
         window.speechSynthesis.resume();
       } catch (e) { }
 
-      const utterance = new SpeechSynthesisUtterance(text);
+      const utterance = new SpeechSynthesisUtterance(spokenText);
       window.__activeUtterance = utterance; // Prevent Chrome V8 garbage collection
 
       utterance.lang = activeLangInfo.speechLang || 'en-IN';
@@ -896,10 +877,6 @@ export const AICheckupPage = ({ onExit, onNavigateDoctor }) => {
     setSummary(null);
     setSummaryConfirmed(false);
     setIsCompleted(false);
-    setAyushReadyForReview(false);
-    setAyushCollectedCount(0);
-    setAyushSectionLabel('Present Health Concern');
-
     // Immediately advance to interview phase so the AI Chat or Voice UI opens instantly
     setPhase('interview');
 
@@ -915,17 +892,7 @@ export const AICheckupPage = ({ onExit, onNavigateDoctor }) => {
       en: 'Hello! I am MediKiosk, your Smart Hospital Assistant. Please tell me what health problem or symptoms you are experiencing today.',
     };
 
-    const AYUSH_GREETINGS_MAP = {
-      te: 'ఆయుష్ సంపూర్ణ ఆరోగ్య విభాగానికి స్వాగతం. దయచేసి ఈ రోజు మీరు ఆసుపత్రికి రావడానికి గల ప్రధాన ఆరోగ్య సమస్య లేదా ఆందోళన గురించి నాకు చెప్పండి.',
-      hi: 'आयुष समग्र स्वास्थ्य विभाग में आपका स्वागत है। कृपया मुझे उस मुख्य स्वास्थ्य समस्या या चिंता के बारे में बताएं जो आज आपको अस्पताल लाई है।',
-      ta: 'ஆயுஷ் நல்வாழ்வுப் பிரிவுக்கு வருக. உங்கள் முதன்மை உடல்நலப் பிரச்சனை, செரிமானம் மற்றும் வாழ்க்கை முறை பற்றி கூறுங்கள்.',
-      kn: 'ಆಯುಷ್ ಸಮಗ್ರ ಆರೋಗ್ಯ ವಿಭಾಗಕ್ಕೆ ಸುಸ್ವಾಗತ. ದಯವಿಟ್ಟು ನಿಮ್ಮ ಮುಖ್ಯ ಆರೋಗ್ಯ ಸಮಸ್ಯೆ, ಜೀರ್ಣಕ್ರಿಯೆ ಮತ್ತು ಜೀವನಶೈಲಿಯ ಬಗ್ಗೆ ತಿಳಿಸಿ.',
-      en: 'Please tell me about the main health problem or concern that brought you to the hospital today.',
-    };
-
-    const defaultGreeting = healthcareMode === 'ayush'
-      ? (AYUSH_GREETINGS_MAP[selectedLanguage] || AYUSH_GREETINGS_MAP.en)
-      : (GENERAL_GREETINGS[selectedLanguage] || GENERAL_GREETINGS.en);
+    const defaultGreeting = GENERAL_GREETINGS[selectedLanguage] || GENERAL_GREETINGS.en;
 
     const firstMsg = {
       id: 'ai-0',
@@ -943,10 +910,8 @@ export const AICheckupPage = ({ onExit, onNavigateDoctor }) => {
       setIsSpeaking(false);
     }
 
-    // Launch background interview start with AYUSH API or General Medical API
-    const startPromise = healthcareMode === 'ayush'
-      ? startAyushCase({ language: selectedLanguage, communicationMode: activeMode, consentStatus: true })
-      : startInterview(selectedLanguage, healthcareMode, activeMode);
+    // Launch background interview start with General Medical API
+    const startPromise = startInterview(selectedLanguage, 'general_medical', activeMode);
     startInterviewPromiseRef.current = startPromise;
 
     try {
@@ -1162,7 +1127,7 @@ export const AICheckupPage = ({ onExit, onNavigateDoctor }) => {
         const langObj = fallbacks[selectedLanguage] || fallbacks.en;
         res = {
           success: true,
-          nextQuestion: healthcareMode === 'ayush' ? langObj.ayush : langObj.general,
+          nextQuestion: langObj.general,
           isComplete: false,
           turnCount: turnCount + 1,
         };
@@ -1173,14 +1138,6 @@ export const AICheckupPage = ({ onExit, onNavigateDoctor }) => {
 
       if (res && (res.success || nextQ)) {
         setTurnCount((prev) => prev + 1);
-
-        // Update AYUSH specific state
-        if (healthcareMode === 'ayush') {
-          if (res.categoryLabel) setAyushSectionLabel(res.categoryLabel);
-          if (res.collectedParametersCount !== undefined) setAyushCollectedCount(res.collectedParametersCount);
-          if (res.collectedData) setAyushStructuredData((prev) => ({ ...prev, ...res.collectedData }));
-          if (res.readyForSummary) setAyushReadyForReview(true);
-        }
 
         // Check Red Flag returned by backend
         if (res.redFlagCheck?.isRedFlag || res.isRedFlag) {
@@ -2127,30 +2084,28 @@ export const AICheckupPage = ({ onExit, onNavigateDoctor }) => {
       {/* 2. BODY CONTENT ROUTER */}
       <main className="flex-1 flex flex-col max-w-7xl mx-auto w-full p-3 sm:p-6 overflow-hidden">
 
-        {/* 9-STEP WORKFLOW PROGRESS STEPPER */}
+        {/* 8-STEP CLINICAL WORKFLOW PROGRESS STEPPER */}
         <div className="mb-4 bg-white border border-[#D9E4E5] rounded-2xl p-2 sm:p-2.5 shadow-xs shrink-0">
           <div className="hidden md:flex items-center justify-between gap-1">
             {[
               { id: 'welcome', label: '1. Language' },
               { id: 'patient_details', label: '2. Patient Info' },
               { id: 'consent', label: '3. Consent' },
-              { id: 'mode', label: '4. Care Mode' },
-              { id: 'communication', label: '5. Input Method' },
-              { id: 'interview', label: '6. AI Case-Taking' },
-              { id: 'upload_documents', label: '7. Upload Documents' },
-              { id: 'summary', label: '8. Clinical Summary' },
-              { id: 'confirmed', label: '9. Confirm OP' },
+              { id: 'communication', label: '4. Input Method' },
+              { id: 'interview', label: '5. AI Case-Taking' },
+              { id: 'upload_documents', label: '6. Upload Documents' },
+              { id: 'summary', label: '7. Clinical Summary' },
+              { id: 'confirmed', label: '8. Confirm OP' },
             ].map((step, idx) => {
               const currentStepIdx = (() => {
                 if (phase === 'welcome') return 0;
                 if (phase === 'patient_details') return 1;
                 if (phase === 'consent') return 2;
-                if (phase === 'mode_selection' || phase === 'ayush_intro') return 3;
-                if (phase === 'communication_selection') return 4;
-                if (phase === 'interview') return 5;
-                if (phase === 'upload_documents' || phase === 'review') return 6;
-                if (phase === 'summary') return 7;
-                if (phase === 'confirmed') return 8;
+                if (phase === 'communication_selection') return 3;
+                if (phase === 'interview') return 4;
+                if (phase === 'upload_documents' || phase === 'review') return 5;
+                if (phase === 'summary') return 6;
+                if (phase === 'confirmed') return 7;
                 return 0;
               })();
 
@@ -2162,9 +2117,7 @@ export const AICheckupPage = ({ onExit, onNavigateDoctor }) => {
                   <div
                     className={`flex-1 flex items-center justify-center gap-1.5 py-1 px-2 rounded-xl text-xs font-bold transition-all truncate ${
                       isStepActive
-                        ? healthcareMode === 'ayush'
-                          ? 'bg-emerald-100 text-emerald-900 border border-emerald-300 shadow-2xs'
-                          : 'bg-[#E6F7F7] text-[#0EA5A8] border border-[#0EA5A8]/30 shadow-2xs'
+                        ? 'bg-[#E6F7F7] text-[#0EA5A8] border border-[#0EA5A8]/30 shadow-2xs'
                         : isStepDone
                         ? 'text-emerald-700 bg-emerald-50/70'
                         : 'text-[#94A3B8]'
@@ -2176,9 +2129,7 @@ export const AICheckupPage = ({ onExit, onNavigateDoctor }) => {
                       <span
                         className={`w-4 h-4 rounded-full flex items-center justify-center text-[10px] shrink-0 ${
                           isStepActive
-                            ? healthcareMode === 'ayush'
-                              ? 'bg-emerald-600 text-white'
-                              : 'bg-[#0EA5A8] text-white'
+                            ? 'bg-[#0EA5A8] text-white'
                             : 'bg-slate-200 text-slate-600'
                         }`}
                       >
@@ -2187,7 +2138,7 @@ export const AICheckupPage = ({ onExit, onNavigateDoctor }) => {
                     )}
                     <span className="truncate">{step.label.replace(/^\d+\.\s*/, '')}</span>
                   </div>
-                  {idx < 8 && (
+                  {idx < 7 && (
                     <div
                       className={`w-2.5 h-0.5 mx-0.5 shrink-0 ${
                         currentStepIdx > idx ? 'bg-emerald-400' : 'bg-slate-200'
@@ -2207,21 +2158,19 @@ export const AICheckupPage = ({ onExit, onNavigateDoctor }) => {
                   if (phase === 'welcome') return 1;
                   if (phase === 'patient_details') return 2;
                   if (phase === 'consent') return 3;
-                  if (phase === 'mode_selection' || phase === 'ayush_intro') return 4;
-                  if (phase === 'communication_selection') return 5;
-                  if (phase === 'interview') return 6;
-                  if (phase === 'upload_documents' || phase === 'review') return 7;
-                  if (phase === 'summary') return 8;
-                  if (phase === 'confirmed') return 9;
+                  if (phase === 'communication_selection') return 4;
+                  if (phase === 'interview') return 5;
+                  if (phase === 'upload_documents' || phase === 'review') return 6;
+                  if (phase === 'summary') return 7;
+                  if (phase === 'confirmed') return 8;
                   return 1;
-                })()} of 9
+                })()} of 8
               </span>
               <span className="font-bold text-[#172033] truncate">
                 {(() => {
                   if (phase === 'welcome') return 'Select Language';
                   if (phase === 'patient_details') return 'Patient Info';
                   if (phase === 'consent') return 'Patient Consent';
-                  if (phase === 'mode_selection' || phase === 'ayush_intro') return 'Healthcare Mode';
                   if (phase === 'communication_selection') return 'Input Method';
                   if (phase === 'interview') return 'AI Case-Taking';
                   if (phase === 'upload_documents' || phase === 'review') return 'Upload Documents';
@@ -2231,12 +2180,6 @@ export const AICheckupPage = ({ onExit, onNavigateDoctor }) => {
                 })()}
               </span>
             </div>
-            {healthcareMode === 'ayush' && (
-              <span className="text-[10px] font-bold text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200 flex items-center gap-1">
-                <Leaf className="w-3 h-3 text-emerald-600" />
-                <span>AYUSH</span>
-              </span>
-            )}
           </div>
         </div>
 
@@ -2416,11 +2359,11 @@ export const AICheckupPage = ({ onExit, onNavigateDoctor }) => {
                 </button>
                 <button
                   type="button"
-                  onClick={() => setPhase('mode_selection')}
+                  onClick={() => setPhase('communication_selection')}
                   disabled={!consentGiven}
                   className="px-6 py-3 rounded-xl bg-[#0EA5A8] hover:bg-[#0c8f91] disabled:opacity-40 disabled:cursor-not-allowed text-white text-xs font-bold shadow-sm hover:shadow-md transition-all flex items-center gap-2 cursor-pointer"
                 >
-                  <span>Continue to Healthcare Mode</span>
+                  <span>Continue to Input Method (Step 4) →</span>
                   <ArrowRight className="w-4 h-4" />
                 </button>
               </div>
@@ -2428,239 +2371,7 @@ export const AICheckupPage = ({ onExit, onNavigateDoctor }) => {
           </div>
         )}
 
-        {/* PHASE 4: HEALTHCARE MODE SELECTION (GENERAL MEDICAL vs AYUSH) (STEP 4 OF 9) */}
-        {phase === 'mode_selection' && (
-          <div className="flex-1 flex items-center justify-center py-6 sm:py-8">
-            <motion.div
-              initial={{ opacity: 0, scale: 0.96 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.3 }}
-              className="w-full max-w-3xl bg-white border border-[#D9E4E5] rounded-3xl p-6 sm:p-10 shadow-sm space-y-6 text-center"
-            >
-              <div>
-                <span className="text-[11px] font-bold uppercase tracking-wider text-[#0EA5A8] bg-[#E6F7F7] px-3.5 py-1 rounded-full border border-[#0EA5A8]/20 inline-block">
-                  Step 4 of 9 • Healthcare Care Mode
-                </span>
-                <h2 className="text-2xl sm:text-3xl font-extrabold text-[#172033] mt-3 tracking-tight">
-                  How would you like to continue?
-                </h2>
-                <p className="text-xs sm:text-sm text-[#64748B] mt-2 max-w-lg mx-auto leading-relaxed">
-                  Choose the healthcare pathway that matches the type of care or information you want to discuss with the clinical assistant.
-                </p>
-              </div>
-
-              {/* Two Large Premium Healthcare Mode Cards */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-left">
-                {/* 1. GENERAL MEDICAL CARD */}
-                <div
-                  onClick={() => setHealthcareMode('general_medical')}
-                  className={`relative p-5 sm:p-6 rounded-3xl border-2 transition-all cursor-pointer select-none flex flex-col justify-between ${healthcareMode === 'general_medical'
-                      ? 'bg-gradient-to-b from-[#E6F7F7]/60 to-white border-[#0EA5A8] ring-4 ring-[#0EA5A8]/15 shadow-md transform scale-[1.01]'
-                      : 'bg-white border-[#D9E4E5] hover:border-[#0EA5A8]/50 hover:bg-[#F8FAFC]'
-                    }`}
-                >
-                  {healthcareMode === 'general_medical' && (
-                    <div className="absolute top-4 right-4 flex items-center gap-1 px-2.5 py-1 rounded-full bg-[#0EA5A8] text-white text-[11px] font-bold shadow-xs">
-                      <Check className="w-3 h-3" />
-                      <span>Selected</span>
-                    </div>
-                  )}
-
-                  <div>
-                    <div className="w-12 h-12 rounded-2xl bg-[#E6F7F7] border border-[#0EA5A8]/30 flex items-center justify-center text-[#0EA5A8] mb-4 shadow-xs">
-                      <HeartPulse className="w-6 h-6" />
-                    </div>
-
-                    <div className="flex items-center gap-2">
-                      <span className="text-xl">🏥</span>
-                      <h3 className="text-lg font-bold text-[#172033]">GENERAL MEDICAL</h3>
-                    </div>
-
-                    <p className="text-xs text-[#0EA5A8] font-semibold mt-1">
-                      Modern medical consultation
-                    </p>
-
-                    <ul className="mt-4 space-y-2 text-xs text-[#64748B]">
-                      <li className="flex items-center gap-2">
-                        <span className="w-1.5 h-1.5 rounded-full bg-[#0EA5A8] shrink-0" />
-                        <span>Symptoms &amp; vitals</span>
-                      </li>
-                      <li className="flex items-center gap-2">
-                        <span className="w-1.5 h-1.5 rounded-full bg-[#0EA5A8] shrink-0" />
-                        <span>Current medications</span>
-                      </li>
-                      <li className="flex items-center gap-2">
-                        <span className="w-1.5 h-1.5 rounded-full bg-[#0EA5A8] shrink-0" />
-                        <span>Medical history</span>
-                      </li>
-                      <li className="flex items-center gap-2">
-                        <span className="w-1.5 h-1.5 rounded-full bg-[#0EA5A8] shrink-0" />
-                        <span>Diagnostic reports</span>
-                      </li>
-                    </ul>
-                  </div>
-
-                  <div className="mt-6 pt-3 border-t border-[#D9E4E5]/80 text-[11px] text-[#64748B] font-medium">
-                    Suitable for all general OPD visits &amp; modern hospital consultations
-                  </div>
-                </div>
-
-                {/* 2. AYUSH CARD */}
-                <div
-                  onClick={() => setHealthcareMode('ayush')}
-                  className={`relative p-5 sm:p-6 rounded-3xl border-2 transition-all cursor-pointer select-none flex flex-col justify-between ${healthcareMode === 'ayush'
-                      ? 'bg-gradient-to-b from-emerald-50/70 to-white border-emerald-600 ring-4 ring-emerald-500/15 shadow-md transform scale-[1.01]'
-                      : 'bg-white border-[#D9E4E5] hover:border-emerald-500/50 hover:bg-[#F8FAFC]'
-                    }`}
-                >
-                  {healthcareMode === 'ayush' && (
-                    <div className="absolute top-4 right-4 flex items-center gap-1 px-2.5 py-1 rounded-full bg-emerald-600 text-white text-[11px] font-bold shadow-xs">
-                      <Check className="w-3 h-3" />
-                      <span>Selected</span>
-                    </div>
-                  )}
-
-                  <div>
-                    <div className="w-12 h-12 rounded-2xl bg-emerald-100/70 border border-emerald-500/30 flex items-center justify-center text-emerald-700 mb-4 shadow-xs">
-                      <Leaf className="w-6 h-6" />
-                    </div>
-
-                    <div className="flex items-center gap-2">
-                      <span className="text-xl">🌿</span>
-                      <h3 className="text-lg font-bold text-[#172033]">AYUSH</h3>
-                    </div>
-
-                    <p className="text-xs text-emerald-700 font-semibold mt-1">
-                      Traditional &amp; holistic health assessment
-                    </p>
-
-                    <ul className="mt-4 space-y-2 text-xs text-[#64748B]">
-                      <li className="flex items-center gap-2">
-                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-600 shrink-0" />
-                        <span>Prakriti &amp; Vikriti (Constitutional balance)</span>
-                      </li>
-                      <li className="flex items-center gap-2">
-                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-600 shrink-0" />
-                        <span>Agni &amp; Digestion (Metabolism inquiry)</span>
-                      </li>
-                      <li className="flex items-center gap-2">
-                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-600 shrink-0" />
-                        <span>Sleep &amp; Lifestyle (Ahara, Vihara, Nidra)</span>
-                      </li>
-                      <li className="flex items-center gap-2">
-                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-600 shrink-0" />
-                        <span>Ayurveda / Yoga / Unani / Siddha / Homeopathy history</span>
-                      </li>
-                    </ul>
-                  </div>
-
-                  <div className="mt-6 pt-3 border-t border-[#D9E4E5]/80 text-[11px] text-emerald-800 font-medium">
-                    Suitable for AYUSH OPD, wellness centres, and holistic care
-                  </div>
-                </div>
-              </div>
-
-              {/* Information Note */}
-              <div className="p-3.5 rounded-2xl bg-slate-50 border border-[#D9E4E5] text-xs text-[#64748B] flex items-start gap-2.5 text-left">
-                <Info className="w-4 h-4 text-[#0EA5A8] shrink-0 mt-0.5" />
-                <span>
-                  Choose the mode that best matches the type of health information you want to discuss. You will speak with a qualified doctor afterward.
-                </span>
-              </div>
-
-              {/* Bottom Buttons */}
-              <div className="flex items-center justify-between pt-2">
-                <button
-                  type="button"
-                  onClick={() => setPhase('consent')}
-                  className="px-4 py-2 text-xs font-semibold text-[#64748B] hover:text-[#172033] transition-colors cursor-pointer"
-                >
-                  ← Back to Consent
-                </button>
-                <button
-                  type="button"
-                  onClick={() => {
-                    if (healthcareMode === 'ayush') {
-                      setPhase('ayush_intro');
-                    } else {
-                      setPhase('communication_selection');
-                    }
-                  }}
-                  disabled={!healthcareMode}
-                  className="px-7 py-3 rounded-2xl bg-[#0EA5A8] hover:bg-[#0c8f91] disabled:opacity-40 disabled:cursor-not-allowed text-white text-xs sm:text-sm font-bold shadow-sm hover:shadow-md transition-all flex items-center gap-2 cursor-pointer"
-                >
-                  <span>Continue to Input Method</span>
-                  <ArrowRight className="w-4 h-4" />
-                </button>
-              </div>
-            </motion.div>
-          </div>
-        )}
-
-        {/* PHASE 4B: AYUSH MODE INTRODUCTION SCREEN (STEP 4 OF 9) */}
-        {phase === 'ayush_intro' && (
-          <div className="flex-1 flex items-center justify-center py-6 sm:py-8">
-            <motion.div
-              initial={{ opacity: 0, scale: 0.96 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.3 }}
-              className="w-full max-w-2xl bg-white border border-emerald-300 rounded-3xl p-6 sm:p-10 shadow-sm space-y-6 text-center"
-            >
-              <div className="w-16 h-16 rounded-3xl bg-emerald-50 border border-emerald-200 flex items-center justify-center mx-auto text-emerald-700 shadow-sm">
-                <Leaf className="w-8 h-8" />
-              </div>
-
-              <div>
-                <span className="text-[11px] font-bold uppercase tracking-wider text-emerald-800 bg-emerald-100/70 px-3.5 py-1 rounded-full border border-emerald-300 inline-block">
-                  Step 4 of 9 • 🌿 AYUSH Healthcare Mode
-                </span>
-                <h2 className="text-2xl sm:text-3xl font-extrabold text-[#172033] mt-3 tracking-tight">
-                  🌿 AYUSH HEALTH CASE
-                </h2>
-                <p className="text-sm sm:text-base font-semibold text-emerald-900 mt-2">
-                  "Let's understand your health history before you meet your physician."
-                </p>
-                <p className="text-xs sm:text-sm text-[#64748B] mt-3 max-w-lg mx-auto leading-relaxed">
-                  MediKiosk will ask questions about your current concerns, health history, lifestyle, diet and other relevant information. Your responses will be organized into a structured case summary for physician review.
-                </p>
-              </div>
-
-              {/* Crucial Ethical Disclaimer Banner */}
-              <div className="p-4 rounded-2xl bg-emerald-50/80 border border-emerald-200 text-xs text-emerald-950 flex items-start gap-3 text-left">
-                <ShieldCheck className="w-5 h-5 text-emerald-600 shrink-0 mt-0.5" />
-                <div className="space-y-1">
-                  <strong className="block font-bold text-emerald-900">
-                    AI-Assisted Case-Taking (Not an AI Diagnosis)
-                  </strong>
-                  <p className="text-emerald-800 text-[11px] leading-relaxed">
-                    MediKiosk provides AI-assisted clinical case-taking to document your complaints, diet (Ahara), digestion (Agni), and lifestyle (Vihara). This system does not diagnose diseases or prescribe treatment. Your qualified AYUSH physician (Vaidya) remains fully responsible for your examination and care.
-                  </p>
-                </div>
-              </div>
-
-              {/* Bottom Navigation Buttons */}
-              <div className="flex items-center justify-between pt-4 border-t border-[#D9E4E5]">
-                <button
-                  type="button"
-                  onClick={() => setPhase('mode_selection')}
-                  className="px-5 py-2.5 text-xs font-semibold text-[#64748B] hover:text-[#172033] transition-colors cursor-pointer"
-                >
-                  ← Back to Care Mode
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setPhase('communication_selection')}
-                  className="px-8 py-3.5 rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs sm:text-sm font-bold shadow-md hover:shadow-lg transition-all flex items-center gap-2 cursor-pointer"
-                >
-                  <span>Start AYUSH Case (Input Method)</span>
-                  <ArrowRight className="w-4 h-4" />
-                </button>
-              </div>
-            </motion.div>
-          </div>
-        )}
-
-        {/* PHASE 5: COMMUNICATION MODE SELECTION (TEXT vs VOICE) (STEP 5 OF 9) */}
+        {/* PHASE 4: COMMUNICATION MODE SELECTION (TEXT vs VOICE) (STEP 4 OF 8) */}
         {phase === 'communication_selection' && (
           <div className="flex-1 flex items-center justify-center py-6 sm:py-8">
             <motion.div
@@ -2671,16 +2382,13 @@ export const AICheckupPage = ({ onExit, onNavigateDoctor }) => {
             >
               <div>
                 <span className="text-[11px] font-bold uppercase tracking-wider text-[#0284C7] bg-[#E0F2FE] px-3.5 py-1 rounded-full border border-[#0284C7]/20 inline-block">
-                  Step 5 of 9 • Input Method / Communication Mode
+                  Step 4 of 8 • Input Method / Communication Mode
                 </span>
                 <h2 className="text-2xl sm:text-3xl font-extrabold text-[#172033] mt-3 tracking-tight">
                   HOW WOULD YOU LIKE TO ANSWER?
                 </h2>
                 <p className="text-xs sm:text-sm text-[#64748B] mt-2 max-w-lg mx-auto leading-relaxed">
-                  Communicating in <strong className="text-[#0EA5A8]">{activeLangInfo.nativeName} ({activeLangInfo.name})</strong> in{' '}
-                  <strong className="text-[#172033]">
-                    {healthcareMode === 'ayush' ? '🌿 AYUSH Mode' : '🏥 General Medical Mode'}
-                  </strong>
+                  Communicating in <strong className="text-[#0EA5A8]">{activeLangInfo.nativeName} ({activeLangInfo.name})</strong>
                 </p>
               </div>
 
@@ -2782,16 +2490,10 @@ export const AICheckupPage = ({ onExit, onNavigateDoctor }) => {
               <div className="flex items-center justify-between pt-2">
                 <button
                   type="button"
-                  onClick={() => {
-                    if (healthcareMode === 'ayush') {
-                      setPhase('ayush_intro');
-                    } else {
-                      setPhase('mode_selection');
-                    }
-                  }}
+                  onClick={() => setPhase('consent')}
                   className="px-4 py-2 text-xs font-semibold text-[#64748B] hover:text-[#172033] transition-colors cursor-pointer"
                 >
-                  ← Back to Care Mode
+                  ← Back to Consent
                 </button>
                 <button
                   type="button"
@@ -2799,7 +2501,7 @@ export const AICheckupPage = ({ onExit, onNavigateDoctor }) => {
                   disabled={isSending}
                   className="px-8 py-3.5 rounded-2xl bg-[#0EA5A8] hover:bg-[#0c8f91] disabled:opacity-50 text-white text-xs sm:text-sm font-bold shadow-sm hover:shadow-md transition-all flex items-center gap-2 cursor-pointer"
                 >
-                  <span>{isSending ? 'Connecting...' : checkupMode === 'voice' ? 'Start Voice Case (Step 6)' : 'Open AI Chat (Step 6)'}</span>
+                  <span>{isSending ? 'Connecting...' : checkupMode === 'voice' ? 'Start Voice Case (Step 5)' : 'Open AI Chat (Step 5)'}</span>
                   <ArrowRight className="w-4 h-4" />
                 </button>
               </div>
@@ -2818,27 +2520,13 @@ export const AICheckupPage = ({ onExit, onNavigateDoctor }) => {
               <div className="px-5 py-3 bg-[#F8FAFC] border-b border-[#D9E4E5] flex items-center justify-between flex-wrap gap-2">
                 <div className="flex items-center gap-2 text-xs flex-wrap">
                   <span className="text-[10px] font-bold uppercase tracking-wider text-[#0EA5A8] bg-[#E6F7F7] px-2 py-0.5 rounded-md border border-[#0EA5A8]/20">
-                    Step 6 of 9
+                    Step 5 of 8
                   </span>
                   <span className="font-semibold text-[#172033]">AI Case-Taking</span>
                   <span className="text-[#64748B]">—</span>
-                  <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold border flex items-center gap-1 ${healthcareMode === 'ayush'
-                      ? 'bg-emerald-50 text-emerald-800 border-emerald-300'
-                      : 'bg-[#E6F7F7] text-[#0EA5A8] border-[#0EA5A8]/30'
-                    }`}>
-                    <span>{healthcareMode === 'ayush' ? '🌿 AYUSH' : '🏥 General Medical'}</span>
+                  <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold border bg-[#E6F7F7] text-[#0EA5A8] border-[#0EA5A8]/30">
+                    <span>🏥 General Medical</span>
                   </span>
-                  {healthcareMode === 'ayush' && (
-                    <>
-                      <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-900 border border-emerald-300 flex items-center gap-1">
-                        <Leaf className="w-3 h-3 text-emerald-600" />
-                        <span>{ayushSectionLabel}</span>
-                      </span>
-                      <span className="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-50 text-emerald-800 border border-emerald-200 hidden md:inline">
-                        Information collected: {ayushCollectedCount} / 8 core domains
-                      </span>
-                    </>
-                  )}
                   <span className="px-2 py-0.5 rounded-full text-[10px] font-bold border bg-slate-100 text-slate-700 border-slate-300 flex items-center gap-1">
                     <span>{checkupMode === 'voice' ? '🎤 Voice to Voice' : '💬 Text to Text'}</span>
                   </span>
@@ -3920,7 +3608,7 @@ export const AICheckupPage = ({ onExit, onNavigateDoctor }) => {
                   <div>
                     <div className="flex items-center gap-2">
                       <span className="text-[11px] font-bold uppercase tracking-wider text-emerald-800 bg-emerald-100/80 px-2.5 py-0.5 rounded-full border border-emerald-300">
-                        Step 7 of 9 • Upload Medical Documents
+                        Step 6 of 8 • Upload Medical Documents
                       </span>
                       <span className="text-xs text-[#64748B]">Prescriptions &amp; Lab Reports</span>
                     </div>
@@ -4323,7 +4011,7 @@ export const AICheckupPage = ({ onExit, onNavigateDoctor }) => {
                   <div>
                     <div className="flex items-center gap-2">
                       <span className="text-[11px] font-bold uppercase tracking-wider text-emerald-800 bg-emerald-100/80 px-2.5 py-0.5 rounded-full border border-emerald-300">
-                        Step 7 of 9 • Review &amp; Verification
+                        Step 6 of 8 • Review &amp; Verification
                       </span>
                       <span className="text-xs text-[#64748B]">Pre-Summary Verification</span>
                     </div>
@@ -4778,24 +4466,36 @@ export const AICheckupPage = ({ onExit, onNavigateDoctor }) => {
                         </div>
 
                         {!isOtpVerified && (
-                          <button
-                            type="button"
-                            disabled={isGeneratingOtp || patientDetails.phoneNumber.length !== 10}
-                            onClick={() => handleSendOtp()}
-                            className="px-5 py-3 rounded-xl text-white text-xs font-bold transition-all shadow-xs shrink-0 cursor-pointer disabled:opacity-40 flex items-center justify-center gap-1.5 bg-[#0EA5A8] hover:bg-[#0c8f91]"
-                          >
-                            {isGeneratingOtp ? (
-                              <>
-                                <Loader2 className="w-3.5 h-3.5 animate-spin" />
-                                <span>Sending SMS OTP...</span>
-                              </>
-                            ) : (
-                              <>
-                                <Smartphone className="w-3.5 h-3.5" />
-                                <span>{isOtpSent ? 'Resend SMS OTP' : 'Send SMS OTP'}</span>
-                              </>
-                            )}
-                          </button>
+                          <div className="flex items-center gap-2 shrink-0">
+                            <button
+                              type="button"
+                              disabled={isGeneratingOtp || patientDetails.phoneNumber.length !== 10}
+                              onClick={() => handleSendOtp()}
+                              className="px-4 py-3 rounded-xl text-white text-xs font-bold transition-all shadow-xs cursor-pointer disabled:opacity-40 flex items-center justify-center gap-1.5 bg-[#0EA5A8] hover:bg-[#0c8f91]"
+                            >
+                              {isGeneratingOtp ? (
+                                <>
+                                  <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                                  <span>Generating...</span>
+                                </>
+                              ) : (
+                                <>
+                                  <Smartphone className="w-3.5 h-3.5" />
+                                  <span>{isOtpSent ? 'Resend Demo OTP' : 'Get Demo OTP'}</span>
+                                </>
+                              )}
+                            </button>
+                            <button
+                              type="button"
+                              disabled={patientDetails.phoneNumber.length !== 10}
+                              onClick={handleQuickVerifyDemo}
+                              className="px-4 py-3 rounded-xl text-white text-xs font-bold transition-all shadow-xs cursor-pointer disabled:opacity-40 flex items-center justify-center gap-1.5 bg-emerald-600 hover:bg-emerald-700"
+                              title="Instant verification with demo code 123456"
+                            >
+                              <Zap className="w-3.5 h-3.5" />
+                              <span>⚡ Instant Verify</span>
+                            </button>
+                          </div>
                         )}
 
                         {isOtpVerified && (
@@ -5364,7 +5064,7 @@ export const AICheckupPage = ({ onExit, onNavigateDoctor }) => {
                 <div>
                   <div className="flex items-center gap-2 justify-center sm:justify-start">
                     <span className="text-[11px] font-black uppercase tracking-wider text-[#0EA5A8] bg-[#E6F7F7] px-2.5 py-0.5 rounded-full border border-[#0EA5A8]/20">
-                      Step 8 of 9 • Outpatient (OP) Token Generated
+                      Step 7 of 8 • Outpatient (OP) Token Generated
                     </span>
                     <span className="px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-black border border-emerald-300">
                       {healthcareMode === 'ayush' ? '🌿 AYUSH Consultation' : 'Active Consultation'}
@@ -5911,7 +5611,7 @@ export const AICheckupPage = ({ onExit, onNavigateDoctor }) => {
                     </div>
                     <div>
                       <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-800 bg-emerald-100 px-2 py-0.5 rounded-full border border-emerald-300">
-                        Step 8 of 9 • Active Case Confirmation
+                        Step 7 of 8 • Active Case Confirmation
                       </span>
                       <h3 className="text-base sm:text-lg font-black text-emerald-950 mt-1">
                         YOUR HEALTH CASE IS READY
@@ -6031,7 +5731,7 @@ export const AICheckupPage = ({ onExit, onNavigateDoctor }) => {
                         <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
                       </span>
                       <span className={`text-[11px] font-black uppercase tracking-wider ${healthcareMode === 'ayush' ? 'text-emerald-800' : 'text-[#0EA5A8]'}`}>
-                        Step 9 of 9 • Final Confirmed Health Summary &amp; OPD Token
+                        Step 8 of 8 • Final Confirmed Health Summary &amp; OPD Token
                       </span>
                     </div>
 

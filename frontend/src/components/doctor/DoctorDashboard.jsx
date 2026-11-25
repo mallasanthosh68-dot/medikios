@@ -23,6 +23,8 @@ import {
   Ticket,
   Printer,
   X,
+  Bot,
+  MessageSquare,
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { useTranslation } from '../../context/LanguageContext';
@@ -66,6 +68,7 @@ export const DoctorDashboard = ({
   const [prescriptionRequestId, setPrescriptionRequestId] = useState(null);
   const [prescriptionPrefillMedicine, setPrescriptionPrefillMedicine] = useState(null);
   const [printingRx, setPrintingRx] = useState(null);
+  const [previewImage, setPreviewImage] = useState(null);
 
   useEffect(() => {
     loadDoctorData();
@@ -691,11 +694,11 @@ export const DoctorDashboard = ({
               )}
             </div>
 
-            {/* If an OP Summary was found, show the Patient Ribbon and full HealthSummaryView */}
+            {/* If an OP Summary was found, show ONLY Patient Info, Chat Dialogue, Report Image + OCR, and Next Step */}
             {opFoundSummary ? (
               <div className="space-y-6">
                 
-                {/* Patient Quick Action & Verification Bar */}
+                {/* 1. Patient Quick Verification & Demographics Ribbon */}
                 <div className="bg-gradient-to-r from-emerald-600 to-teal-700 rounded-3xl p-5 sm:p-6 text-white shadow-md flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                   <div className="flex items-center gap-3.5">
                     <div className="w-12 h-12 rounded-2xl bg-white/20 backdrop-blur-sm flex items-center justify-center font-black text-lg border border-white/30 shrink-0">
@@ -710,64 +713,253 @@ export const DoctorDashboard = ({
                           {opFoundSummary.opNumber}
                         </span>
                         <span className="text-xs bg-emerald-800/60 px-2.5 py-0.5 rounded-full text-emerald-100 font-semibold border border-emerald-400/30">
-                          Direct OP Dossier
+                          Active OPD Consultation
                         </span>
                       </div>
-                      <p className="text-xs text-emerald-100 mt-0.5">
-                        {opFoundSummary.patientAge ? `${opFoundSummary.patientAge} Yrs • ` : ''}
-                        {opFoundSummary.patientGender ? `${opFoundSummary.patientGender} • ` : ''}
-                        {opFoundSummary.patientPhone ? `Phone: ${opFoundSummary.patientPhone} • ` : ''}
-                        {opFoundSummary.createdAt ? `Generated: ${new Date(opFoundSummary.createdAt).toLocaleDateString()}` : ''}
+                      <p className="text-xs text-emerald-100 mt-1 flex items-center gap-2 flex-wrap">
+                        {opFoundSummary.patientAge ? <span><strong>Age:</strong> {opFoundSummary.patientAge} Yrs</span> : null}
+                        {opFoundSummary.patientGender ? <span>• <strong>Gender:</strong> {opFoundSummary.patientGender}</span> : null}
+                        {opFoundSummary.patientPhone ? <span>• <strong>Phone:</strong> {opFoundSummary.patientPhone}</span> : null}
+                        {opFoundSummary.createdAt ? <span>• <strong>Date:</strong> {new Date(opFoundSummary.createdAt).toLocaleDateString()}</span> : null}
                       </p>
                     </div>
                   </div>
 
                   <div className="flex items-center gap-2.5 flex-wrap">
                     <button
-                      onClick={handleOpenDossierFromOp}
-                      className="px-5 py-3 rounded-2xl bg-white/20 hover:bg-white/30 text-white font-bold text-xs border border-white/40 shadow-xs flex items-center justify-center gap-2 transition-all cursor-pointer shrink-0"
-                    >
-                      <Eye className="w-4 h-4 text-white" />
-                      <span>Review Clinical Dossier (16 Sections)</span>
-                    </button>
-                    <button
                       onClick={handleStartPrescriptionFromOp}
                       className="px-6 py-3 rounded-2xl bg-white hover:bg-slate-50 text-emerald-800 font-black text-xs shadow-md flex items-center justify-center gap-2 transition-all cursor-pointer shrink-0"
                     >
                       <Pill className="w-4 h-4 text-emerald-700" />
-                      <span>Write Digital Prescription for this Patient</span>
+                      <span>Next: Prescribe Medicines</span>
                     </button>
                   </div>
                 </div>
 
-                {/* Direct Full Health Summary Render */}
-                <HealthSummaryView
-                  summary={opFoundSummary}
-                  onChooseDoctor={() => {}}
-                />
+                {/* 2. Chat Between Patient and AI Bot (Interactive Transcript) */}
+                <div className="bg-white border border-[#D9E4E5] rounded-3xl p-6 sm:p-8 shadow-xs space-y-4">
+                  <div className="flex items-center justify-between pb-3 border-b border-[#D9E4E5]">
+                    <div className="flex items-center gap-2.5">
+                      <div className="w-9 h-9 rounded-xl bg-teal-50 border border-teal-200 flex items-center justify-center text-[#0EA5A8] shrink-0">
+                        <MessageSquare className="w-5 h-5" />
+                      </div>
+                      <div>
+                        <h4 className="text-sm font-bold text-[#172033]">
+                          Patient &amp; AI Consultation Dialogue
+                        </h4>
+                        <p className="text-[11px] text-[#64748B]">
+                          Direct conversation transcript between AI Bot and the patient during kiosk check-up
+                        </p>
+                      </div>
+                    </div>
+                    <span className="text-[10px] font-bold px-2.5 py-1 rounded-full bg-slate-100 text-slate-700 border border-slate-200">
+                      {opFoundSummary.interviewResponses?.length || 0} Turn(s) Logged
+                    </span>
+                  </div>
 
-                {/* Bottom Action Bar for Immediate Prescription Writing & Slip Download */}
-                <div className="p-6 rounded-3xl bg-white border border-[#D9E4E5] shadow-xs flex flex-col sm:flex-row items-center justify-between gap-4">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-700 flex items-center justify-center font-bold">
-                      <Pill className="w-5 h-5" />
+                  {opFoundSummary.interviewResponses && opFoundSummary.interviewResponses.length > 0 ? (
+                    <div className="space-y-4 pt-2">
+                      {opFoundSummary.interviewResponses.map((item, idx) => (
+                        <div key={idx} className="space-y-2.5">
+                          {/* AI Question */}
+                          {item.question && (
+                            <div className="flex items-start gap-3">
+                              <div className="w-8 h-8 rounded-xl bg-teal-100 text-[#0EA5A8] flex items-center justify-center shrink-0 mt-0.5">
+                                <Bot className="w-4 h-4" />
+                              </div>
+                              <div className="bg-[#F8FAFC] border border-[#D9E4E5] rounded-2xl p-3.5 text-xs text-[#172033] max-w-2xl shadow-2xs">
+                                <span className="text-[10px] uppercase font-bold text-[#0EA5A8] block mb-1">
+                                  AI Intake Bot
+                                </span>
+                                <p className="leading-relaxed whitespace-pre-wrap">{item.question}</p>
+                              </div>
+                            </div>
+                          )}
+
+                          {/* Patient Answer */}
+                          {item.answer && (
+                            <div className="flex items-start justify-end gap-3">
+                              <div className="bg-[#E6F7F7] border border-[#0EA5A8]/30 rounded-2xl p-3.5 text-xs text-[#172033] max-w-2xl shadow-2xs">
+                                <div className="flex items-center justify-end gap-1.5 text-[10px] uppercase font-bold text-teal-800 mb-1">
+                                  <span>{opFoundSummary.patientName || 'Patient'}</span>
+                                  {item.inputMode === 'voice' && (
+                                    <span className="text-[9px] px-1.5 py-0.2 rounded bg-sky-100 text-sky-800 font-semibold">
+                                      🎤 Spoken
+                                    </span>
+                                  )}
+                                </div>
+                                <p className="leading-relaxed whitespace-pre-wrap text-left font-medium">{item.answer}</p>
+                              </div>
+                              <div className="w-8 h-8 rounded-xl bg-[#0EA5A8] text-white flex items-center justify-center shrink-0 mt-0.5">
+                                <User className="w-4 h-4" />
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    /* Fallback display if responses array is minimal */
+                    <div className="p-4 rounded-2xl bg-[#F8FAFC] border border-[#D9E4E5] space-y-2 text-xs">
+                      <div className="flex items-center gap-2">
+                        <Bot className="w-4 h-4 text-[#0EA5A8]" />
+                        <strong className="text-[#172033]">Chief Health Concern Logged:</strong>
+                      </div>
+                      <p className="text-slate-700 bg-white p-3 rounded-xl border border-slate-200">
+                        {opFoundSummary.chiefComplaint || 'Patient completed intake. No extended dialogue lines logged.'}
+                      </p>
+                      {opFoundSummary.symptoms && opFoundSummary.symptoms.length > 0 && (
+                        <div className="pt-1">
+                          <span className="text-[11px] font-bold text-slate-600 block mb-1">Reported Symptoms:</span>
+                          <div className="flex flex-wrap gap-1.5">
+                            {opFoundSummary.symptoms.map((s, i) => (
+                              <span key={i} className="px-2.5 py-0.5 rounded-lg bg-teal-50 border border-teal-200 text-teal-900 text-xs font-semibold">
+                                {s}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </div>
+
+                {/* 3. Uploaded Medical Reports & OCR Extraction */}
+                <div className="bg-white border border-[#D9E4E5] rounded-3xl p-6 sm:p-8 shadow-xs space-y-4">
+                  <div className="flex items-center justify-between pb-3 border-b border-[#D9E4E5]">
+                    <div className="flex items-center gap-2.5">
+                      <div className="w-9 h-9 rounded-xl bg-sky-50 border border-sky-200 flex items-center justify-center text-[#0284C7] shrink-0">
+                        <FileText className="w-5 h-5" />
+                      </div>
+                      <div>
+                        <h4 className="text-sm font-bold text-[#172033]">
+                          Uploaded Medical Reports &amp; OCR Extraction
+                        </h4>
+                        <p className="text-[11px] text-[#64748B]">
+                          Report image previews and text extracted via optical character recognition
+                        </p>
+                      </div>
+                    </div>
+                    <span className="text-[10px] font-bold px-2.5 py-1 rounded-full bg-sky-100 text-[#0284C7] border border-sky-200">
+                      {opFoundSummary.pinnedReports?.length || 0} Report(s)
+                    </span>
+                  </div>
+
+                  {opFoundSummary.pinnedReports && opFoundSummary.pinnedReports.length > 0 ? (
+                    <div className="space-y-6 pt-2">
+                      {opFoundSummary.pinnedReports.map((report, idx) => (
+                        <div key={idx} className="p-5 rounded-2xl bg-[#F8FAFC] border border-[#D9E4E5] space-y-4">
+                          <div className="flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                              <h5 className="font-bold text-[#172033] text-sm flex items-center gap-2">
+                                <span>📄 {report.title || `Medical Report #${idx + 1}`}</span>
+                                <span className="text-[10px] px-2 py-0.5 rounded bg-slate-200 text-slate-700 font-mono font-semibold">
+                                  {report.documentType || 'Diagnostic Scan'}
+                                </span>
+                              </h5>
+                              {report.createdAt && (
+                                <span className="text-[11px] text-[#64748B]">
+                                  Uploaded: {new Date(report.createdAt).toLocaleDateString()}
+                                </span>
+                              )}
+                            </div>
+                            {report.fileUrl && (
+                              <button
+                                type="button"
+                                onClick={() => setPreviewImage(report.fileUrl)}
+                                className="px-3 py-1.5 rounded-xl bg-white border border-[#D9E4E5] hover:border-[#0284C7] text-xs font-semibold text-[#0284C7] flex items-center gap-1.5 transition-colors cursor-pointer"
+                              >
+                                <Eye className="w-3.5 h-3.5" />
+                                <span>View Full Image</span>
+                              </button>
+                            )}
+                          </div>
+
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            {/* Report Image Thumbnail */}
+                            {report.fileUrl ? (
+                              <div className="space-y-1.5">
+                                <span className="text-[11px] font-bold text-slate-700 block">Report Image:</span>
+                                <div
+                                  onClick={() => setPreviewImage(report.fileUrl)}
+                                  className="relative group rounded-xl border border-slate-300 overflow-hidden bg-white cursor-pointer max-h-72 flex items-center justify-center p-2 shadow-2xs hover:border-[#0284C7] transition-all"
+                                >
+                                  <img
+                                    src={report.fileUrl}
+                                    alt={report.title || 'Uploaded Report'}
+                                    className="max-h-64 w-auto object-contain rounded-lg"
+                                  />
+                                  <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white text-xs font-bold gap-1.5">
+                                    <Eye className="w-4 h-4" />
+                                    <span>Click to Enlarge</span>
+                                  </div>
+                                </div>
+                              </div>
+                            ) : (
+                              <div className="p-4 rounded-xl bg-white border border-slate-200 text-xs text-slate-500 flex items-center justify-center">
+                                No image preview available
+                              </div>
+                            )}
+
+                            {/* OCR Extracted Text & Test Values */}
+                            <div className="space-y-1.5">
+                              <div className="flex items-center justify-between">
+                                <span className="text-[11px] font-bold text-slate-700">OCR Extracted Text:</span>
+                                {report.extractedText && (
+                                  <button
+                                    type="button"
+                                    onClick={() => {
+                                      navigator.clipboard?.writeText(report.extractedText);
+                                      toast.success('OCR text copied to clipboard');
+                                    }}
+                                    className="text-[10px] text-[#0284C7] hover:underline font-semibold"
+                                  >
+                                    Copy Text
+                                  </button>
+                                )}
+                              </div>
+                              <div className="p-3.5 rounded-xl bg-white border border-slate-300 max-h-72 overflow-y-auto shadow-inner text-xs font-mono text-slate-800 whitespace-pre-wrap leading-relaxed">
+                                {report.extractedText || 'No text extracted from this document.'}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="p-6 rounded-2xl bg-[#F8FAFC] border border-[#D9E4E5] text-center space-y-1">
+                      <FileText className="w-8 h-8 text-slate-400 mx-auto mb-1" />
+                      <p className="text-xs font-bold text-[#172033]">No medical reports uploaded</p>
+                      <p className="text-[11px] text-[#64748B]">The patient did not attach diagnostic scans or lab reports for this visit.</p>
+                    </div>
+                  )}
+                </div>
+
+                {/* 4. Prominent Action: Next Step to Medicines */}
+                <div className="p-6 rounded-3xl bg-gradient-to-r from-emerald-600 to-teal-700 text-white shadow-md flex flex-col sm:flex-row items-center justify-between gap-4">
+                  <div className="flex items-center gap-3.5">
+                    <div className="w-12 h-12 rounded-2xl bg-white/20 backdrop-blur-sm flex items-center justify-center font-bold text-white shrink-0">
+                      <Pill className="w-6 h-6" />
                     </div>
                     <div>
-                      <h4 className="text-sm font-bold text-[#172033]">
-                        Ready to Prescribe for {opFoundSummary.patientName || 'Patient'} ({opFoundSummary.opNumber})?
+                      <span className="text-xs font-bold uppercase tracking-wider text-emerald-200 block">
+                        Next Clinical Step
+                      </span>
+                      <h4 className="text-base font-black text-white mt-0.5">
+                        Ready to prescribe medicines for {opFoundSummary.patientName || 'Patient'}?
                       </h4>
-                      <p className="text-xs text-[#64748B] mt-0.5">
-                        Open the digital prescription builder, enter medications, and download or print the official prescription slip to give to the patient.
+                      <p className="text-xs text-emerald-100 mt-0.5">
+                        Open the digital prescription builder, enter medications, and issue the prescription slip.
                       </p>
                     </div>
                   </div>
 
                   <button
                     onClick={handleStartPrescriptionFromOp}
-                    className="w-full sm:w-auto px-6 py-3 rounded-2xl bg-[#0284C7] hover:bg-[#0369A1] text-white font-bold text-xs shadow-sm hover:shadow flex items-center justify-center gap-2 transition-all cursor-pointer"
+                    className="w-full sm:w-auto px-7 py-3.5 rounded-2xl bg-white hover:bg-slate-50 text-emerald-900 font-black text-xs sm:text-sm shadow-md flex items-center justify-center gap-2 transition-all cursor-pointer shrink-0"
                   >
-                    <Pill className="w-4 h-4" />
-                    <span>Write &amp; Download Prescription for Patient →</span>
+                    <Pill className="w-4 h-4 text-emerald-700" />
+                    <span>Next Step: Prescribe Medicines to Patient →</span>
                   </button>
                 </div>
 
@@ -1047,8 +1239,12 @@ export const DoctorDashboard = ({
             initialMedicine={prescriptionPrefillMedicine}
             onPrescriptionCreated={() => {
               setPrescriptionPrefillMedicine(null);
+              setPrescriptionTarget(null);
+              setPrescriptionRequestId(null);
+              handleClearOp();
               loadDoctorData();
-              setActiveTab('prescriptions');
+              setActiveTab('op_lookup');
+              toast.success('Prescription issued successfully! Ready for next patient OP lookup.');
             }}
           />
         )}
@@ -1351,6 +1547,28 @@ export const DoctorDashboard = ({
                 <span>Send to System Printer</span>
               </button>
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* Report Image Modal */}
+      {previewImage && (
+        <div
+          onClick={() => setPreviewImage(null)}
+          className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 cursor-pointer"
+        >
+          <div className="relative max-w-4xl max-h-[90vh] bg-white rounded-3xl p-3 shadow-2xl overflow-hidden" onClick={(e) => e.stopPropagation()}>
+            <button
+              onClick={() => setPreviewImage(null)}
+              className="absolute top-4 right-4 w-9 h-9 rounded-full bg-slate-900/70 hover:bg-slate-900 text-white flex items-center justify-center transition-colors cursor-pointer z-10"
+            >
+              <X className="w-5 h-5" />
+            </button>
+            <img
+              src={previewImage}
+              alt="Full Report Preview"
+              className="max-h-[85vh] w-auto object-contain rounded-2xl mx-auto"
+            />
           </div>
         </div>
       )}

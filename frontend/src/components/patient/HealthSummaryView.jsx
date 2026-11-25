@@ -107,11 +107,8 @@ export const HealthSummaryView = ({ summary, onChooseDoctor, onAttachReport, onR
 
           <div className="flex items-center gap-2 flex-wrap self-start sm:self-auto">
             {/* Healthcare Pathway Badge */}
-            <span className={`inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-bold border ${summary.healthcareMode === 'ayush'
-              ? 'bg-emerald-50 border-emerald-300 text-emerald-800'
-              : 'bg-[#E6F7F7] border-[#0EA5A8]/30 text-[#0EA5A8]'
-              }`}>
-              <span>{summary.healthcareMode === 'ayush' ? '🌿 AYUSH Pathway' : '🏥 General Medical'}</span>
+            <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-bold border bg-[#E6F7F7] border-[#0EA5A8]/30 text-[#0EA5A8]">
+              <span>🏥 General Medical</span>
             </span>
 
             {/* Communication Mode Badge */}
@@ -339,95 +336,6 @@ export const HealthSummaryView = ({ summary, onChooseDoctor, onAttachReport, onR
           </div>
         </div>
 
-        {/* Dedicated AYUSH Assessment Section */}
-        {(summary.healthcareMode === 'ayush' || summary.ayushAssessment) && (
-          <div className="p-5 sm:p-6 rounded-3xl bg-gradient-to-br from-emerald-50/80 via-[#F0FDF4] to-white border-2 border-emerald-500/40 shadow-xs space-y-4">
-            <div className="flex items-center justify-between flex-wrap gap-2 pb-3 border-b border-emerald-200">
-              <div className="flex items-center gap-2.5">
-                <div className="w-9 h-9 rounded-xl bg-emerald-100 border border-emerald-300 flex items-center justify-center text-emerald-800 shrink-0 shadow-xs">
-                  <Leaf className="w-5 h-5" />
-                </div>
-                <div>
-                  <span className="text-[10px] uppercase font-bold text-emerald-800 tracking-wider block">
-                    Traditional &amp; Complementary Health
-                  </span>
-                  <h4 className="text-base font-extrabold text-emerald-950">
-                    AYUSH Clinical Assessment Parameters
-                  </h4>
-                </div>
-              </div>
-              <span className="text-[10px] font-bold px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-800 border border-emerald-300">
-                Vaidya / Qualified Practitioner Review Required
-              </span>
-            </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
-              <div className="p-3.5 rounded-2xl bg-white/90 border border-emerald-200/80 shadow-2xs">
-                <span className="text-[11px] font-bold text-emerald-900 block mb-1">
-                  🌿 Prakriti (Indicative Traits):
-                </span>
-                <p className="text-[#172033] leading-relaxed">
-                  {summary.ayushAssessment?.prakriti || 'Inquiry into constitutional traits (Vata/Pitta/Kapha tendencies) logged.'}
-                </p>
-                <span className="text-[10px] text-emerald-700 italic block mt-1">
-                  *Patient-reported indicative traits only; definitive Prakriti Pariksha performed by Vaidya.
-                </span>
-              </div>
-
-              <div className="p-3.5 rounded-2xl bg-white/90 border border-emerald-200/80 shadow-2xs">
-                <span className="text-[11px] font-bold text-emerald-900 block mb-1">
-                  ⚖ Vikriti (Current Imbalance):
-                </span>
-                <p className="text-[#172033] leading-relaxed">
-                  {summary.ayushAssessment?.vikriti || 'Aggravation or constitutional imbalance reported with present illness.'}
-                </p>
-              </div>
-
-              <div className="p-3.5 rounded-2xl bg-white/90 border border-emerald-200/80 shadow-2xs">
-                <span className="text-[11px] font-bold text-emerald-900 block mb-1">
-                  🔥 Agni &amp; Koshtha:
-                </span>
-                <p className="text-[#172033]">
-                  <strong>Agni (Digestive Fire):</strong> {summary.ayushAssessment?.agni || 'Moderate digestion reported'}
-                </p>
-                <p className="text-[#172033] mt-1">
-                  <strong>Koshtha (Bowel Pattern):</strong> {summary.ayushAssessment?.koshtha || 'Regular bowel movement pattern'}
-                </p>
-              </div>
-
-              <div className="p-3.5 rounded-2xl bg-white/90 border border-emerald-200/80 shadow-2xs">
-                <span className="text-[11px] font-bold text-emerald-900 block mb-1">
-                  🌙 Ahara, Vihara &amp; Nidra (Lifestyle Factors):
-                </span>
-                <p className="text-[#172033]">
-                  <strong>Diet (Ahara):</strong> {summary.ayushAssessment?.ahara || 'Balanced meals reported'}
-                </p>
-                <p className="text-[#172033] mt-1">
-                  <strong>Sleep (Nidra):</strong> {summary.ayushAssessment?.nidra || 'Normal sleep patterns'}
-                </p>
-                <p className="text-[#172033] mt-1">
-                  <strong>Daily Routine (Vihara):</strong> {summary.ayushAssessment?.vihara || 'Standard daily physical routine'}
-                </p>
-              </div>
-            </div>
-
-            {summary.ayushAssessment?.traditionalPractices && (
-              <div className="p-3 rounded-xl bg-white/90 border border-emerald-200 text-xs">
-                <span className="font-bold text-emerald-900 block mb-0.5">
-                  Ayurveda / Yoga / Unani / Siddha / Homeopathy History:
-                </span>
-                <p className="text-[#172033]">{summary.ayushAssessment.traditionalPractices}</p>
-              </div>
-            )}
-
-            <div className="p-3 rounded-xl bg-emerald-100/60 border border-emerald-300/50 text-[11px] text-emerald-900 leading-relaxed">
-              <span className="font-bold block mb-0.5">Clinical Notice:</span>
-              {summary.ayushAssessment?.verificationNotice ||
-                'This case intake is structured to assist registered AYUSH practitioners and Vaidyas. It does not replace physical pulse diagnosis (Nadi Pariksha) or physician clinical judgment.'}
-            </div>
-          </div>
-        )}
-
         {/* Section 3: Patient's Own Description & Clinical History */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div className="p-4 rounded-2xl bg-[#F8FAFC] border border-[#D9E4E5]">
@@ -534,21 +442,15 @@ export const HealthSummaryView = ({ summary, onChooseDoctor, onAttachReport, onR
         {/* Section 6: AI Bot & Patient Intake Conversation Dialogue */}
         <AIBotSummaryAssistant summary={summary} language={summary?.language || 'en'} />
 
-        {/* Section 7: AI Medication Suggestions for Attending Doctor / Vaidya */}
-        <div className={`p-5 sm:p-6 rounded-3xl border-2 shadow-xs space-y-4 ${summary.healthcareMode === 'ayush'
-            ? 'bg-gradient-to-br from-emerald-50/90 via-[#F0FDF4] to-white border-emerald-400'
-            : 'bg-gradient-to-br from-[#E6F7F7]/70 via-[#F0FDFA]/50 to-white border-[#0EA5A8]'
-          }`}>
-          <div className={`flex items-center justify-between flex-wrap gap-2 pb-3 border-b ${summary.healthcareMode === 'ayush' ? 'border-emerald-200' : 'border-[#0EA5A8]/20'
-            }`}>
+        {/* Section 7: AI Medication Suggestions for Attending Doctor */}
+        <div className="p-5 sm:p-6 rounded-3xl border-2 shadow-xs space-y-4 bg-gradient-to-br from-[#E6F7F7]/70 via-[#F0FDFA]/50 to-white border-[#0EA5A8]">
+          <div className="flex items-center justify-between flex-wrap gap-2 pb-3 border-b border-[#0EA5A8]/20">
             <div className="flex items-center gap-2.5">
-              <div className={`w-9 h-9 rounded-xl flex items-center justify-center text-white shrink-0 shadow-2xs ${summary.healthcareMode === 'ayush' ? 'bg-emerald-600' : 'bg-[#0EA5A8]'
-                }`}>
+              <div className="w-9 h-9 rounded-xl flex items-center justify-center text-white shrink-0 shadow-2xs bg-[#0EA5A8]">
                 <Pill className="w-5 h-5" />
               </div>
               <div>
-                <span className={`text-[10px] uppercase font-bold tracking-wider block ${summary.healthcareMode === 'ayush' ? 'text-emerald-800' : 'text-[#0EA5A8]'
-                  }`}>
+                <span className="text-[10px] uppercase font-bold tracking-wider block text-[#0EA5A8]">
                   Prescription Support Advisory
                 </span>
                 <h4 className="text-base font-extrabold text-[#172033]">
@@ -556,10 +458,7 @@ export const HealthSummaryView = ({ summary, onChooseDoctor, onAttachReport, onR
                 </h4>
               </div>
             </div>
-            <span className={`text-[10px] font-bold px-2.5 py-1 rounded-full border ${summary.healthcareMode === 'ayush'
-                ? 'bg-emerald-100 text-emerald-800 border-emerald-300'
-                : 'bg-[#E6F7F7] text-[#0EA5A8] border-[#0EA5A8]/30'
-              }`}>
+            <span className="text-[10px] font-bold px-2.5 py-1 rounded-full border bg-[#E6F7F7] text-[#0EA5A8] border-[#0EA5A8]/30">
               Doctor Review &amp; Official Prescription Required
             </span>
           </div>
@@ -568,7 +467,7 @@ export const HealthSummaryView = ({ summary, onChooseDoctor, onAttachReport, onR
           <div className="p-3.5 rounded-2xl bg-amber-50 border border-amber-200 flex items-start gap-3 text-xs text-amber-900">
             <AlertTriangle className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
             <div className="text-[11px] leading-relaxed">
-              <strong>Physician Advisory Notice:</strong> The following medications and dosages are suggested by AI clinical triage based on patient-reported symptoms. <strong>The attending doctor / Vaidya will evaluate the patient, check for contraindications/allergies, and write the official prescription.</strong>
+              <strong>Physician Advisory Notice:</strong> The following medications and dosages are suggested by AI clinical triage based on patient-reported symptoms. <strong>The attending doctor will evaluate the patient, check for contraindications/allergies, and write the official prescription.</strong>
             </div>
           </div>
 
@@ -579,7 +478,7 @@ export const HealthSummaryView = ({ summary, onChooseDoctor, onAttachReport, onR
                   <div className="flex items-start justify-between gap-2">
                     <div>
                       <h5 className="font-extrabold text-[#172033] text-sm flex items-center gap-1.5">
-                        <span>{summary.healthcareMode === 'ayush' ? '🌿' : '💊'} {med.medicineName}</span>
+                        <span>💊 {med.medicineName}</span>
                         {med.strength && (
                           <span className="text-[10px] font-mono font-bold px-1.5 py-0.5 rounded bg-slate-100 text-slate-700 border border-slate-200">
                             {med.strength}
@@ -590,10 +489,7 @@ export const HealthSummaryView = ({ summary, onChooseDoctor, onAttachReport, onR
                         <p className="text-[11px] text-[#64748B] mt-0.5">{med.genericName}</p>
                       )}
                     </div>
-                    <span className={`text-[9px] font-bold uppercase px-2 py-0.5 rounded-full border shrink-0 ${summary.healthcareMode === 'ayush'
-                        ? 'bg-emerald-50 text-emerald-800 border-emerald-200'
-                        : 'bg-[#E6F7F7] text-[#0EA5A8] border-[#0EA5A8]/20'
-                      }`}>
+                    <span className="text-[9px] font-bold uppercase px-2 py-0.5 rounded-full border shrink-0 bg-[#E6F7F7] text-[#0EA5A8] border-[#0EA5A8]/20">
                       {med.category || 'Therapeutic'}
                     </span>
                   </div>
