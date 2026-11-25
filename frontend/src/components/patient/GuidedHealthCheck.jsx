@@ -29,8 +29,10 @@ import { CameraScannerModal } from './CameraScannerModal';
 import { HealthTimeline } from './HealthTimeline';
 import { HealthSummaryView } from './HealthSummaryView';
 import { DoctorDirectory } from './DoctorDirectory';
+import { useToast } from '../../context/ToastContext';
 
 export const GuidedHealthCheck = ({ onFinishCheckup, onSwitchTab }) => {
+  const { toast } = useToast();
   const { user, language } = useAuth();
 
   // Active step in the guided journey (1 to 5)
@@ -126,8 +128,8 @@ export const GuidedHealthCheck = ({ onFinishCheckup, onSwitchTab }) => {
         }
 
         if (res.rejectedFiles && res.rejectedFiles.length > 0) {
-          alert(
-            `Notice: ${res.rejectedFiles.length} file(s) were rejected because only authentic hospital reports are allowed.\n\n${res.rejectedFiles.map((r) => `• ${r.fileName}: ${r.reason}`).join('\n')}`
+          toast.warning(
+            `${res.rejectedFiles.length} file(s) rejected: Only authentic hospital reports are allowed.`
           );
         }
 

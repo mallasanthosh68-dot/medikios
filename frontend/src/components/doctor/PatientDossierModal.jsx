@@ -34,6 +34,7 @@ import {
 import { api } from '../../services/api';
 import { updateDoctorAyushCase } from '../../services/ayushService';
 import { PinnedReportsGallery } from '../common/PinnedReportsGallery';
+import { useToast } from '../../context/ToastContext';
 
 export const PatientDossierModal = ({
   isOpen,
@@ -42,6 +43,7 @@ export const PatientDossierModal = ({
   onReviewConfirmed,
   onOpenPrescriptionBuilder,
 }) => {
+  const { toast } = useToast();
   if (!isOpen || !dossier) return null;
 
   const { request = {}, patient = {}, summary = {}, interview = {}, documents = [], extractions = [], timeline = [] } = dossier;
@@ -99,10 +101,10 @@ export const PatientDossierModal = ({
       if (res.success) {
         setIsAccepted(true);
         if (onReviewConfirmed) onReviewConfirmed(res.request);
-        alert(`✓ Summary Accepted! Notification sent to ${patient.name}: "Dr. ${res.request?.doctorProfile?.doctorName || 'Doctor'} accepted your summary. You can go tomorrow for your checkup."`);
+        toast.success(`Summary Accepted! Appointment confirmed for ${patient.name || 'patient'}.`);
       }
     } catch (err) {
-      alert('Error accepting summary: ' + err.message);
+      toast.error('Error accepting summary: ' + (err.message || 'Server error'));
     } finally {
       setAccepting(false);
     }
@@ -152,9 +154,10 @@ export const PatientDossierModal = ({
         };
         setStampData(stamp);
         if (onReviewConfirmed) onReviewConfirmed(res.summary);
+        toast.success('Clinical case review confirmed with digital doctor stamp.');
       }
     } catch (err) {
-      alert('Error confirming review: ' + err.message);
+      toast.error('Error confirming review: ' + (err.message || 'Server error'));
     } finally {
       setSaving(false);
     }

@@ -504,12 +504,15 @@ function MainApp() {
 }
 
 import { LanguageProvider } from './context/LanguageContext';
+import { ToastProvider } from './context/ToastContext';
 
 export default function App() {
   return (
     <AuthProvider>
       <LanguageProvider>
-        <MainApp />
+        <ToastProvider>
+          <MainApp />
+        </ToastProvider>
       </LanguageProvider>
     </AuthProvider>
   );

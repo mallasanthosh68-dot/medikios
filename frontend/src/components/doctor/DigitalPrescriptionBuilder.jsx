@@ -21,6 +21,7 @@ import {
 } from 'lucide-react';
 import { api } from '../../services/api';
 import { MedicineAutocompleteInput } from './MedicineAutocompleteInput';
+import { useToast } from '../../context/ToastContext';
 
 export const DigitalPrescriptionBuilder = ({
   initialPatient,
@@ -28,6 +29,7 @@ export const DigitalPrescriptionBuilder = ({
   initialMedicine,
   onPrescriptionCreated,
 }) => {
+  const { toast } = useToast();
   const [patientId, setPatientId] = useState(initialPatient?.id || initialPatient?._id || '');
   const [patientName, setPatientName] = useState(initialPatient?.name || 'Walk-in Patient');
   const [patientAge, setPatientAge] = useState(initialPatient?.age || initialPatient?.patientAge || 35);
@@ -687,13 +689,13 @@ export const DigitalPrescriptionBuilder = ({
     if (e && e.preventDefault) e.preventDefault();
 
     if (!patientName.trim()) {
-      alert('Please provide the patient name.');
+      toast.warning('Please provide the patient name.');
       return;
     }
 
     const validMeds = medicines.filter((m) => m.name && m.name.trim());
     if (validMeds.length === 0) {
-      alert('Please enter at least one medicine to prescribe.');
+      toast.warning('Please enter at least one medicine to prescribe.');
       return;
     }
 
@@ -717,6 +719,7 @@ export const DigitalPrescriptionBuilder = ({
 
       if (res.success && res.prescription) {
         setSuccessRx(res.prescription);
+        toast.success(`Prescription generated for ${patientName.trim()}!`);
         if (onPrescriptionCreated) onPrescriptionCreated(res.prescription);
         if (shouldDownload) {
           handleDownloadPrescription(res.prescription);
@@ -725,7 +728,7 @@ export const DigitalPrescriptionBuilder = ({
         }
       }
     } catch (err) {
-      alert('Failed to generate prescription: ' + (err.message || 'Unknown error'));
+      toast.error('Failed to generate prescription: ' + (err.message || 'Unknown error'));
     } finally {
       setSaving(false);
     }

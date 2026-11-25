@@ -22,6 +22,7 @@ import {
 import { api } from '../../services/api';
 import { CameraScannerModal } from './CameraScannerModal';
 import { OCRReviewModal } from './OCRReviewModal';
+import { useToast } from '../../context/ToastContext';
 
 const DOC_TYPES = [
   'Lab Report',
@@ -35,6 +36,7 @@ const DOC_TYPES = [
 ];
 
 export const MedicalRecords = () => {
+  const { toast } = useToast();
   const [documents, setDocuments] = useState([]);
   const [loading, setLoading] = useState(false);
   const [selectedDocType, setSelectedDocType] = useState('Lab Report');
@@ -109,11 +111,9 @@ export const MedicalRecords = () => {
           text: `✓ ${count} Hospital Report(s) Verified & Converted into Text! Attached to your medical records.`,
         });
         if (res.rejectedFiles && res.rejectedFiles.length > 0) {
-          setTimeout(() => {
-            alert(
-              `Notice: ${res.rejectedFiles.length} file(s) were rejected because only authentic hospital reports are accepted.\n\nRejected Files:\n${res.rejectedFiles.map((r) => `• ${r.fileName}: ${r.reason}`).join('\n')}`
-            );
-          }, 300);
+          toast.warning(
+            `${res.rejectedFiles.length} file(s) rejected: Only authentic hospital reports are accepted.`
+          );
         }
         if (res.extraction) {
           setActiveExtraction(res.extraction);
@@ -165,7 +165,7 @@ export const MedicalRecords = () => {
         fetchDocuments();
       }
     } catch (err) {
-      alert('Delete failed: ' + (err.message || 'Server error'));
+      toast.error('Delete failed: ' + (err.message || 'Server error'));
     }
   };
 

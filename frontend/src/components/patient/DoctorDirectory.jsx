@@ -12,6 +12,7 @@ import {
   UserCheck,
 } from 'lucide-react';
 import { api } from '../../services/api';
+import { useToast } from '../../context/ToastContext';
 
 const SPECIALTIES = [
   'All',
@@ -26,6 +27,7 @@ const SPECIALTIES = [
 ];
 
 export const DoctorDirectory = ({ summary, onDoctorRequestSent }) => {
+  const { toast } = useToast();
   const [doctors, setDoctors] = useState([]);
   const [search, setSearch] = useState('');
   const [selectedSpecialty, setSelectedSpecialty] = useState('All');
@@ -83,11 +85,13 @@ export const DoctorDirectory = ({ summary, onDoctorRequestSent }) => {
 
       if (res.success) {
         setIsShareModalOpen(false);
-        setSuccessNotice(`Health summary successfully sent to ${selectedDoctor.doctorName}! Once the doctor accepts, you will receive a notification to visit tomorrow for your checkup.`);
+        const successMsg = `Health summary successfully sent to ${selectedDoctor.doctorName}! Once the doctor accepts, you will receive a notification to visit tomorrow for your checkup.`;
+        setSuccessNotice(successMsg);
+        toast.success(`Dossier sent to Dr. ${selectedDoctor.doctorName}!`);
         if (onDoctorRequestSent) onDoctorRequestSent(selectedDoctor);
       }
     } catch (err) {
-      alert('Failed to send request: ' + err.message);
+      toast.error('Failed to send request: ' + (err.message || 'Server error'));
     } finally {
       setSending(false);
     }

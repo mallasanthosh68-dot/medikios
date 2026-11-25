@@ -26,6 +26,7 @@ import {
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { useTranslation } from '../../context/LanguageContext';
+import { useToast } from '../../context/ToastContext';
 import { api } from '../../services/api';
 import { PatientDossierModal } from './PatientDossierModal';
 import { MedicineSearchBox } from './MedicineSearchBox';
@@ -41,6 +42,7 @@ export const DoctorDashboard = ({
 }) => {
   const { user, profile } = useAuth();
   const { t } = useTranslation();
+  const { toast } = useToast();
   const [internalActiveTab, setInternalActiveTab] = useState('dashboard');
 
   const activeTab = controlledActiveTab !== undefined ? controlledActiveTab : internalActiveTab;
@@ -190,7 +192,7 @@ export const DoctorDashboard = ({
         setIsDossierOpen(true);
       }
     } catch (err) {
-      alert('Failed to load patient dossier: ' + err.message);
+      toast.error('Failed to load patient dossier: ' + (err.message || 'Server error'));
     }
   };
 

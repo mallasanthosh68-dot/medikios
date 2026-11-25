@@ -16,6 +16,7 @@ import {
   Download,
 } from 'lucide-react';
 import { CameraScannerModal } from '../patient/CameraScannerModal';
+import { useToast } from '../../context/ToastContext';
 
 export const PinnedReportsGallery = ({
   reports = [],
@@ -24,6 +25,7 @@ export const PinnedReportsGallery = ({
   readOnly = false,
   title = 'Pinned Medical Reports & Diagnostic Images',
 }) => {
+  const { toast } = useToast();
   const [selectedImage, setSelectedImage] = useState(null);
   const [isCameraOpen, setIsCameraOpen] = useState(false);
   const [uploading, setUploading] = useState(false);
@@ -103,7 +105,7 @@ export const PinnedReportsGallery = ({
       }
     } catch (err) {
       console.error('Failed to remove report:', err);
-      alert('Failed to remove report: ' + (err.message || 'Server error'));
+      toast.error('Failed to remove report: ' + (err.message || 'Server error'));
     } finally {
       setRemovingId(null);
     }
