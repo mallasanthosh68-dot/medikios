@@ -737,7 +737,8 @@ export const DigitalPrescriptionBuilder = ({
   return (
     <div className="space-y-6">
       {/* Embedded CSS for clean browser printing to doctor's system printer */}
-      <style dangerouslySetInnerHTML={{ __html: `
+      <style dangerouslySetInnerHTML={{
+        __html: `
         @media print {
           body * {
             visibility: hidden !important;
@@ -765,7 +766,7 @@ export const DigitalPrescriptionBuilder = ({
 
       {/* Main Prescription Builder Card (Hidden in Print Mode) */}
       <div className="bg-white p-6 sm:p-8 rounded-3xl border border-[#D9E4E5] shadow-xs space-y-6 no-print">
-        
+
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-6 border-b border-[#D9E4E5] gap-3">
           <div>
@@ -1239,9 +1240,8 @@ export const DigitalPrescriptionBuilder = ({
       */}
       <div
         id="printable-prescription-slip"
-        className={`bg-white p-8 rounded-3xl border border-slate-300 shadow-sm space-y-6 text-[#172033] ${
-          showSlipPreview || successRx ? 'block' : 'hidden print:block'
-        }`}
+        className={`bg-white p-8 rounded-3xl border border-slate-300 shadow-sm space-y-6 text-[#172033] ${showSlipPreview || successRx ? 'block' : 'hidden print:block'
+          }`}
       >
         {/* Hospital & Doctor Letterhead */}
         <div className="flex justify-between items-start border-b-2 border-[#172033] pb-4">

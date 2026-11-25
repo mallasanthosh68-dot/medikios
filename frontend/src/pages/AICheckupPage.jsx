@@ -93,12 +93,6 @@ import {
   verifyPatientOtp,
 } from '../services/ayushService';
 import {
-  isFirebaseConfigured,
-  sendFirebaseOtp,
-  verifyFirebaseOtp,
-  hasActiveFirebaseOtpSession,
-} from '../services/firebaseAuthService';
-import {
   formatAbhaNumber,
   validateAbhaNumber,
   generateRandom14DigitAbha,
@@ -255,59 +249,27 @@ export const AICheckupPage = ({ onExit, onNavigateDoctor }) => {
     setIsGeneratingOtp(true);
 
     try {
-      // 1. If Firebase Phone Auth is configured, attempt real cellular SMS
-      if (isFirebaseConfigured()) {
-        try {
-          const fbRes = await sendFirebaseOtp(cleanPhone);
-          if (fbRes && fbRes.success) {
-            setIsOtpSent(true);
-            setIsOtpVerified(false);
-            setEnteredOtp('');
-            setOtpDispatchInfo(fbRes);
-            setOtpSuccessMessage(`Verification OTP dispatched via SMS to +91 ${cleanPhone}. Please check your phone.`);
-            return;
-          }
-        } catch (fbErr) {
-          console.warn('[Firebase sendOtp notice]', fbErr?.message);
-        }
-      }
+      // Fire backend SMS dispatch opportunistically in background (non-blocking)
+      sendPatientOtp({
+        phoneNumber: cleanPhone,
+        channel: 'sms',
+        name: patientDetails.name || '',
+      }).catch((e) => console.log('[Background SMS notice]', e?.message));
 
-      // 2. Gateway fallback (Fast2SMS or system verification service)
-      try {
-        const res = await sendPatientOtp({
-          phoneNumber: cleanPhone,
-          channel: 'sms',
-          name: patientDetails.name || '',
-        });
-
-        if (res && res.success) {
-          setIsOtpSent(true);
-          setIsOtpVerified(false);
-          setEnteredOtp('');
-          setOtpDispatchInfo(res);
-          setOtpSuccessMessage(
-            res.message ||
-              `Verification OTP sent via SMS directly to +91 ${cleanPhone}. Please check your phone.`
-          );
-          return;
-        }
-      } catch (backendErr) {
-        console.warn('[Backend OTP notice]', backendErr?.message);
-      }
-
-      // 3. Resilient fallback: Always keep kiosk intake moving with instant code
+      // Immediate, 100% reliable demo OTP setup for kiosk workflow
       setIsOtpSent(true);
       setIsOtpVerified(false);
       setEnteredOtp('');
-      setOtpDispatchInfo({ isDemoReady: true, phoneNumber: cleanPhone });
-      setOtpSuccessMessage(`Verification code active for +91 ${cleanPhone}. Enter code below or click Auto-fill.`);
+      setOtpDispatchInfo({ isDemoReady: true, phoneNumber: cleanPhone, code: '123456' });
+      const msg = `Verification code 123456 ready for +91 ${cleanPhone}. Enter code below or click Auto-fill.`;
+      setOtpSuccessMessage(msg);
+      toast.info(`Demo Code: 123456 generated for +91 ${cleanPhone}`);
     } catch (err) {
-      console.warn('Send OTP notice:', err);
       setIsOtpSent(true);
       setIsOtpVerified(false);
       setEnteredOtp('');
-      setOtpDispatchInfo({ isDemoReady: true, phoneNumber: cleanPhone });
-      setOtpSuccessMessage(`Verification code active for +91 ${cleanPhone}. Enter code below or click Auto-fill.`);
+      setOtpDispatchInfo({ isDemoReady: true, phoneNumber: cleanPhone, code: '123456' });
+      setOtpSuccessMessage(`Verification code 123456 active for +91 ${cleanPhone}. Enter code below or click Auto-fill.`);
     } finally {
       setIsGeneratingOtp(false);
     }
@@ -324,7 +286,7 @@ export const AICheckupPage = ({ onExit, onNavigateDoctor }) => {
     const cleanEnteredOtp = (enteredOtp || '').trim().replace(/\D/g, '');
 
     if (!cleanEnteredOtp || cleanEnteredOtp.length !== 6) {
-      setOtpError('Please enter the complete 6-digit verification code sent to your mobile.');
+      setOtpError('Please enter the 6-digit verification code (e.g. 123456).');
       return;
     }
 
@@ -332,24 +294,12 @@ export const AICheckupPage = ({ onExit, onNavigateDoctor }) => {
     try {
       let isVerified = false;
 
-      // 1. Instant test/demo code bypass
+      // 1. Universal demo code (123456)
       if (cleanEnteredOtp === '123456') {
         isVerified = true;
       }
 
-      // 2. Firebase verification if active session
-      if (!isVerified && hasActiveFirebaseOtpSession()) {
-        try {
-          const fbRes = await verifyFirebaseOtp(cleanEnteredOtp);
-          if (fbRes && fbRes.verified) {
-            isVerified = true;
-          }
-        } catch (fbErr) {
-          console.warn('Firebase verify error:', fbErr);
-        }
-      }
-
-      // 3. Gateway/backend verification fallback
+      // 2. Gateway/backend verification check
       if (!isVerified) {
         try {
           const res = await verifyPatientOtp({
@@ -372,12 +322,10 @@ export const AICheckupPage = ({ onExit, onNavigateDoctor }) => {
                 gender: res.patient.gender || prev.gender,
                 abhaId: res.patient.abhaId || prev.abhaId,
               }));
-            } else {
-              setPhoneLookupFound(false);
             }
           }
         } catch (backendErr) {
-          console.warn('Backend verify error:', backendErr);
+          console.log('[Backend verify check]', backendErr?.message);
         }
       }
 
@@ -386,25 +334,27 @@ export const AICheckupPage = ({ onExit, onNavigateDoctor }) => {
         setIsAbhaVerified(true);
         setOtpError(null);
         setOtpSuccessMessage('✓ Mobile number verified successfully!');
+        toast.success('Mobile number verified successfully!');
 
         if (cleanPhone.length === 10) {
           await handlePhoneLookup(cleanPhone);
         }
       } else {
-        setOtpError('Invalid verification code. Please enter the 6-digit code received on your phone or use 123456.');
+        setOtpError('Invalid verification code. Please enter 123456 or click Auto-fill.');
       }
     } catch (err) {
-      console.warn('Verify OTP fallback:', err);
+      // Graceful fallback for demo
       if (cleanEnteredOtp === '123456') {
         setIsOtpVerified(true);
         setIsAbhaVerified(true);
         setOtpError(null);
         setOtpSuccessMessage('✓ Mobile number verified successfully!');
+        toast.success('Mobile number verified successfully!');
         if (cleanPhone.length === 10) {
           await handlePhoneLookup(cleanPhone);
         }
       } else {
-        setOtpError('Invalid verification code. Please enter the 6-digit code or use 123456.');
+        setOtpError('Invalid verification code. Please enter 123456 or click Auto-fill.');
       }
     } finally {
       setIsSearchingPhone(false);
@@ -420,6 +370,7 @@ export const AICheckupPage = ({ onExit, onNavigateDoctor }) => {
       setIsOtpVerified(true);
       setIsAbhaVerified(true);
       setOtpSuccessMessage('✓ Mobile number verified successfully!');
+      toast.success('Auto-filled 123456 & Verified!');
       const cleanPhone = (patientDetails.phoneNumber || '').replace(/\D/g, '').slice(-10);
       if (cleanPhone.length === 10) {
         await handlePhoneLookup(cleanPhone);
@@ -1939,9 +1890,6 @@ export const AICheckupPage = ({ onExit, onNavigateDoctor }) => {
 
   return (
     <div className="min-h-screen bg-[#F3F8F8] text-[#172033] flex flex-col font-sans select-none">
-      {/* Invisible reCAPTCHA container for Firebase Phone Auth */}
-      <div id="recaptcha-container"></div>
-
       {/* 0. FLOATING NEW OP TOKEN NOTIFICATION (EVERY TIME SUMMARY IS CREATED) */}
       <AnimatePresence>
         {newlyGeneratedOp && (
@@ -4808,7 +4756,7 @@ export const AICheckupPage = ({ onExit, onNavigateDoctor }) => {
                           <div className="flex flex-wrap items-center justify-between gap-2">
                             <div className="flex items-center gap-2 text-xs font-bold text-teal-900">
                               <Smartphone className="w-4 h-4 text-teal-600 shrink-0" />
-                              <span>Identity Verification Active for +91 {patientDetails.phoneNumber}</span>
+                              <span>Demo Code: <span className="font-mono text-sm text-teal-800 bg-white px-2 py-0.5 rounded border border-teal-300 font-black">123456</span></span>
                             </div>
                             <button
                               type="button"
@@ -4820,7 +4768,7 @@ export const AICheckupPage = ({ onExit, onNavigateDoctor }) => {
                             </button>
                           </div>
                           <p className="text-xs text-teal-950/80 leading-relaxed">
-                            Please enter the 6-digit verification code below. You can also click <strong>Auto-fill Code</strong> for instant kiosk evaluation.
+                            Demo OTP is active. Enter code <strong>123456</strong> below or click <strong>Auto-fill Code</strong> to instantly verify.
                           </p>
                         </div>
 
@@ -5097,7 +5045,7 @@ export const AICheckupPage = ({ onExit, onNavigateDoctor }) => {
                           <div className="flex flex-wrap items-center justify-between gap-2">
                             <div className="flex items-center gap-2 text-xs font-bold text-teal-900">
                               <Smartphone className="w-4 h-4 text-teal-600 shrink-0" />
-                              <span>Identity Verification Active for +91 {patientDetails.phoneNumber}</span>
+                              <span>Demo Code: <span className="font-mono text-sm text-teal-800 bg-white px-2 py-0.5 rounded border border-teal-300 font-black">123456</span></span>
                             </div>
                             <button
                               type="button"
@@ -5109,7 +5057,7 @@ export const AICheckupPage = ({ onExit, onNavigateDoctor }) => {
                             </button>
                           </div>
                           <p className="text-xs text-teal-950/80 leading-relaxed">
-                            Please enter the 6-digit verification code below. You can also click <strong>Auto-fill Code</strong> for instant kiosk evaluation.
+                            Demo OTP is active. Enter code <strong>123456</strong> below or click <strong>Auto-fill Code</strong> to instantly verify.
                           </p>
                         </div>
 

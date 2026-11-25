@@ -89,8 +89,8 @@ export const GuidedHealthCheck = ({ onFinishCheckup, onSwitchTab }) => {
     const files = Array.isArray(fileOrFiles)
       ? fileOrFiles
       : fileOrFiles instanceof FileList
-      ? Array.from(fileOrFiles)
-      : [fileOrFiles];
+        ? Array.from(fileOrFiles)
+        : [fileOrFiles];
 
     if (files.length === 0) return;
 
@@ -170,10 +170,10 @@ export const GuidedHealthCheck = ({ onFinishCheckup, onSwitchTab }) => {
 
   return (
     <div className="space-y-6 max-w-5xl mx-auto pb-12">
-      
+
       {/* GUIDED JOURNEY HEADER & STEPPER */}
       <div className="glass-panel p-6 rounded-3xl border border-slate-800">
-        
+
         {/* Title & Badge */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-5 border-b border-slate-800/80">
           <div>
@@ -210,26 +210,23 @@ export const GuidedHealthCheck = ({ onFinishCheckup, onSwitchTab }) => {
                   key={s.num}
                   onClick={() => isClickable && goToStep(s.num)}
                   disabled={!isClickable}
-                  className={`flex flex-col items-center text-center group transition-all ${
-                    isClickable ? 'cursor-pointer' : 'cursor-not-allowed opacity-50'
-                  }`}
+                  className={`flex flex-col items-center text-center group transition-all ${isClickable ? 'cursor-pointer' : 'cursor-not-allowed opacity-50'
+                    }`}
                 >
                   <div
-                    className={`w-10 h-10 rounded-2xl flex items-center justify-center transition-all ${
-                      isCurrent
+                    className={`w-10 h-10 rounded-2xl flex items-center justify-center transition-all ${isCurrent
                         ? 'bg-emerald-600 text-white ring-4 ring-emerald-500/20 shadow-glow'
                         : isDone
-                        ? 'bg-emerald-500/20 border border-emerald-500/40 text-emerald-400'
-                        : 'bg-slate-900 border border-slate-800 text-slate-500'
-                    }`}
+                          ? 'bg-emerald-500/20 border border-emerald-500/40 text-emerald-400'
+                          : 'bg-slate-900 border border-slate-800 text-slate-500'
+                      }`}
                   >
                     {isDone ? <CheckCircle2 className="w-5 h-5" /> : <Icon className="w-5 h-5" />}
                   </div>
 
                   <span
-                    className={`mt-2 text-[11px] font-bold hidden sm:block ${
-                      isCurrent ? 'text-white' : isDone ? 'text-emerald-400' : 'text-slate-500'
-                    }`}
+                    className={`mt-2 text-[11px] font-bold hidden sm:block ${isCurrent ? 'text-white' : isDone ? 'text-emerald-400' : 'text-slate-500'
+                      }`}
                   >
                     {s.title}
                   </span>
@@ -285,7 +282,7 @@ export const GuidedHealthCheck = ({ onFinishCheckup, onSwitchTab }) => {
       {/* ========================================================================= */}
       {currentStep === 2 && (
         <div className="space-y-6">
-          
+
           {/* Step Guide Banner */}
           <div className="glass-panel p-6 rounded-3xl border border-slate-800">
             <div className="flex items-center gap-3 mb-2">
@@ -338,7 +335,7 @@ export const GuidedHealthCheck = ({ onFinishCheckup, onSwitchTab }) => {
 
           {/* Action Choice: Select from Device OR Scan with Camera */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            
+
             {/* Method 1: Select from Device */}
             <div className="glass-panel p-6 rounded-3xl border border-slate-800 hover:border-teal-500/40 transition-all flex flex-col justify-between group">
               <div>
@@ -528,13 +525,12 @@ export const GuidedHealthCheck = ({ onFinishCheckup, onSwitchTab }) => {
                               {t.value} {t.unit}
                             </span>
                             <span
-                              className={`block text-[10px] font-bold ${
-                                t.status === 'High' || t.status === 'Low'
+                              className={`block text-[10px] font-bold ${t.status === 'High' || t.status === 'Low'
                                   ? 'text-rose-400'
                                   : t.status === 'Borderline'
-                                  ? 'text-amber-400'
-                                  : 'text-emerald-400'
-                              }`}
+                                    ? 'text-amber-400'
+                                    : 'text-emerald-400'
+                                }`}
                             >
                               [{t.status}]
                             </span>
@@ -722,7 +718,7 @@ export const GuidedHealthCheck = ({ onFinishCheckup, onSwitchTab }) => {
       {/* ========================================================================= */}
       {currentStep === 5 && (
         <div className="space-y-6">
-          
+
           {appointmentConfirmed ? (
             /* Celebration / Queue Ticket Confirmation Screen */
             <div className="glass-panel p-8 sm:p-12 rounded-3xl border border-emerald-500/30 text-center space-y-6 max-w-2xl mx-auto shadow-2xl">
