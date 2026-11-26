@@ -160,6 +160,7 @@ export const AICheckupPage = ({ onExit, onNavigateDoctor }) => {
 
   // Side Panel Collected Information State
   const [collectedData, setCollectedData] = useState({
+    chiefComplaint: '',
     symptoms: [],
     duration: '',
     medicalHistory: [],
@@ -426,7 +427,7 @@ export const AICheckupPage = ({ onExit, onNavigateDoctor }) => {
         setIsAbhaVerified(false);
         setAbhaLookupError(
           res?.message ||
-            `Invalid ABHA Number "${validation.formatted}". Please verify the 14-digit number.`
+          `Invalid ABHA Number "${validation.formatted}". Please verify the 14-digit number.`
         );
       }
     } catch (err) {
@@ -988,7 +989,7 @@ export const AICheckupPage = ({ onExit, onNavigateDoctor }) => {
       try {
         setIsTranslatingSpeech(true);
         setLiveTranscript(`Translating into ${activeLangInfo.nativeName}...`);
-        
+
         // 1. Check instant dictionary match first (e.g. "are you feeling well" -> "మీరు బాగున్నారా?")
         const dictTranslated = translatePhrase(textToSend, selectedLanguage);
         if (dictTranslated && dictTranslated.trim().toLowerCase() !== textToSend.trim().toLowerCase()) {
@@ -1481,9 +1482,7 @@ export const AICheckupPage = ({ onExit, onNavigateDoctor }) => {
       // 2. Request backend summary generation (with 6s race timeout to guarantee fast transition)
       let res = null;
       try {
-        const fetchPromise = healthcareMode === 'ayush'
-          ? generateAyushSummary(activeInterviewId, attachedReports, ayushStructuredData, detailsToSubmit)
-          : generateSummary(activeInterviewId, detailsToSubmit, attachedReports);
+        const fetchPromise = generateSummary(activeInterviewId, detailsToSubmit, attachedReports);
         const timeoutPromise = new Promise((_, reject) =>
           setTimeout(() => reject(new Error('Summary generation timed out')), 6000)
         );
@@ -1658,7 +1657,7 @@ export const AICheckupPage = ({ onExit, onNavigateDoctor }) => {
       setNewlyGeneratedOp(activeOp);
       try {
         localStorage.setItem('medikiosk_last_op', activeOp);
-      } catch (e) {}
+      } catch (e) { }
 
       setSummaryConfirmed(true);
       setShowConfirmModal(false);
@@ -1675,7 +1674,7 @@ export const AICheckupPage = ({ onExit, onNavigateDoctor }) => {
       setNewlyGeneratedOp(fallbackOp);
       try {
         localStorage.setItem('medikiosk_last_op', fallbackOp);
-      } catch (e) {}
+      } catch (e) { }
       setSummaryConfirmed(true);
       setShowConfirmModal(false);
       setPhase('confirmed');
@@ -1994,8 +1993,8 @@ export const AICheckupPage = ({ onExit, onNavigateDoctor }) => {
             <button
               onClick={() => handleSwitchMode('text')}
               className={`flex items-center gap-1.5 px-2.5 sm:px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all whitespace-nowrap cursor-pointer ${checkupMode === 'text'
-                  ? 'bg-[#0EA5A8] text-white shadow-sm'
-                  : 'text-[#64748B] hover:text-[#172033]'
+                ? 'bg-[#0EA5A8] text-white shadow-sm'
+                : 'text-[#64748B] hover:text-[#172033]'
                 }`}
             >
               <MessageSquare className="w-3.5 h-3.5 shrink-0" />
@@ -2004,8 +2003,8 @@ export const AICheckupPage = ({ onExit, onNavigateDoctor }) => {
             <button
               onClick={() => handleSwitchMode('voice')}
               className={`flex items-center gap-1.5 px-2.5 sm:px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all whitespace-nowrap cursor-pointer ${checkupMode === 'voice'
-                  ? 'bg-[#0284C7] text-white shadow-sm'
-                  : 'text-[#64748B] hover:text-[#172033]'
+                ? 'bg-[#0284C7] text-white shadow-sm'
+                : 'text-[#64748B] hover:text-[#172033]'
                 }`}
             >
               <Radio className="w-3.5 h-3.5 text-white animate-pulse shrink-0" />
@@ -2045,8 +2044,8 @@ export const AICheckupPage = ({ onExit, onNavigateDoctor }) => {
               setShowGroqModal(true);
             }}
             className={`flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-xl text-xs font-semibold border transition-all shrink-0 cursor-pointer ${groqActive || groqApiKey
-                ? 'bg-[#E6F7F7] border-[#0EA5A8]/30 text-[#0EA5A8] hover:bg-[#E6F7F7]/80 shadow-xs'
-                : 'bg-amber-50 border-amber-300 text-amber-800 hover:bg-amber-100 shadow-xs animate-pulse'
+              ? 'bg-[#E6F7F7] border-[#0EA5A8]/30 text-[#0EA5A8] hover:bg-[#E6F7F7]/80 shadow-xs'
+              : 'bg-amber-50 border-amber-300 text-amber-800 hover:bg-amber-100 shadow-xs animate-pulse'
               }`}
             title="Configure Groq Llama 3.3 70B Clinical Doctor Triage"
           >
@@ -2115,23 +2114,21 @@ export const AICheckupPage = ({ onExit, onNavigateDoctor }) => {
               return (
                 <div key={step.id} className="flex-1 flex items-center min-w-0">
                   <div
-                    className={`flex-1 flex items-center justify-center gap-1.5 py-1 px-2 rounded-xl text-xs font-bold transition-all truncate ${
-                      isStepActive
+                    className={`flex-1 flex items-center justify-center gap-1.5 py-1 px-2 rounded-xl text-xs font-bold transition-all truncate ${isStepActive
                         ? 'bg-[#E6F7F7] text-[#0EA5A8] border border-[#0EA5A8]/30 shadow-2xs'
                         : isStepDone
-                        ? 'text-emerald-700 bg-emerald-50/70'
-                        : 'text-[#94A3B8]'
-                    }`}
+                          ? 'text-emerald-700 bg-emerald-50/70'
+                          : 'text-[#94A3B8]'
+                      }`}
                   >
                     {isStepDone ? (
                       <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
                     ) : (
                       <span
-                        className={`w-4 h-4 rounded-full flex items-center justify-center text-[10px] shrink-0 ${
-                          isStepActive
+                        className={`w-4 h-4 rounded-full flex items-center justify-center text-[10px] shrink-0 ${isStepActive
                             ? 'bg-[#0EA5A8] text-white'
                             : 'bg-slate-200 text-slate-600'
-                        }`}
+                          }`}
                       >
                         {idx + 1}
                       </span>
@@ -2140,9 +2137,8 @@ export const AICheckupPage = ({ onExit, onNavigateDoctor }) => {
                   </div>
                   {idx < 7 && (
                     <div
-                      className={`w-2.5 h-0.5 mx-0.5 shrink-0 ${
-                        currentStepIdx > idx ? 'bg-emerald-400' : 'bg-slate-200'
-                      }`}
+                      className={`w-2.5 h-0.5 mx-0.5 shrink-0 ${currentStepIdx > idx ? 'bg-emerald-400' : 'bg-slate-200'
+                        }`}
                     />
                   )}
                 </div>
@@ -2254,8 +2250,8 @@ export const AICheckupPage = ({ onExit, onNavigateDoctor }) => {
                           setLanguage(l.code);
                         }}
                         className={`px-2.5 py-1 rounded-lg text-xs font-semibold transition-all cursor-pointer ${selectedLanguage === l.code
-                            ? 'bg-[#0EA5A8] text-white font-bold shadow-xs'
-                            : 'bg-white text-[#64748B] hover:bg-[#E6F7F7] hover:text-[#0EA5A8] border border-[#D9E4E5]'
+                          ? 'bg-[#0EA5A8] text-white font-bold shadow-xs'
+                          : 'bg-white text-[#64748B] hover:bg-[#E6F7F7] hover:text-[#0EA5A8] border border-[#D9E4E5]'
                           }`}
                       >
                         {l.nativeName}
@@ -2398,8 +2394,8 @@ export const AICheckupPage = ({ onExit, onNavigateDoctor }) => {
                 <div
                   onClick={() => handleStartInterview('text')}
                   className={`relative p-5 sm:p-6 rounded-3xl border-2 transition-all cursor-pointer select-none flex flex-col justify-between group hover:shadow-lg hover:scale-[1.01] ${checkupMode === 'text'
-                      ? 'bg-[#E6F7F7]/60 border-[#0EA5A8] ring-4 ring-[#0EA5A8]/15 shadow-md'
-                      : 'bg-white border-[#D9E4E5] hover:border-[#0EA5A8]/50 hover:bg-[#F8FAFC]'
+                    ? 'bg-[#E6F7F7]/60 border-[#0EA5A8] ring-4 ring-[#0EA5A8]/15 shadow-md'
+                    : 'bg-white border-[#D9E4E5] hover:border-[#0EA5A8]/50 hover:bg-[#F8FAFC]'
                     }`}
                 >
                   <div className="flex items-center justify-between mb-3">
@@ -2437,8 +2433,8 @@ export const AICheckupPage = ({ onExit, onNavigateDoctor }) => {
                 <div
                   onClick={() => handleStartInterview('voice')}
                   className={`relative p-5 sm:p-6 rounded-3xl border-2 transition-all cursor-pointer select-none flex flex-col justify-between group hover:shadow-lg hover:scale-[1.01] ${checkupMode === 'voice'
-                      ? 'bg-[#E0F2FE]/70 border-[#0284C7] ring-4 ring-[#0284C7]/15 shadow-md'
-                      : 'bg-white border-[#D9E4E5] hover:border-[#0284C7]/50 hover:bg-[#F8FAFC]'
+                    ? 'bg-[#E0F2FE]/70 border-[#0284C7] ring-4 ring-[#0284C7]/15 shadow-md'
+                    : 'bg-white border-[#D9E4E5] hover:border-[#0284C7]/50 hover:bg-[#F8FAFC]'
                     }`}
                 >
                   <div className="flex items-center justify-between mb-3">
@@ -2541,8 +2537,8 @@ export const AICheckupPage = ({ onExit, onNavigateDoctor }) => {
                       setShowGroqModal(true);
                     }}
                     className={`px-2 py-0.5 rounded-full text-[10px] font-bold flex items-center gap-1 cursor-pointer transition-all ${groqActive || groqApiKey
-                        ? 'bg-[#E6F7F7] border border-[#0EA5A8]/30 text-[#0EA5A8] hover:bg-[#E6F7F7]/80'
-                        : 'bg-amber-50 border border-amber-300 text-amber-800 hover:bg-amber-100 animate-pulse'
+                      ? 'bg-[#E6F7F7] border border-[#0EA5A8]/30 text-[#0EA5A8] hover:bg-[#E6F7F7]/80'
+                      : 'bg-amber-50 border border-amber-300 text-amber-800 hover:bg-amber-100 animate-pulse'
                       }`}
                     title="Click to view or update Groq AI Key"
                   >
@@ -2553,7 +2549,7 @@ export const AICheckupPage = ({ onExit, onNavigateDoctor }) => {
 
                 {/* Mobile Mode Switcher, Finish Action & Info Drawer */}
                 <div className="flex items-center gap-2">
-                  {(turnCount >= 1 || messages.length >= 2 || isCompleted || ayushReadyForReview) && (
+                  {(turnCount >= 1 || messages.length >= 2 || isCompleted) && (
                     <button
                       onClick={() => {
                         stopListening();
@@ -2561,9 +2557,7 @@ export const AICheckupPage = ({ onExit, onNavigateDoctor }) => {
                         setPhase('upload_documents');
                       }}
                       disabled={isSending}
-                      className={`px-3 py-1 text-white rounded-xl text-xs font-semibold shadow-xs flex items-center gap-1.5 transition-all cursor-pointer disabled:opacity-50 ${
-                        healthcareMode === 'ayush' ? 'bg-emerald-600 hover:bg-emerald-700' : 'bg-[#0EA5A8] hover:bg-[#0c8f91]'
-                      }`}
+                      className="px-3 py-1 text-white rounded-xl text-xs font-semibold shadow-xs flex items-center gap-1.5 transition-all cursor-pointer disabled:opacity-50 bg-[#0EA5A8] hover:bg-[#0c8f91]"
                       title="Proceed to upload hospital documents and prescriptions"
                     >
                       <UploadCloud className="w-3.5 h-3.5" />
@@ -2685,10 +2679,10 @@ export const AICheckupPage = ({ onExit, onNavigateDoctor }) => {
                           </span>
                           <div
                             className={`max-w-[85%] sm:max-w-[75%] p-4 rounded-2xl text-xs sm:text-sm leading-relaxed shadow-xs ${msg.isEmergencyAlert
-                                ? 'bg-rose-50 border-2 border-rose-500 text-rose-950 rounded-tl-sm ring-2 ring-rose-200'
-                                : isAi
-                                  ? 'bg-white border border-[#D9E4E5] text-[#172033] rounded-tl-sm'
-                                  : 'bg-[#0EA5A8] text-white rounded-tr-sm'
+                              ? 'bg-rose-50 border-2 border-rose-500 text-rose-950 rounded-tl-sm ring-2 ring-rose-200'
+                              : isAi
+                                ? 'bg-white border border-[#D9E4E5] text-[#172033] rounded-tl-sm'
+                                : 'bg-[#0EA5A8] text-white rounded-tr-sm'
                               }`}
                           >
                             <p>{msg.text}</p>
@@ -2826,14 +2820,12 @@ export const AICheckupPage = ({ onExit, onNavigateDoctor }) => {
                   </div>
 
                   {/* Ready to generate summary banner */}
-                  {(isCompleted || messages.length >= 3 || ayushReadyForReview) && (
+                  {(isCompleted || messages.length >= 3) && (
                     <div className="px-5 py-3 bg-[#E6F7F7] border-t border-[#0EA5A8]/20 flex items-center justify-between flex-wrap gap-2">
                       <div className="flex items-center gap-2 text-xs text-[#0EA5A8] font-semibold">
                         <CheckCircle2 className="w-4 h-4 text-[#0EA5A8] shrink-0" />
                         <span>
-                          {healthcareMode === 'ayush'
-                            ? '✓ AYUSH Case-Taking Complete! Next Step: Upload previous prescriptions or medical reports.'
-                            : isCompleted
+                          {isCompleted
                             ? '✓ Consultation complete. Thank you for providing your details.'
                             : 'Intake details recorded. You can conclude discussion anytime.'}
                         </span>
@@ -2843,9 +2835,7 @@ export const AICheckupPage = ({ onExit, onNavigateDoctor }) => {
                           setPhase('upload_documents');
                         }}
                         disabled={isSending}
-                        className={`px-4 py-2 rounded-xl text-white text-xs font-bold shadow-xs flex items-center gap-1.5 transition-all cursor-pointer ${
-                          healthcareMode === 'ayush' ? 'bg-emerald-600 hover:bg-emerald-700' : 'bg-[#0EA5A8] hover:bg-[#0c8f91]'
-                        }`}
+                        className="px-4 py-2 rounded-xl text-white text-xs font-bold shadow-xs flex items-center gap-1.5 transition-all cursor-pointer bg-[#0EA5A8] hover:bg-[#0c8f91]"
                       >
                         <UploadCloud className="w-4 h-4" />
                         <span>Next: Upload Documents →</span>
@@ -2920,21 +2910,19 @@ export const AICheckupPage = ({ onExit, onNavigateDoctor }) => {
                         onClick={toggleListening}
                         title={isListening ? 'Mic Unmuted (Recording) • Tap to Mute' : 'Mic Muted • Tap to Unmute & Speak'}
                         className={`p-3 rounded-2xl border transition-all cursor-pointer shadow-xs ${isListening
-                            ? 'bg-[#E6F7F7] border-[#0EA5A8] text-[#0EA5A8] animate-pulse ring-2 ring-[#0EA5A8]/30'
-                            : 'bg-[#F8FAFC] border-[#D9E4E5] text-[#64748B] hover:text-[#0EA5A8] hover:border-[#0EA5A8]'
+                          ? 'bg-[#E6F7F7] border-[#0EA5A8] text-[#0EA5A8] animate-pulse ring-2 ring-[#0EA5A8]/30'
+                          : 'bg-[#F8FAFC] border-[#D9E4E5] text-[#64748B] hover:text-[#0EA5A8] hover:border-[#0EA5A8]'
                           }`}
                       >
                         {isListening ? <Mic className="w-5 h-5 text-[#0EA5A8] animate-pulse" /> : <MicOff className="w-5 h-5 text-[#64748B]" />}
                       </button>
 
-                      {(isCompleted || ayushReadyForReview) ? (
+                      {(isCompleted) ? (
                         <div className="flex-1 flex items-center justify-between gap-3 bg-[#E6F7F7] border border-[#0EA5A8]/30 rounded-2xl px-4 py-2.5">
                           <div className="flex items-center gap-2 text-xs text-[#0EA5A8] font-semibold">
                             <CheckCircle2 className="w-4 h-4 text-[#0EA5A8] shrink-0" />
                             <span>
-                              {healthcareMode === 'ayush'
-                                ? '✓ AYUSH Case-Taking Complete! Next Step: Upload previous prescriptions or medical reports.'
-                                : 'Thank you! Consultation complete. Details recorded for the doctor.'}
+                              Thank you! Consultation complete. Details recorded for the doctor.
                             </span>
                           </div>
                           <button
@@ -2942,9 +2930,7 @@ export const AICheckupPage = ({ onExit, onNavigateDoctor }) => {
                               setPhase('upload_documents');
                             }}
                             disabled={isSending}
-                            className={`px-4 py-2 rounded-xl text-white text-xs font-bold shadow-xs flex items-center gap-1.5 transition-all shrink-0 cursor-pointer ${
-                              healthcareMode === 'ayush' ? 'bg-emerald-600 hover:bg-emerald-700' : 'bg-[#0EA5A8] hover:bg-[#0c8f91]'
-                            }`}
+                            className="px-4 py-2 rounded-xl text-white text-xs font-bold shadow-xs flex items-center gap-1.5 transition-all shrink-0 cursor-pointer bg-[#0EA5A8] hover:bg-[#0c8f91]"
                           >
                             <UploadCloud className="w-4 h-4" />
                             <span>Next: Upload Documents →</span>
@@ -2996,33 +2982,33 @@ export const AICheckupPage = ({ onExit, onNavigateDoctor }) => {
                         {/* Pulsing Soundwave Rings & Core Orb */}
                         <div className="relative flex items-center justify-center shrink-0">
                           <div className={`absolute w-20 h-20 sm:w-24 sm:h-24 rounded-full transition-all duration-500 pointer-events-none ${redFlag && !redFlagAcknowledged
-                              ? 'bg-rose-600/30 scale-125 animate-ping'
-                              : isSpeaking
-                                ? 'bg-[#0284C7]/20 scale-125 animate-ping'
-                                : isListening
-                                  ? 'bg-[#0EA5A8]/20 scale-110 animate-pulse'
-                                  : 'bg-slate-200/40 scale-95'
+                            ? 'bg-rose-600/30 scale-125 animate-ping'
+                            : isSpeaking
+                              ? 'bg-[#0284C7]/20 scale-125 animate-ping'
+                              : isListening
+                                ? 'bg-[#0EA5A8]/20 scale-110 animate-pulse'
+                                : 'bg-slate-200/40 scale-95'
                             }`} />
                           <div className={`absolute w-16 h-16 sm:w-20 sm:h-20 rounded-full border border-dashed transition-all duration-500 pointer-events-none ${redFlag && !redFlagAcknowledged
-                              ? 'border-rose-500 animate-spin'
-                              : isSpeaking
-                                ? 'border-[#0284C7]/60 animate-spin'
-                                : isListening
-                                  ? 'border-[#0EA5A8]/60 animate-pulse'
-                                  : 'border-[#D9E4E5]'
+                            ? 'border-rose-500 animate-spin'
+                            : isSpeaking
+                              ? 'border-[#0284C7]/60 animate-spin'
+                              : isListening
+                                ? 'border-[#0EA5A8]/60 animate-pulse'
+                                : 'border-[#D9E4E5]'
                             }`} />
                           <button
                             type="button"
                             onClick={isCompleted ? () => { stopListening(); window.speechSynthesis?.cancel(); setPhase('upload_documents'); } : toggleListening}
                             className={`relative w-14 h-14 sm:w-16 sm:h-16 rounded-full flex flex-col items-center justify-center shadow-md transition-all transform hover:scale-105 active:scale-95 cursor-pointer ${redFlag && !redFlagAcknowledged
-                                ? 'bg-gradient-to-tr from-rose-600 to-red-600 ring-4 ring-rose-400/50 text-white'
-                                : isCompleted
-                                  ? 'bg-gradient-to-tr from-[#0EA5A8] to-[#0284C7] ring-4 ring-[#0EA5A8]/20 text-white'
-                                  : isSpeaking
-                                    ? 'bg-gradient-to-tr from-[#0284C7] to-[#0EA5A8] ring-4 ring-[#0284C7]/20 text-white'
-                                    : isListening
-                                      ? 'bg-gradient-to-tr from-[#0EA5A8] to-[#0284C7] scale-105 ring-4 ring-[#0EA5A8]/20 text-white'
-                                      : 'bg-white border-2 border-rose-300 hover:border-rose-400 text-rose-500 shadow-sm'
+                              ? 'bg-gradient-to-tr from-rose-600 to-red-600 ring-4 ring-rose-400/50 text-white'
+                              : isCompleted
+                                ? 'bg-gradient-to-tr from-[#0EA5A8] to-[#0284C7] ring-4 ring-[#0EA5A8]/20 text-white'
+                                : isSpeaking
+                                  ? 'bg-gradient-to-tr from-[#0284C7] to-[#0EA5A8] ring-4 ring-[#0284C7]/20 text-white'
+                                  : isListening
+                                    ? 'bg-gradient-to-tr from-[#0EA5A8] to-[#0284C7] scale-105 ring-4 ring-[#0EA5A8]/20 text-white'
+                                    : 'bg-white border-2 border-rose-300 hover:border-rose-400 text-rose-500 shadow-sm'
                               }`}
                             title={isCompleted ? 'Intake Complete • Tap to proceed to Document Upload (Step 7)' : isListening ? 'Mic Unmuted (Recording) • Tap to Mute' : 'Mic Muted • Tap to Unmute & Speak'}
                           >
@@ -3051,10 +3037,10 @@ export const AICheckupPage = ({ onExit, onNavigateDoctor }) => {
                               </span>
                             ) : (
                               <span className={`text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full border ${isCompleted
-                                  ? 'bg-[#E6F7F7] border-[#0EA5A8]/30 text-[#0EA5A8]'
-                                  : isListening
-                                    ? 'bg-[#E6F7F7] border-[#0EA5A8]/30 text-[#0EA5A8] animate-pulse'
-                                    : 'bg-[#F8FAFC] border-[#D9E4E5] text-[#64748B]'
+                                ? 'bg-[#E6F7F7] border-[#0EA5A8]/30 text-[#0EA5A8]'
+                                : isListening
+                                  ? 'bg-[#E6F7F7] border-[#0EA5A8]/30 text-[#0EA5A8] animate-pulse'
+                                  : 'bg-[#F8FAFC] border-[#D9E4E5] text-[#64748B]'
                                 }`}>
                                 {isCompleted ? '✓ Complete' : isListening ? '● Mic Unmuted' : '○ Mic Muted'}
                               </span>
@@ -3262,14 +3248,12 @@ export const AICheckupPage = ({ onExit, onNavigateDoctor }) => {
                       </div>
 
                       {/* Ready for review completion banner in Voice mode */}
-                      {(isCompleted || ayushReadyForReview) && (
-                        <div className="p-3 bg-emerald-50 border border-emerald-200 rounded-xl flex items-center justify-between gap-3 text-xs">
-                          <div className="flex items-center gap-2 text-emerald-900 font-semibold">
-                            <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                      {(isCompleted || messages.length >= 3) && (
+                        <div className="p-3 bg-[#E6F7F7] border border-[#0EA5A8]/30 rounded-xl flex items-center justify-between gap-3 text-xs">
+                          <div className="flex items-center gap-2 text-[#0EA5A8] font-semibold">
+                            <CheckCircle2 className="w-4 h-4 text-[#0EA5A8] shrink-0" />
                             <span>
-                              {healthcareMode === 'ayush'
-                                ? '✓ AYUSH Case-Taking Complete! Next Step: Upload previous medical documents or prescriptions.'
-                                : 'Intake complete. Your details are recorded.'}
+                              Intake complete. Your details are recorded.
                             </span>
                           </div>
                           <button
@@ -3279,10 +3263,10 @@ export const AICheckupPage = ({ onExit, onNavigateDoctor }) => {
                               window.speechSynthesis?.cancel();
                               setPhase('upload_documents');
                             }}
-                            className="px-4 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold shadow-xs flex items-center gap-1.5 transition-all cursor-pointer"
+                            className="px-4 py-1.5 rounded-xl bg-[#0EA5A8] hover:bg-[#0c8f91] text-white font-bold shadow-xs flex items-center gap-1.5 transition-all cursor-pointer"
                           >
                             <UploadCloud className="w-3.5 h-3.5" />
-                            <span>Next: Upload Documents (Step 7) →</span>
+                            <span>Next: Upload Documents →</span>
                           </button>
                         </div>
                       )}
@@ -3317,8 +3301,8 @@ export const AICheckupPage = ({ onExit, onNavigateDoctor }) => {
 
                           <div
                             className={`max-w-[85%] sm:max-w-[75%] p-4 rounded-2xl text-xs sm:text-sm leading-relaxed shadow-xs ${isAi
-                                ? 'bg-white border border-[#D9E4E5] text-[#172033] rounded-tl-sm'
-                                : 'bg-[#0EA5A8] text-white rounded-tr-sm'
+                              ? 'bg-white border border-[#D9E4E5] text-[#172033] rounded-tl-sm'
+                              : 'bg-[#0EA5A8] text-white rounded-tr-sm'
                               }`}
                           >
                             <p className="whitespace-pre-wrap">{msg.text}</p>
@@ -3423,8 +3407,8 @@ export const AICheckupPage = ({ onExit, onNavigateDoctor }) => {
                           {healthcareMode === 'ayush'
                             ? '✓ AYUSH Case-Taking Complete! Next Step: Upload previous prescriptions or medical reports.'
                             : isCompleted
-                            ? '✓ Thank you! Consultation complete. Clinical findings recorded.'
-                            : 'Sufficient information gathered. You can conclude discussion anytime.'}
+                              ? '✓ Thank you! Consultation complete. Clinical findings recorded.'
+                              : 'Sufficient information gathered. You can conclude discussion anytime.'}
                         </span>
                       </div>
                       <button
@@ -3435,9 +3419,8 @@ export const AICheckupPage = ({ onExit, onNavigateDoctor }) => {
                           setPhase('upload_documents');
                         }}
                         disabled={isSending}
-                        className={`px-5 py-2.5 rounded-xl text-white text-xs font-bold shadow-xs flex items-center gap-1.5 transition-all cursor-pointer ${
-                          healthcareMode === 'ayush' ? 'bg-emerald-600 hover:bg-emerald-700' : 'bg-[#0EA5A8] hover:bg-[#0c8f91]'
-                        }`}
+                        className={`px-5 py-2.5 rounded-xl text-white text-xs font-bold shadow-xs flex items-center gap-1.5 transition-all cursor-pointer ${healthcareMode === 'ayush' ? 'bg-emerald-600 hover:bg-emerald-700' : 'bg-[#0EA5A8] hover:bg-[#0c8f91]'
+                          }`}
                       >
                         <UploadCloud className="w-4 h-4" />
                         <span>Next: Upload Documents →</span>
@@ -3685,11 +3668,10 @@ export const AICheckupPage = ({ onExit, onNavigateDoctor }) => {
                         key={cat.id}
                         type="button"
                         onClick={() => setActiveDocCategory(cat.id)}
-                        className={`p-3 rounded-2xl border text-left transition-all cursor-pointer flex flex-col justify-between ${
-                          isActive
+                        className={`p-3 rounded-2xl border text-left transition-all cursor-pointer flex flex-col justify-between ${isActive
                             ? 'bg-[#E6F7F7] border-[#0EA5A8] shadow-2xs text-[#172033]'
                             : 'bg-white border-[#D9E4E5] hover:bg-slate-50 text-[#334155]'
-                        }`}
+                          }`}
                       >
                         <div className="flex items-center justify-between mb-1.5">
                           <div className={`w-8 h-8 rounded-xl flex items-center justify-center ${isActive ? 'bg-[#0EA5A8] text-white' : 'bg-slate-100 text-[#64748B]'}`}>
@@ -3891,7 +3873,7 @@ export const AICheckupPage = ({ onExit, onNavigateDoctor }) => {
                   className="w-full p-4 bg-slate-50 hover:bg-slate-100 flex items-center justify-between text-left transition-colors cursor-pointer"
                 >
                   <div className="flex items-center gap-2 text-xs font-bold text-[#172033]">
-                    <Leaf className="w-4 h-4 text-emerald-600" />
+                    <Activity className="w-4 h-4 text-[#0EA5A8]" />
                     <span>Review Case Details Collected by AI Assistant (Optional)</span>
                   </div>
                   <div className="flex items-center gap-1 text-xs text-[#64748B]">
@@ -3904,53 +3886,33 @@ export const AICheckupPage = ({ onExit, onNavigateDoctor }) => {
                   <div className="p-4 bg-white border-t border-[#D9E4E5] space-y-4 text-xs">
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                       <div className="p-3 rounded-xl bg-slate-50 border border-[#D9E4E5] space-y-1 sm:col-span-2">
-                        <label className="font-bold text-emerald-900 text-[11px] block">Chief Health Concern (Pradhana Vedana)</label>
+                        <label className="font-bold text-[#172033] text-[11px] block">Chief Health Concern</label>
                         <input
                           type="text"
-                          value={ayushStructuredData.chiefConcern || ''}
-                          onChange={(e) => setAyushStructuredData((prev) => ({ ...prev, chiefConcern: e.target.value }))}
+                          value={collectedData.chiefComplaint || ''}
+                          onChange={(e) => setCollectedData((prev) => ({ ...prev, chiefComplaint: e.target.value }))}
                           placeholder="Describe main problem"
-                          className="w-full bg-white border border-[#D9E4E5] rounded-lg px-3 py-2 text-xs text-[#172033] font-semibold focus:outline-none focus:border-emerald-500"
+                          className="w-full bg-white border border-[#D9E4E5] rounded-lg px-3 py-2 text-xs text-[#172033] font-semibold focus:outline-none focus:border-[#0EA5A8]"
                         />
                       </div>
                       <div className="p-3 rounded-xl bg-slate-50 border border-[#D9E4E5] space-y-1">
-                        <label className="font-bold text-emerald-900 text-[11px] block">Duration (Kala)</label>
+                        <label className="font-bold text-[#172033] text-[11px] block">Duration / Onset</label>
                         <input
                           type="text"
-                          value={ayushStructuredData.duration || ''}
-                          onChange={(e) => setAyushStructuredData((prev) => ({ ...prev, duration: e.target.value }))}
-                          placeholder="e.g. 2 weeks"
-                          className="w-full bg-white border border-[#D9E4E5] rounded-lg px-3 py-2 text-xs text-[#172033] font-semibold focus:outline-none focus:border-emerald-500"
+                          value={collectedData.duration || ''}
+                          onChange={(e) => setCollectedData((prev) => ({ ...prev, duration: e.target.value }))}
+                          placeholder="e.g. 2 days, 1 week"
+                          className="w-full bg-white border border-[#D9E4E5] rounded-lg px-3 py-2 text-xs text-[#172033] font-semibold focus:outline-none focus:border-[#0EA5A8]"
                         />
                       </div>
                       <div className="p-3 rounded-xl bg-slate-50 border border-[#D9E4E5] space-y-1">
-                        <label className="font-bold text-emerald-900 text-[11px] block">Digestion & Appetite (Agni)</label>
+                        <label className="font-bold text-[#172033] text-[11px] block">Symptoms Recorded</label>
                         <input
                           type="text"
-                          value={ayushStructuredData.digestionAgni || ''}
-                          onChange={(e) => setAyushStructuredData((prev) => ({ ...prev, digestionAgni: e.target.value }))}
-                          placeholder="e.g. Normal, low appetite, hyperacidity"
-                          className="w-full bg-white border border-[#D9E4E5] rounded-lg px-3 py-2 text-xs text-[#172033] font-semibold focus:outline-none focus:border-emerald-500"
-                        />
-                      </div>
-                      <div className="p-3 rounded-xl bg-slate-50 border border-[#D9E4E5] space-y-1">
-                        <label className="font-bold text-emerald-900 text-[11px] block">Dietary Habits (Ahara)</label>
-                        <input
-                          type="text"
-                          value={ayushStructuredData.dietAhara || ''}
-                          onChange={(e) => setAyushStructuredData((prev) => ({ ...prev, dietAhara: e.target.value }))}
-                          placeholder="e.g. Vegetarian, spicy food triggers"
-                          className="w-full bg-white border border-[#D9E4E5] rounded-lg px-3 py-2 text-xs text-[#172033] font-semibold focus:outline-none focus:border-emerald-500"
-                        />
-                      </div>
-                      <div className="p-3 rounded-xl bg-slate-50 border border-[#D9E4E5] space-y-1">
-                        <label className="font-bold text-emerald-900 text-[11px] block">Sleep Patterns (Nidra)</label>
-                        <input
-                          type="text"
-                          value={ayushStructuredData.sleepNidra || ''}
-                          onChange={(e) => setAyushStructuredData((prev) => ({ ...prev, sleepNidra: e.target.value }))}
-                          placeholder="e.g. 7 hours, disturbed sleep"
-                          className="w-full bg-white border border-[#D9E4E5] rounded-lg px-3 py-2 text-xs text-[#172033] font-semibold focus:outline-none focus:border-emerald-500"
+                          value={(collectedData.symptoms || []).join(', ')}
+                          onChange={(e) => setCollectedData((prev) => ({ ...prev, symptoms: e.target.value.split(',').map((s) => s.trim()).filter(Boolean) }))}
+                          placeholder="e.g. Fever, cough, fatigue"
+                          className="w-full bg-white border border-[#D9E4E5] rounded-lg px-3 py-2 text-xs text-[#172033] font-semibold focus:outline-none focus:border-[#0EA5A8]"
                         />
                       </div>
                     </div>
@@ -3994,273 +3956,6 @@ export const AICheckupPage = ({ onExit, onNavigateDoctor }) => {
           </div>
         )}
 
-        {/* PHASE 7B: REVIEW SCREEN (AYUSH & DETAILED CASE-TAKING) (STEP 7 OF 9) */}
-        {phase === 'review' && (
-          <div className="flex-1 py-4 overflow-y-auto max-w-4xl mx-auto w-full space-y-6">
-            <motion.div
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="bg-white border border-[#D9E4E5] rounded-3xl p-6 sm:p-8 shadow-sm space-y-6"
-            >
-              {/* Header */}
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-[#D9E4E5] gap-3">
-                <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-700 flex items-center justify-center shrink-0">
-                    <Leaf className="w-6 h-6" />
-                  </div>
-                  <div>
-                    <div className="flex items-center gap-2">
-                      <span className="text-[11px] font-bold uppercase tracking-wider text-emerald-800 bg-emerald-100/80 px-2.5 py-0.5 rounded-full border border-emerald-300">
-                        Step 6 of 8 • Review &amp; Verification
-                      </span>
-                      <span className="text-xs text-[#64748B]">Pre-Summary Verification</span>
-                    </div>
-                    <h2 className="text-xl sm:text-2xl font-black text-[#172033] mt-0.5">
-                      Review Your Information
-                    </h2>
-                  </div>
-                </div>
-
-                <div className="flex items-center gap-2">
-                  <button
-                    type="button"
-                    onClick={() => setPhase('interview')}
-                    className="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-[#172033] text-xs font-semibold flex items-center gap-1.5 transition-colors cursor-pointer"
-                  >
-                    <MessageSquare className="w-3.5 h-3.5" />
-                    <span>Back to AI Case-Taking</span>
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => handleGenerateSummary(patientDetails)}
-                    disabled={isSending}
-                    className="px-5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold shadow-xs flex items-center gap-1.5 transition-all cursor-pointer disabled:opacity-50"
-                  >
-                    <FileText className="w-4 h-4" />
-                    <span>Generate Clinical Summary (Step 8) →</span>
-                  </button>
-                </div>
-              </div>
-
-              {/* Informational Guidance Notice */}
-              <div className="p-3.5 rounded-2xl bg-emerald-50/70 border border-emerald-200 text-xs text-emerald-950 flex items-start gap-2.5">
-                <Info className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
-                <p className="leading-relaxed">
-                  Please review the health parameters collected below. You can tap on any field to edit or update your answers before the structured case summary is compiled for your physician.
-                </p>
-              </div>
-
-              {/* Editable Fields Grid */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
-
-                {/* 1. Chief Concern */}
-                <div className="p-4 rounded-2xl bg-[#F8FAFC] border border-[#D9E4E5] space-y-2 sm:col-span-2">
-                  <div className="flex items-center justify-between">
-                    <label className="font-bold text-emerald-900 uppercase tracking-wider text-[11px] flex items-center gap-1.5">
-                      <HeartPulse className="w-3.5 h-3.5 text-emerald-600" />
-                      <span>Chief Health Concern (Pradhana Vedana)</span>
-                    </label>
-                    <span className="text-[10px] text-[#64748B]">Primary complaint</span>
-                  </div>
-                  <input
-                    type="text"
-                    value={ayushStructuredData.chiefConcern || ''}
-                    onChange={(e) => setAyushStructuredData((prev) => ({ ...prev, chiefConcern: e.target.value }))}
-                    placeholder="Describe main problem (e.g. Acid reflux, joint stiffness, bloating)"
-                    className="w-full bg-white border border-[#D9E4E5] rounded-xl px-3.5 py-2.5 text-xs text-[#172033] font-semibold focus:outline-none focus:border-emerald-500"
-                  />
-                </div>
-
-                {/* 2. Duration */}
-                <div className="p-4 rounded-2xl bg-[#F8FAFC] border border-[#D9E4E5] space-y-2">
-                  <label className="font-bold text-[#64748B] uppercase tracking-wider text-[11px] block">
-                    Duration (Kala)
-                  </label>
-                  <input
-                    type="text"
-                    value={ayushStructuredData.duration || ''}
-                    onChange={(e) => setAyushStructuredData((prev) => ({ ...prev, duration: e.target.value }))}
-                    placeholder="e.g. 2 weeks, 3 months, 1 year"
-                    className="w-full bg-white border border-[#D9E4E5] rounded-xl px-3.5 py-2 text-xs text-[#172033] focus:outline-none focus:border-emerald-500"
-                  />
-                </div>
-
-                {/* 3. Progression & Triggers */}
-                <div className="p-4 rounded-2xl bg-[#F8FAFC] border border-[#D9E4E5] space-y-2">
-                  <label className="font-bold text-[#64748B] uppercase tracking-wider text-[11px] block">
-                    Progression &amp; Triggers
-                  </label>
-                  <input
-                    type="text"
-                    value={ayushStructuredData.progression || ''}
-                    onChange={(e) => setAyushStructuredData((prev) => ({ ...prev, progression: e.target.value }))}
-                    placeholder="e.g. Worsens after oily meal, relieved by warm water"
-                    className="w-full bg-white border border-[#D9E4E5] rounded-xl px-3.5 py-2 text-xs text-[#172033] focus:outline-none focus:border-emerald-500"
-                  />
-                </div>
-
-                {/* 4. Symptoms Tags */}
-                <div className="p-4 rounded-2xl bg-[#F8FAFC] border border-[#D9E4E5] space-y-2 sm:col-span-2">
-                  <div className="flex items-center justify-between">
-                    <label className="font-bold text-emerald-900 uppercase tracking-wider text-[11px]">
-                      Associated Symptoms (Lakshana)
-                    </label>
-                    <span className="text-[10px] text-[#64748B]">Type &amp; press Enter to add</span>
-                  </div>
-                  <div className="flex flex-wrap gap-1.5 min-h-[36px] p-2 bg-white border border-[#D9E4E5] rounded-xl">
-                    {ayushStructuredData.symptoms?.map((sym, idx) => (
-                      <span key={idx} className="px-2.5 py-1 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-800 font-medium flex items-center gap-1.5 text-[11px]">
-                        <span>{sym}</span>
-                        <button
-                          type="button"
-                          onClick={() => {
-                            setAyushStructuredData((prev) => ({
-                              ...prev,
-                              symptoms: (prev.symptoms || []).filter((_, i) => i !== idx),
-                            }));
-                          }}
-                          className="hover:text-rose-600 cursor-pointer"
-                        >
-                          <X className="w-3 h-3" />
-                        </button>
-                      </span>
-                    ))}
-                    <input
-                      type="text"
-                      placeholder="Add symptom..."
-                      onKeyDown={(e) => {
-                        if (e.key === 'Enter' && e.target.value.trim()) {
-                          e.preventDefault();
-                          const val = e.target.value.trim();
-                          setAyushStructuredData((prev) => ({
-                            ...prev,
-                            symptoms: [...(prev.symptoms || []), val],
-                          }));
-                          e.target.value = '';
-                        }
-                      }}
-                      className="text-xs focus:outline-none flex-1 min-w-[120px] px-1 text-[#172033]"
-                    />
-                  </div>
-                </div>
-
-                {/* 5. Diet (Ahara) */}
-                <div className="p-4 rounded-2xl bg-[#F8FAFC] border border-[#D9E4E5] space-y-2">
-                  <label className="font-bold text-emerald-900 uppercase tracking-wider text-[11px] block">
-                    Diet Habits (Ahara)
-                  </label>
-                  <input
-                    type="text"
-                    value={ayushStructuredData.dietAhara || ''}
-                    onChange={(e) => setAyushStructuredData((prev) => ({ ...prev, dietAhara: e.target.value }))}
-                    placeholder="e.g. Vegetarian, irregular timings, spicy foods"
-                    className="w-full bg-white border border-[#D9E4E5] rounded-xl px-3.5 py-2 text-xs text-[#172033] focus:outline-none focus:border-emerald-500"
-                  />
-                </div>
-
-                {/* 6. Digestion (Agni) */}
-                <div className="p-4 rounded-2xl bg-[#F8FAFC] border border-[#D9E4E5] space-y-2">
-                  <label className="font-bold text-emerald-900 uppercase tracking-wider text-[11px] block">
-                    Digestion &amp; Appetite (Agni)
-                  </label>
-                  <input
-                    type="text"
-                    value={ayushStructuredData.digestionAgni || ''}
-                    onChange={(e) => setAyushStructuredData((prev) => ({ ...prev, digestionAgni: e.target.value }))}
-                    placeholder="e.g. Sluggish digestion, feeling heavy (Mandagni)"
-                    className="w-full bg-white border border-[#D9E4E5] rounded-xl px-3.5 py-2 text-xs text-[#172033] focus:outline-none focus:border-emerald-500"
-                  />
-                </div>
-
-                {/* 7. Bowel (Koshtha) */}
-                <div className="p-4 rounded-2xl bg-[#F8FAFC] border border-[#D9E4E5] space-y-2">
-                  <label className="font-bold text-emerald-900 uppercase tracking-wider text-[11px] block">
-                    Bowel Habit &amp; Elimination (Koshtha)
-                  </label>
-                  <input
-                    type="text"
-                    value={ayushStructuredData.bowelKoshtha || ''}
-                    onChange={(e) => setAyushStructuredData((prev) => ({ ...prev, bowelKoshtha: e.target.value }))}
-                    placeholder="e.g. Regular, tendency to constipation (Krura Koshtha)"
-                    className="w-full bg-white border border-[#D9E4E5] rounded-xl px-3.5 py-2 text-xs text-[#172033] focus:outline-none focus:border-emerald-500"
-                  />
-                </div>
-
-                {/* 8. Sleep (Nidra) */}
-                <div className="p-4 rounded-2xl bg-[#F8FAFC] border border-[#D9E4E5] space-y-2">
-                  <label className="font-bold text-emerald-900 uppercase tracking-wider text-[11px] block">
-                    Sleep Pattern (Nidra)
-                  </label>
-                  <input
-                    type="text"
-                    value={ayushStructuredData.sleepNidra || ''}
-                    onChange={(e) => setAyushStructuredData((prev) => ({ ...prev, sleepNidra: e.target.value }))}
-                    placeholder="e.g. 6 hours, disturbed sleep, wakes unrefreshed"
-                    className="w-full bg-white border border-[#D9E4E5] rounded-xl px-3.5 py-2 text-xs text-[#172033] focus:outline-none focus:border-emerald-500"
-                  />
-                </div>
-
-                {/* 9. Lifestyle (Vihara) */}
-                <div className="p-4 rounded-2xl bg-[#F8FAFC] border border-[#D9E4E5] space-y-2">
-                  <label className="font-bold text-emerald-900 uppercase tracking-wider text-[11px] block">
-                    Daily Routine &amp; Lifestyle (Vihara)
-                  </label>
-                  <input
-                    type="text"
-                    value={ayushStructuredData.lifestyleVihara || ''}
-                    onChange={(e) => setAyushStructuredData((prev) => ({ ...prev, lifestyleVihara: e.target.value }))}
-                    placeholder="e.g. Sedentary desk work, high stress, evening walk"
-                    className="w-full bg-white border border-[#D9E4E5] rounded-xl px-3.5 py-2 text-xs text-[#172033] focus:outline-none focus:border-emerald-500"
-                  />
-                </div>
-
-                {/* 10. Medical History & Medications */}
-                <div className="p-4 rounded-2xl bg-[#F8FAFC] border border-[#D9E4E5] space-y-2">
-                  <label className="font-bold text-[#64748B] uppercase tracking-wider text-[11px] block">
-                    Past Medical History &amp; Medications
-                  </label>
-                  <input
-                    type="text"
-                    value={Array.isArray(ayushStructuredData.medications) ? ayushStructuredData.medications.join(', ') : (ayushStructuredData.medications || '')}
-                    onChange={(e) => setAyushStructuredData((prev) => ({ ...prev, medications: e.target.value.split(',').map((s) => s.trim()).filter(Boolean) }))}
-                    placeholder="e.g. Antacids, BP meds, Ayurvedic churna"
-                    className="w-full bg-white border border-[#D9E4E5] rounded-xl px-3.5 py-2 text-xs text-[#172033] focus:outline-none focus:border-emerald-500"
-                  />
-                </div>
-
-                {/* 11. Attached Reports / Lab Documents */}
-                <div className="p-4 sm:p-5 rounded-2xl bg-[#F8FAFC] border border-[#D9E4E5] sm:col-span-2">
-                  <PinnedReportsGallery
-                    reports={attachedReports}
-                    onAttachReport={handleAttachReport}
-                    onRemoveReport={handleRemoveReport}
-                    title="Attached Medical Documents & Prescriptions"
-                  />
-                </div>
-              </div>
-
-              {/* Bottom Action Footer */}
-              <div className="pt-4 border-t border-[#D9E4E5] flex flex-wrap items-center justify-between gap-3">
-                <button
-                  type="button"
-                  onClick={() => setPhase('interview')}
-                  className="px-5 py-2.5 rounded-xl bg-white hover:bg-slate-50 border border-[#D9E4E5] text-[#64748B] hover:text-[#172033] text-xs font-semibold transition-colors cursor-pointer shadow-xs"
-                >
-                  ← Back to AI Case-Taking
-                </button>
-                <button
-                  type="button"
-                  onClick={() => handleGenerateSummary(patientDetails)}
-                  disabled={isSending}
-                  className="px-6 py-3 rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs sm:text-sm font-bold shadow-md hover:shadow-lg transition-all flex items-center gap-2 cursor-pointer disabled:opacity-50"
-                >
-                  <FileText className="w-4 h-4" />
-                  <span>Generate Clinical Summary (Step 8) →</span>
-                </button>
-              </div>
-            </motion.div>
-          </div>
-        )}
 
         {/* PHASE 2: PATIENT INFORMATION & VERIFICATION (STEP 2 OF 9) */}
         {phase === 'patient_details' && (
@@ -4273,16 +3968,14 @@ export const AICheckupPage = ({ onExit, onNavigateDoctor }) => {
               {/* Header */}
               <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-[#D9E4E5] gap-3">
                 <div className="flex items-center gap-3">
-                  <div className={`w-12 h-12 rounded-2xl flex items-center justify-center shrink-0 ${
-                    healthcareMode === 'ayush' ? 'bg-emerald-50 border border-emerald-200 text-emerald-700' : 'bg-[#E6F7F7] border border-[#0EA5A8]/30 text-[#0EA5A8]'
-                  }`}>
+                  <div className={`w-12 h-12 rounded-2xl flex items-center justify-center shrink-0 ${healthcareMode === 'ayush' ? 'bg-emerald-50 border border-emerald-200 text-emerald-700' : 'bg-[#E6F7F7] border border-[#0EA5A8]/30 text-[#0EA5A8]'
+                    }`}>
                     <UserCheck className="w-6 h-6" />
                   </div>
                   <div>
                     <div className="flex items-center gap-2">
-                      <span className={`text-[11px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full border ${
-                        healthcareMode === 'ayush' ? 'bg-emerald-100/80 text-emerald-800 border-emerald-300' : 'bg-[#E6F7F7] text-[#0EA5A8] border-[#0EA5A8]/30'
-                      }`}>
+                      <span className={`text-[11px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full border ${healthcareMode === 'ayush' ? 'bg-emerald-100/80 text-emerald-800 border-emerald-300' : 'bg-[#E6F7F7] text-[#0EA5A8] border-[#0EA5A8]/30'
+                        }`}>
                         Step 2 of 9 • Patient Information & Verification
                       </span>
                       <span className="text-xs text-[#64748B]">Hospital Outpatient Intake</span>
@@ -4346,15 +4039,13 @@ export const AICheckupPage = ({ onExit, onNavigateDoctor }) => {
                       setPatientDetailsError(null);
                       setOtpError(null);
                     }}
-                    className={`p-4 rounded-2xl border text-left transition-all cursor-pointer flex items-start gap-3 ${
-                      patientDetails.isReturning
+                    className={`p-4 rounded-2xl border text-left transition-all cursor-pointer flex items-start gap-3 ${patientDetails.isReturning
                         ? 'bg-[#E6F7F7] border-[#0EA5A8] ring-2 ring-[#0EA5A8]/20 shadow-xs'
                         : 'bg-white border-[#D9E4E5] hover:bg-slate-50'
-                    }`}
+                      }`}
                   >
-                    <div className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 ${
-                      patientDetails.isReturning ? 'bg-[#0EA5A8] text-white' : 'bg-slate-100 text-[#64748B]'
-                    }`}>
+                    <div className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 ${patientDetails.isReturning ? 'bg-[#0EA5A8] text-white' : 'bg-slate-100 text-[#64748B]'
+                      }`}>
                       <UserCheck className="w-5 h-5" />
                     </div>
                     <div className="min-w-0">
@@ -4378,15 +4069,13 @@ export const AICheckupPage = ({ onExit, onNavigateDoctor }) => {
                       setPatientDetailsError(null);
                       setOtpError(null);
                     }}
-                    className={`p-4 rounded-2xl border text-left transition-all cursor-pointer flex items-start gap-3 ${
-                      !patientDetails.isReturning
+                    className={`p-4 rounded-2xl border text-left transition-all cursor-pointer flex items-start gap-3 ${!patientDetails.isReturning
                         ? 'bg-[#E6F7F7] border-[#0EA5A8] ring-2 ring-[#0EA5A8]/20 shadow-xs'
                         : 'bg-white border-[#D9E4E5] hover:bg-slate-50'
-                    }`}
+                      }`}
                   >
-                    <div className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 ${
-                      !patientDetails.isReturning ? 'bg-[#0EA5A8] text-white' : 'bg-slate-100 text-[#64748B]'
-                    }`}>
+                    <div className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 ${!patientDetails.isReturning ? 'bg-[#0EA5A8] text-white' : 'bg-slate-100 text-[#64748B]'
+                      }`}>
                       <UserPlus className="w-5 h-5" />
                     </div>
                     <div className="min-w-0">
@@ -4441,11 +4130,10 @@ export const AICheckupPage = ({ onExit, onNavigateDoctor }) => {
                               setPhoneLookupFound(null);
                             }}
                             placeholder="Enter 10-digit mobile number (e.g. 9876543210)"
-                            className={`w-full border rounded-xl px-4 py-3 text-sm font-mono text-[#172033] font-bold outline-none transition-all shadow-2xs ${
-                              isOtpVerified
+                            className={`w-full border rounded-xl px-4 py-3 text-sm font-mono text-[#172033] font-bold outline-none transition-all shadow-2xs ${isOtpVerified
                                 ? 'bg-emerald-50 border-emerald-300 text-emerald-900'
                                 : 'bg-white border-[#D9E4E5] focus:border-[#0EA5A8]'
-                            }`}
+                              }`}
                           />
                           <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-1">
                             {isOtpVerified ? (
@@ -4454,11 +4142,10 @@ export const AICheckupPage = ({ onExit, onNavigateDoctor }) => {
                                 <span>Verified</span>
                               </span>
                             ) : (
-                              <span className={`px-2 py-0.5 rounded-full text-[10px] font-mono font-bold ${
-                                patientDetails.phoneNumber.length === 10
+                              <span className={`px-2 py-0.5 rounded-full text-[10px] font-mono font-bold ${patientDetails.phoneNumber.length === 10
                                   ? 'bg-emerald-100 text-emerald-800 border border-emerald-300'
                                   : 'bg-slate-100 text-[#64748B]'
-                              }`}>
+                                }`}>
                                 {patientDetails.phoneNumber.length}/10 digits
                               </span>
                             )}
@@ -4744,11 +4431,10 @@ export const AICheckupPage = ({ onExit, onNavigateDoctor }) => {
                             }
                           }}
                           placeholder="e.g. 9876543210"
-                          className={`w-full border rounded-xl px-4 py-3 text-sm font-mono text-[#172033] font-bold outline-none transition-all shadow-2xs ${
-                            isOtpVerified
+                          className={`w-full border rounded-xl px-4 py-3 text-sm font-mono text-[#172033] font-bold outline-none transition-all shadow-2xs ${isOtpVerified
                               ? 'bg-emerald-50 border-emerald-300 text-emerald-900'
                               : 'bg-[#F8FAFC] border-[#D9E4E5] focus:border-[#0EA5A8] focus:bg-white'
-                          }`}
+                            }`}
                         />
                         <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-1">
                           {isOtpVerified ? (
@@ -4757,11 +4443,10 @@ export const AICheckupPage = ({ onExit, onNavigateDoctor }) => {
                               <span>Verified</span>
                             </span>
                           ) : (
-                            <span className={`px-2 py-0.5 rounded-full text-[10px] font-mono font-bold ${
-                              patientDetails.phoneNumber.length === 10
+                            <span className={`px-2 py-0.5 rounded-full text-[10px] font-mono font-bold ${patientDetails.phoneNumber.length === 10
                                 ? 'bg-emerald-100 text-emerald-800 border border-emerald-300'
                                 : 'bg-slate-100 text-[#64748B]'
-                            }`}>
+                              }`}>
                               {patientDetails.phoneNumber.length}/10 digits
                             </span>
                           )}
@@ -4924,11 +4609,10 @@ export const AICheckupPage = ({ onExit, onNavigateDoctor }) => {
                             key={g}
                             type="button"
                             onClick={() => setPatientDetails((prev) => ({ ...prev, gender: g }))}
-                            className={`py-2.5 px-3 rounded-xl border text-xs font-bold transition-all cursor-pointer ${
-                              patientDetails.gender === g
+                            className={`py-2.5 px-3 rounded-xl border text-xs font-bold transition-all cursor-pointer ${patientDetails.gender === g
                                 ? 'bg-[#0EA5A8] text-white border-[#0EA5A8] shadow-xs'
                                 : 'bg-[#F8FAFC] border-[#D9E4E5] text-[#64748B] hover:bg-white'
-                            }`}
+                              }`}
                           >
                             {g}
                           </button>
@@ -5038,11 +4722,10 @@ export const AICheckupPage = ({ onExit, onNavigateDoctor }) => {
                     setOtpError(null);
                     setPhase('consent');
                   }}
-                  className={`px-6 py-3 rounded-2xl text-white text-xs sm:text-sm font-bold shadow-md hover:shadow-lg transition-all flex items-center gap-2 cursor-pointer ${
-                    healthcareMode === 'ayush'
+                  className={`px-6 py-3 rounded-2xl text-white text-xs sm:text-sm font-bold shadow-md hover:shadow-lg transition-all flex items-center gap-2 cursor-pointer ${healthcareMode === 'ayush'
                       ? 'bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700'
                       : 'bg-gradient-to-r from-[#0EA5A8] to-[#0284C7] hover:from-[#0c8f91] hover:to-[#0369a1]'
-                  }`}
+                    }`}
                 >
                   <span>Continue to Privacy Consent (Step 3) →</span>
                 </button>
@@ -5719,11 +5402,10 @@ export const AICheckupPage = ({ onExit, onNavigateDoctor }) => {
               >
                 {/* 1. CONFIRMED OUTPATIENT OP NUMBER HERO DISPLAY */}
                 <div className="space-y-4">
-                  <div className={`p-6 sm:p-7 rounded-3xl text-center space-y-4 shadow-md border-2 relative overflow-hidden ${
-                    healthcareMode === 'ayush'
+                  <div className={`p-6 sm:p-7 rounded-3xl text-center space-y-4 shadow-md border-2 relative overflow-hidden ${healthcareMode === 'ayush'
                       ? 'bg-gradient-to-b from-emerald-50/90 via-teal-50/50 to-white border-emerald-500'
                       : 'bg-gradient-to-b from-[#E6F7F7]/90 via-[#F0FDFA]/50 to-white border-[#0EA5A8]'
-                  }`}>
+                    }`}>
                     {/* Live Display Header Badge */}
                     <div className="flex items-center justify-center gap-2">
                       <span className="relative flex h-2.5 w-2.5">
@@ -5795,190 +5477,190 @@ export const AICheckupPage = ({ onExit, onNavigateDoctor }) => {
                   </div>
                 </div>
 
-              {/* 2. FINAL CLINICAL SUMMARY DOSSIER */}
-              <div className="bg-white border border-[#D9E4E5] rounded-3xl p-6 sm:p-8 shadow-sm space-y-6">
-                <div className="flex items-center justify-between pb-4 border-b border-[#D9E4E5]">
-                  <div>
-                    <h2 className="text-xl sm:text-2xl font-bold text-[#172033]">
-                      {healthcareMode === 'ayush' ? '🌿 FINAL AYUSH HEALTH CASE SUMMARY' : 'FINAL STRUCTURED HEALTH SUMMARY'}
-                    </h2>
-                    <p className="text-xs text-[#64748B] mt-0.5">
-                      Synthesized clinical dossier organized in {activeLangInfo?.nativeName || 'English'} • Ready for physician consultation.
+                {/* 2. FINAL CLINICAL SUMMARY DOSSIER */}
+                <div className="bg-white border border-[#D9E4E5] rounded-3xl p-6 sm:p-8 shadow-sm space-y-6">
+                  <div className="flex items-center justify-between pb-4 border-b border-[#D9E4E5]">
+                    <div>
+                      <h2 className="text-xl sm:text-2xl font-bold text-[#172033]">
+                        {healthcareMode === 'ayush' ? '🌿 FINAL AYUSH HEALTH CASE SUMMARY' : 'FINAL STRUCTURED HEALTH SUMMARY'}
+                      </h2>
+                      <p className="text-xs text-[#64748B] mt-0.5">
+                        Synthesized clinical dossier organized in {activeLangInfo?.nativeName || 'English'} • Ready for physician consultation.
+                      </p>
+                    </div>
+                    <span className="px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 text-xs font-bold border border-emerald-300">
+                      ✓ Confirmed &amp; Locked
+                    </span>
+                  </div>
+
+                  {/* Chief Health Concern & Symptoms */}
+                  <div className="space-y-3">
+                    <div className="p-4 rounded-2xl bg-[#F8FAFC] border border-[#D9E4E5]">
+                      <span className="font-bold text-[#64748B] uppercase tracking-wider text-[11px] block mb-1">
+                        Chief Health Concern
+                      </span>
+                      <p className="text-sm font-semibold text-[#172033]">"{summary?.chiefComplaint}"</p>
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      <div className="p-4 rounded-2xl bg-[#F8FAFC] border border-[#D9E4E5]">
+                        <span className="font-bold text-[#64748B] uppercase tracking-wider text-[11px] block mb-2">
+                          Reported Symptoms
+                        </span>
+                        <div className="flex flex-wrap gap-1.5">
+                          {summary?.symptoms?.map((sym, idx) => (
+                            <span key={idx} className="px-2.5 py-1 rounded-lg bg-[#E6F7F7] border border-[#0EA5A8]/25 text-[#0EA5A8] font-medium text-xs">
+                              {sym}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+
+                      <div className="p-4 rounded-2xl bg-[#F8FAFC] border border-[#D9E4E5]">
+                        <span className="font-bold text-[#64748B] uppercase tracking-wider text-[11px] block mb-1">
+                          Duration &amp; Timeline
+                        </span>
+                        <p className="text-[#172033] font-medium text-xs">{summary?.duration || 'Recorded during clinical intake'}</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Suggested Medical Specialty */}
+                  <div className="p-4 rounded-2xl bg-[#E6F7F7]/40 border border-[#0EA5A8]/30 flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <Stethoscope className="w-5 h-5 text-[#0EA5A8]" />
+                      <div>
+                        <span className="text-[10px] font-semibold text-[#0EA5A8] uppercase tracking-wider">
+                          Suggested Medical Specialty
+                        </span>
+                        <h4 className="text-sm font-bold text-[#172033]">{summary?.suggestedSpecialty || 'General Medicine'}</h4>
+                        <p className="text-xs text-[#64748B] mt-0.5">{summary?.specialtyRationale || 'Symptoms indicate evaluation by this department.'}</p>
+                      </div>
+                    </div>
+                    <span className="text-[11px] text-[#64748B] italic hidden sm:inline">Specialty suggestion, not a diagnosis</span>
+                  </div>
+
+                  {/* Clinical Synthesis Narrative */}
+                  <div className="p-4 rounded-2xl bg-[#F8FAFC] border border-[#D9E4E5]">
+                    <span className="font-bold text-[#64748B] uppercase tracking-wider text-[11px] block mb-1.5">
+                      AI Clinical Synthesis Narrative
+                    </span>
+                    <p className="text-[#172033] leading-relaxed whitespace-pre-wrap text-xs font-sans">
+                      {summary?.aiGeneratedText}
                     </p>
                   </div>
-                  <span className="px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 text-xs font-bold border border-emerald-300">
-                    ✓ Confirmed &amp; Locked
-                  </span>
-                </div>
 
-                {/* Chief Health Concern & Symptoms */}
-                <div className="space-y-3">
-                  <div className="p-4 rounded-2xl bg-[#F8FAFC] border border-[#D9E4E5]">
-                    <span className="font-bold text-[#64748B] uppercase tracking-wider text-[11px] block mb-1">
-                      Chief Health Concern
-                    </span>
-                    <p className="text-sm font-semibold text-[#172033]">"{summary?.chiefComplaint}"</p>
-                  </div>
+                  {/* Pinned Diagnostic Reports Gallery */}
+                  {effectiveSummary?.pinnedReports && effectiveSummary.pinnedReports.length > 0 && (
+                    <div className="p-4 sm:p-5 rounded-2xl bg-[#F8FAFC] border border-[#D9E4E5]">
+                      <PinnedReportsGallery
+                        reports={effectiveSummary.pinnedReports}
+                        onAttachReport={handleAttachReport}
+                        onRemoveReport={handleRemoveReport}
+                        title="Attached Diagnostic Scans &amp; Lab Reports"
+                      />
+                    </div>
+                  )}
 
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div className="p-4 rounded-2xl bg-[#F8FAFC] border border-[#D9E4E5]">
-                      <span className="font-bold text-[#64748B] uppercase tracking-wider text-[11px] block mb-2">
-                        Reported Symptoms
-                      </span>
-                      <div className="flex flex-wrap gap-1.5">
-                        {summary?.symptoms?.map((sym, idx) => (
-                          <span key={idx} className="px-2.5 py-1 rounded-lg bg-[#E6F7F7] border border-[#0EA5A8]/25 text-[#0EA5A8] font-medium text-xs">
-                            {sym}
-                          </span>
+                  {/* Interactive AI Clinical Bot & Intake Dialogue Hub (AI Bot and Patient Chat) */}
+                  <AIBotSummaryAssistant summary={effectiveSummary} language={selectedLanguage} intakeMessages={messages} />
+
+                  {/* AI Medication Suggestions for Doctor */}
+                  {summary?.aiMedicationSuggestions && summary.aiMedicationSuggestions.length > 0 && (
+                    <div className="p-4 sm:p-5 rounded-2xl bg-gradient-to-br from-[#E6F7F7]/60 via-[#F0FDFA]/40 to-white border-2 border-[#0EA5A8] shadow-sm space-y-3">
+                      <div className="flex items-center justify-between flex-wrap gap-2 pb-2 border-b border-[#0EA5A8]/20">
+                        <div className="flex items-center gap-2">
+                          <div className="w-8 h-8 rounded-xl bg-[#0EA5A8] text-white flex items-center justify-center shrink-0 shadow-xs">
+                            <Pill className="w-4 h-4" />
+                          </div>
+                          <div>
+                            <span className="text-[11px] font-black uppercase tracking-wider text-[#172033] block">
+                              AI Medication Suggestions for Attending Doctor
+                            </span>
+                            <span className="text-[10px] text-[#64748B]">
+                              Preliminary Pharmacotherapy Advisory • Doctor Review &amp; Official Prescription Required
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+                        {summary.aiMedicationSuggestions.map((med, idx) => (
+                          <div key={idx} className="p-3.5 rounded-xl bg-white border border-[#D9E4E5] shadow-2xs space-y-2 text-xs">
+                            <div className="flex items-start justify-between gap-1">
+                              <div>
+                                <h5 className="font-extrabold text-[#172033] text-sm flex items-center gap-1.5">
+                                  <span>💊 {med.medicineName}</span>
+                                  {med.strength && (
+                                    <span className="text-[10px] font-mono font-bold px-1.5 py-0.5 rounded bg-slate-100 text-slate-700 border border-slate-200">
+                                      {med.strength}
+                                    </span>
+                                  )}
+                                </h5>
+                                {med.genericName && (
+                                  <p className="text-[10px] text-[#64748B] mt-0.5">{med.genericName}</p>
+                                )}
+                              </div>
+                              <span className="text-[9px] font-bold uppercase px-2 py-0.5 rounded-full bg-[#E6F7F7] text-[#0EA5A8] border border-[#0EA5A8]/20 shrink-0">
+                                {med.category || 'Medication'}
+                              </span>
+                            </div>
+
+                            <div className="grid grid-cols-2 gap-1.5 text-[11px] bg-[#F8FAFC] p-2 rounded-lg border border-[#D9E4E5]">
+                              <div>
+                                <span className="text-[#64748B] text-[10px] block">Dosage &amp; Frequency:</span>
+                                <strong className="text-[#172033]">{med.dosage || '1 tablet'} • {med.frequency || 'SOS'}</strong>
+                              </div>
+                              <div>
+                                <span className="text-[#64748B] text-[10px] block">Timing &amp; Duration:</span>
+                                <strong className="text-[#172033]">{med.timing || 'After food'} ({med.duration || '3 days'})</strong>
+                              </div>
+                            </div>
+
+                            {med.clinicalRationale && (
+                              <p className="text-[10px] text-slate-700 bg-slate-50 p-2 rounded-lg border border-slate-200 leading-relaxed">
+                                <strong>Rationale:</strong> {med.clinicalRationale}
+                              </p>
+                            )}
+                          </div>
                         ))}
                       </div>
                     </div>
-
-                    <div className="p-4 rounded-2xl bg-[#F8FAFC] border border-[#D9E4E5]">
-                      <span className="font-bold text-[#64748B] uppercase tracking-wider text-[11px] block mb-1">
-                        Duration &amp; Timeline
-                      </span>
-                      <p className="text-[#172033] font-medium text-xs">{summary?.duration || 'Recorded during clinical intake'}</p>
-                    </div>
-                  </div>
+                  )}
                 </div>
 
-                {/* Suggested Medical Specialty */}
-                <div className="p-4 rounded-2xl bg-[#E6F7F7]/40 border border-[#0EA5A8]/30 flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <Stethoscope className="w-5 h-5 text-[#0EA5A8]" />
-                    <div>
-                      <span className="text-[10px] font-semibold text-[#0EA5A8] uppercase tracking-wider">
-                        Suggested Medical Specialty
-                      </span>
-                      <h4 className="text-sm font-bold text-[#172033]">{summary?.suggestedSpecialty || 'General Medicine'}</h4>
-                      <p className="text-xs text-[#64748B] mt-0.5">{summary?.specialtyRationale || 'Symptoms indicate evaluation by this department.'}</p>
-                    </div>
-                  </div>
-                  <span className="text-[11px] text-[#64748B] italic hidden sm:inline">Specialty suggestion, not a diagnosis</span>
+                {/* 5. FINAL ACTION BUTTONS */}
+                <div className="flex flex-col sm:flex-row gap-3 pt-2">
+                  <button
+                    type="button"
+                    onClick={handleStartNewCheckup}
+                    className="flex-1 px-5 py-3 rounded-xl bg-gradient-to-r from-emerald-600 to-[#0EA5A8] hover:from-emerald-700 hover:to-[#0c8f91] text-white text-xs font-bold shadow-xs transition-all flex items-center justify-center gap-2 cursor-pointer"
+                  >
+                    <RotateCcw className="w-4 h-4" />
+                    <span>Start New Health Checkup</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => (onNavigateDoctor && user ? onNavigateDoctor(summary) : onExit())}
+                    className="px-5 py-3 rounded-xl bg-white hover:bg-slate-50 border border-[#D9E4E5] text-[#172033] text-xs font-bold shadow-xs transition-all flex items-center justify-center gap-2 cursor-pointer"
+                  >
+                    <FileText className="w-4 h-4" />
+                    <span>{user ? 'View in Patient Portal' : 'Finish & Exit'}</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={onExit}
+                    className="px-5 py-3 rounded-xl bg-white hover:bg-slate-50 border border-[#D9E4E5] text-[#64748B] hover:text-[#172033] text-xs font-semibold transition-colors cursor-pointer shadow-xs"
+                  >
+                    Back to Home
+                  </button>
                 </div>
-
-                {/* Clinical Synthesis Narrative */}
-                <div className="p-4 rounded-2xl bg-[#F8FAFC] border border-[#D9E4E5]">
-                  <span className="font-bold text-[#64748B] uppercase tracking-wider text-[11px] block mb-1.5">
-                    AI Clinical Synthesis Narrative
-                  </span>
-                  <p className="text-[#172033] leading-relaxed whitespace-pre-wrap text-xs font-sans">
-                    {summary?.aiGeneratedText}
-                  </p>
-                </div>
-
-                {/* Pinned Diagnostic Reports Gallery */}
-                {effectiveSummary?.pinnedReports && effectiveSummary.pinnedReports.length > 0 && (
-                  <div className="p-4 sm:p-5 rounded-2xl bg-[#F8FAFC] border border-[#D9E4E5]">
-                    <PinnedReportsGallery
-                      reports={effectiveSummary.pinnedReports}
-                      onAttachReport={handleAttachReport}
-                      onRemoveReport={handleRemoveReport}
-                      title="Attached Diagnostic Scans &amp; Lab Reports"
-                    />
-                  </div>
-                )}
-
-                {/* Interactive AI Clinical Bot & Intake Dialogue Hub (AI Bot and Patient Chat) */}
-                <AIBotSummaryAssistant summary={effectiveSummary} language={selectedLanguage} intakeMessages={messages} />
-
-                {/* AI Medication Suggestions for Doctor */}
-                {summary?.aiMedicationSuggestions && summary.aiMedicationSuggestions.length > 0 && (
-                  <div className="p-4 sm:p-5 rounded-2xl bg-gradient-to-br from-[#E6F7F7]/60 via-[#F0FDFA]/40 to-white border-2 border-[#0EA5A8] shadow-sm space-y-3">
-                    <div className="flex items-center justify-between flex-wrap gap-2 pb-2 border-b border-[#0EA5A8]/20">
-                      <div className="flex items-center gap-2">
-                        <div className="w-8 h-8 rounded-xl bg-[#0EA5A8] text-white flex items-center justify-center shrink-0 shadow-xs">
-                          <Pill className="w-4 h-4" />
-                        </div>
-                        <div>
-                          <span className="text-[11px] font-black uppercase tracking-wider text-[#172033] block">
-                            AI Medication Suggestions for Attending Doctor
-                          </span>
-                          <span className="text-[10px] text-[#64748B]">
-                            Preliminary Pharmacotherapy Advisory • Doctor Review &amp; Official Prescription Required
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
-                      {summary.aiMedicationSuggestions.map((med, idx) => (
-                        <div key={idx} className="p-3.5 rounded-xl bg-white border border-[#D9E4E5] shadow-2xs space-y-2 text-xs">
-                          <div className="flex items-start justify-between gap-1">
-                            <div>
-                              <h5 className="font-extrabold text-[#172033] text-sm flex items-center gap-1.5">
-                                <span>💊 {med.medicineName}</span>
-                                {med.strength && (
-                                  <span className="text-[10px] font-mono font-bold px-1.5 py-0.5 rounded bg-slate-100 text-slate-700 border border-slate-200">
-                                    {med.strength}
-                                  </span>
-                                )}
-                              </h5>
-                              {med.genericName && (
-                                <p className="text-[10px] text-[#64748B] mt-0.5">{med.genericName}</p>
-                              )}
-                            </div>
-                            <span className="text-[9px] font-bold uppercase px-2 py-0.5 rounded-full bg-[#E6F7F7] text-[#0EA5A8] border border-[#0EA5A8]/20 shrink-0">
-                              {med.category || 'Medication'}
-                            </span>
-                          </div>
-
-                          <div className="grid grid-cols-2 gap-1.5 text-[11px] bg-[#F8FAFC] p-2 rounded-lg border border-[#D9E4E5]">
-                            <div>
-                              <span className="text-[#64748B] text-[10px] block">Dosage &amp; Frequency:</span>
-                              <strong className="text-[#172033]">{med.dosage || '1 tablet'} • {med.frequency || 'SOS'}</strong>
-                            </div>
-                            <div>
-                              <span className="text-[#64748B] text-[10px] block">Timing &amp; Duration:</span>
-                              <strong className="text-[#172033]">{med.timing || 'After food'} ({med.duration || '3 days'})</strong>
-                            </div>
-                          </div>
-
-                          {med.clinicalRationale && (
-                            <p className="text-[10px] text-slate-700 bg-slate-50 p-2 rounded-lg border border-slate-200 leading-relaxed">
-                              <strong>Rationale:</strong> {med.clinicalRationale}
-                            </p>
-                          )}
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
-              </div>
-
-              {/* 5. FINAL ACTION BUTTONS */}
-              <div className="flex flex-col sm:flex-row gap-3 pt-2">
-                <button
-                  type="button"
-                  onClick={handleStartNewCheckup}
-                  className="flex-1 px-5 py-3 rounded-xl bg-gradient-to-r from-emerald-600 to-[#0EA5A8] hover:from-emerald-700 hover:to-[#0c8f91] text-white text-xs font-bold shadow-xs transition-all flex items-center justify-center gap-2 cursor-pointer"
-                >
-                  <RotateCcw className="w-4 h-4" />
-                  <span>Start New Health Checkup</span>
-                </button>
-
-                <button
-                  type="button"
-                  onClick={() => (onNavigateDoctor && user ? onNavigateDoctor(summary) : onExit())}
-                  className="px-5 py-3 rounded-xl bg-white hover:bg-slate-50 border border-[#D9E4E5] text-[#172033] text-xs font-bold shadow-xs transition-all flex items-center justify-center gap-2 cursor-pointer"
-                >
-                  <FileText className="w-4 h-4" />
-                  <span>{user ? 'View in Patient Portal' : 'Finish & Exit'}</span>
-                </button>
-
-                <button
-                  type="button"
-                  onClick={onExit}
-                  className="px-5 py-3 rounded-xl bg-white hover:bg-slate-50 border border-[#D9E4E5] text-[#64748B] hover:text-[#172033] text-xs font-semibold transition-colors cursor-pointer shadow-xs"
-                >
-                  Back to Home
-                </button>
-              </div>
-            </motion.div>
-          </div>
-        );
-      })()}
+              </motion.div>
+            </div>
+          );
+        })()}
 
       </main>
 
@@ -6080,8 +5762,8 @@ export const AICheckupPage = ({ onExit, onNavigateDoctor }) => {
                     key={c.id}
                     onClick={() => setLangCategory(c.id)}
                     className={`px-3 py-1 rounded-xl text-xs font-semibold whitespace-nowrap transition-all cursor-pointer ${langCategory === c.id
-                        ? 'bg-[#0EA5A8] text-white shadow-xs'
-                        : 'bg-[#F8FAFC] text-[#64748B] hover:text-[#172033] border border-[#D9E4E5]'
+                      ? 'bg-[#0EA5A8] text-white shadow-xs'
+                      : 'bg-[#F8FAFC] text-[#64748B] hover:text-[#172033] border border-[#D9E4E5]'
                       }`}
                   >
                     {c.label}
@@ -6108,8 +5790,8 @@ export const AICheckupPage = ({ onExit, onNavigateDoctor }) => {
                       }
                     }}
                     className={`flex items-center justify-between p-3 rounded-2xl border text-left transition-all group cursor-pointer ${isSelected
-                        ? 'bg-[#E6F7F7] border-[#0EA5A8] shadow-xs'
-                        : 'bg-white border-[#D9E4E5] hover:bg-[#F8FAFC] hover:border-[#0EA5A8]'
+                      ? 'bg-[#E6F7F7] border-[#0EA5A8] shadow-xs'
+                      : 'bg-white border-[#D9E4E5] hover:bg-[#F8FAFC] hover:border-[#0EA5A8]'
                       }`}
                   >
                     <div className="min-w-0 flex-1 pr-2">
@@ -6300,6 +5982,7 @@ export const AICheckupPage = ({ onExit, onNavigateDoctor }) => {
       <CameraScannerModal
         isOpen={isCameraOpen}
         onClose={() => setIsCameraOpen(false)}
+        onScanCaptured={(file) => handleAttachReport(file, 'camera', activeDocCategory)}
         onCapture={(file) => handleAttachReport(file, 'camera', activeDocCategory)}
       />
 
