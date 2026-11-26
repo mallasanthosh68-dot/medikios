@@ -13,7 +13,12 @@ const {
   acceptDoctorRequest,
   verifyPatientOpNumber,
   lookupOpSummary,
+  registerKioskOp,
 } = require('../controllers/doctorController');
+
+// Public Kiosk OP Registration Endpoint (Ensures 12-hour persistence)
+router.post('/register-kiosk-op', registerKioskOp);
+router.post('/kiosk-op', registerKioskOp);
 
 // Public / Patient directory of available doctors
 router.get('/', getDoctors);

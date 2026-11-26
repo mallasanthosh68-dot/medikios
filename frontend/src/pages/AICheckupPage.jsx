@@ -109,6 +109,8 @@ import { EmergencyRedFlagAlert } from '../components/common/EmergencyRedFlagAler
 import { AIBotSummaryAssistant } from '../components/patient/AIBotSummaryAssistant';
 import { useToast } from '../context/ToastContext';
 import { translatePhrase } from '../services/translationService';
+import { saveOpRecord, getOpRecord, OP_VALIDITY_HOURS } from '../utils/opRegistry';
+import { api } from '../services/api';
 
 export const AICheckupPage = ({ onExit, onNavigateDoctor }) => {
   const { user } = useAuth();
@@ -1505,6 +1507,8 @@ export const AICheckupPage = ({ onExit, onNavigateDoctor }) => {
         sum.pinnedReports = (attachedReports && attachedReports.length > 0) ? attachedReports : [];
         setSummary({ ...sum });
         setNewlyGeneratedOp(freshOp);
+        saveOpRecord(freshOp, sum, detailsToSubmit);
+        api.post('/doctor/register-kiosk-op', { opNumber: freshOp, summary: sum, patient: detailsToSubmit }).catch(() => {});
         setPhase('summary');
         return;
       } else if (res?.summary) {
@@ -1521,6 +1525,8 @@ export const AICheckupPage = ({ onExit, onNavigateDoctor }) => {
         sum.pinnedReports = (attachedReports && attachedReports.length > 0) ? attachedReports : [];
         setSummary({ ...sum });
         setNewlyGeneratedOp(freshOp);
+        saveOpRecord(freshOp, sum, detailsToSubmit);
+        api.post('/doctor/register-kiosk-op', { opNumber: freshOp, summary: sum, patient: detailsToSubmit }).catch(() => {});
         setPhase('summary');
         return;
       }
@@ -1542,7 +1548,7 @@ export const AICheckupPage = ({ onExit, onNavigateDoctor }) => {
         severity: 'Moderate',
         redFlagStatus: 'NONE',
         suggestedSpecialty: healthcareMode === 'ayush' ? 'AYUSH / Integrative Medicine' : 'General Medicine',
-        aiGeneratedText: `Patient ${detailsToSubmit.name} completed clinical triage. Pre-consultation summary recorded under 14-digit ABHA ${detailsToSubmit.abhaId}. Guaranteed unique OP ID ${freshOp} issued for attending physician review.`,
+        aiGeneratedText: `Patient ${detailsToSubmit.name} completed clinical triage. Pre-consultation summary recorded under 14-digit ABHA ${detailsToSubmit.abhaId}. Guaranteed unique OP ID ${freshOp} issued for attending physician review. Active for 12 hours.`,
         pinnedReports: (attachedReports && attachedReports.length > 0) ? attachedReports : [],
         interviewResponses: clientInterviewResponses,
         aiMedicationSuggestions: generateClientMedicationSuggestions(userComplaints, healthcareMode),
@@ -1550,6 +1556,8 @@ export const AICheckupPage = ({ onExit, onNavigateDoctor }) => {
       };
       setSummary(fallbackSummary);
       setNewlyGeneratedOp(freshOp);
+      saveOpRecord(freshOp, fallbackSummary, detailsToSubmit);
+      api.post('/doctor/register-kiosk-op', { opNumber: freshOp, summary: fallbackSummary, patient: detailsToSubmit }).catch(() => {});
       setPhase('summary');
 
     } catch (err) {
@@ -1570,7 +1578,7 @@ export const AICheckupPage = ({ onExit, onNavigateDoctor }) => {
         severity: 'Moderate',
         redFlagStatus: 'NONE',
         suggestedSpecialty: healthcareMode === 'ayush' ? 'AYUSH / Integrative Medicine' : 'General Medicine',
-        aiGeneratedText: `Patient ${detailsToSubmit?.name || 'Patient'} completed clinical triage. OP Token: ${freshOp}.`,
+        aiGeneratedText: `Patient ${detailsToSubmit?.name || 'Patient'} completed clinical triage. OP Token: ${freshOp}. Active for 12 hours.`,
         interviewResponses: messages.filter(m => m.sender === 'user').map(m => ({
           question: 'Clinical health intake inquiry',
           answer: m.text,
@@ -1596,6 +1604,8 @@ export const AICheckupPage = ({ onExit, onNavigateDoctor }) => {
       };
       setSummary(fallbackSummary);
       setNewlyGeneratedOp(freshOp);
+      saveOpRecord(freshOp, fallbackSummary, detailsToSubmit);
+      api.post('/doctor/register-kiosk-op', { opNumber: freshOp, summary: fallbackSummary, patient: detailsToSubmit }).catch(() => {});
       setPhase('summary');
     } finally {
       setIsSending(false);
@@ -1655,9 +1665,10 @@ export const AICheckupPage = ({ onExit, onNavigateDoctor }) => {
 
       setSummary(finalSummary);
       setNewlyGeneratedOp(activeOp);
-      try {
-        localStorage.setItem('medikiosk_last_op', activeOp);
-      } catch (e) { }
+
+      // Persist to 12-hour durable registry and sync to server
+      saveOpRecord(activeOp, finalSummary, patientDetails);
+      api.post('/doctor/register-kiosk-op', { opNumber: activeOp, summary: finalSummary, patient: patientDetails }).catch(() => {});
 
       setSummaryConfirmed(true);
       setShowConfirmModal(false);
@@ -1665,16 +1676,19 @@ export const AICheckupPage = ({ onExit, onNavigateDoctor }) => {
     } catch (err) {
       console.warn('[Confirm Handler Warning]', err);
       const fallbackOp = summary?.opNumber || newlyGeneratedOp || ('OP-' + Math.floor(100000 + Math.random() * 900000));
-      setSummary((prev) => ({
-        ...(prev || {}),
+      const finalFallback = {
+        ...(summary || {}),
         opNumber: fallbackOp,
         patientConfirmed: true,
         confirmedAt: new Date().toISOString(),
-      }));
+      };
+      setSummary(finalFallback);
       setNewlyGeneratedOp(fallbackOp);
-      try {
-        localStorage.setItem('medikiosk_last_op', fallbackOp);
-      } catch (e) { }
+
+      // Persist to 12-hour durable registry and sync to server
+      saveOpRecord(fallbackOp, finalFallback, patientDetails);
+      api.post('/doctor/register-kiosk-op', { opNumber: fallbackOp, summary: finalFallback, patient: patientDetails }).catch(() => {});
+
       setSummaryConfirmed(true);
       setShowConfirmModal(false);
       setPhase('confirmed');
@@ -5425,9 +5439,15 @@ export const AICheckupPage = ({ onExit, onNavigateDoctor }) => {
                       <div className="text-4xl sm:text-5xl font-black text-[#0EA5A8] font-mono tracking-widest select-all py-1">
                         {displayOp}
                       </div>
-                      <span className="text-[10px] font-semibold text-emerald-700 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200">
-                        ✓ FINAL SUMMARY CONFIRMED &amp; READY FOR DOCTOR REVIEW
-                      </span>
+                      <div className="flex items-center gap-2 flex-wrap justify-center mt-1">
+                        <span className="text-[10px] font-semibold text-emerald-700 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200">
+                          ✓ FINAL SUMMARY CONFIRMED &amp; READY FOR DOCTOR REVIEW
+                        </span>
+                        <span className="text-[10px] font-bold text-sky-700 bg-sky-50 px-3 py-1 rounded-full border border-sky-200 flex items-center gap-1 shadow-2xs">
+                          <Clock className="w-3 h-3 text-sky-600" />
+                          <span>Active for 12 Hours (Valid for OPD Consultation)</span>
+                        </span>
+                      </div>
                     </div>
 
                     {/* Quick Token Utility Actions (Copy + Print Slip) */}
@@ -5468,10 +5488,10 @@ export const AICheckupPage = ({ onExit, onNavigateDoctor }) => {
                     <ShieldAlert className="w-5 h-5 text-emerald-600 shrink-0 mt-0.5" />
                     <div className="space-y-1">
                       <strong className="block font-bold">
-                        {healthcareMode === 'ayush' ? 'Direct Vaidya Consultation Protocol:' : 'Direct Doctor Consultation Protocol:'}
+                        Direct Doctor Consultation Protocol (12-Hour Active Window):
                       </strong>
                       <p className="text-emerald-800 text-[11px] leading-relaxed">
-                        Your final health summary has been recorded. Please provide your <strong>OP Token ({displayOp})</strong> directly to your attending {healthcareMode === 'ayush' ? 'AYUSH physician (Vaidya)' : 'Doctor'} at the OPD desk. The doctor will enter your OP number to immediately view your verified patient chart, AI bot interview dialogue, diagnosis notes, and prescribe treatment.
+                        Your final clinical summary has been confirmed. Your <strong>OP Token ({displayOp})</strong> remains active and retrievable for <strong>12 hours</strong> after completing your check-up. Please give your OP number to the attending doctor at the OPD desk. The doctor will look up this number to instantly review your clinical triage details, symptoms, AI chat dialogue, uploaded reports, and prescribe medications.
                       </p>
                     </div>
                   </div>
@@ -5642,7 +5662,18 @@ export const AICheckupPage = ({ onExit, onNavigateDoctor }) => {
 
                   <button
                     type="button"
-                    onClick={() => (onNavigateDoctor && user ? onNavigateDoctor(summary) : onExit())}
+                    onClick={() => {
+                      const activeOp = summary?.opNumber || newlyGeneratedOp;
+                      if (activeOp && summary) {
+                        saveOpRecord(activeOp, summary, patientDetails);
+                        api.post('/doctor/register-kiosk-op', { opNumber: activeOp, summary, patient: patientDetails }).catch(() => {});
+                      }
+                      if (onNavigateDoctor && user) {
+                        onNavigateDoctor(summary);
+                      } else {
+                        onExit();
+                      }
+                    }}
                     className="px-5 py-3 rounded-xl bg-white hover:bg-slate-50 border border-[#D9E4E5] text-[#172033] text-xs font-bold shadow-xs transition-all flex items-center justify-center gap-2 cursor-pointer"
                   >
                     <FileText className="w-4 h-4" />
@@ -5651,7 +5682,14 @@ export const AICheckupPage = ({ onExit, onNavigateDoctor }) => {
 
                   <button
                     type="button"
-                    onClick={onExit}
+                    onClick={() => {
+                      const activeOp = summary?.opNumber || newlyGeneratedOp;
+                      if (activeOp && summary) {
+                        saveOpRecord(activeOp, summary, patientDetails);
+                        api.post('/doctor/register-kiosk-op', { opNumber: activeOp, summary, patient: patientDetails }).catch(() => {});
+                      }
+                      onExit();
+                    }}
                     className="px-5 py-3 rounded-xl bg-white hover:bg-slate-50 border border-[#D9E4E5] text-[#64748B] hover:text-[#172033] text-xs font-semibold transition-colors cursor-pointer shadow-xs"
                   >
                     Back to Home

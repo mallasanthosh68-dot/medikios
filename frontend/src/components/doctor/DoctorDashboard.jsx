@@ -30,6 +30,7 @@ import { useAuth } from '../../context/AuthContext';
 import { useTranslation } from '../../context/LanguageContext';
 import { useToast } from '../../context/ToastContext';
 import { api } from '../../services/api';
+import { getOpRecord, saveOpRecord, normalizeOpNumber, OP_VALIDITY_HOURS } from '../../utils/opRegistry';
 import { PatientDossierModal } from './PatientDossierModal';
 import { MedicineSearchBox } from './MedicineSearchBox';
 import { DigitalPrescriptionBuilder } from './DigitalPrescriptionBuilder';
@@ -94,42 +95,76 @@ export const DoctorDashboard = ({
   };
 
   const handleLookupOp = async (targetOp) => {
-    let cleanOp = (targetOp || opInput || '').trim().toUpperCase();
+    let cleanOp = normalizeOpNumber(targetOp || opInput || '');
     if (!cleanOp) {
       setOpError('Please enter an OP Number to look up (e.g. OP-447118 or 447118).');
       return;
     }
-    if (/^\d{6}$/.test(cleanOp)) {
-      cleanOp = `OP-${cleanOp}`;
-      setOpInput(cleanOp);
-    }
+    setOpInput(cleanOp);
     setOpLoading(true);
     setOpError('');
+
+    // Pre-check local 12-hour registry
+    const localRecord = getOpRecord(cleanOp);
+
     try {
       const res = await api.post('/doctor/lookup-op', { opNumber: cleanOp });
       if (res.success && res.summary) {
-        setOpFoundSummary(res.summary);
-        setOpFoundPatient(res.patient || {
+        if (res.isExpired) {
+          setOpFoundSummary(null);
+          setOpFoundPatient(null);
+          setOpError(`This OP Token (${cleanOp}) expired. OP Numbers remain active for 12 hours after exit.`);
+          return;
+        }
+
+        const patientData = res.patient || {
           name: res.summary.patientName || 'Patient',
           opNumber: res.opNumber || cleanOp,
           id: res.summary.patientId || 'patient-op-direct',
           age: res.summary.patientAge,
           gender: res.summary.patientGender,
           phone: res.summary.patientPhone,
+        };
+
+        // Cache into local 12-hour registry as well
+        saveOpRecord(cleanOp, res.summary, patientData);
+
+        setOpFoundSummary({
+          ...res.summary,
+          expiresAt: res.expiresAt || localRecord?.expiresAt,
+          expiresAtFormatted: localRecord?.expiresAtFormatted || (res.expiresAt ? new Date(res.expiresAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : ''),
+          remainingLabel: localRecord?.remainingLabel || '12h active window',
         });
+        setOpFoundPatient(patientData);
         setOpError('');
         setActiveTab('op_lookup');
-      } else {
+        return;
+      }
+    } catch (apiErr) {
+      console.warn('[Doctor OP Backend Lookup Notice, falling back to local registry]', apiErr);
+    }
+
+    // If backend did not return summary (cold start, offline, network drop), evaluate local 12-hour registry
+    if (localRecord) {
+      if (localRecord.isExpired) {
         setOpFoundSummary(null);
         setOpFoundPatient(null);
-        setOpError(res.message || `No clinical summary found for OP: ${cleanOp}`);
+        setOpError(`This OP Token (${cleanOp}) expired (valid for 12 hours from health checkup). Please request a new triage checkup.`);
+      } else {
+        setOpFoundSummary({
+          ...localRecord.summary,
+          expiresAt: localRecord.expiresAt,
+          expiresAtFormatted: localRecord.expiresAtFormatted,
+          remainingLabel: localRecord.remainingLabel,
+        });
+        setOpFoundPatient(localRecord.patient);
+        setOpError('');
+        setActiveTab('op_lookup');
       }
-    } catch (err) {
+    } else {
       setOpFoundSummary(null);
       setOpFoundPatient(null);
-      setOpError(err.message || `Could not find an AI health summary for OP: ${cleanOp}. Please check the OP number.`);
-    } finally {
-      setOpLoading(false);
+      setOpError(`No active clinical health summary found for OP Number "${cleanOp}". OP numbers remain valid for 12 hours after checkup.`);
     }
   };
 
@@ -431,9 +466,16 @@ export const DoctorDashboard = ({
                   <div className="flex items-center gap-3">
                     <CheckCircle2 className="w-5 h-5 text-emerald-300 shrink-0" />
                     <div>
-                      <span className="font-bold text-white">
-                        Active OP Loaded: <span className="font-mono text-emerald-300">{opFoundSummary.opNumber}</span> ({opFoundSummary.patientName})
-                      </span>
+                      <div className="flex items-center gap-2 flex-wrap">
+                        <span className="font-bold text-white">
+                          Active OP Loaded: <span className="font-mono text-emerald-300">{opFoundSummary.opNumber}</span> ({opFoundSummary.patientName})
+                        </span>
+                        {opFoundSummary.remainingLabel && (
+                          <span className="px-2 py-0.5 rounded-full bg-emerald-400/20 text-emerald-200 border border-emerald-300/30 text-[10px] font-bold">
+                            ⏱️ {opFoundSummary.remainingLabel}
+                          </span>
+                        )}
+                      </div>
                       <p className="text-[11px] text-sky-200 line-clamp-1">{opFoundSummary.chiefComplaint}</p>
                     </div>
                   </div>
@@ -715,12 +757,17 @@ export const DoctorDashboard = ({
                         <span className="text-xs bg-emerald-800/60 px-2.5 py-0.5 rounded-full text-emerald-100 font-semibold border border-emerald-400/30">
                           Active OPD Consultation
                         </span>
+                        <span className="text-xs bg-sky-900/60 px-2.5 py-0.5 rounded-full text-sky-200 font-semibold border border-sky-400/30 flex items-center gap-1">
+                          <Clock className="w-3.5 h-3.5 text-sky-300" />
+                          <span>{opFoundSummary.remainingLabel ? `12-Hour Active Window (${opFoundSummary.remainingLabel})` : '12-Hour Active Window'}</span>
+                        </span>
                       </div>
                       <p className="text-xs text-emerald-100 mt-1 flex items-center gap-2 flex-wrap">
                         {opFoundSummary.patientAge ? <span><strong>Age:</strong> {opFoundSummary.patientAge} Yrs</span> : null}
                         {opFoundSummary.patientGender ? <span>• <strong>Gender:</strong> {opFoundSummary.patientGender}</span> : null}
                         {opFoundSummary.patientPhone ? <span>• <strong>Phone:</strong> {opFoundSummary.patientPhone}</span> : null}
                         {opFoundSummary.createdAt ? <span>• <strong>Date:</strong> {new Date(opFoundSummary.createdAt).toLocaleDateString()}</span> : null}
+                        {opFoundSummary.expiresAtFormatted ? <span>• <strong>Valid Until:</strong> {opFoundSummary.expiresAtFormatted}</span> : null}
                       </p>
                     </div>
                   </div>

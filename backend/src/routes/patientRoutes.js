@@ -35,8 +35,11 @@ const {
   sendPatientOtp,
   verifyPatientOtp,
 } = require('../controllers/otpController');
+const { registerKioskOp } = require('../controllers/doctorController');
 
 // Public Kiosk Intake & Verification Endpoints (No JWT required for initial phone verification)
+router.post('/kiosk-op', registerKioskOp);
+router.post('/register-kiosk-op', registerKioskOp);
 router.post('/send-otp', sendPatientOtp);
 router.post('/verify-otp', verifyPatientOtp);
 router.post('/lookup-phone', lookupPatientByPhone);

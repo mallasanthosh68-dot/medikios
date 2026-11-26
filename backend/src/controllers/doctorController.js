@@ -372,6 +372,106 @@ const acceptDoctorRequest = async (req, res, next) => {
   }
 };
 
+// In-memory 12-hour high-speed cache for Kiosk Outpatient (OP) Numbers
+const kioskOpMemoryCache = new Map();
+const OP_CACHE_TTL_MS = 12 * 60 * 60 * 1000; // 12 hours
+
+// @route   POST /api/doctor/register-kiosk-op
+// @route   POST /api/patients/kiosk-op
+// Registers or updates an Outpatient (OP) token from the kiosk, granting a 12-hour active consultation window
+const registerKioskOp = async (req, res, next) => {
+  try {
+    const { opNumber, summary, patient } = req.body;
+    if (!opNumber || !summary) {
+      return res.status(400).json({ success: false, message: 'Please provide both opNumber and summary.' });
+    }
+
+    let cleanOp = String(opNumber).trim().toUpperCase();
+    if (/^\d{6}$/.test(cleanOp)) {
+      cleanOp = `OP-${cleanOp}`;
+    }
+
+    const now = Date.now();
+    const expiresAt = now + OP_CACHE_TTL_MS;
+
+    const formattedPatient = patient || {
+      name: summary.patientName || 'Walk-In Patient',
+      phoneNumber: summary.patientPhone || '',
+      age: summary.patientAge || '',
+      gender: summary.patientGender || 'Male',
+      bloodGroup: summary.bloodGroup || '',
+      abhaId: summary.abhaId || '',
+      abhaAddress: summary.abhaAddress || '',
+      opNumber: cleanOp,
+    };
+
+    const opRecord = {
+      opNumber: cleanOp,
+      summary: { ...summary, opNumber: cleanOp },
+      patient: formattedPatient,
+      createdAt: now,
+      expiresAt,
+    };
+
+    // 1. Store in memory cache with 12-hour TTL
+    kioskOpMemoryCache.set(cleanOp, opRecord);
+
+    // 2. Persist to MongoDB HealthSummary asynchronously
+    try {
+      let existing = await HealthSummary.findOne({ opNumber: cleanOp });
+      if (existing) {
+        existing.patientConfirmed = true;
+        existing.confirmedAt = new Date();
+        if (summary.interviewResponses && summary.interviewResponses.length > 0) {
+          existing.interviewResponses = summary.interviewResponses;
+        }
+        if (summary.pinnedReports && summary.pinnedReports.length > 0) {
+          existing.pinnedReports = summary.pinnedReports;
+        }
+        await existing.save();
+      } else {
+        let validPatientId = null;
+        if (summary.patientId && mongoose.Types.ObjectId.isValid(summary.patientId)) {
+          validPatientId = summary.patientId;
+        } else {
+          const walkinUser = await User.findOne({ role: 'patient' }).lean().catch(() => null);
+          validPatientId = walkinUser?._id || new mongoose.Types.ObjectId();
+        }
+
+        await HealthSummary.create({
+          patientId: validPatientId,
+          patientName: formattedPatient.name,
+          patientPhone: formattedPatient.phoneNumber,
+          patientAge: Number(formattedPatient.age) || 35,
+          patientGender: formattedPatient.gender || 'Male',
+          abhaId: formattedPatient.abhaId || '',
+          opNumber: cleanOp,
+          chiefComplaint: summary.chiefComplaint || 'Clinical OPD Consultation',
+          symptoms: summary.symptoms || [],
+          duration: summary.duration || '',
+          severity: summary.severity || 'Moderate',
+          aiGeneratedText: summary.aiGeneratedText || `Intake completed for OP ${cleanOp}. Active for 12 hours.`,
+          interviewResponses: summary.interviewResponses || [],
+          pinnedReports: summary.pinnedReports || [],
+          aiMedicationSuggestions: summary.aiMedicationSuggestions || [],
+          createdAt: new Date(),
+        }).catch(err => console.warn('[registerKioskOp MongoDB create warning]', err.message));
+      }
+    } catch (dbErr) {
+      console.warn('[registerKioskOp DB Sync Warning]', dbErr.message);
+    }
+
+    return res.json({
+      success: true,
+      opNumber: cleanOp,
+      expiresAt,
+      message: `OP Number ${cleanOp} registered successfully. Active and retrievable for 12 hours.`,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 // @route   GET /api/doctor/op-summary/:opNumber
 // @route   POST /api/doctor/lookup-op
 // Direct OP Number lookup: Doctor enters patient OP token to immediately inspect full AI health summary
@@ -390,13 +490,36 @@ const lookupOpSummary = async (req, res, next) => {
       cleanOp = `OP-${cleanOp}`;
     }
 
-    // 1. Search HealthSummary by opNumber (exact or regex)
+    const now = Date.now();
+
+    // 1. High-speed check against 12-hour memory cache
+    const cached = kioskOpMemoryCache.get(cleanOp);
+    if (cached) {
+      if (cached.expiresAt && cached.expiresAt < now) {
+        kioskOpMemoryCache.delete(cleanOp);
+        return res.status(400).json({
+          success: false,
+          isExpired: true,
+          message: `This OP Token (${cleanOp}) expired (valid for 12 hours from health checkup). Please request a new triage checkup.`,
+        });
+      }
+      return res.json({
+        success: true,
+        opNumber: cleanOp,
+        summary: cached.summary,
+        patient: cached.patient,
+        expiresAt: cached.expiresAt,
+        message: `✓ Clinical Health Summary retrieved for OP ${cleanOp}! (Valid for 12 hours)`,
+      });
+    }
+
+    // 2. Search HealthSummary by opNumber (exact or regex) in MongoDB
     const escaped = cleanOp.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
     let summary = await HealthSummary.findOne({
       opNumber: { $regex: new RegExp(`^${escaped}$`, 'i') }
     }).populate('patientId', 'name phoneNumber email age gender bloodGroup abhaId abhaAddress').lean();
 
-    // 2. If not found by exact string, try finding by patient profile or user opNumber
+    // 3. If not found by exact string, try finding by patient profile or user opNumber
     if (!summary) {
       const patientProfile = await PatientProfile.findOne({
         $or: [
@@ -433,6 +556,17 @@ const lookupOpSummary = async (req, res, next) => {
       });
     }
 
+    // Check 12-hour lifecycle against database creation/update time
+    const summaryTime = new Date(summary.createdAt || summary.updatedAt || now).getTime();
+    const ageMs = now - summaryTime;
+    if (ageMs > OP_CACHE_TTL_MS) {
+      return res.status(400).json({
+        success: false,
+        isExpired: true,
+        message: `This OP Token (${cleanOp}) expired (valid for 12 hours from health checkup). Please request a new triage checkup.`,
+      });
+    }
+
     // Attach patient details
     let patient = summary.patientId;
     if (!patient || typeof patient !== 'object' || !patient.name) {
@@ -463,12 +597,24 @@ const lookupOpSummary = async (req, res, next) => {
       }
     }
 
+    const expiresAt = summaryTime + OP_CACHE_TTL_MS;
+
+    // Cache into memory for subsequent fast lookups
+    kioskOpMemoryCache.set(cleanOp, {
+      opNumber: cleanOp,
+      summary,
+      patient,
+      createdAt: summaryTime,
+      expiresAt,
+    });
+
     return res.json({
       success: true,
       opNumber: summary.opNumber || cleanOp,
       summary,
       patient,
-      message: `✓ Clinical Health Summary retrieved for OP ${summary.opNumber || cleanOp}!`,
+      expiresAt,
+      message: `✓ Clinical Health Summary retrieved for OP ${summary.opNumber || cleanOp}! (Valid for 12 hours)`,
     });
   } catch (error) {
     next(error);
@@ -562,4 +708,5 @@ module.exports = {
   acceptDoctorRequest,
   verifyPatientOpNumber,
   lookupOpSummary,
+  registerKioskOp,
 };
