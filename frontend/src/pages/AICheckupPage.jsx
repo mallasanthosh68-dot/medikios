@@ -547,9 +547,62 @@ export const AICheckupPage = ({ onExit, onNavigateDoctor }) => {
     checkupModeRef.current = checkupMode;
   }, [checkupMode]);
 
-  // Keep selected language synchronized with global language context
+  // Seamless Multilingual In-the-Middle Switcher:
+  // Dynamically re-translates existing AI questions and repeats speech in newly selected language
+  const handleSwitchLanguage = (newLangCode) => {
+    if (!newLangCode) return;
+    setSelectedLanguage(newLangCode);
+    setLanguage(newLangCode);
+    setLangModalOpen(false);
+
+    // Update speech recognition locale immediately
+    if (recognitionRef.current) {
+      const newInfo = getLanguageByCode(newLangCode);
+      if (newInfo?.speechLang) {
+        recognitionRef.current.lang = newInfo.speechLang;
+      }
+    }
+
+    // 1. Re-translate all existing AI messages in state so the chat displays the new language
+    setMessages((prevMsgs) =>
+      prevMsgs.map((m) => {
+        if (m.sender === 'ai') {
+          const englishBase = m.originalEnglish || m.text;
+          const translated = translatePhrase(englishBase, newLangCode);
+          return {
+            ...m,
+            originalEnglish: englishBase,
+            text: translated && translated.trim() ? translated : m.text,
+          };
+        }
+        return m;
+      })
+    );
+
+    // 2. If in interview, repeat latest AI question in the newly selected language with its native voice
+    if (phase === 'interview') {
+      const lastAi = [...messages].reverse().find((m) => m.sender === 'ai');
+      if (lastAi) {
+        const englishBase = lastAi.originalEnglish || lastAi.text;
+        const translated = translatePhrase(englishBase, newLangCode);
+        const textToSpeak = translated && translated.trim() ? translated : lastAi.text;
+        if (checkupMode === 'voice') {
+          try {
+            window.speechSynthesis?.cancel();
+          } catch (e) {}
+          setTimeout(() => {
+            speakText(textToSpeak);
+          }, 200);
+        }
+      }
+    }
+  };
+
+  // Keep selected language synchronized with global language context (e.g. if changed in Navbar)
   useEffect(() => {
-    setSelectedLanguage(currentLanguage);
+    if (currentLanguage && currentLanguage !== selectedLanguage) {
+      handleSwitchLanguage(currentLanguage);
+    }
   }, [currentLanguage]);
 
   const activeLangInfo = useMemo(() => {
@@ -2236,8 +2289,7 @@ export const AICheckupPage = ({ onExit, onNavigateDoctor }) => {
                   <select
                     value={selectedLanguage}
                     onChange={(e) => {
-                      setSelectedLanguage(e.target.value);
-                      setLanguage(e.target.value);
+                      handleSwitchLanguage(e.target.value);
                     }}
                     className="w-full px-3.5 py-2.5 rounded-xl bg-white border border-[#D9E4E5] text-xs sm:text-sm font-semibold text-[#172033] focus:outline-none focus:border-[#0EA5A8] transition-colors cursor-pointer shadow-xs"
                   >
@@ -2260,8 +2312,7 @@ export const AICheckupPage = ({ onExit, onNavigateDoctor }) => {
                         key={l.code}
                         type="button"
                         onClick={() => {
-                          setSelectedLanguage(l.code);
-                          setLanguage(l.code);
+                          handleSwitchLanguage(l.code);
                         }}
                         className={`px-2.5 py-1 rounded-lg text-xs font-semibold transition-all cursor-pointer ${selectedLanguage === l.code
                           ? 'bg-[#0EA5A8] text-white font-bold shadow-xs'
@@ -5749,13 +5800,7 @@ export const AICheckupPage = ({ onExit, onNavigateDoctor }) => {
                   id="checkup-lang-select"
                   value={selectedLanguage}
                   onChange={(e) => {
-                    setSelectedLanguage(e.target.value);
-                    setLanguage(e.target.value);
-                    setLangModalOpen(false);
-                    if (phase === 'interview' && checkupMode === 'voice') {
-                      const lastAi = [...messages].reverse().find((m) => m.sender === 'ai');
-                      if (lastAi) speakText(lastAi.text);
-                    }
+                    handleSwitchLanguage(e.target.value);
                   }}
                   className="flex-1 px-3 py-2 rounded-xl bg-[#F8FAFC] border border-[#D9E4E5] text-xs font-medium text-[#172033] focus:outline-none focus:border-[#0EA5A8] transition-colors cursor-pointer"
                 >
@@ -5818,14 +5863,7 @@ export const AICheckupPage = ({ onExit, onNavigateDoctor }) => {
                   <button
                     key={lang.code}
                     onClick={() => {
-                      setSelectedLanguage(lang.code);
-                      setLanguage(lang.code);
-                      setLangModalOpen(false);
-                      // If in interview, repeat question in new language
-                      if (phase === 'interview' && checkupMode === 'voice') {
-                        const lastAi = [...messages].reverse().find((m) => m.sender === 'ai');
-                        if (lastAi) speakText(lastAi.text);
-                      }
+                      handleSwitchLanguage(lang.code);
                     }}
                     className={`flex items-center justify-between p-3 rounded-2xl border text-left transition-all group cursor-pointer ${isSelected
                       ? 'bg-[#E6F7F7] border-[#0EA5A8] shadow-xs'

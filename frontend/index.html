@@ -10,10 +10,15 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;500;600;700&family=Noto+Sans+Telugu:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+      .goog-te-banner-frame.skiptranslate, .goog-te-banner-frame { display: none !important; }
+      body { top: 0px !important; }
+      body > .skiptranslate { display: none !important; }
+    </style>
   </head>
   <body class="bg-[#F3F8F8] text-[#172033] font-sans antialiased selection:bg-[#0EA5A8] selection:text-white min-h-screen">
-    <!-- Hidden Universal Website Translator Engine -->
-    <div id="google_translate_element" style="position: absolute; opacity: 0; pointer-events: none; width: 0; height: 0; overflow: hidden; z-index: -999;"></div>
+    <!-- Headless Universal Website Translator Engine -->
+    <div id="google_translate_element" style="position: fixed; left: -9999px; top: -9999px; width: 120px; height: 40px; opacity: 0.01; pointer-events: none; z-index: -9999;"></div>
     <div id="root"></div>
 
     <script type="text/javascript">
@@ -21,9 +26,11 @@
         try {
           new google.translate.TranslateElement({
             pageLanguage: 'en',
+            includedLanguages: 'hi,te,ta,kn,ml,mr,bn,gu,pa,or,ur,as,sa,mai,doi,kok,ks,sd,ne,sat,mni,lus,en',
             layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
             autoDisplay: false
           }, 'google_translate_element');
+          window.dispatchEvent(new Event('google_translate_ready'));
         } catch (e) {
           console.warn('Translate element init notice:', e);
         }

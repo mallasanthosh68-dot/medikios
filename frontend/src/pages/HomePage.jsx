@@ -100,88 +100,88 @@ export const HomePage = ({
   };
 
   // 10-Step Pipeline Definition
-  const workflowSteps = [
+  const workflowSteps = useMemo(() => [
     {
       num: '01',
-      title: 'Patient Arrival & Language Selection',
-      tag: 'Intake',
-      desc: 'Patient approaches MediKiosk and selects their native language from 51 international & Indian languages with instant audio prompts.',
+      title: t('Patient Arrival & Language Selection', 'Patient Arrival & Language Selection'),
+      tag: t('Intake', 'Intake'),
+      desc: t('Patient approaches MediKiosk and selects their native language from 51 international & Indian languages with instant audio prompts.', 'Patient approaches MediKiosk and selects their native language from 51 international & Indian languages with instant audio prompts.'),
       icon: MessageSquare,
       color: '#0EA5A8',
     },
     {
       num: '02',
-      title: 'Digital Intake & Symptom Entry',
-      tag: 'Check-In',
-      desc: 'Patient provides basic check-in details and initiates their guided health consultation session securely.',
+      title: t('Digital Intake & Symptom Entry', 'Digital Intake & Symptom Entry'),
+      tag: t('Check-In', 'Check-In'),
+      desc: t('Patient provides basic check-in details and initiates their guided health consultation session securely.', 'Patient provides basic check-in details and initiates their guided health consultation session securely.'),
       icon: Users,
       color: '#0EA5A8',
     },
     {
       num: '03',
-      title: 'Voice & Text Pre-Consultation AI',
-      tag: 'Clinical AI',
-      desc: 'Empathetic conversational assistant asks follow-up clinical questions based on symptoms, duration, and severity.',
+      title: t('Voice & Text Pre-Consultation AI', 'Voice & Text Pre-Consultation AI'),
+      tag: t('Clinical AI', 'Clinical AI'),
+      desc: t('Empathetic conversational assistant asks follow-up clinical questions based on symptoms, duration, and severity.', 'Empathetic conversational assistant asks follow-up clinical questions based on symptoms, duration, and severity.'),
       icon: Mic,
       color: '#0EA5A8',
     },
     {
       num: '04',
-      title: 'Hospital Report OCR & Strict Validation',
-      tag: 'Vision OCR',
-      desc: 'Camera or file upload for lab reports, prescriptions, and scans. Strict AI rejection filters out non-medical images (food, personal photos).',
+      title: t('Hospital Report OCR & Strict Validation', 'Hospital Report OCR & Strict Validation'),
+      tag: t('Vision OCR', 'Vision OCR'),
+      desc: t('Camera or file upload for lab reports, prescriptions, and scans. Strict AI rejection filters out non-medical images (food, personal photos).', 'Camera or file upload for lab reports, prescriptions, and scans. Strict AI rejection filters out non-medical images (food, personal photos).'),
       icon: Camera,
       color: '#0284C7',
     },
     {
       num: '05',
-      title: 'AI Clinical Summary & Red-Flag Triage',
-      tag: 'Safety Guard',
-      desc: 'Immediate emergency alert triggers for acute red-flags (chest pain, stroke symptoms). Generates a structured clinical digest.',
+      title: t('AI Clinical Summary & Red-Flag Triage', 'AI Clinical Summary & Red-Flag Triage'),
+      tag: t('Safety Guard', 'Safety Guard'),
+      desc: t('Immediate emergency alert triggers for acute red-flags (chest pain, stroke symptoms). Generates a structured clinical digest.', 'Immediate emergency alert triggers for acute red-flags (chest pain, stroke symptoms). Generates a structured clinical digest.'),
       icon: ShieldAlert,
       color: '#F59E0B',
     },
     {
       num: '06',
-      title: 'Unique OP Number Generated',
-      tag: 'Zero-Trust ID',
-      desc: 'System assigns a confidential 5-digit Outpatient (OP) Number. This acts as the patient’s authorization token for the doctor.',
+      title: t('Unique OP Number Generated', 'Unique OP Number Generated'),
+      tag: t('Zero-Trust ID', 'Zero-Trust ID'),
+      desc: t('System assigns a confidential 5-digit Outpatient (OP) Number. This acts as the patient’s authorization token for the doctor.', 'System assigns a confidential 5-digit Outpatient (OP) Number. This acts as the patient’s authorization token for the doctor.'),
       icon: Lock,
       color: '#0EA5A8',
     },
     {
       num: '07',
-      title: 'Doctor Cabin Queue & Dashboard',
-      tag: 'Clinical Queue',
-      desc: 'Attending physician opens their dashboard to view incoming patient arrivals with structured chief complaints and extracted vitals.',
+      title: t('Doctor Cabin Queue & Dashboard', 'Doctor Cabin Queue & Dashboard'),
+      tag: t('Clinical Queue', 'Clinical Queue'),
+      desc: t('Attending physician opens their dashboard to view incoming patient arrivals with structured chief complaints and extracted vitals.', 'Attending physician opens their dashboard to view incoming patient arrivals with structured chief complaints and extracted vitals.'),
       icon: Stethoscope,
       color: '#0284C7',
     },
     {
       num: '08',
-      title: 'OP Number Verification Gate',
-      tag: 'Authorization',
-      desc: 'Doctor requests OP number from patient. Prescription authoring is strictly locked until the OP number is matched and verified.',
+      title: t('OP Number Verification Gate', 'OP Number Verification Gate'),
+      tag: t('Authorization', 'Authorization'),
+      desc: t('Doctor requests OP number from patient. Prescription authoring is strictly locked until the OP number is matched and verified.', 'Doctor requests OP number from patient. Prescription authoring is strictly locked until the OP number is matched and verified.'),
       icon: CheckCircle2,
       color: '#0284C7',
     },
     {
       num: '09',
-      title: '10,000+ Medicine Formulary & Digital Rx',
-      tag: 'Prescription',
-      desc: 'Doctor searches comprehensive medical formulary by generic or brand name, sets dosage schedules, and issues a verified digital Rx.',
+      title: t('10,000+ Medicine Formulary & Digital Rx', '10,000+ Medicine Formulary & Digital Rx'),
+      tag: t('Prescription', 'Prescription'),
+      desc: t('Doctor searches comprehensive medical formulary by generic or brand name, sets dosage schedules, and issues a verified digital Rx.', 'Doctor searches comprehensive medical formulary by generic or brand name, sets dosage schedules, and issues a verified digital Rx.'),
       icon: Pill,
       color: '#8B5CF6',
     },
     {
       num: '10',
-      title: 'ABDM & FHIR Longitudinal Record Synced',
-      tag: 'Interoperability',
-      desc: 'Final prescription and clinical encounter bundle synced to patient profile, ready for FHIR R4 JSON export and Ayushman Bharat (ABDM).',
+      title: t('ABDM & FHIR Longitudinal Record Synced', 'ABDM & FHIR Longitudinal Record Synced'),
+      tag: t('Interoperability', 'Interoperability'),
+      desc: t('Final prescription and clinical encounter bundle synced to patient profile, ready for FHIR R4 JSON export and Ayushman Bharat (ABDM).', 'Final prescription and clinical encounter bundle synced to patient profile, ready for FHIR R4 JSON export and Ayushman Bharat (ABDM).'),
       icon: Share2,
       color: '#10B981',
     },
-  ];
+  ], [t]);
 
   return (
     <div key={currentLanguage} className="pt-20 sm:pt-24 pb-20 bg-[#F3F8F8] text-[#172033] relative overflow-hidden">
@@ -235,9 +235,9 @@ export const HomePage = ({
 
             {/* Main Headline */}
             <h1 className="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-[#172033] leading-[1.08]">
-              Healthcare information,{' '}
+              {t('Healthcare information,', 'Healthcare information,')}{' '}
               <span className="bg-gradient-to-r from-[#0EA5A8] via-[#0284C7] to-[#0EA5A8] bg-clip-text text-transparent">
-                made smarter
+                {t('made smarter', 'made smarter')}
               </span>
             </h1>
 
@@ -277,19 +277,19 @@ export const HomePage = ({
             <div className="pt-6 border-t border-[#D9E4E5] grid grid-cols-2 sm:grid-cols-4 gap-3 text-left">
               <div className="flex items-center gap-2">
                 <Shield className="w-4 h-4 text-[#0EA5A8] shrink-0" />
-                <span className="text-[11px] font-semibold text-[#475569]">HIPAA Architecture</span>
+                <span className="text-[11px] font-semibold text-[#475569]">{t('HIPAA Architecture', 'HIPAA Architecture')}</span>
               </div>
               <div className="flex items-center gap-2">
                 <Lock className="w-4 h-4 text-[#0EA5A8] shrink-0" />
-                <span className="text-[11px] font-semibold text-[#475569]">Zero-Trust OP Gate</span>
+                <span className="text-[11px] font-semibold text-[#475569]">{t('Zero-Trust OP Gate', 'Zero-Trust OP Gate')}</span>
               </div>
               <div className="flex items-center gap-2">
                 <Share2 className="w-4 h-4 text-[#0284C7] shrink-0" />
-                <span className="text-[11px] font-semibold text-[#475569]">HL7 FHIR R4 Ready</span>
+                <span className="text-[11px] font-semibold text-[#475569]">{t('HL7 FHIR R4 Ready', 'HL7 FHIR R4 Ready')}</span>
               </div>
               <div className="flex items-center gap-2">
                 <Sparkles className="w-4 h-4 text-[#0284C7] shrink-0" />
-                <span className="text-[11px] font-semibold text-[#475569]">Clinical Triage AI</span>
+                <span className="text-[11px] font-semibold text-[#475569]">{t('Clinical Triage AI', 'Clinical Triage AI')}</span>
               </div>
             </div>
 
@@ -310,7 +310,7 @@ export const HomePage = ({
       <section id="who-are-you" className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-20 border-t border-[#D9E4E5]">
         
         <div className="text-center mb-12">
-          <span className="text-xs font-semibold uppercase tracking-widest text-[#0284C7]">Hospital Clinical Portal</span>
+          <span className="text-xs font-semibold uppercase tracking-widest text-[#0284C7]">{t('Hospital Clinical Portal', 'Hospital Clinical Portal')}</span>
           <h2 className="text-3xl sm:text-4xl font-extrabold text-[#172033] mt-2">
             {t('Healthcare Provider & Doctor Workstation', 'Healthcare Provider & Doctor Workstation')}
           </h2>
@@ -332,17 +332,20 @@ export const HomePage = ({
                     <Stethoscope className="w-7 h-7 text-[#0284C7]" />
                   </div>
                   <span className="text-[11px] font-mono font-semibold px-3 py-1 rounded-full bg-[#E0F2FE] text-[#0284C7] border border-[#0284C7]/20">
-                    Clinical Intelligence
+                    {t('Clinical Intelligence', 'Clinical Intelligence')}
                   </span>
                 </div>
 
                 <h3 className="text-2xl sm:text-3xl font-bold text-[#172033] tracking-tight">
                   {t('Doctor Experience & Review Station', 'Doctor Experience & Review Station')}
                 </h3>
-                <p className="text-xs text-[#0284C7] font-semibold mt-1">Clinical Review & Digital Rx Station</p>
+                <p className="text-xs text-[#0284C7] font-semibold mt-1">{t('Clinical Review & Digital Rx Station', 'Clinical Review & Digital Rx Station')}</p>
                 
                 <p className="text-xs text-[#64748B] mt-3 leading-relaxed">
-                  Review structured pre-consultation briefings, enter patient OP numbers to authorize consultations, and write digital prescriptions with our 10,000+ formulary.
+                  {t(
+                    'Review structured pre-consultation briefings, enter patient OP numbers to authorize consultations, and write digital prescriptions with our 10,000+ formulary.',
+                    'Review structured pre-consultation briefings, enter patient OP numbers to authorize consultations, and write digital prescriptions with our 10,000+ formulary.'
+                  )}
                 </p>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 mt-6">
