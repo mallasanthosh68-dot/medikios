@@ -505,15 +505,18 @@ function MainApp() {
 
 import { LanguageProvider } from './context/LanguageContext';
 import { ToastProvider } from './context/ToastContext';
+import { ErrorBoundary } from './components/common/ErrorBoundary';
 
 export default function App() {
   return (
-    <AuthProvider>
-      <LanguageProvider>
-        <ToastProvider>
-          <MainApp />
-        </ToastProvider>
-      </LanguageProvider>
-    </AuthProvider>
+    <ErrorBoundary>
+      <AuthProvider>
+        <LanguageProvider>
+          <ToastProvider>
+            <MainApp />
+          </ToastProvider>
+        </LanguageProvider>
+      </AuthProvider>
+    </ErrorBoundary>
   );
 }
